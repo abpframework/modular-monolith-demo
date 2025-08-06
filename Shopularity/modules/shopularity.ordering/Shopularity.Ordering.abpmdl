@@ -1,0 +1,19 @@
+﻿{
+  "packages": {
+    "Shopularity.Ordering": {
+      "path": "Shopularity.Ordering/Shopularity.Ordering.abppkg"
+    },
+    "Shopularity.Ordering.UI": {
+      "path": "Shopularity.Ordering.UI/Shopularity.Ordering.UI.abppkg"
+    },
+    "Shopularity.Ordering.Blazor": {
+      "path": "Shopularity.Ordering.Blazor/Shopularity.Ordering.Blazor.abppkg"
+    },
+    "Shopularity.Ordering.Tests": {
+      "path": "Shopularity.Ordering.Tests/Shopularity.Ordering.Tests.abppkg"
+    },
+    "Shopularity.Ordering.Contracts": {
+      "path": "Shopularity.Ordering.Contracts/Shopularity.Ordering.Contracts.abppkg"
+    }
+  }
+}

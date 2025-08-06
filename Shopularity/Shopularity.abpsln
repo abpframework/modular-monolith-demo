@@ -1,0 +1,88 @@
+{
+  "id": "b3f11893-ff84-48b1-b4de-3e8a401024ee",
+  "template": "app-nolayers",
+  "versions": {
+    "AbpFramework": "9.2.3",
+    "AbpStudio": "1.1.2",
+    "TargetDotnetFramework": "net9.0"
+  },
+  "modules": {
+    "Shopularity": {
+      "path": "Shopularity.abpmdl",
+      "folder": "main"
+    },
+    "Shopularity.Payment": {
+      "path": "modules/shopularity.payment/Shopularity.Payment.abpmdl",
+      "folder": "modules"
+    },
+    "Shopularity.Ordering": {
+      "path": "modules/shopularity.ordering/Shopularity.Ordering.abpmdl",
+      "folder": "modules"
+    },
+    "Shopularity.Catalog": {
+      "path": "modules/shopularity.catalog/Shopularity.Catalog.abpmdl",
+      "folder": "modules"
+    },
+    "Shopularity.Basket": {
+      "path": "modules/shopularity.basket/Shopularity.Basket.abpmdl",
+      "folder": "modules"
+    }
+  },
+  "runProfiles": {
+    "Default": {
+      "path": "etc/run-profiles/Default.abprun.json"
+    }
+  },
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": []
+    }
+  },
+  "creatingStudioConfiguration": {
+    "template": "app-nolayers",
+    "createdAbpStudioVersion": "1.1.2",
+    "multiTenancy": "true",
+    "runInstallLibs": "true",
+    "useLocalReferences": "false",
+    "uiFramework": "blazor-webapp",
+    "databaseProvider": "ef",
+    "runDbMigrator": "true",
+    "databaseManagementSystem": "sqlserver",
+    "createInitialMigration": "true",
+    "theme": "leptonx-lite",
+    "themeStyle": "",
+    "themeMenuPlacement": "",
+    "publicWebsite": "",
+    "socialLogin": "false",
+    "selectedLanguages": [
+      "English",
+      "English (United Kingdom)",
+      "Chinese (Simplified)",
+      "Spanish",
+      "Arabic",
+      "Hindi ",
+      "Portuguese (Brazil)",
+      "French",
+      "Russian",
+      "German (Germany)",
+      "Turkish",
+      "Italian",
+      "Czech",
+      "Hungarian",
+      "Romanian (Romania)",
+      "Swedish",
+      "Finnish",
+      "Slovak",
+      "Icelandic",
+      "Chinese (Traditional)"
+    ],
+    "defaultLanguage": "English",
+    "createCommand": "abp new Shopularity -t app-nolayers --ui-framework blazor-webapp --mobile  --database-provider ef --database-management-system sqlserver --theme leptonx-lite --no-tests --without-cms-kit --dont-run-bundling --use-open-source-template"
+  },
+  "folders": {
+    "items": {
+      "main": {},
+      "modules": {}
+    }
+  }
+}

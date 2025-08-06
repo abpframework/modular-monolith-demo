@@ -1,0 +1,19 @@
+﻿{
+  "packages": {
+    "Shopularity.Payment": {
+      "path": "Shopularity.Payment/Shopularity.Payment.abppkg"
+    },
+    "Shopularity.Payment.UI": {
+      "path": "Shopularity.Payment.UI/Shopularity.Payment.UI.abppkg"
+    },
+    "Shopularity.Payment.Blazor": {
+      "path": "Shopularity.Payment.Blazor/Shopularity.Payment.Blazor.abppkg"
+    },
+    "Shopularity.Payment.Tests": {
+      "path": "Shopularity.Payment.Tests/Shopularity.Payment.Tests.abppkg"
+    },
+    "Shopularity.Payment.Contracts": {
+      "path": "Shopularity.Payment.Contracts/Shopularity.Payment.Contracts.abppkg"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBB}") = "Shopularity.Payment", "Shopularity.Payment\Shopularity.Payment.csproj", "{4E18261C-E70B-4DC8-B0B0-6E380350256A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment.Contracts", "Shopularity.Payment.Contracts\Shopularity.Payment.Contracts.csproj", "{4E18261C-E70B-4DC8-B0B0-6E380350256B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBD}") = "Shopularity.Payment.Tests", "Shopularity.Payment.Tests\Shopularity.Payment.Tests.csproj", "{4E18261C-E70B-4DC8-B0B0-6E380350256C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment.Blazor", "Shopularity.Payment.Blazor\Shopularity.Payment.Blazor.csproj", "{827FCC18-A22B-4175-82CD-1233F6DEE8FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment.UI", "Shopularity.Payment.UI\Shopularity.Payment.UI.csproj", "{299BE52E-823F-408E-9C6D-7E2F81BA34FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4E18261C-E70B-4DC8-B0B0-6E380350256A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E18261C-E70B-4DC8-B0B0-6E380350256C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{299BE52E-823F-408E-9C6D-7E2F81BA34FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{299BE52E-823F-408E-9C6D-7E2F81BA34FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{299BE52E-823F-408E-9C6D-7E2F81BA34FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{299BE52E-823F-408E-9C6D-7E2F81BA34FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

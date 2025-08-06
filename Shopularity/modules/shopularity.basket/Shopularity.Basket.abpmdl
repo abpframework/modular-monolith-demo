@@ -1,0 +1,19 @@
+﻿{
+  "packages": {
+    "Shopularity.Basket": {
+      "path": "Shopularity.Basket/Shopularity.Basket.abppkg"
+    },
+    "Shopularity.Basket.UI": {
+      "path": "Shopularity.Basket.UI/Shopularity.Basket.UI.abppkg"
+    },
+    "Shopularity.Basket.Blazor": {
+      "path": "Shopularity.Basket.Blazor/Shopularity.Basket.Blazor.abppkg"
+    },
+    "Shopularity.Basket.Tests": {
+      "path": "Shopularity.Basket.Tests/Shopularity.Basket.Tests.abppkg"
+    },
+    "Shopularity.Basket.Contracts": {
+      "path": "Shopularity.Basket.Contracts/Shopularity.Basket.Contracts.abppkg"
+    }
+  }
+}

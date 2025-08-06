@@ -1,0 +1,13 @@
+﻿{
+  "applications": {
+    "Shopularity": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44365",
+      "healthCheckEndpoint": "/",
+      "path": "../../Shopularity/Shopularity.csproj",
+      "execution": {
+        "order": 0
+      }
+    }
+  }
+}

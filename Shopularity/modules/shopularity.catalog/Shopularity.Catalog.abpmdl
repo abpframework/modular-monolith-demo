@@ -1,0 +1,19 @@
+﻿{
+  "packages": {
+    "Shopularity.Catalog": {
+      "path": "Shopularity.Catalog/Shopularity.Catalog.abppkg"
+    },
+    "Shopularity.Catalog.UI": {
+      "path": "Shopularity.Catalog.UI/Shopularity.Catalog.UI.abppkg"
+    },
+    "Shopularity.Catalog.Blazor": {
+      "path": "Shopularity.Catalog.Blazor/Shopularity.Catalog.Blazor.abppkg"
+    },
+    "Shopularity.Catalog.Tests": {
+      "path": "Shopularity.Catalog.Tests/Shopularity.Catalog.Tests.abppkg"
+    },
+    "Shopularity.Catalog.Contracts": {
+      "path": "Shopularity.Catalog.Contracts/Shopularity.Catalog.Contracts.abppkg"
+    }
+  }
+}
