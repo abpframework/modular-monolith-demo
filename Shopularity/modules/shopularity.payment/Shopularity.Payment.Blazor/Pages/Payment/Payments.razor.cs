@@ -60,14 +60,12 @@ namespace Shopularity.Payment.Blazor.Pages.Payment
         protected override async Task OnInitializedAsync()
         {
             await SetPermissionsAsync();
-            
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                
                 await SetBreadcrumbItemsAsync();
                 await SetToolbarItemsAsync();
                 await InvokeAsync(StateHasChanged);
