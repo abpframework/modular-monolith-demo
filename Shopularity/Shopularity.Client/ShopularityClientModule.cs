@@ -1,12 +1,16 @@
 ﻿using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Shopularity.Basket;
 using Shopularity.Basket.Blazor;
+using Shopularity.Catalog;
 using Shopularity.Catalog.Blazor;
 using Shopularity.Payment.Blazor;
 using Shopularity.Ordering.Blazor;
 using Volo.Abp.AspNetCore.Components.Web;
 using Shopularity.Menus;
+using Shopularity.Ordering;
+using Shopularity.Payment;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme;
 using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
@@ -33,15 +37,19 @@ namespace Shopularity;
         
     // Ordering module packages
     typeof(OrderingBlazorModule),
+    typeof(OrderingContractsModule),
         
     // Payment module packages
     typeof(PaymentBlazorModule),
+    typeof(PaymentContractsModule),
         
     // Catalog module packages
     typeof(CatalogBlazorModule),
+    typeof(CatalogContractsModule),
         
     // Basket module packages
     typeof(BasketBlazorModule),
+    typeof(BasketContractsModule),
         
     // ABP Framework packages
     typeof(AbpAutofacWebAssemblyModule),
@@ -98,6 +106,10 @@ public class ShopularityClientModule : AbpModule
         ConfigureAutoMapper(context);
 
         context.Services.AddHttpClientProxies(typeof(ShopularityContractsModule).Assembly);
+        context.Services.AddHttpClientProxies(typeof(CatalogContractsModule).Assembly);
+        context.Services.AddHttpClientProxies(typeof(OrderingContractsModule).Assembly);
+        context.Services.AddHttpClientProxies(typeof(PaymentContractsModule).Assembly);
+        context.Services.AddHttpClientProxies(typeof(BasketContractsModule).Assembly);
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)

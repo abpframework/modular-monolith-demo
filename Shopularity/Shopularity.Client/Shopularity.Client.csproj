@@ -23,9 +23,13 @@
 
   <ItemGroup>
     <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Blazor/Shopularity.Basket.Blazor.csproj" />
+    <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Contracts/Shopularity.Basket.Contracts.csproj" />
     <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Blazor/Shopularity.Catalog.Blazor.csproj" />
+    <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Contracts/Shopularity.Catalog.Contracts.csproj" />
     <ProjectReference Include="../modules/shopularity.ordering/Shopularity.Ordering.Blazor/Shopularity.Ordering.Blazor.csproj" />
+    <ProjectReference Include="../modules/shopularity.ordering/Shopularity.Ordering.Contracts/Shopularity.Ordering.Contracts.csproj" />
     <ProjectReference Include="../modules/shopularity.payment/Shopularity.Payment.Blazor/Shopularity.Payment.Blazor.csproj" />
+    <ProjectReference Include="../modules/shopularity.payment/Shopularity.Payment.Contracts/Shopularity.Payment.Contracts.csproj" />
   </ItemGroup>
   
   <ItemGroup>
