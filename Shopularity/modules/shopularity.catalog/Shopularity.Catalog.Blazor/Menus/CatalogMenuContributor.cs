@@ -1,4 +1,4 @@
-using Shopularity.Catalog.Permissions;
+﻿using Shopularity.Catalog.Permissions;
 using Shopularity.Catalog.Localization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
@@ -15,16 +15,13 @@ public class CatalogMenuContributor : IMenuContributor
         {
             await ConfigureMainMenuAsync(context);
         }
-
-        var moduleMenu = AddModuleMenuItem(context);
-        AddMenuItemCategories(context, moduleMenu);
     }
 
     private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
-        //Add main menu items.
-        context.Menu.AddItem(new ApplicationMenuItem(CatalogMenus.Prefix, displayName: "Catalog", "/Catalog", icon: "fa fa-globe"));
-
+        var moduleMenu = AddModuleMenuItem(context);
+        AddMenuItemCategories(context, moduleMenu);
+        
         return Task.CompletedTask;
     }
 
@@ -39,6 +36,7 @@ public class CatalogMenuContributor : IMenuContributor
         context.Menu.Items.AddIfNotContains(moduleMenu);
         return moduleMenu;
     }
+    
     private static void AddMenuItemCategories(MenuConfigurationContext context, ApplicationMenuItem parentMenu)
     {
         parentMenu.AddItem(
