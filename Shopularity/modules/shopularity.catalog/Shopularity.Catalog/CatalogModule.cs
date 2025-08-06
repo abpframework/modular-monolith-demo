@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Shopularity.Catalog.Categories;
+
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
@@ -24,7 +26,7 @@ public class CatalogModule : AbpModule
             mvcBuilder.AddApplicationPartIfNotExists(typeof(CatalogModule).Assembly);
         });
     }
-    
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddAutoMapperObjectMapper<CatalogModule>();
@@ -32,14 +34,16 @@ public class CatalogModule : AbpModule
         {
             options.AddMaps<CatalogModule>(validate: true);
         });
-        
+
         context.Services.AddAbpDbContext<CatalogDbContext>(options =>
         {
             options.AddDefaultRepositories<ICatalogDbContext>(includeAllEntities: true);
-            
+
             /* Add custom repositories here. Example:
              * options.AddRepository<Question, EfCoreQuestionRepository>();
              */
+            options.AddRepository<Category, Categories.EfCoreCategoryRepository>();
+
         });
     }
 }

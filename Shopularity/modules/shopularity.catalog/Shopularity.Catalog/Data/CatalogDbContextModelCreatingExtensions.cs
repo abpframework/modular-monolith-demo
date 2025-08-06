@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Volo.Abp.EntityFrameworkCore.Modeling;
+using Microsoft.EntityFrameworkCore;
+using Shopularity.Catalog.Categories;
 using Volo.Abp;
 
 namespace Shopularity.Catalog.Data;
@@ -10,24 +12,15 @@ public static class CatalogDbContextModelCreatingExtensions
     {
         Check.NotNull(builder, nameof(builder));
 
-        /* Configure all entities here. Example:
-
-        builder.Entity<Question>(b =>
+        
+        if (builder.IsHostDatabase())
         {
-            //Configure table & schema name
-            b.ToTable(CatalogDbProperties.DbTablePrefix + "Questions", CatalogDbProperties.DbSchema);
-
-            b.ConfigureByConvention();
-
-            //Properties
-            b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);
-
-            //Relations
-            b.HasMany(question => question.Tags).WithOne().HasForeignKey(qt => qt.QuestionId);
-
-            //Indexes
-            b.HasIndex(q => q.CreationTime);
-        });
-        */
+            builder.Entity<Category>(b =>
+            {
+                b.ToTable(CatalogDbProperties.DbTablePrefix + "Categories", CatalogDbProperties.DbSchema);
+                b.ConfigureByConvention();
+                b.Property(x => x.Name).HasColumnName(nameof(Category.Name)).IsRequired().HasMaxLength(CategoryConsts.NameMaxLength);
+            });
+        }
     }
 }

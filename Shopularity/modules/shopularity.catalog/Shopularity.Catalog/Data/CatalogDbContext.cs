@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Shopularity.Catalog.Categories;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -7,6 +9,7 @@ namespace Shopularity.Catalog.Data;
 [ConnectionStringName(CatalogDbProperties.ConnectionStringName)]
 public class CatalogDbContext : AbpDbContext<CatalogDbContext>, ICatalogDbContext
 {
+    public DbSet<Category> Categories { get; set; } = null!;
     /* Add DbSet for each Aggregate Root here. Example:
      * public DbSet<Question> Questions { get; set; }
      */
