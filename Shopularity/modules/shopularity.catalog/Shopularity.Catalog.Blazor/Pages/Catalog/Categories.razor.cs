@@ -17,6 +17,7 @@ using Shopularity.Catalog.Shared;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Shopularity.Catalog.Localization;
 using Volo.Abp;
 using Volo.Abp.Content;
 
@@ -51,6 +52,8 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
         
         public Categories()
         {
+            LocalizationResource = typeof(CatalogResource);
+            
             NewCategory = new CategoryCreateDto();
             EditingCategory = new CategoryUpdateDto();
             Filter = new GetCategoriesInput
