@@ -34,6 +34,18 @@
     "MaxFileSizeLimit": "Max file size: {0}mb",
     "Filters": "Filters",
     "Menu:Categories": "Categories",
-    "Menu:Catalog": "Catalog"
+    "Menu:Catalog": "Catalog",
+    "Category": "Category",
+    "Permission:Products": "Products",
+    "Description": "Description",
+    "Price": "Price",
+    "StockCount": "Stock Count",
+    "Products": "Products",
+    "MinPrice": "Min Price",
+    "MinStockCount": "Min Stock Count",
+    "MaxPrice": "Max Price",
+    "MaxStockCount": "Max Stock Count",
+    "NewProduct": "New Product",
+    "Menu:Products": "Products"
   }
 }

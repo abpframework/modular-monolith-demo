@@ -1,0 +1,461 @@
+@page "/Catalog/Products"
+@attribute [Authorize(CatalogPermissions.Products.Default)]
+@using global::Shopularity.Catalog.Products
+@using global::Shopularity.Catalog.Localization
+@using Microsoft.AspNetCore.Authorization
+@using Volo.Abp.BlazoriseUI.Components
+@using Volo.Abp.AspNetCore.Components.Messages
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
+@using global::Shopularity.Catalog.Permissions
+@using Volo.Abp.AspNetCore.Components
+@using Volo.Abp.Http.Client
+@inherits AbpComponentBase
+@inject IProductsAppService ProductsAppService
+@inject IUiMessageService UiMessageService
+@inject AbpBlazorMessageLocalizerHelper<CatalogResource> LH
+@inject IRemoteServiceConfigurationProvider RemoteServiceConfigurationProvider
+@inject NavigationManager NavigationManager
+
+@* ************************* PAGE HEADER ************************* *@
+<PageHeader Title="@L["Products"]" BreadcrumbItems="BreadcrumbItems" Toolbar="Toolbar">
+
+</PageHeader>
+
+<style>
+    tr.table-row-selectable:hover {
+        cursor: default;
+    }
+</style>
+
+@* ************************* SEARCH ************************* *@
+<Card>
+    <CardBody>
+
+        <Row>
+            <div class="col col-md-8 col-lg-10">
+                <div class="mb-3">
+                    <Form id="ProductSearchForm">
+                        <Addons>
+                            <Addon AddonType="AddonType.Body">
+                                <TextEdit @bind-Text="@Filter.FilterText"
+                                        Autofocus="true"
+                                        Placeholder="@L["Search"]">
+                                </TextEdit>
+                            </Addon>
+                            <Addon AddonType="AddonType.End">
+                                <SubmitButton Form="ProductSearchForm" Clicked="GetProductsAsync">
+                                    <Icon Name="IconName.Search" Class="me-1"></Icon>@L["Search"]
+                                </SubmitButton>
+                            </Addon>
+                        </Addons>
+                    </Form>
+                </div>
+            </div>
+                
+                   <div class="col-md-4 col-lg-2">
+            <div class="mb-3">
+               <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
+                         Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">@L["Filters"]
+                         <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
+               </Button>
+            </div>
+       </div>
+        
+        <div style="display: @(!ShowAdvancedFilters ? "none" : "block")"  class="mt-3">
+            <Row>
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <FieldLabel>@L["Name"]</FieldLabel>
+                        <TextEdit Text="@Filter.Name" TextChanged="@OnNameChangedAsync" />                       
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <FieldLabel>@L["Description"]</FieldLabel>
+                        <TextEdit Text="@Filter.Description" TextChanged="@OnDescriptionChangedAsync" />                       
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <FieldLabel>@L["MinPrice"]</FieldLabel>
+                        <NumericEdit TValue="double?" 
+             Value="@Filter.PriceMin"
+             ValueChanged="@OnPriceMinChangedAsync" />                       
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <FieldLabel>@L["MaxPrice"]</FieldLabel>
+                        <NumericEdit TValue="double?" 
+             Value="@Filter.PriceMax"
+             ValueChanged="@OnPriceMaxChangedAsync" />                       
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <FieldLabel>@L["MinStockCount"]</FieldLabel>
+                        <NumericEdit TValue="int?" 
+             Value="@Filter.StockCountMin"
+             ValueChanged="@OnStockCountMinChangedAsync" />                       
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <FieldLabel>@L["MaxStockCount"]</FieldLabel>
+                        <NumericEdit TValue="int?" 
+             Value="@Filter.StockCountMax"
+             ValueChanged="@OnStockCountMaxChangedAsync" />                       
+                    </Field>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is3">
+                    <Field>
+                        <FieldLabel>@L["Category"]</FieldLabel>
+                        <Select TValue="Guid?"
+		SelectedValue="@Filter.CategoryId"
+		SelectedValueChanged="@OnCategoryIdChangedAsync">
+
+<SelectItem></SelectItem>
+
+@foreach(var item in CategoriesCollection)
+{
+	<SelectItem TValue="Guid?" Value="@item.Id">
+		@item.DisplayName
+	</SelectItem>
+}
+
+</Select>                       
+                    </Field>
+                </Column>
+            </Row>
+
+        </div>
+
+        </Row>
+
+
+    </CardBody>
+</Card>
+
+@* ************************* DATA GRID ************************* *@
+<Card>
+    <CardBody>        
+
+        <Div  Visibility="@(SelectedProducts.Any() ? Visibility.Visible : Visibility.Invisible)"
+              class="d-flex justify-content-between align-items-center mb-2">
+              
+              <p class="lead mb-0">
+                @if (AllProductsSelected)
+                {
+                    @L["AllItemsAreSelected", TotalCount]
+                }
+                else
+                {
+                    @if (SelectedProducts.Count > 1)
+                    {
+                        @L["NumberOfItemsOnThisPageAreSelected", SelectedProducts.Count]
+                    }
+                    else
+                    {
+                        @L["OneItemOnThisPageIsSelected"]
+                    }
+                }
+              </p>
+                
+            <div>
+                @if ((SelectedProducts.Count == PageSize || SelectedProducts.Count == ProductList.Count) && TotalCount > SelectedProducts.Count)
+                {
+                    if (!AllProductsSelected)
+                    {
+                        <Button Clicked="SelectAllItems" Class="mx-1 btn-outline-secondary">@L["SelectAllItems", TotalCount]</Button>
+                    }
+                    else
+                    {
+                        <Button Clicked="ClearSelection" Class="mx-1 btn-outline-secondary">@L["ClearSelection"]</Button>
+                    }
+                }
+                
+                <Button Color="Color.Danger" Class="mx-1" Size="Size.Medium" Clicked="DeleteSelectedProductsAsync">
+                    <Icon Name="@IconName.Delete" /> @L["Delete"]
+                </Button>
+            </div>
+        </Div>
+        
+        <hr Visibility="@(SelectedProducts.Any() ? Visibility.Visible : Visibility.Invisible)"
+            class="my-1 mx-0" />
+        
+        <DataGrid TItem="ProductWithNavigationPropertiesDto"
+                  @ref="DataGridRef"
+                  Data="ProductList"
+                  
+                  SelectionMode="DataGridSelectionMode.Multiple"
+                  SelectedRows="SelectedProducts"
+                  RowSelectable="RowSelectableHandler"
+                  SelectedRowsChanged="SelectedProductRowsChanged"
+                  
+                  
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  Responsive="true"
+                  PageSize="PageSize"
+                  Class="datagrid-detail">
+            <LoadingTemplate>
+                <Row Class="w-100 align-items-center" Style="height: 150px;">
+                    <Column>
+                       <RadarSpinner />
+                    </Column>
+                </Row>
+            </LoadingTemplate>
+            <EmptyTemplate>
+                <Row Class="w-100 align-items-center" Style="height: 150px;">
+                    <Column>
+                        <Heading Size="HeadingSize.Is4" TextAlignment="TextAlignment.Center">@L["NoDataAvailable"]</Heading>
+                    </Column>
+                </Row>
+            </EmptyTemplate>   
+            <DataGridColumns>
+                
+                @if (CanDeleteProduct && ProductList.Any())
+                {
+                    <DataGridMultiSelectColumn TItem="ProductWithNavigationPropertiesDto" DisplayOrder="-1" Width="30px"></DataGridMultiSelectColumn>
+                }
+                
+                <DataGridEntityActionsColumn TItem="ProductWithNavigationPropertiesDto" @ref="@EntityActionsColumn">
+                    <DisplayTemplate>
+                        <EntityActions TItem="ProductWithNavigationPropertiesDto" EntityActionsColumn="@EntityActionsColumn">
+                            <EntityAction TItem="ProductWithNavigationPropertiesDto"
+                                          Visible="@CanEditProduct"
+                                          Clicked="async () => await OpenEditProductModalAsync(context)"
+                                          Text="@L["Edit"]"></EntityAction>
+                            <EntityAction TItem="ProductWithNavigationPropertiesDto"
+                                          Visible="@CanDeleteProduct"
+                                          Clicked="() => DeleteProductAsync(context)"
+                                          ConfirmationMessage="@(()=> L["DeleteConfirmationMessage"])"
+                                          Text="@L["Delete"]"></EntityAction>
+
+                        </EntityActions>
+                    </DisplayTemplate>
+                </DataGridEntityActionsColumn>
+               
+              <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
+                      Field="Product.Name"
+                      Caption="@L["Name"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
+                      Field="Product.Description"
+                      Caption="@L["Description"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
+                      Field="Product.Price"
+                      Caption="@L["Price"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
+                      Field="Product.StockCount"
+                      Caption="@L["StockCount"]">
+              </DataGridColumn>
+
+              <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
+                      Field="Category.Name"
+                      Caption="@L["Category"]">
+              </DataGridColumn>
+
+            </DataGridColumns>
+            
+            
+        </DataGrid>
+    </CardBody>
+</Card>
+
+@* ************************* CREATE MODAL ************************* *@
+<Modal @ref="CreateProductModal" Closing="@CreateProductModal.CancelClosingModalWhenFocusLost">
+    <ModalContent Centered="true">
+
+        <Form id="CreateProductForm">
+            <ModalHeader>
+                <ModalTitle>@L["NewProduct"]</ModalTitle>
+                <CloseButton Clicked="CloseCreateProductModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@NewProductValidations"
+                            Mode="ValidationMode.Auto"
+                            Model="@NewProduct"
+                            ValidateOnLoad="false">
+                    
+                    
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Name"] *</FieldLabel>
+                            <TextEdit @bind-Text="@NewProduct.Name" MaxLength="ProductConsts.NameMaxLength" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Description"]</FieldLabel>
+                            <MemoEdit @bind-Text="@NewProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </MemoEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Price"]</FieldLabel>
+                            <NumericPicker TValue="double" @bind-Value="@NewProduct.Price"   >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                             </NumericPicker>
+                        </Field>
+                     </Validation>
+
+
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["StockCount"]</FieldLabel>
+                            <NumericPicker TValue="int" @bind-Value="@NewProduct.StockCount"  Decimals="0" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                             </NumericPicker>
+                        </Field>
+                     </Validation>
+
+
+                    <Field>
+                        <FieldLabel>@L["Category"]</FieldLabel>
+                        <Select TValue="Guid?" @bind-SelectedValue="@NewProduct.CategoryId">
+                            <SelectItem TValue="Guid?" Value="null"></SelectItem>
+                            @foreach (var category in CategoriesCollection)
+                            {
+                                <SelectItem TValue="Guid?" Value="@(category.Id)">
+                                    @(category.DisplayName)
+                                </SelectItem>
+                            }
+                        </Select>
+                    </Field>
+
+
+                    
+                    
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateProductModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <SubmitButton Form="CreateProductForm" Clicked="CreateProductAsync"/>
+
+            </ModalFooter>
+        </Form>
+
+    </ModalContent>
+</Modal>
+
+@* ************************* EDIT MODAL ************************* *@
+<Modal @ref="EditProductModal" Closing="@EditProductModal.CancelClosingModalWhenFocusLost">
+    <ModalContent Centered="true">
+
+        <Form id="EditProductForm">
+            <ModalHeader>
+                <ModalTitle>@L["Update"]</ModalTitle>
+                <CloseButton Clicked="CloseEditProductModalAsync" />
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@EditingProductValidations"
+                            Mode="ValidationMode.Auto"
+                            Model="@EditingProduct"
+                            ValidateOnLoad="false">
+                    
+                    
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Name"] *</FieldLabel>
+                            <TextEdit @bind-Text="@EditingProduct.Name" MaxLength="ProductConsts.NameMaxLength" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Description"]</FieldLabel>
+                            <MemoEdit @bind-Text="@EditingProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </MemoEdit>
+                        </Field>
+                    </Validation>
+
+
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Price"]</FieldLabel>
+                            <NumericPicker TValue="double" @bind-Value="@EditingProduct.Price"   >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                             </NumericPicker>
+                        </Field>
+                     </Validation>
+
+
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["StockCount"]</FieldLabel>
+                            <NumericPicker TValue="int" @bind-Value="@EditingProduct.StockCount"  Decimals="0" >
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                             </NumericPicker>
+                        </Field>
+                     </Validation>
+
+
+                    <Field>
+                        <FieldLabel>@L["Category"]</FieldLabel>
+                        <Select TValue="Guid?" @bind-SelectedValue="@EditingProduct.CategoryId">
+                            <SelectItem TValue="Guid?" Value="null"></SelectItem>
+                            @foreach (var category in CategoriesCollection)
+                            {
+                                <SelectItem TValue="Guid?" Value="@(category.Id)">
+                                    @(category.DisplayName)
+                                </SelectItem>
+                            }
+                        </Select>
+                    </Field>
+
+
+                    
+                    
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditProductModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <SubmitButton Form="EditProductForm" Clicked="UpdateProductAsync" />
+
+            </ModalFooter>
+        </Form>
+
+    </ModalContent>
+</Modal>
+

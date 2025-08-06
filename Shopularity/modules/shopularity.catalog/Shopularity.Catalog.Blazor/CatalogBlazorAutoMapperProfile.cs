@@ -1,4 +1,5 @@
-﻿using Shopularity.Catalog.Categories;
+﻿using Shopularity.Catalog.Products;
+using Shopularity.Catalog.Categories;
 using AutoMapper;
 
 namespace Shopularity.Catalog.Blazor;
@@ -12,5 +13,7 @@ public class CatalogBlazorAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
 
         CreateMap<CategoryDto, CategoryUpdateDto>();
+
+        CreateMap<ProductDto, ProductUpdateDto>();
     }
 }

@@ -1,3 +1,5 @@
+using Shopularity.Catalog.Products;
+
 using Shopularity.Catalog.Categories;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +45,8 @@ public class CatalogModule : AbpModule
              * options.AddRepository<Question, EfCoreQuestionRepository>();
              */
             options.AddRepository<Category, Categories.EfCoreCategoryRepository>();
+
+            options.AddRepository<Product, Products.EfCoreProductRepository>();
 
         });
     }

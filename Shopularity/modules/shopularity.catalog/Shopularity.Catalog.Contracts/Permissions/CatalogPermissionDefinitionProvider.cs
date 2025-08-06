@@ -14,6 +14,11 @@ public class CatalogPermissionDefinitionProvider : PermissionDefinitionProvider
         categoryPermission.AddChild(CatalogPermissions.Categories.Create, L("Permission:Create"));
         categoryPermission.AddChild(CatalogPermissions.Categories.Edit, L("Permission:Edit"));
         categoryPermission.AddChild(CatalogPermissions.Categories.Delete, L("Permission:Delete"));
+
+        var productPermission = myGroup.AddPermission(CatalogPermissions.Products.Default, L("Permission:Products"));
+        productPermission.AddChild(CatalogPermissions.Products.Create, L("Permission:Create"));
+        productPermission.AddChild(CatalogPermissions.Products.Edit, L("Permission:Edit"));
+        productPermission.AddChild(CatalogPermissions.Products.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

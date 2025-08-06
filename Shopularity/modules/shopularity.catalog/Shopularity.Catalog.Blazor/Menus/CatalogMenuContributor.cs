@@ -1,4 +1,4 @@
-﻿using Shopularity.Catalog.Permissions;
+using Shopularity.Catalog.Permissions;
 using Shopularity.Catalog.Localization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,7 +20,8 @@ public class CatalogMenuContributor : IMenuContributor
     {
         var moduleMenu = AddModuleMenuItem(context);
         AddMenuItemCategories(context, moduleMenu);
-        
+        AddMenuItemProducts(context, moduleMenu);
+
         return Task.CompletedTask;
     }
 
@@ -35,7 +36,7 @@ public class CatalogMenuContributor : IMenuContributor
         context.Menu.Items.AddIfNotContains(moduleMenu);
         return moduleMenu;
     }
-    
+
     private static void AddMenuItemCategories(MenuConfigurationContext context, ApplicationMenuItem parentMenu)
     {
         parentMenu.AddItem(
@@ -45,6 +46,19 @@ public class CatalogMenuContributor : IMenuContributor
                 "/Catalog/Categories",
                 icon: "fa fa-file-alt",
                 requiredPermissionName: CatalogPermissions.Categories.Default
+            )
+        );
+    }
+
+    private static void AddMenuItemProducts(MenuConfigurationContext context, ApplicationMenuItem parentMenu)
+    {
+        parentMenu.AddItem(
+            new ApplicationMenuItem(
+                Menus.CatalogMenus.Products,
+                context.GetLocalizer<CatalogResource>()["Menu:Products"],
+                "/Catalog/Products",
+                icon: "fa fa-file-alt",
+                requiredPermissionName: CatalogPermissions.Products.Default
             )
         );
     }
