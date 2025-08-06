@@ -1,13 +1,7 @@
-﻿{
+{
   "packages": {
     "Shopularity.Basket": {
       "path": "Shopularity.Basket/Shopularity.Basket.abppkg"
-    },
-    "Shopularity.Basket.Blazor.Server": {
-      "path": "Shopularity.Basket.Blazor.Server/Shopularity.Basket.Blazor.Server.abppkg"
-    },
-    "Shopularity.Basket.Blazor.WebAssembly": {
-      "path": "Shopularity.Basket.Blazor.WebAssembly/Shopularity.Basket.Blazor.WebAssembly.abppkg"
     },
     "Shopularity.Basket.Blazor": {
       "path": "Shopularity.Basket.Blazor/Shopularity.Basket.Blazor.abppkg"

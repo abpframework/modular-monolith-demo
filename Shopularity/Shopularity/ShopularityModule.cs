@@ -65,15 +65,11 @@ using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Shopularity.Basket;
 using Shopularity.Basket.Blazor;
-using Shopularity.Basket.Blazor.Server;
 using Shopularity.Catalog.Blazor;
-using Shopularity.Catalog.Blazor.Server;
 using Shopularity.Catalog;
 using Shopularity.Payment.Blazor;
-using Shopularity.Payment.UI;
 using Shopularity.Payment;
 using Shopularity.Ordering.Blazor;
-using Shopularity.Ordering.UI;
 using Shopularity.Ordering;
 
 namespace Shopularity;
@@ -82,19 +78,19 @@ namespace Shopularity;
     typeof(ShopularityContractsModule),
     
     // Ordering module packages
-    typeof(OrderingBlazorServerModule),
+    typeof(OrderingBlazorModule),
     typeof(OrderingModule),
 
     // Basket module packages
-    typeof(BasketBlazorServerModule),
+    typeof(BasketBlazorModule),
     typeof(BasketModule),
     
     // Catalog module packages
-    typeof(CatalogBlazorServerModule),
+    typeof(CatalogBlazorModule),
     typeof(CatalogModule),
     
     // Payment module packages
-    typeof(PaymentBlazorServerModule),
+    typeof(PaymentBlazorModule),
     typeof(PaymentModule),
     
     // ABP Framework packages
@@ -368,22 +364,20 @@ public class ShopularityModule : AbpModule
             if (hostingEnvironment.IsDevelopment())
             {
                 /* Using physical files in development, so we don't need to recompile on changes */
-                options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorServerModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Blazor", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Blazor", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Blazor", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<BasketContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorServerModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.UI", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.UI", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<BasketModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<CatalogBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.Blazor", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<CatalogContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<CatalogBlazorServerModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.UI", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<CatalogBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.UI", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<CatalogModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<PaymentBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.payment{0}Shopularity.Payment.Blazor", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<PaymentContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.payment{0}Shopularity.Payment.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<PaymentBlazorServerModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.payment{0}Shopularity.Payment.UI", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<PaymentModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.payment{0}Shopularity.Payment", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<OrderingBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering.Blazor", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<OrderingContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<OrderingBlazorServerModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering.UI", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<OrderingModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<ShopularityModule>(hostingEnvironment.ContentRootPath);
             }

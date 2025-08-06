@@ -1,13 +1,7 @@
-﻿{
+{
   "packages": {
     "Shopularity.Catalog": {
       "path": "Shopularity.Catalog/Shopularity.Catalog.abppkg"
-    },
-    "Shopularity.Catalog.Blazor.Server": {
-      "path": "Shopularity.Catalog.Blazor.Server/Shopularity.Catalog.Blazor.Server.abppkg"
-    },
-    "Shopularity.Catalog.Blazor.WebAssembly": {
-      "path": "Shopularity.Catalog.Blazor.WebAssembly/Shopularity.Catalog.Blazor.WebAssembly.abppkg"
     },
     "Shopularity.Catalog.Blazor": {
       "path": "Shopularity.Catalog.Blazor/Shopularity.Catalog.Blazor.abppkg"
