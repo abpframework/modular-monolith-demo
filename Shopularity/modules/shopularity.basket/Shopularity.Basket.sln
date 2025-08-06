@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBD}") = "Shopularity.Basket.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.Blazor", "Shopularity.Basket.Blazor\Shopularity.Basket.Blazor.csproj", "{827FCC18-A22B-4175-82CD-1233F6DEE8FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.UI", "Shopularity.Basket.UI\Shopularity.Basket.UI.csproj", "{299BE52E-823F-408E-9C6D-7E2F81BA34FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.Blazor.Server", "Shopularity.Basket.Blazor.Server\Shopularity.Basket.Blazor.Server.csproj", "{299BE52E-823F-408E-9C6D-7E2F81BA34FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

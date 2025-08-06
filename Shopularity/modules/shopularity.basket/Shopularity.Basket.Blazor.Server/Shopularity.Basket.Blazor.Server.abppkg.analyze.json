@@ -1,9 +1,9 @@
 {
-  "name": "Shopularity.Basket.UI",
+  "name": "Shopularity.Basket.Blazor.Server",
   "hash": "",
   "contents": [
     {
-      "namespace": "Shopularity.Basket.UI",
+      "namespace": "Shopularity.Basket.Blazor.Server",
       "dependsOnModules": [
         {
           "declaringAssemblyName": "Shopularity.Basket.Blazor",

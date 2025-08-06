@@ -5,6 +5,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <RootNamespace>Shopularity.Basket.Blazor.Server</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
