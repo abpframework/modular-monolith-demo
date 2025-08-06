@@ -22,6 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Blazor.WebAssembly/Shopularity.Basket.Blazor.WebAssembly.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme" Version="4.2.3" />
   </ItemGroup>
 
