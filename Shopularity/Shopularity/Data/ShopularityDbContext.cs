@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Shopularity.Basket.Data;
+using Shopularity.Catalog.Data;
+using Shopularity.Payment.Data;
+using Shopularity.Ordering.Data;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
@@ -15,7 +18,6 @@ namespace Shopularity.Data;
 
 public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>
 {
-    
     public const string DbTablePrefix = "App";
     public const string DbSchema = null;
 
@@ -39,6 +41,10 @@ public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>
         builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
+        builder.ConfigureBasket();
+        builder.ConfigureCatalog();
+        builder.ConfigurePayment();
+        builder.ConfigureOrdering();
         
         /* Configure your own entities here */
     }
