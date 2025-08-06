@@ -2,9 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Globalization;
-using System.IO;
-using System.Web;
 using Blazorise;
 using Blazorise.DataGrid;
 using Volo.Abp.BlazoriseUI.Components;
@@ -13,13 +10,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
 using Shopularity.Catalog.Categories;
 using Shopularity.Catalog.Permissions;
-using Shopularity.Catalog.Shared;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using Shopularity.Catalog.Localization;
-using Volo.Abp;
-using Volo.Abp.Content;
 
 namespace Shopularity.Catalog.Blazor.Pages.Catalog
 {

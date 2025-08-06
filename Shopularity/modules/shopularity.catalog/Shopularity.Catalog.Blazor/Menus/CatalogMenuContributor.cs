@@ -1,7 +1,6 @@
 ﻿using Shopularity.Catalog.Permissions;
 using Shopularity.Catalog.Localization;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Volo.Abp.UI.Navigation;
 

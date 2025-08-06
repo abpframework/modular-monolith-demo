@@ -1,7 +1,4 @@
-using System;
-using Shopularity.Catalog.Shared;
-using Shopularity.Catalog.Categories;
-using Volo.Abp.AutoMapper;
+﻿using Shopularity.Catalog.Categories;
 using AutoMapper;
 
 namespace Shopularity.Catalog;
