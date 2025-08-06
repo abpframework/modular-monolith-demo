@@ -15,8 +15,6 @@ public class PaymentMenuContributor : IMenuContributor
 
     private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
-        //Add main menu items.
-        context.Menu.AddItem(new ApplicationMenuItem(PaymentMenus.Prefix, displayName: "Payment", "/Payment", icon: "fa fa-globe"));
 
         return Task.CompletedTask;
     }

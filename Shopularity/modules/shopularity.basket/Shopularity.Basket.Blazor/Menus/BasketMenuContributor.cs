@@ -15,8 +15,6 @@ public class BasketMenuContributor : IMenuContributor
 
     private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
-        //Add main menu items.
-        context.Menu.AddItem(new ApplicationMenuItem(BasketMenus.Prefix, displayName: "Basket", "/Basket", icon: "fa fa-globe"));
 
         return Task.CompletedTask;
     }
