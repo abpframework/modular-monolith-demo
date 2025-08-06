@@ -11,7 +11,6 @@ public static class CatalogDbContextModelCreatingExtensions
         this ModelBuilder builder)
     {
         Check.NotNull(builder, nameof(builder));
-
         
         if (builder.IsHostDatabase())
         {

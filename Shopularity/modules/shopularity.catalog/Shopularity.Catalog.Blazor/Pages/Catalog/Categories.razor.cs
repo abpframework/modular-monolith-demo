@@ -20,18 +20,10 @@ using Microsoft.JSInterop;
 using Volo.Abp;
 using Volo.Abp.Content;
 
-
-
-
 namespace Shopularity.Catalog.Blazor.Pages.Catalog
 {
     public partial class Categories
     {
-        
-        
-            
-        
-            
         protected List<Volo.Abp.BlazoriseUI.BreadcrumbItem> BreadcrumbItems = new List<Volo.Abp.BlazoriseUI.BreadcrumbItem>();
         protected PageToolbar Toolbar {get;} = new PageToolbar();
         protected bool ShowAdvancedFilters { get; set; }
@@ -57,11 +49,6 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
         protected string SelectedEditTab = "category-edit-tab";
         private CategoryDto? SelectedCategory;
         
-        
-        
-        
-        
-        
         public Categories()
         {
             NewCategory = new CategoryCreateDto();
@@ -73,22 +60,17 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
                 Sorting = CurrentSorting
             };
             CategoryList = new List<CategoryDto>();
-            
-            
-            
         }
 
         protected override async Task OnInitializedAsync()
         {
             await SetPermissionsAsync();
-            
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                
                 await SetBreadcrumbItemsAsync();
                 await SetToolbarItemsAsync();
                 await InvokeAsync(StateHasChanged);
@@ -103,8 +85,6 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
 
         protected virtual ValueTask SetToolbarItemsAsync()
         {
-            
-            
             Toolbar.AddButton(L["NewCategory"], async () =>
             {
                 await OpenCreateCategoryModalAsync();
@@ -136,8 +116,6 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
                             .IsGrantedAsync(CatalogPermissions.Categories.Edit);
             CanDeleteCategory = await AuthorizationService
                             .IsGrantedAsync(CatalogPermissions.Categories.Delete);
-                            
-                            
         }
 
         private async Task GetCategoriesAsync()
@@ -149,8 +127,6 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
             var result = await CategoriesAppService.GetListAsync(Filter);
             CategoryList = result.Items;
             TotalCount = (int)result.TotalCount;
-            
-            
         }
 
         protected virtual async Task SearchAsync()
@@ -173,13 +149,9 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
 
         private async Task OpenCreateCategoryModalAsync()
         {
-            NewCategory = new CategoryCreateDto{
-                
-                
-            };
+            NewCategory = new CategoryCreateDto();
 
             SelectedCreateTab = "category-create-tab";
-            
             
             await NewCategoryValidations.ClearAll();
             await CreateCategoryModal.Show();
@@ -187,17 +159,13 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
 
         private async Task CloseCreateCategoryModalAsync()
         {
-            NewCategory = new CategoryCreateDto{
-                
-                
-            };
+            NewCategory = new CategoryCreateDto();
             await CreateCategoryModal.Hide();
         }
 
         private async Task OpenEditCategoryModalAsync(CategoryDto input)
         {
             SelectedEditTab = "category-edit-tab";
-            
             
             var category = await CategoriesAppService.GetAsync(input.Id);
             
@@ -267,26 +235,10 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
             SelectedEditTab = name;
         }
 
-
-
-
-
-
-
-
-
         protected virtual async Task OnNameChangedAsync(string? name)
         {
             Filter.Name = name;
             await SearchAsync();
         }
-        
-
-
-
-
-
-
-
     }
 }

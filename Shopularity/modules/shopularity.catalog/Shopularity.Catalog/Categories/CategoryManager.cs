@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Volo.Abp;
-using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Data;
 
@@ -48,6 +45,5 @@ namespace Shopularity.Catalog.Categories
             category.SetConcurrencyStampIfNotNull(concurrencyStamp);
             return await _categoryRepository.UpdateAsync(category);
         }
-
     }
 }

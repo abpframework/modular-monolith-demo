@@ -1,16 +1,10 @@
 using System;
-using System.IO;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Application.Services;
-using Volo.Abp.Domain.Repositories;
 using Shopularity.Catalog.Permissions;
-using Shopularity.Catalog.Categories;
 
 namespace Shopularity.Catalog.Categories
 {
@@ -18,16 +12,13 @@ namespace Shopularity.Catalog.Categories
     [Authorize(CatalogPermissions.Categories.Default)]
     public class CategoriesAppService : CatalogAppService, ICategoriesAppService
     {
-
         protected ICategoryRepository _categoryRepository;
         protected CategoryManager _categoryManager;
 
         public CategoriesAppService(ICategoryRepository categoryRepository, CategoryManager categoryManager)
         {
-
             _categoryRepository = categoryRepository;
             _categoryManager = categoryManager;
-
         }
 
         public virtual async Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoriesInput input)
@@ -56,7 +47,6 @@ namespace Shopularity.Catalog.Categories
         [Authorize(CatalogPermissions.Categories.Create)]
         public virtual async Task<CategoryDto> CreateAsync(CategoryCreateDto input)
         {
-
             var category = await _categoryManager.CreateAsync(
             input.Name
             );
@@ -67,7 +57,6 @@ namespace Shopularity.Catalog.Categories
         [Authorize(CatalogPermissions.Categories.Edit)]
         public virtual async Task<CategoryDto> UpdateAsync(Guid id, CategoryUpdateDto input)
         {
-
             var category = await _categoryManager.UpdateAsync(
             id,
             input.Name, input.ConcurrencyStamp

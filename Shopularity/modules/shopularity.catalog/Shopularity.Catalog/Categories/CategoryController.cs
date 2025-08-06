@@ -1,12 +1,10 @@
 using Asp.Versioning;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
-using Shopularity.Catalog.Categories;
 
 namespace Shopularity.Catalog.Categories
 {
