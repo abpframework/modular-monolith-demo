@@ -1,4 +1,4 @@
-﻿using Volo.Abp.Reflection;
+using Volo.Abp.Reflection;
 
 namespace Shopularity.Payment.Permissions;
 
@@ -9,5 +9,13 @@ public class PaymentPermissions
     public static string[] GetAll()
     {
         return ReflectionHelper.GetPublicConstantsRecursively(typeof(PaymentPermissions));
+    }
+
+    public static class Payments
+    {
+        public const string Default = GroupName + ".Payments";
+        public const string Edit = Default + ".Edit";
+        public const string Create = Default + ".Create";
+        public const string Delete = Default + ".Delete";
     }
 }

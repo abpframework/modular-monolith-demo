@@ -7,6 +7,7 @@ namespace Shopularity.Payment.Data;
 [ConnectionStringName(PaymentDbProperties.ConnectionStringName)]
 public class PaymentDbContext : AbpDbContext<PaymentDbContext>, IPaymentDbContext
 {
+    public DbSet<Payments.Payment> Payments { get; set; } = null!;
     /* Add DbSet for each Aggregate Root here. Example:
      * public DbSet<Question> Questions { get; set; }
      */

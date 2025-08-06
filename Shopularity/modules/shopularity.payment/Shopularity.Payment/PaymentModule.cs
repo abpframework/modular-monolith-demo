@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
@@ -24,7 +24,7 @@ public class PaymentModule : AbpModule
             mvcBuilder.AddApplicationPartIfNotExists(typeof(PaymentModule).Assembly);
         });
     }
-    
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddAutoMapperObjectMapper<PaymentModule>();
@@ -32,14 +32,12 @@ public class PaymentModule : AbpModule
         {
             options.AddMaps<PaymentModule>(validate: true);
         });
-        
+
         context.Services.AddAbpDbContext<PaymentDbContext>(options =>
         {
             options.AddDefaultRepositories<IPaymentDbContext>(includeAllEntities: true);
-            
-            /* Add custom repositories here. Example:
-             * options.AddRepository<Question, EfCoreQuestionRepository>();
-             */
+
+            options.AddRepository<Payments.Payment, Payments.EfCorePaymentRepository>();
         });
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Volo.Abp.EntityFrameworkCore.Modeling;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 
 namespace Shopularity.Payment.Data;
@@ -10,24 +11,16 @@ public static class PaymentDbContextModelCreatingExtensions
     {
         Check.NotNull(builder, nameof(builder));
 
-        /* Configure all entities here. Example:
-
-        builder.Entity<Question>(b =>
+        if (builder.IsHostDatabase())
         {
-            //Configure table & schema name
-            b.ToTable(PaymentDbProperties.DbTablePrefix + "Questions", PaymentDbProperties.DbSchema);
+            builder.Entity<Payments.Payment>(b =>
+            {
+                b.ToTable(PaymentDbProperties.DbTablePrefix + "Payments", PaymentDbProperties.DbSchema);
+                b.ConfigureByConvention();
+                b.Property(x => x.OrderId).HasColumnName(nameof(Payments.Payment.OrderId)).IsRequired();
+                b.Property(x => x.State).HasColumnName(nameof(Payments.Payment.State));
+            });
 
-            b.ConfigureByConvention();
-
-            //Properties
-            b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);
-
-            //Relations
-            b.HasMany(question => question.Tags).WithOne().HasForeignKey(qt => qt.QuestionId);
-
-            //Indexes
-            b.HasIndex(q => q.CreationTime);
-        });
-        */
+        }
     }
 }
