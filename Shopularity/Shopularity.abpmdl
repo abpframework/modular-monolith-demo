@@ -53,6 +53,12 @@
   "packages": {
     "Shopularity": {
       "path": "Shopularity/Shopularity.abppkg"
+    },
+    "Shopularity.Client": {
+      "path": "Shopularity.Client/Shopularity.Client.abppkg"
+    },
+    "Shopularity.Contracts": {
+      "path": "Shopularity.Contracts/Shopularity.Contracts.abppkg"
     }
   }
 }
