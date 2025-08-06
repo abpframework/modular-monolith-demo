@@ -3,10 +3,11 @@ using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Shopularity.Basket.Blazor;
 using Shopularity.Catalog.Blazor;
+using Shopularity.Payment.Blazor;
+using Shopularity.Ordering.Blazor;
 using Volo.Abp.AspNetCore.Components.Web;
 using Shopularity.Menus;
 using Volo.Abp.Account;
-using Volo.Abp.AspNetCore.Components.Web.LeptonXLiteTheme.Themes.LeptonXLite;
 using Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme;
 using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
 using Volo.Abp.OpenIddict;
@@ -24,13 +25,17 @@ using Volo.Abp.PermissionManagement.Blazor.WebAssembly;
 using Volo.Abp.SettingManagement.Blazor.WebAssembly;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.UI.Navigation;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Components.WebAssembly.Theming.Bundling;
 
 namespace Shopularity;
 
 [DependsOn(
     typeof(ShopularityContractsModule),
+        
+    // Ordering module packages
+    typeof(OrderingBlazorModule),
+        
+    // Payment module packages
+    typeof(PaymentBlazorModule),
         
     // Catalog module packages
     typeof(CatalogBlazorModule),
