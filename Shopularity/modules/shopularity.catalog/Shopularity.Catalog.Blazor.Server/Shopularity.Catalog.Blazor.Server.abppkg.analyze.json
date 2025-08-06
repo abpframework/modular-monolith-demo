@@ -1,9 +1,9 @@
 {
-  "name": "Shopularity.Catalog.UI",
+  "name": "Shopularity.Catalog.Blazor.Server",
   "hash": "",
   "contents": [
     {
-      "namespace": "Shopularity.Catalog.UI",
+      "namespace": "Shopularity.Catalog.Blazor.Server",
       "dependsOnModules": [
         {
           "declaringAssemblyName": "Shopularity.Catalog.Blazor",

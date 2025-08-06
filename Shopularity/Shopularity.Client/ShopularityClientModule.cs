@@ -2,6 +2,7 @@
 using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Shopularity.Basket.Blazor.WebAssembly;
+using Shopularity.Catalog.Blazor.WebAssembly;
 using Volo.Abp.AspNetCore.Components.Web;
 using Shopularity.Menus;
 using Volo.Abp.Account;
@@ -30,6 +31,9 @@ namespace Shopularity;
 
 [DependsOn(
     typeof(ShopularityContractsModule),
+        
+    // Catalog module packages
+    typeof(CatalogBlazorWebAssemblyModule),
         
     // Basket module packages
     typeof(BasketBlazorWebAssemblyModule),

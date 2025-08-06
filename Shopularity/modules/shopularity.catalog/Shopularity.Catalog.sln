@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBD}") = "Shopularity.Catalog.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.Blazor", "Shopularity.Catalog.Blazor\Shopularity.Catalog.Blazor.csproj", "{827FCC18-A22B-4175-82CD-1233F6DEE8FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.UI", "Shopularity.Catalog.UI\Shopularity.Catalog.UI.csproj", "{299BE52E-823F-408E-9C6D-7E2F81BA34FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.Blazor.Server", "Shopularity.Catalog.Blazor.Server\Shopularity.Catalog.Blazor.Server.csproj", "{299BE52E-823F-408E-9C6D-7E2F81BA34FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.Blazor.WebAssembly", "Shopularity.Catalog.Blazor.WebAssembly\Shopularity.Catalog.Blazor.WebAssembly.csproj", "{9EAF5C95-87C3-4043-8927-4276BEE6C58E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,5 +44,9 @@ Global
 		{299BE52E-823F-408E-9C6D-7E2F81BA34FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{299BE52E-823F-408E-9C6D-7E2F81BA34FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{299BE52E-823F-408E-9C6D-7E2F81BA34FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EAF5C95-87C3-4043-8927-4276BEE6C58E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EAF5C95-87C3-4043-8927-4276BEE6C58E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EAF5C95-87C3-4043-8927-4276BEE6C58E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EAF5C95-87C3-4043-8927-4276BEE6C58E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

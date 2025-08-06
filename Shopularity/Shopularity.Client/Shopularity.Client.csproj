@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Blazor.WebAssembly/Shopularity.Basket.Blazor.WebAssembly.csproj" />
+    <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Blazor.WebAssembly/Shopularity.Catalog.Blazor.WebAssembly.csproj" />
   </ItemGroup>
   
   <ItemGroup>

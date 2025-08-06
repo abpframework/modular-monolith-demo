@@ -64,9 +64,10 @@ using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Shopularity.Basket;
+using Shopularity.Basket.Blazor;
 using Shopularity.Basket.Blazor.Server;
 using Shopularity.Catalog.Blazor;
-using Shopularity.Catalog.UI;
+using Shopularity.Catalog.Blazor.Server;
 using Shopularity.Catalog;
 using Shopularity.Payment.Blazor;
 using Shopularity.Payment.UI;
@@ -368,6 +369,7 @@ public class ShopularityModule : AbpModule
             {
                 /* Using physical files in development, so we don't need to recompile on changes */
                 options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorServerModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Blazor", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Blazor", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<BasketContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Contracts", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<BasketBlazorServerModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.UI", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<BasketModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket", Path.DirectorySeparatorChar)));
