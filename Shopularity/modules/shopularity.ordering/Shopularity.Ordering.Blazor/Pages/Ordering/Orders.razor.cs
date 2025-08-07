@@ -8,6 +8,7 @@ using Blazorise;
 using Blazorise.DataGrid;
 using Volo.Abp.BlazoriseUI.Components;
 using Microsoft.AspNetCore.Authorization;
+using Shopularity.Ordering.Localization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
 using Shopularity.Ordering.Orders;
@@ -64,6 +65,8 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
         
         public Orders()
         {
+            LocalizationResource = typeof(OrderingResource);
+            
             NewOrder = new OrderCreateDto();
             EditingOrder = new OrderUpdateDto();
             Filter = new GetOrdersInput

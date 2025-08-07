@@ -15,7 +15,7 @@
 @using Volo.Abp.ObjectMapping
 @using Volo.Abp.AspNetCore.Components.Messages
 @using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
-@using global::Shopularity.Ordering.OrderLines 
+@using global::Shopularity.Ordering.OrderLines
 @using global::Shopularity.Ordering.Permissions
 @using Volo.Abp.AspNetCore.Components.Web
 @using Volo.Abp.AspNetCore.Components
@@ -53,8 +53,8 @@
                         <Addons>
                             <Addon AddonType="AddonType.Body">
                                 <TextEdit @bind-Text="@Filter.FilterText"
-                                        Autofocus="true"
-                                        Placeholder="@L["Search"]">
+                                          Autofocus="true"
+                                          Placeholder="@L["Search"]">
                                 </TextEdit>
                             </Addon>
                             <Addon AddonType="AddonType.End">
@@ -66,74 +66,75 @@
                     </Form>
                 </div>
             </div>
-                
-                   <div class="col-md-4 col-lg-2">
-            <div class="mb-3">
-               <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
-                         Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">@L["Filters"]
-                         <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
-               </Button>
+
+            <div class="col-md-4 col-lg-2">
+                <div class="mb-3">
+                    <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
+                            Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">
+                        @L["Filters"]
+                        <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
+                    </Button>
+                </div>
             </div>
-       </div>
-        
-        <div style="display: @(!ShowAdvancedFilters ? "none" : "block")"  class="mt-3">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["UserId"]</FieldLabel>
-                        <TextEdit Text="@Filter.UserId" TextChanged="@OnUserIdChangedAsync" />                       
-                    </Field>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="OrderState?"
-		SelectedValue="@Filter.State"
-		SelectedValueChanged="@OnStateChangedAsync">
 
-<SelectItem></SelectItem>
+            <div style="display: @(!ShowAdvancedFilters ? "none" : "block")" class="mt-3">
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["UserId"]</FieldLabel>
+                            <TextEdit Text="@Filter.UserId" TextChanged="@OnUserIdChangedAsync"/>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["State"]</FieldLabel>
+                            <Select TValue="OrderState?"
+                                    SelectedValue="@Filter.State"
+                                    SelectedValueChanged="@OnStateChangedAsync">
 
-@foreach(OrderState value in Enum.GetValues(typeof(OrderState)))
-{
-	<SelectItem Value="value">
-		@value
-	</SelectItem>
-}
+                                <SelectItem></SelectItem>
 
-</Select>                       
-                    </Field>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["MinTotalPrice"]</FieldLabel>
-                        <NumericEdit TValue="double?" 
-             Value="@Filter.TotalPriceMin"
-             ValueChanged="@OnTotalPriceMinChangedAsync" />                       
-                    </Field>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["MaxTotalPrice"]</FieldLabel>
-                        <NumericEdit TValue="double?" 
-             Value="@Filter.TotalPriceMax"
-             ValueChanged="@OnTotalPriceMaxChangedAsync" />                       
-                    </Field>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["ShippingAddress"]</FieldLabel>
-                        <TextEdit Text="@Filter.ShippingAddress" TextChanged="@OnShippingAddressChangedAsync" />                       
-                    </Field>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["CargoNo"]</FieldLabel>
-                        <TextEdit Text="@Filter.CargoNo" TextChanged="@OnCargoNoChangedAsync" />                       
-                    </Field>
-                </Column>
-            </Row>
+                                @foreach (OrderState value in Enum.GetValues(typeof(OrderState)))
+                                {
+                                    <SelectItem Value="value">
+                                        @value
+                                    </SelectItem>
+                                }
 
-        </div>
+                            </Select>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["MinTotalPrice"]</FieldLabel>
+                            <NumericEdit TValue="double?"
+                                         Value="@Filter.TotalPriceMin"
+                                         ValueChanged="@OnTotalPriceMinChangedAsync"/>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["MaxTotalPrice"]</FieldLabel>
+                            <NumericEdit TValue="double?"
+                                         Value="@Filter.TotalPriceMax"
+                                         ValueChanged="@OnTotalPriceMaxChangedAsync"/>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["ShippingAddress"]</FieldLabel>
+                            <TextEdit Text="@Filter.ShippingAddress" TextChanged="@OnShippingAddressChangedAsync"/>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["CargoNo"]</FieldLabel>
+                            <TextEdit Text="@Filter.CargoNo" TextChanged="@OnCargoNoChangedAsync"/>
+                        </Field>
+                    </Column>
+                </Row>
+
+            </div>
 
         </Row>
 
@@ -147,7 +148,7 @@
         <DataGrid TItem="OrderDto"
                   @ref="DataGridRef"
                   Data="OrderList"
-                  
+
                   DetailRowTrigger="DetailRowTriggerHandler"
                   DetailRowStartsVisible="false"
                   ReadData="OnDataGridReadAsync"
@@ -159,7 +160,7 @@
             <LoadingTemplate>
                 <Row Class="w-100 align-items-center" Style="height: 150px;">
                     <Column>
-                       <RadarSpinner />
+                        <RadarSpinner/>
                     </Column>
                 </Row>
             </LoadingTemplate>
@@ -169,9 +170,9 @@
                         <Heading Size="HeadingSize.Is4" TextAlignment="TextAlignment.Center">@L["NoDataAvailable"]</Heading>
                     </Column>
                 </Row>
-            </EmptyTemplate>   
+            </EmptyTemplate>
             <DataGridColumns>
-                
+
                 @if (ShouldShowDetailRow())
                 {
                     <DataGridColumn TItem="OrderDto"
@@ -195,137 +196,139 @@
                             <EntityAction TItem="OrderDto"
                                           Visible="@CanEditOrder"
                                           Clicked="async () => await OpenEditOrderModalAsync(context)"
-                                          Text="@L["Edit"]"></EntityAction>
+                                          Text="@L["Edit"]">
+                            </EntityAction>
                             <EntityAction TItem="OrderDto"
                                           Visible="@CanDeleteOrder"
                                           Clicked="() => DeleteOrderAsync(context)"
-                                          ConfirmationMessage="@(()=> L["DeleteConfirmationMessage"])"
-                                          Text="@L["Delete"]"></EntityAction>
+                                          ConfirmationMessage="@(() => L["DeleteConfirmationMessage"])"
+                                          Text="@L["Delete"]">
+                            </EntityAction>
 
                         </EntityActions>
                     </DisplayTemplate>
                 </DataGridEntityActionsColumn>
-               
-              <DataGridColumn TItem="OrderDto"
-                      Field="UserId"
-                      Caption="@L["UserId"]">
-              </DataGridColumn>
 
-              <DataGridColumn TItem="OrderDto"
-                      Field="State"
-                      Caption="@L["State"]">
+                <DataGridColumn TItem="OrderDto"
+                                Field="UserId"
+                                Caption="@L["UserId"]">
+                </DataGridColumn>
+
+                <DataGridColumn TItem="OrderDto"
+                                Field="State"
+                                Caption="@L["State"]">
                     <DisplayTemplate>
-                        @L[$"Enum:OrderState.{(int)context.State}"]
+                        @L[$"Enum:OrderState.{(int) context.State}"]
                     </DisplayTemplate>
-              </DataGridColumn>
+                </DataGridColumn>
 
 
-              <DataGridColumn TItem="OrderDto"
-                      Field="TotalPrice"
-                      Caption="@L["TotalPrice"]">
-              </DataGridColumn>
+                <DataGridColumn TItem="OrderDto"
+                                Field="TotalPrice"
+                                Caption="@L["TotalPrice"]">
+                </DataGridColumn>
 
-              <DataGridColumn TItem="OrderDto"
-                      Field="ShippingAddress"
-                      Caption="@L["ShippingAddress"]">
-              </DataGridColumn>
+                <DataGridColumn TItem="OrderDto"
+                                Field="ShippingAddress"
+                                Caption="@L["ShippingAddress"]">
+                </DataGridColumn>
 
-              <DataGridColumn TItem="OrderDto"
-                      Field="CargoNo"
-                      Caption="@L["CargoNo"]">
-              </DataGridColumn>
+                <DataGridColumn TItem="OrderDto"
+                                Field="CargoNo"
+                                Caption="@L["CargoNo"]">
+                </DataGridColumn>
 
             </DataGridColumns>
-            
+
             <DetailRowTemplate>
-    <div class="bg-light rounded p-3 pb-0 pt-1">
-        <Tabs SelectedTab="@SelectedChildTab" SelectedTabChanged="@OnSelectedChildTabChanged">
-            <Items>
-                <Tab Name="orderline-tab">@L["OrderLines"]</Tab>
-            </Items>
-            
-            <Content>
-                                        <TabPanel Name="orderline-tab" Class="mt-0">
-                            @if (CanCreateOrderLine)
-                            {
-                                <Row Class="mb-2">
-                                    <Column Class="d-flex justify-content-end">
-                                        <Button Color="Color.Primary" Clicked="async () => await OpenCreateOrderLineModalAsync(context.Id)">
-                                            <i class="fas fa-plus me-1"></i>@L["NewOrderLine"]
-                                        </Button>
-                                    </Column>
-                                </Row>
-                            }
+                <div class="bg-light rounded p-3 pb-0 pt-1">
+                    <Tabs SelectedTab="@SelectedChildTab" SelectedTabChanged="@OnSelectedChildTabChanged">
+                        <Items>
+                            <Tab Name="orderline-tab">@L["OrderLines"]</Tab>
+                        </Items>
 
-                            @{
-                                var orderLines = (context as OrderDto).OrderLines;
+                        <Content>
+                            <TabPanel Name="orderline-tab" Class="mt-0">
+                                @if (CanCreateOrderLine)
+                                {
+                                    <Row Class="mb-2">
+                                        <Column Class="d-flex justify-content-end">
+                                            <Button Color="Color.Primary" Clicked="async () => await OpenCreateOrderLineModalAsync(context.Id)">
+                                                <i class="fas fa-plus me-1"></i>@L["NewOrderLine"]
+                                            </Button>
+                                        </Column>
+                                    </Row>
+                                }
 
-                                <DataGrid @ref="@OrderLineDataGrids[context.Id]"
-                                          TItem="OrderLineDto"
-                                          Data="orderLines"
-                                          ReadData="@((args) => OnOrderLineDataGridReadAsync(args, context.Id))"
-                                          Sortable="true"
-                                          ShowCaptions="true"
-                                          ShowPager="true"
-                                          Responsive="true"
-                                          PageSize="OrderLinePageSize">
+                                @{
+                                    var orderLines = (context as OrderDto).OrderLines;
 
-                                    <DataGridColumns>
+                                    <DataGrid @ref="@OrderLineDataGrids[context.Id]"
+                                              TItem="OrderLineDto"
+                                              Data="orderLines"
+                                              ReadData="@((args) => OnOrderLineDataGridReadAsync(args, context.Id))"
+                                              Sortable="true"
+                                              ShowCaptions="true"
+                                              ShowPager="true"
+                                              Responsive="true"
+                                              PageSize="OrderLinePageSize">
 
-                                        <DataGridEntityActionsColumn TItem="OrderLineDto" @ref="@OrderLineEntityActionsColumns">
-                                            <DisplayTemplate Context="order_line_context">
-                                                <EntityActions TItem="OrderLineDto" EntityActionsColumn="@OrderLineEntityActionsColumns">
-                                                    <EntityAction TItem="OrderLineDto"
-                                                                  Visible="@CanEditOrderLine"
-                                                                  Clicked="async () => await OpenEditOrderLineModalAsync(order_line_context)"
-                                                                  Text="@L["Edit"]">
-                                                    </EntityAction>
-                                                    <EntityAction TItem="OrderLineDto"
-                                                                  Visible="@CanDeleteOrderLine"
-                                                                  Clicked="async () => await DeleteOrderLineAsync(order_line_context)"
-                                                                  ConfirmationMessage="@(() => L["DeleteConfirmationMessage"])"
-                                                                  Text="@L["Delete"]">
-                                                    </EntityAction>
-                                                </EntityActions>
-                                            </DisplayTemplate>
-                                        </DataGridEntityActionsColumn>
+                                        <DataGridColumns>
 
-                                        <DataGridCommandColumn/>
+                                            <DataGridEntityActionsColumn TItem="OrderLineDto" @ref="@OrderLineEntityActionsColumns">
+                                                <DisplayTemplate Context="order_line_context">
+                                                    <EntityActions TItem="OrderLineDto" EntityActionsColumn="@OrderLineEntityActionsColumns">
+                                                        <EntityAction TItem="OrderLineDto"
+                                                                      Visible="@CanEditOrderLine"
+                                                                      Clicked="async () => await OpenEditOrderLineModalAsync(order_line_context)"
+                                                                      Text="@L["Edit"]">
+                                                        </EntityAction>
+                                                        <EntityAction TItem="OrderLineDto"
+                                                                      Visible="@CanDeleteOrderLine"
+                                                                      Clicked="async () => await DeleteOrderLineAsync(order_line_context)"
+                                                                      ConfirmationMessage="@(() => L["DeleteConfirmationMessage"])"
+                                                                      Text="@L["Delete"]">
+                                                        </EntityAction>
+                                                    </EntityActions>
+                                                </DisplayTemplate>
+                                            </DataGridEntityActionsColumn>
 
-                                        
-              <DataGridColumn TItem="OrderLineDto"
-                      Field="ProductId"
-                      Caption="@L["ProductId"]">
-              </DataGridColumn>
+                                            <DataGridCommandColumn/>
 
-              <DataGridColumn TItem="OrderLineDto"
-                      Field="Name"
-                      Caption="@L["Name"]">
-              </DataGridColumn>
 
-              <DataGridColumn TItem="OrderLineDto"
-                      Field="Price"
-                      Caption="@L["Price"]">
-              </DataGridColumn>
+                                            <DataGridColumn TItem="OrderLineDto"
+                                                            Field="ProductId"
+                                                            Caption="@L["ProductId"]">
+                                            </DataGridColumn>
 
-              <DataGridColumn TItem="OrderLineDto"
-                      Field="Amount"
-                      Caption="@L["Amount"]">
-              </DataGridColumn>
+                                            <DataGridColumn TItem="OrderLineDto"
+                                                            Field="Name"
+                                                            Caption="@L["Name"]">
+                                            </DataGridColumn>
 
-              <DataGridColumn TItem="OrderLineDto"
-                      Field="TotalPrice"
-                      Caption="@L["TotalPrice"]">
-              </DataGridColumn>
+                                            <DataGridColumn TItem="OrderLineDto"
+                                                            Field="Price"
+                                                            Caption="@L["Price"]">
+                                            </DataGridColumn>
 
-                                    </DataGridColumns>
-                                </DataGrid>
-                            }
-                        </TabPanel>
-            </Content>
-        </Tabs>
-    </div>
-</DetailRowTemplate>
+                                            <DataGridColumn TItem="OrderLineDto"
+                                                            Field="Amount"
+                                                            Caption="@L["Amount"]">
+                                            </DataGridColumn>
+
+                                            <DataGridColumn TItem="OrderLineDto"
+                                                            Field="TotalPrice"
+                                                            Caption="@L["TotalPrice"]">
+                                            </DataGridColumn>
+
+                                        </DataGridColumns>
+                                    </DataGrid>
+                                }
+                            </TabPanel>
+                        </Content>
+                    </Tabs>
+                </div>
+            </DetailRowTemplate>
         </DataGrid>
     </CardBody>
 </Card>
@@ -337,21 +340,21 @@
         <Form id="CreateOrderForm">
             <ModalHeader>
                 <ModalTitle>@L["NewOrder"]</ModalTitle>
-                <CloseButton Clicked="CloseCreateOrderModalAsync" />
+                <CloseButton Clicked="CloseCreateOrderModalAsync"/>
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@NewOrderValidations"
-                            Mode="ValidationMode.Auto"
-                            Model="@NewOrder"
-                            ValidateOnLoad="false">
-                    
-                    
+                             Mode="ValidationMode.Auto"
+                             Model="@NewOrder"
+                             ValidateOnLoad="false">
+
+
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["UserId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@NewOrder.UserId"  >
+                            <TextEdit @bind-Text="@NewOrder.UserId">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
@@ -360,7 +363,7 @@
 
                     <Field>
                         <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="OrderState" @bind-SelectedValue="@NewOrder.State" >
+                        <Select TValue="OrderState" @bind-SelectedValue="@NewOrder.State">
                             @foreach (var itemValue in Enum.GetValues(typeof(OrderState)))
                             {
                                 <SelectItem TValue="OrderState" Value="@((OrderState) itemValue)">
@@ -374,29 +377,27 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@NewOrder.TotalPrice"   >
+                            <NumericPicker TValue="double" @bind-Value="@NewOrder.TotalPrice">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                            <MemoEdit @bind-Text="@NewOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength" >
+                            <MemoEdit @bind-Text="@NewOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </MemoEdit>
                         </Field>
                     </Validation>
 
 
-                    
-                    
                 </Validations>
             </ModalBody>
             <ModalFooter>
@@ -419,21 +420,21 @@
         <Form id="EditOrderForm">
             <ModalHeader>
                 <ModalTitle>@L["Update"]</ModalTitle>
-                <CloseButton Clicked="CloseEditOrderModalAsync" />
+                <CloseButton Clicked="CloseEditOrderModalAsync"/>
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@EditingOrderValidations"
-                            Mode="ValidationMode.Auto"
-                            Model="@EditingOrder"
-                            ValidateOnLoad="false">
-                    
-                    
+                             Mode="ValidationMode.Auto"
+                             Model="@EditingOrder"
+                             ValidateOnLoad="false">
+
+
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["UserId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrder.UserId"  ReadOnly>
+                            <TextEdit @bind-Text="@EditingOrder.UserId" ReadOnly>
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
@@ -442,7 +443,7 @@
 
                     <Field>
                         <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="OrderState" @bind-SelectedValue="@EditingOrder.State" >
+                        <Select TValue="OrderState" @bind-SelectedValue="@EditingOrder.State">
                             @foreach (var itemValue in Enum.GetValues(typeof(OrderState)))
                             {
                                 <SelectItem TValue="OrderState" Value="@((OrderState) itemValue)">
@@ -456,21 +457,21 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingOrder.TotalPrice"   ReadOnly>
+                            <NumericPicker TValue="double" @bind-Value="@EditingOrder.TotalPrice" ReadOnly>
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                            <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength" >
+                            <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </MemoEdit>
                         </Field>
@@ -480,17 +481,15 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["CargoNo"]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrder.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength" >
+                            <TextEdit @bind-Text="@EditingOrder.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
                     </Validation>
 
 
-                    
-                    
                 </Validations>
             </ModalBody>
             <ModalFooter>
@@ -498,7 +497,7 @@
                         Clicked="CloseEditOrderModalAsync">
                     @L["Cancel"]
                 </Button>
-                <SubmitButton Form="EditOrderForm" Clicked="UpdateOrderAsync" />
+                <SubmitButton Form="EditOrderForm" Clicked="UpdateOrderAsync"/>
 
             </ModalFooter>
         </Form>
@@ -512,21 +511,21 @@
         <Form id="CreateOrderLineForm">
             <ModalHeader>
                 <ModalTitle>@L["NewOrderLine"]</ModalTitle>
-                <CloseButton Clicked="CloseCreateOrderLineModalAsync" />
+                <CloseButton Clicked="CloseCreateOrderLineModalAsync"/>
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@NewOrderLineValidations"
                              Mode="ValidationMode.Auto"
                              Model="@NewOrderLine"
                              ValidateOnLoad="false">
-                    
-                    
+
+
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["ProductId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@NewOrderLine.ProductId"  >
+                            <TextEdit @bind-Text="@NewOrderLine.ProductId">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
@@ -536,9 +535,9 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"]</FieldLabel>
-                            <TextEdit @bind-Text="@NewOrderLine.Name" MaxLength="OrderLineConsts.NameMaxLength" >
+                            <TextEdit @bind-Text="@NewOrderLine.Name" MaxLength="OrderLineConsts.NameMaxLength">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
@@ -548,40 +547,39 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Price"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@NewOrderLine.Price"   >
+                            <NumericPicker TValue="double" @bind-Value="@NewOrderLine.Price">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Amount"]</FieldLabel>
-                            <NumericPicker TValue="int" @bind-Value="@NewOrderLine.Amount"  Decimals="0" >
+                            <NumericPicker TValue="int" @bind-Value="@NewOrderLine.Amount" Decimals="0">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@NewOrderLine.TotalPrice"   >
+                            <NumericPicker TValue="double" @bind-Value="@NewOrderLine.TotalPrice">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
-                    
                 </Validations>
             </ModalBody>
             <ModalFooter>
@@ -589,7 +587,7 @@
                         Clicked="CloseCreateOrderLineModalAsync">
                     @L["Cancel"]
                 </Button>
-                <SubmitButton Form="CreateOrderLineForm" Clicked="CreateOrderLineAsync" />
+                <SubmitButton Form="CreateOrderLineForm" Clicked="CreateOrderLineAsync"/>
             </ModalFooter>
         </Form>
     </ModalContent>
@@ -601,21 +599,21 @@
         <Form id="EditOrderLineForm">
             <ModalHeader>
                 <ModalTitle>@L["Update"]</ModalTitle>
-                <CloseButton Clicked="CloseEditOrderLineModalAsync" />
+                <CloseButton Clicked="CloseEditOrderLineModalAsync"/>
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@EditingOrderLineValidations"
                              Mode="ValidationMode.Auto"
                              Model="@EditingOrderLine"
                              ValidateOnLoad="false">
-                    
-                    
+
+
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["ProductId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrderLine.ProductId"  ReadOnly>
+                            <TextEdit @bind-Text="@EditingOrderLine.ProductId" ReadOnly>
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
@@ -625,9 +623,9 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrderLine.Name" MaxLength="OrderLineConsts.NameMaxLength" >
+                            <TextEdit @bind-Text="@EditingOrderLine.Name" MaxLength="OrderLineConsts.NameMaxLength">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
@@ -637,40 +635,39 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Price"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingOrderLine.Price"   ReadOnly>
+                            <NumericPicker TValue="double" @bind-Value="@EditingOrderLine.Price" ReadOnly>
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Amount"]</FieldLabel>
-                            <NumericPicker TValue="int" @bind-Value="@EditingOrderLine.Amount"  Decimals="0" ReadOnly>
+                            <NumericPicker TValue="int" @bind-Value="@EditingOrderLine.Amount" Decimals="0" ReadOnly>
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingOrderLine.TotalPrice"   ReadOnly>
+                            <NumericPicker TValue="double" @bind-Value="@EditingOrderLine.TotalPrice" ReadOnly>
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
-                    
                 </Validations>
             </ModalBody>
             <ModalFooter>
@@ -678,7 +675,7 @@
                         Clicked="CloseEditOrderLineModalAsync">
                     @L["Cancel"]
                 </Button>
-                <SubmitButton Form="EditOrderLineForm" Clicked="UpdateOrderLineAsync" />
+                <SubmitButton Form="EditOrderLineForm" Clicked="UpdateOrderLineAsync"/>
             </ModalFooter>
         </Form>
     </ModalContent>
