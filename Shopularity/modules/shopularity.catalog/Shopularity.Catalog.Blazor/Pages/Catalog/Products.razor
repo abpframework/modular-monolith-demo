@@ -127,12 +127,8 @@
                     </Field>
                 </Column>
             </Row>
-
         </div>
-
         </Row>
-
-
     </CardBody>
 </Card>
 
@@ -186,13 +182,11 @@
         <DataGrid TItem="ProductWithNavigationPropertiesDto"
                   @ref="DataGridRef"
                   Data="ProductList"
-                  
                   SelectionMode="DataGridSelectionMode.Multiple"
                   SelectedRows="SelectedProducts"
                   RowSelectable="RowSelectableHandler"
                   SelectedRowsChanged="SelectedProductRowsChanged"
-                  
-                  
+                  ReadData="OnDataGridReadAsync"
                   ReadData="OnDataGridReadAsync"
                   TotalItems="TotalCount"
                   ShowPager="true"
@@ -232,39 +226,30 @@
                                           Clicked="() => DeleteProductAsync(context)"
                                           ConfirmationMessage="@(()=> L["DeleteConfirmationMessage"])"
                                           Text="@L["Delete"]"></EntityAction>
-
                         </EntityActions>
                     </DisplayTemplate>
                 </DataGridEntityActionsColumn>
-               
               <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
                       Field="Product.Name"
                       Caption="@L["Name"]">
               </DataGridColumn>
-
               <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
                       Field="Product.Description"
                       Caption="@L["Description"]">
               </DataGridColumn>
-
               <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
                       Field="Product.Price"
                       Caption="@L["Price"]">
               </DataGridColumn>
-
               <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
                       Field="Product.StockCount"
                       Caption="@L["StockCount"]">
               </DataGridColumn>
-
               <DataGridColumn TItem="ProductWithNavigationPropertiesDto"
                       Field="Category.Name"
                       Caption="@L["Category"]">
               </DataGridColumn>
-
             </DataGridColumns>
-            
-            
         </DataGrid>
     </CardBody>
 </Card>
@@ -283,8 +268,6 @@
                             Mode="ValidationMode.Auto"
                             Model="@NewProduct"
                             ValidateOnLoad="false">
-                    
-                    
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"] *</FieldLabel>
@@ -295,8 +278,6 @@
                             </TextEdit>
                         </Field>
                     </Validation>
-
-
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Description"]</FieldLabel>
@@ -307,8 +288,6 @@
                             </MemoEdit>
                         </Field>
                     </Validation>
-
-
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Price"]</FieldLabel>
@@ -319,8 +298,6 @@
                              </NumericPicker>
                         </Field>
                      </Validation>
-
-
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["StockCount"]</FieldLabel>
@@ -331,8 +308,6 @@
                              </NumericPicker>
                         </Field>
                      </Validation>
-
-
                     <Field>
                         <FieldLabel>@L["Category"]</FieldLabel>
                         <Select TValue="Guid?" @bind-SelectedValue="@NewProduct.CategoryId">
@@ -345,10 +320,6 @@
                             }
                         </Select>
                     </Field>
-
-
-                    
-                    
                 </Validations>
             </ModalBody>
             <ModalFooter>
@@ -357,10 +328,8 @@
                     @L["Cancel"]
                 </Button>
                 <SubmitButton Form="CreateProductForm" Clicked="CreateProductAsync"/>
-
             </ModalFooter>
         </Form>
-
     </ModalContent>
 </Modal>
 
@@ -387,7 +356,7 @@
                         <p>No image selected.</p>
                     }
 
-                    <FileEdit OnChanged="@OnFileChanged" ShowFileList="false" Accept="image/*" />
+                    <FileEdit Changed="@OnFileChanged" ShowFileList="false" Accept="image/*" />
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>

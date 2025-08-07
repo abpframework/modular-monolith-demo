@@ -41,7 +41,7 @@ namespace Shopularity.Catalog.Products
 
             if (image != null && image.Length != 0)
             {
-                await _blobContainer.SaveAsync(product.Id + ".png", image, overrideExisting: true);
+                await _blobContainer.SaveAsync(product.Id.ToString(), image, overrideExisting: true);
             }
 
             return await _productRepository.InsertAsync(product);
@@ -74,11 +74,11 @@ namespace Shopularity.Catalog.Products
 
             if (image != null && image.Length != 0)
             {
-                await _blobContainer.SaveAsync(product.Id + ".png", image, overrideExisting: true);
+                await _blobContainer.SaveAsync(product.Id.ToString(), image, overrideExisting: true);
             }
             else
             {
-                await _blobContainer.DeleteAsync(product.Id + ".png");
+                await _blobContainer.DeleteAsync(product.Id.ToString());
             }
 
             return savedProduct;
