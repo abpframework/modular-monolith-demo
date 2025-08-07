@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -8,21 +7,21 @@
     <RootNamespace>Shopularity</RootNamespace>
     <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
   </PropertyGroup>
-
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Localization\Shopularity\*.json" />
     <Content Remove="Localization\Shopularity\*.json" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Validation" Version="9.2.3" />
     <PackageReference Include="Volo.Abp.AspNetCore.Components" Version="9.2.3" />
+    <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Contracts/Shopularity.Basket.Contracts.csproj" />
+    <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Contracts/Shopularity.Catalog.Contracts.csproj" />
+    <ProjectReference Include="../modules/shopularity.ordering/Shopularity.Ordering.Contracts/Shopularity.Ordering.Contracts.csproj" />
+    <ProjectReference Include="../modules/shopularity.payment/Shopularity.Payment.Contracts/Shopularity.Payment.Contracts.csproj" />
   </ItemGroup>
-  
   <ItemGroup>
     <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="9.2.3" />
     <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="9.2.3" />
@@ -32,15 +31,12 @@
     <PackageReference Include="Volo.Abp.FeatureManagement.Application.Contracts" Version="9.2.3" />
     <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="9.2.3" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.4" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="**\*.abppkg" />
     <None Remove="**\*.abppkg.analyze.json" />
     <Content Remove="$(UserProfile)\.nuget\packages\*\*\contentFiles\any\*\*.abppkg*" />
   </ItemGroup>
-
 </Project>

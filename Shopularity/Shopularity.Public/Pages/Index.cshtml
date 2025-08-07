@@ -1,3 +1,13 @@
 @page
 @model Shopularity.Public.Pages.IndexModel
-<h1>Hello World!</h1>
+<h1>Products:</h1>
+
+@foreach(var item in Model.MyProducts)
+{
+    <div>
+        <h2>@item.Product.Name</h2>
+        <p>@item.Product.Description</p>
+        <p>Price: @item.Product.Price.ToString("C")</p>
+        <p>Category: @item.Category.Name</p>
+    </div>
+}

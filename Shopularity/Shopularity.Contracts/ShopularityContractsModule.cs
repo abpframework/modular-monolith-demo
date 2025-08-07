@@ -1,4 +1,8 @@
-﻿using Shopularity.Localization;
+using Shopularity.Payment;
+using Shopularity.Ordering;
+using Shopularity.Catalog;
+using Shopularity.Basket;
+using Shopularity.Localization;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -15,6 +19,10 @@ using Volo.Abp.TenantManagement;
 namespace Shopularity;
 
 [DependsOn(
+    typeof(PaymentContractsModule),
+    typeof(OrderingContractsModule),
+    typeof(CatalogContractsModule),
+    typeof(BasketContractsModule),
     typeof(AbpValidationModule),
     typeof(AbpAccountApplicationContractsModule),
     typeof(AbpIdentityApplicationContractsModule),
