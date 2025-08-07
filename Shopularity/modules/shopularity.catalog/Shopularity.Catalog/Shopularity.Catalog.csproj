@@ -1,21 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <Import Project="..\common.props" />
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <RootNamespace>Shopularity.Catalog</RootNamespace>
   </PropertyGroup>
-    
   <ItemGroup>
     <PackageReference Include="MiniExcel" Version="1.41.1" />
     <PackageReference Include="Volo.Abp.AutoMapper" Version="9.2.3" />
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="9.2.3" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.2.3" />
-
     <ProjectReference Include="..\Shopularity.Catalog.Contracts\Shopularity.Catalog.Contracts.csproj" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.BlobStoring.Database.EntityFrameworkCore" Version="9.2.3" />
   </ItemGroup>
-
 </Project>

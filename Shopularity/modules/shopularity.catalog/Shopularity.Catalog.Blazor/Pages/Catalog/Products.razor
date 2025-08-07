@@ -375,17 +375,26 @@
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@EditingProductValidations"
-                            Mode="ValidationMode.Auto"
-                            Model="@EditingProduct"
-                            ValidateOnLoad="false">
-                    
-                    
+                             Mode="ValidationMode.Auto"
+                             Model="@EditingProduct"
+                             ValidateOnLoad="false">
+                    @if (EditingProduct.Image != null && EditingProduct.Image.Length > 0)
+                    {
+                        <img src="@($"data:image/png;base64,{Convert.ToBase64String(EditingProduct.Image)}")" style="max-width: 200px; max-height: 200px;"/>
+                    }
+                    else
+                    {
+                        <p>No image selected.</p>
+                    }
+
+                    <FileEdit OnChanged="@OnFileChanged" ShowFileList="false" Accept="image/*" />
+
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingProduct.Name" MaxLength="ProductConsts.NameMaxLength" >
+                            <TextEdit @bind-Text="@EditingProduct.Name" MaxLength="ProductConsts.NameMaxLength">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </TextEdit>
                         </Field>
@@ -395,9 +404,9 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Description"]</FieldLabel>
-                            <MemoEdit @bind-Text="@EditingProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength" >
+                            <MemoEdit @bind-Text="@EditingProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
                             </MemoEdit>
                         </Field>
@@ -407,25 +416,25 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Price"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingProduct.Price"   >
+                            <NumericPicker TValue="double" @bind-Value="@EditingProduct.Price">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["StockCount"]</FieldLabel>
-                            <NumericPicker TValue="int" @bind-Value="@EditingProduct.StockCount"  Decimals="0" >
+                            <NumericPicker TValue="int" @bind-Value="@EditingProduct.StockCount" Decimals="0">
                                 <Feedback>
-                                    <ValidationError />
+                                    <ValidationError/>
                                 </Feedback>
-                             </NumericPicker>
+                            </NumericPicker>
                         </Field>
-                     </Validation>
+                    </Validation>
 
 
                     <Field>
@@ -442,8 +451,8 @@
                     </Field>
 
 
-                    
-                    
+
+
                 </Validations>
             </ModalBody>
             <ModalFooter>

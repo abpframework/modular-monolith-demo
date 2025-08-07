@@ -1,7 +1,6 @@
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Shopularity.Catalog.Products;
-
 using Shopularity.Catalog.Categories;
-
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
@@ -13,6 +12,7 @@ using Volo.Abp.AspNetCore.Mvc;
 namespace Shopularity.Catalog;
 
 [DependsOn(
+    typeof(BlobStoringDatabaseEntityFrameworkCoreModule),
     typeof(CatalogContractsModule),
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule),

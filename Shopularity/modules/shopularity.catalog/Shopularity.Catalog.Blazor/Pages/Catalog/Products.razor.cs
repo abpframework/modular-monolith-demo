@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.IO;
 using System.Web;
 using Blazorise;
 using Blazorise.DataGrid;
@@ -341,6 +342,20 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
             AllProductsSelected = false;
 
             await GetProductsAsync();
+        }
+        
+        private async Task OnFileChanged(FileChangedEventArgs e)
+        {
+            var file = e.Files.FirstOrDefault();
+            if (file is null)
+            {
+                return;
+            }
+
+            using var stream = file.OpenReadStream();
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            EditingProduct.Image = ms.ToArray();
         }
     }
 }

@@ -15,6 +15,7 @@ using Volo.Abp.Content;
 using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
+using Volo.Abp.BlobStoring;
 
 namespace Shopularity.Catalog.Products
 {
@@ -23,14 +24,21 @@ namespace Shopularity.Catalog.Products
     public class ProductsAppService : CatalogAppService, IProductsAppService
     {
         protected IDistributedCache<ProductDownloadTokenCacheItem, string> _downloadTokenCache;
+        private readonly IBlobContainer _blobContainer;
         protected IProductRepository _productRepository;
         protected ProductManager _productManager;
 
-        protected IRepository<Shopularity.Catalog.Categories.Category, Guid> _categoryRepository;
+        protected IRepository<Categories.Category, Guid> _categoryRepository;
 
-        public ProductsAppService(IProductRepository productRepository, ProductManager productManager, IDistributedCache<ProductDownloadTokenCacheItem, string> downloadTokenCache, IRepository<Shopularity.Catalog.Categories.Category, Guid> categoryRepository)
+        public ProductsAppService(
+            IProductRepository productRepository,
+            ProductManager productManager,
+            IDistributedCache<ProductDownloadTokenCacheItem, string> downloadTokenCache,
+            IBlobContainer blobContainer,
+            IRepository<Categories.Category, Guid> categoryRepository)
         {
             _downloadTokenCache = downloadTokenCache;
+            _blobContainer = blobContainer;
             _productRepository = productRepository;
             _productManager = productManager; _categoryRepository = categoryRepository;
 
@@ -50,15 +58,27 @@ namespace Shopularity.Catalog.Products
 
         public virtual async Task<ProductWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
         {
-            return ObjectMapper.Map<ProductWithNavigationProperties, ProductWithNavigationPropertiesDto>
+            var productWithNavigationProperties = ObjectMapper.Map<ProductWithNavigationProperties, ProductWithNavigationPropertiesDto>
                 (await _productRepository.GetWithNavigationPropertiesAsync(id));
+            
+            var imageStream = await _blobContainer.GetOrNullAsync(id.ToString());
+            
+            productWithNavigationProperties.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
+
+            return productWithNavigationProperties;
         }
 
         public virtual async Task<ProductDto> GetAsync(Guid id)
         {
-            return ObjectMapper.Map<Product, ProductDto>(await _productRepository.GetAsync(id));
-        }
+            var product = ObjectMapper.Map<Product, ProductDto>(await _productRepository.GetAsync(id));
 
+            var imageStream = await _blobContainer.GetOrNullAsync(id.ToString());
+            
+            product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
+            
+            return product;
+        }
+        
         public virtual async Task<PagedResultDto<LookupDto<Guid>>> GetCategoryLookupAsync(LookupRequestDto input)
         {
             var query = (await _categoryRepository.GetQueryableAsync())
@@ -71,7 +91,7 @@ namespace Shopularity.Catalog.Products
             return new PagedResultDto<LookupDto<Guid>>
             {
                 TotalCount = totalCount,
-                Items = ObjectMapper.Map<List<Shopularity.Catalog.Categories.Category>, List<LookupDto<Guid>>>(lookupData)
+                Items = ObjectMapper.Map<List<Categories.Category>, List<LookupDto<Guid>>>(lookupData)
             };
         }
 
@@ -84,9 +104,13 @@ namespace Shopularity.Catalog.Products
         [Authorize(CatalogPermissions.Products.Create)]
         public virtual async Task<ProductDto> CreateAsync(ProductCreateDto input)
         {
-
             var product = await _productManager.CreateAsync(
-            input.CategoryId, input.Name, input.Price, input.StockCount, input.Description
+            input.CategoryId,
+            input.Name,
+            input.Price,
+            input.StockCount,
+            input.Image,
+            input.Description
             );
 
             return ObjectMapper.Map<Product, ProductDto>(product);
@@ -98,7 +122,13 @@ namespace Shopularity.Catalog.Products
 
             var product = await _productManager.UpdateAsync(
             id,
-            input.CategoryId, input.Name, input.Price, input.StockCount, input.Description, input.ConcurrencyStamp
+            input.CategoryId,
+            input.Name,
+            input.Price,
+            input.StockCount,
+            input.Image,
+            input.Description,
+            input.ConcurrencyStamp
             );
 
             return ObjectMapper.Map<Product, ProductDto>(product);
@@ -143,6 +173,7 @@ namespace Shopularity.Catalog.Products
         {
             await _productRepository.DeleteAllAsync(input.FilterText, input.Name, input.Description, input.PriceMin, input.PriceMax, input.StockCountMin, input.StockCountMax, input.CategoryId);
         }
+        
         public virtual async Task<Shopularity.Catalog.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
         {
             var token = Guid.NewGuid().ToString("N");
@@ -159,6 +190,13 @@ namespace Shopularity.Catalog.Products
             {
                 Token = token
             };
+        }
+
+        private byte[] ReadAllBytesFromStream(Stream input)
+        {
+            using var memoryStream = new MemoryStream();
+            input.CopyTo(memoryStream);
+            return memoryStream.ToArray();
         }
     }
 }
