@@ -48,12 +48,20 @@ public class ProductsAppService : CatalogAppService, IProductsAppService
     {
         var totalCount = await _productRepository.GetCountAsync(input.FilterText, input.Name, input.Description, input.PriceMin, input.PriceMax, input.StockCountMin, input.StockCountMax, input.CategoryId);
         var items = await _productRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Name, input.Description, input.PriceMin, input.PriceMax, input.StockCountMin, input.StockCountMax, input.CategoryId, input.Sorting, input.MaxResultCount, input.SkipCount);
-
-        return new PagedResultDto<ProductWithNavigationPropertiesDto>
+        var result = new PagedResultDto<ProductWithNavigationPropertiesDto>
         {
             TotalCount = totalCount,
             Items = ObjectMapper.Map<List<ProductWithNavigationProperties>, List<ProductWithNavigationPropertiesDto>>(items)
         };
+
+        foreach (var product in result.Items)
+        {
+            var imageStream = await _blobContainer.GetOrNullAsync(product.Product.Id.ToString());
+            
+            product.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
+        }
+        
+        return result;
     }
 
     public virtual async Task<ProductWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
