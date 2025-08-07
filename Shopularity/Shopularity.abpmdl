@@ -59,6 +59,9 @@
     },
     "Shopularity.Contracts": {
       "path": "Shopularity.Contracts/Shopularity.Contracts.abppkg"
+    },
+    "Shopularity.Public": {
+      "path": "Shopularity.Public/Shopularity.Public.abppkg"
     }
   }
 }
