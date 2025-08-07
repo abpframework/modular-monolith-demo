@@ -97,20 +97,8 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
             return ValueTask.CompletedTask;
         }
         
-        private void ToggleDetails(ProductWithNavigationPropertiesDto product)
-        {
-            DataGridRef.ToggleDetailRow(product, true);
-        }
-        
         private bool RowSelectableHandler( RowSelectableEventArgs<ProductWithNavigationPropertiesDto> rowSelectableEventArgs )
             => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick && CanDeleteProduct;
-            
-        private bool DetailRowTriggerHandler(DetailRowTriggerEventArgs<ProductWithNavigationPropertiesDto> detailRowTriggerEventArgs)
-        {
-            detailRowTriggerEventArgs.Toggleable = false;
-            detailRowTriggerEventArgs.DetailRowTriggerType = DetailRowTriggerType.Manual;
-            return true;
-        }
 
         private async Task SetPermissionsAsync()
         {
