@@ -1,4 +1,4 @@
-﻿{
+{
   "applications": {
     "Shopularity": {
       "type": "dotnet-project",
@@ -8,6 +8,11 @@
       "execution": {
         "order": 0
       }
+    },
+    "Shopularity.Public": {
+      "type": "dotnet-project",
+      "path": "../../Shopularity.Public/Shopularity.Public.csproj",
+      "launchUrl": "https://localhost:53585"
     }
   }
 }

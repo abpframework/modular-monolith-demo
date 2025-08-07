@@ -1,23 +1,22 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Shopularity.Catalog.Products
+namespace Shopularity.Catalog.Products;
+
+public class ProductCreateDto
 {
-    public class ProductCreateDto
-    {
-        [Required]
-        [StringLength(ProductConsts.NameMaxLength, MinimumLength = ProductConsts.NameMinLength)]
-        public string Name { get; set; } = null!;
+    [Required]
+    [StringLength(ProductConsts.NameMaxLength, MinimumLength = ProductConsts.NameMinLength)]
+    public string Name { get; set; } = null!;
         
-        [StringLength(ProductConsts.DescriptionMaxLength, MinimumLength = ProductConsts.DescriptionMinLength)]
-        public string? Description { get; set; }
+    [StringLength(ProductConsts.DescriptionMaxLength, MinimumLength = ProductConsts.DescriptionMinLength)]
+    public string? Description { get; set; }
         
-        public double Price { get; set; }
+    public double Price { get; set; }
         
-        public int StockCount { get; set; }
+    public int StockCount { get; set; }
         
-        public byte[]? Image { get; set; }
+    public byte[]? Image { get; set; }
         
-        public Guid? CategoryId { get; set; }
-    }
+    public Guid? CategoryId { get; set; }
 }

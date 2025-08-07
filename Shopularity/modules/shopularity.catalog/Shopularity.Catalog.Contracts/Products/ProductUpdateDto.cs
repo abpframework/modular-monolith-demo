@@ -2,25 +2,24 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Domain.Entities;
 
-namespace Shopularity.Catalog.Products
-{
-    public class ProductUpdateDto : IHasConcurrencyStamp
-    {
-        [Required]
-        [StringLength(ProductConsts.NameMaxLength, MinimumLength = ProductConsts.NameMinLength)]
-        public string Name { get; set; } = null!;
-        
-        [StringLength(ProductConsts.DescriptionMaxLength, MinimumLength = ProductConsts.DescriptionMinLength)]
-        public string? Description { get; set; }
-        
-        public double Price { get; set; }
-        
-        public int StockCount { get; set; }
-        
-        public Guid? CategoryId { get; set; }
-        
-        public byte[]? Image { get; set; }
+namespace Shopularity.Catalog.Products;
 
-        public string ConcurrencyStamp { get; set; } = null!;
-    }
+public class ProductUpdateDto : IHasConcurrencyStamp
+{
+    [Required]
+    [StringLength(ProductConsts.NameMaxLength, MinimumLength = ProductConsts.NameMinLength)]
+    public string Name { get; set; } = null!;
+        
+    [StringLength(ProductConsts.DescriptionMaxLength, MinimumLength = ProductConsts.DescriptionMinLength)]
+    public string? Description { get; set; }
+        
+    public double Price { get; set; }
+        
+    public int StockCount { get; set; }
+        
+    public Guid? CategoryId { get; set; }
+        
+    public byte[]? Image { get; set; }
+
+    public string ConcurrencyStamp { get; set; } = null!;
 }

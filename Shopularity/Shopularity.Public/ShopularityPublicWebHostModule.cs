@@ -9,6 +9,7 @@ using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 using Volo.Abp.AspNetCore.Serilog;
 using Microsoft.OpenApi.Models;
+using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
 
 namespace Shopularity.Public;
@@ -18,6 +19,7 @@ namespace Shopularity.Public;
     typeof(AbpAspNetCoreMvcModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
+    typeof(AbpStudioClientAspNetCoreModule),
     typeof(AbpAspNetCoreMvcUiBasicThemeModule)
     )]
 public class ShopularityPublicWebHostModule : AbpModule
@@ -54,6 +56,7 @@ public class ShopularityPublicWebHostModule : AbpModule
         app.MapAbpStaticAssets();
         app.UseRouting();
         app.UseAuthorization();
+        app.UseAbpStudioLink();
         app.UseSwagger();
         app.UseAbpSwaggerUI(options =>
         {

@@ -2,23 +2,22 @@ using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
 
-namespace Shopularity.Catalog.Products
+namespace Shopularity.Catalog.Products;
+
+public class ProductDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
 {
-    public class ProductDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
-    {
-        public string Name { get; set; } = null!;
+    public string Name { get; set; } = null!;
         
-        public string? Description { get; set; }
+    public string? Description { get; set; }
         
-        public double Price { get; set; }
+    public double Price { get; set; }
         
-        public int StockCount { get; set; }
+    public int StockCount { get; set; }
         
-        public Guid? CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
         
-        public byte[]? Image { get; set; }
+    public byte[]? Image { get; set; }
 
-        public string ConcurrencyStamp { get; set; } = null!;
+    public string ConcurrencyStamp { get; set; } = null!;
 
-    }
 }
