@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.Modeling;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 
 namespace Shopularity.Ordering.Data;
@@ -29,5 +30,19 @@ public static class OrderingDbContextModelCreatingExtensions
             b.HasIndex(q => q.CreationTime);
         });
         */
+        if (builder.IsHostDatabase())
+        {
+            builder.Entity<Order>(b =>
+            {
+                b.ToTable(OrderingDbProperties.DbTablePrefix + "Orders", OrderingDbProperties.DbSchema);
+                b.ConfigureByConvention();
+                b.Property(x => x.UserId).HasColumnName(nameof(Order.UserId)).IsRequired();
+                b.Property(x => x.State).HasColumnName(nameof(Order.State));
+                b.Property(x => x.TotalPrice).HasColumnName(nameof(Order.TotalPrice));
+                b.Property(x => x.ShippingAddress).HasColumnName(nameof(Order.ShippingAddress)).IsRequired().HasMaxLength(OrderConsts.ShippingAddressMaxLength);
+                b.Property(x => x.CargoNo).HasColumnName(nameof(Order.CargoNo)).HasMaxLength(OrderConsts.CargoNoMaxLength);
+            });
+
+        }
     }
 }

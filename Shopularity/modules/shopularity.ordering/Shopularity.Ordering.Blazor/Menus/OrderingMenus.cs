@@ -1,10 +1,9 @@
-﻿namespace Shopularity.Ordering.Blazor.Menus;
+namespace Shopularity.Ordering.Blazor.Menus;
 
 public class OrderingMenus
 {
     public const string Prefix = "Ordering";
 
-    //Add your menu items here...
-    //public const string Home = Prefix + ".MyNewMenuItem";
+    public const string Orders = Prefix + ".Orders";
 
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Shopularity.Ordering.Orders;
+
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
@@ -24,7 +26,7 @@ public class OrderingModule : AbpModule
             mvcBuilder.AddApplicationPartIfNotExists(typeof(OrderingModule).Assembly);
         });
     }
-    
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddAutoMapperObjectMapper<OrderingModule>();
@@ -32,14 +34,16 @@ public class OrderingModule : AbpModule
         {
             options.AddMaps<OrderingModule>(validate: true);
         });
-        
+
         context.Services.AddAbpDbContext<OrderingDbContext>(options =>
         {
             options.AddDefaultRepositories<IOrderingDbContext>(includeAllEntities: true);
-            
+
             /* Add custom repositories here. Example:
              * options.AddRepository<Question, EfCoreQuestionRepository>();
              */
+            options.AddRepository<Order, Orders.EfCoreOrderRepository>();
+
         });
     }
 }
