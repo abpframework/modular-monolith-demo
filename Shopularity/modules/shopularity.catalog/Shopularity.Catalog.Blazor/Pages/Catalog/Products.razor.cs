@@ -341,10 +341,15 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog
                 return;
             }
 
-            using var stream = file.OpenReadStream();
+            using var stream = file.OpenReadStream(16 * 1024 * 1024);
             using var ms = new MemoryStream();
             await stream.CopyToAsync(ms);
             EditingProduct.Image = ms.ToArray();
+        }
+        
+        private async Task ClearEditingProductImage()
+        {
+            EditingProduct.Image = null;
         }
     }
 }

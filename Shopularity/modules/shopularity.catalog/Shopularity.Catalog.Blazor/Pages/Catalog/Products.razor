@@ -187,7 +187,6 @@
                   RowSelectable="RowSelectableHandler"
                   SelectedRowsChanged="SelectedProductRowsChanged"
                   ReadData="OnDataGridReadAsync"
-                  ReadData="OnDataGridReadAsync"
                   TotalItems="TotalCount"
                   ShowPager="true"
                   Responsive="true"
@@ -347,16 +346,26 @@
                              Mode="ValidationMode.Auto"
                              Model="@EditingProduct"
                              ValidateOnLoad="false">
-                    @if (EditingProduct.Image != null && EditingProduct.Image.Length > 0)
-                    {
-                        <img src="@($"data:image/png;base64,{Convert.ToBase64String(EditingProduct.Image)}")" style="max-width: 200px; max-height: 200px;"/>
-                    }
-                    else
-                    {
-                        <p>No image selected.</p>
-                    }
+                    <Field>
+                        <FieldLabel>@L["Image"]</FieldLabel>
+                        @if (EditingProduct.Image != null && EditingProduct.Image.Length > 0)
+                        {
+                            <div class="d-flex flex-column align-items-start">
+                                <Image Source="@($"data:image/png;base64,{Convert.ToBase64String(EditingProduct.Image)}")"
+                                       Style="max-width: 200px; max-height: 200px; border-radius: 8px;"
+                                       Rounded />
 
-                    <FileEdit Changed="@OnFileChanged" ShowFileList="false" Accept="image/*" />
+                                <Button Color="Color.Danger" Size="Size.Small" Class="mt-2"
+                                        Clicked="@ClearEditingProductImage">
+                                    @L["RemoveImage"]
+                                </Button>
+                            </div>
+                        }
+                        else
+                        {
+                            <FileEdit Changed="@OnFileChanged" ShowFileList="false" Accept="image/png" />
+                        }
+                    </Field>
 
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>

@@ -41,6 +41,8 @@
     "Price": "Price",
     "StockCount": "Stock Count",
     "Products": "Products",
+    "Image": "Image",
+    "RemoveImage": "Remove image",
     "MinPrice": "Min Price",
     "MinStockCount": "Min Stock Count",
     "MaxPrice": "Max Price",
