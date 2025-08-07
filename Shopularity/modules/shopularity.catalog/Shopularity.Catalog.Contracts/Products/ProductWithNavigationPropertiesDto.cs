@@ -1,12 +1,11 @@
 using Shopularity.Catalog.Categories;
 
-namespace Shopularity.Catalog.Products
+namespace Shopularity.Catalog.Products;
+
+public class ProductWithNavigationPropertiesDto
 {
-    public class ProductWithNavigationPropertiesDto
-    {
-        public ProductDto Product { get; set; } = null!;
+    public ProductDto Product { get; set; } = null!;
 
-        public CategoryDto Category { get; set; } = null!;
+    public CategoryDto Category { get; set; } = null!;
 
-    }
 }

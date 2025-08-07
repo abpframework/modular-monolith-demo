@@ -1,14 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Domain.Entities;
 
-namespace Shopularity.Catalog.Categories
-{
-    public class CategoryUpdateDto : IHasConcurrencyStamp
-    {
-        [Required]
-        [StringLength(CategoryConsts.NameMaxLength, MinimumLength = CategoryConsts.NameMinLength)]
-        public string Name { get; set; } = null!;
+namespace Shopularity.Catalog.Categories;
 
-        public string ConcurrencyStamp { get; set; } = null!;
-    }
+public class CategoryUpdateDto : IHasConcurrencyStamp
+{
+    [Required]
+    [StringLength(CategoryConsts.NameMaxLength, MinimumLength = CategoryConsts.NameMinLength)]
+    public string Name { get; set; } = null!;
+
+    public string ConcurrencyStamp { get; set; } = null!;
 }

@@ -1,10 +1,9 @@
-namespace Shopularity.Catalog.Products
+namespace Shopularity.Catalog.Products;
+
+public class ProductExcelDto
 {
-    public class ProductExcelDto
-    {
-        public string Name { get; set; } = null!;
-        public string? Description { get; set; }
-        public double Price { get; set; }
-        public int StockCount { get; set; }
-    }
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
+    public double Price { get; set; }
+    public int StockCount { get; set; }
 }

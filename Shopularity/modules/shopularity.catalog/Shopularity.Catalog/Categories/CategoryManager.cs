@@ -5,45 +5,44 @@ using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Data;
 
-namespace Shopularity.Catalog.Categories
+namespace Shopularity.Catalog.Categories;
+
+public class CategoryManager : DomainService
 {
-    public class CategoryManager : DomainService
+    protected ICategoryRepository _categoryRepository;
+
+    public CategoryManager(ICategoryRepository categoryRepository)
     {
-        protected ICategoryRepository _categoryRepository;
+        _categoryRepository = categoryRepository;
+    }
 
-        public CategoryManager(ICategoryRepository categoryRepository)
-        {
-            _categoryRepository = categoryRepository;
-        }
-
-        public virtual async Task<Category> CreateAsync(
+    public virtual async Task<Category> CreateAsync(
         string name)
-        {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-            Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
+    {
+        Check.NotNullOrWhiteSpace(name, nameof(name));
+        Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
 
-            var category = new Category(
-             GuidGenerator.Create(),
-             name
-             );
+        var category = new Category(
+            GuidGenerator.Create(),
+            name
+        );
 
-            return await _categoryRepository.InsertAsync(category);
-        }
+        return await _categoryRepository.InsertAsync(category);
+    }
 
-        public virtual async Task<Category> UpdateAsync(
-            Guid id,
-            string name, [CanBeNull] string? concurrencyStamp = null
-        )
-        {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-            Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
+    public virtual async Task<Category> UpdateAsync(
+        Guid id,
+        string name, [CanBeNull] string? concurrencyStamp = null
+    )
+    {
+        Check.NotNullOrWhiteSpace(name, nameof(name));
+        Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
 
-            var category = await _categoryRepository.GetAsync(id);
+        var category = await _categoryRepository.GetAsync(id);
 
-            category.Name = name;
+        category.Name = name;
 
-            category.SetConcurrencyStampIfNotNull(concurrencyStamp);
-            return await _categoryRepository.UpdateAsync(category);
-        }
+        category.SetConcurrencyStampIfNotNull(concurrencyStamp);
+        return await _categoryRepository.UpdateAsync(category);
     }
 }

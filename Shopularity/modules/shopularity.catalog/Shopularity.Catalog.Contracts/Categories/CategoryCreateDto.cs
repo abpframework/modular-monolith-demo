@@ -1,11 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Shopularity.Catalog.Categories
+namespace Shopularity.Catalog.Categories;
+
+public class CategoryCreateDto
 {
-    public class CategoryCreateDto
-    {
-        [Required]
-        [StringLength(CategoryConsts.NameMaxLength, MinimumLength = CategoryConsts.NameMinLength)]
-        public string Name { get; set; } = null!;
-    }
+    [Required]
+    [StringLength(CategoryConsts.NameMaxLength, MinimumLength = CategoryConsts.NameMinLength)]
+    public string Name { get; set; } = null!;
 }
