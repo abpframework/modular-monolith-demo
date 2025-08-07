@@ -1,7 +1,7 @@
 using Shopularity.Ordering.Orders;
 using System;
 using System.Collections.Generic;
-
+using Shopularity.Ordering.OrderLines;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
 
@@ -17,5 +17,6 @@ namespace Shopularity.Ordering.Orders
 
         public string ConcurrencyStamp { get; set; } = null!;
 
+        public List<OrderLineDto> OrderLines { get; set; } = new();
     }
 }

@@ -1,3 +1,4 @@
+using Shopularity.Ordering.OrderLines;
 using Volo.Abp.AutoMapper;
 using Shopularity.Ordering.Orders;
 using AutoMapper;
@@ -13,5 +14,7 @@ public class OrderingBlazorAutoMapperProfile : Profile
          * into multiple profile classes for a better organization. */
 
         CreateMap<OrderDto, OrderUpdateDto>();
+
+        CreateMap<OrderLineDto, OrderLineUpdateDto>();
     }
 }

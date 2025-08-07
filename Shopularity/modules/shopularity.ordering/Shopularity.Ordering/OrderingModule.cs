@@ -1,3 +1,5 @@
+using Shopularity.Ordering.OrderLines;
+
 using Shopularity.Ordering.Orders;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +45,8 @@ public class OrderingModule : AbpModule
              * options.AddRepository<Question, EfCoreQuestionRepository>();
              */
             options.AddRepository<Order, Orders.EfCoreOrderRepository>();
+
+            options.AddRepository<OrderLine, OrderLines.EfCoreOrderLineRepository>();
 
         });
     }

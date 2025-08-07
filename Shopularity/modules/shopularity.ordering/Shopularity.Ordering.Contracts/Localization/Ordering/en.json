@@ -47,6 +47,17 @@
     "MaxFileSizeLimit": "Max file size: {0}mb",
     "Filters": "Filters",
     "Menu:Orders": "Orders",
-    "Menu:Ordering": "Ordering"
+    "Menu:Ordering": "Ordering",
+    "ProductId": "Product Id",
+    "Name": "Name",
+    "Price": "Price",
+    "Amount": "Amount",
+    "OrderLines": "Order Lines",
+    "MinPrice": "Min Price",
+    "MinAmount": "Min Amount",
+    "MaxPrice": "Max Price",
+    "MaxAmount": "Max Amount",
+    "NewOrderLine": "New Order Line",
+    "Permission:OrderLines": "Order Lines"
   }
 }

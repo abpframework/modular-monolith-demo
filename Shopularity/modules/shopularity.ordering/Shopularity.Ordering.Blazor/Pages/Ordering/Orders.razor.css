@@ -1,0 +1,7 @@
+.datagrid-detail .table-responsive {
+    min-height: inherit !important;
+}
+
+.datagrid-detail .tab-content {
+    padding-top: 0px !important;
+}

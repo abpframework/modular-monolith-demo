@@ -8,6 +8,8 @@ using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.MultiTenancy;
 using JetBrains.Annotations;
 
+using Shopularity.Ordering.OrderLines;
+
 using Volo.Abp;
 
 namespace Shopularity.Ordering.Orders
@@ -27,6 +29,8 @@ namespace Shopularity.Ordering.Orders
         [CanBeNull]
         public virtual string? CargoNo { get; set; }
 
+        public ICollection<OrderLine> OrderLines { get; private set; }
+
         protected Order()
         {
 
@@ -43,6 +47,7 @@ namespace Shopularity.Ordering.Orders
             State = state;
             TotalPrice = totalPrice;
             ShippingAddress = shippingAddress;
+            OrderLines = new Collection<OrderLine>();
         }
 
     }

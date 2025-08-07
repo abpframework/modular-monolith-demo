@@ -1,3 +1,4 @@
+using Shopularity.Ordering.OrderLines;
 using System;
 using Shopularity.Ordering.Shared;
 using Shopularity.Ordering.Orders;
@@ -16,5 +17,7 @@ public class OrderingAutoMapperProfile : Profile
 
         CreateMap<Order, OrderDto>();
         CreateMap<Order, OrderExcelDto>();
+
+        CreateMap<OrderLine, OrderLineDto>();
     }
 }

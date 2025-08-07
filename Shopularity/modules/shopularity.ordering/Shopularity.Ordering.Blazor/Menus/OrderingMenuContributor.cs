@@ -1,7 +1,6 @@
-using Shopularity.Ordering.Permissions;
+﻿using Shopularity.Ordering.Permissions;
 using Shopularity.Ordering.Localization;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Volo.Abp.UI.Navigation;
 
@@ -15,14 +14,13 @@ public class OrderingMenuContributor : IMenuContributor
         {
             await ConfigureMainMenuAsync(context);
         }
-
-        var moduleMenu = AddModuleMenuItem(context);
-        AddMenuItemOrders(context, moduleMenu);
     }
 
     private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
-
+        var moduleMenu = AddModuleMenuItem(context);
+        AddMenuItemOrders(context, moduleMenu);
+        
         return Task.CompletedTask;
     }
 
@@ -37,6 +35,7 @@ public class OrderingMenuContributor : IMenuContributor
         context.Menu.Items.AddIfNotContains(moduleMenu);
         return moduleMenu;
     }
+    
     private static void AddMenuItemOrders(MenuConfigurationContext context, ApplicationMenuItem parentMenu)
     {
         parentMenu.AddItem(

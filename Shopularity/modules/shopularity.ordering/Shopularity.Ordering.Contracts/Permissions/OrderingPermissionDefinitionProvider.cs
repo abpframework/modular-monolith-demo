@@ -14,6 +14,11 @@ public class OrderingPermissionDefinitionProvider : PermissionDefinitionProvider
         orderPermission.AddChild(OrderingPermissions.Orders.Create, L("Permission:Create"));
         orderPermission.AddChild(OrderingPermissions.Orders.Edit, L("Permission:Edit"));
         orderPermission.AddChild(OrderingPermissions.Orders.Delete, L("Permission:Delete"));
+
+        var orderLinePermission = myGroup.AddPermission(OrderingPermissions.OrderLines.Default, L("Permission:OrderLines"));
+        orderLinePermission.AddChild(OrderingPermissions.OrderLines.Create, L("Permission:Create"));
+        orderLinePermission.AddChild(OrderingPermissions.OrderLines.Edit, L("Permission:Edit"));
+        orderLinePermission.AddChild(OrderingPermissions.OrderLines.Delete, L("Permission:Delete"));
     }
 
     private static LocalizableString L(string name)

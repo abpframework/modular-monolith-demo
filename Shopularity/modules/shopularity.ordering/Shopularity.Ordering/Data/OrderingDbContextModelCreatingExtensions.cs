@@ -1,5 +1,7 @@
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using Microsoft.EntityFrameworkCore;
+using Shopularity.Ordering.OrderLines;
+using Shopularity.Ordering.Orders;
 using Volo.Abp;
 
 namespace Shopularity.Ordering.Data;
@@ -11,25 +13,6 @@ public static class OrderingDbContextModelCreatingExtensions
     {
         Check.NotNull(builder, nameof(builder));
 
-        /* Configure all entities here. Example:
-
-        builder.Entity<Question>(b =>
-        {
-            //Configure table & schema name
-            b.ToTable(OrderingDbProperties.DbTablePrefix + "Questions", OrderingDbProperties.DbSchema);
-
-            b.ConfigureByConvention();
-
-            //Properties
-            b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);
-
-            //Relations
-            b.HasMany(question => question.Tags).WithOne().HasForeignKey(qt => qt.QuestionId);
-
-            //Indexes
-            b.HasIndex(q => q.CreationTime);
-        });
-        */
         if (builder.IsHostDatabase())
         {
             builder.Entity<Order>(b =>
@@ -41,6 +24,19 @@ public static class OrderingDbContextModelCreatingExtensions
                 b.Property(x => x.TotalPrice).HasColumnName(nameof(Order.TotalPrice));
                 b.Property(x => x.ShippingAddress).HasColumnName(nameof(Order.ShippingAddress)).IsRequired().HasMaxLength(OrderConsts.ShippingAddressMaxLength);
                 b.Property(x => x.CargoNo).HasColumnName(nameof(Order.CargoNo)).HasMaxLength(OrderConsts.CargoNoMaxLength);
+                b.HasMany(x => x.OrderLines).WithOne().HasForeignKey(x => x.OrderId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<OrderLine>(b =>
+            {
+                b.ToTable(OrderingDbProperties.DbTablePrefix + "OrderLines", OrderingDbProperties.DbSchema);
+                b.ConfigureByConvention();
+                b.Property(x => x.ProductId).HasColumnName(nameof(OrderLine.ProductId)).IsRequired();
+                b.Property(x => x.Name).HasColumnName(nameof(OrderLine.Name)).HasMaxLength(OrderLineConsts.NameMaxLength);
+                b.Property(x => x.Price).HasColumnName(nameof(OrderLine.Price));
+                b.Property(x => x.Amount).HasColumnName(nameof(OrderLine.Amount));
+                b.Property(x => x.TotalPrice).HasColumnName(nameof(OrderLine.TotalPrice));
+                b.HasOne<Order>().WithMany(x => x.OrderLines).HasForeignKey(x => x.OrderId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             });
 
         }
