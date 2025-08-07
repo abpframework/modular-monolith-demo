@@ -47,35 +47,6 @@ namespace Shopularity.Payment.Payments
             return ObjectMapper.Map<Payment, PaymentDto>(await _paymentRepository.GetAsync(id));
         }
 
-        [Authorize(PaymentPermissions.Payments.Delete)]
-        public virtual async Task DeleteAsync(Guid id)
-        {
-            await _paymentRepository.DeleteAsync(id);
-        }
-
-        [Authorize(PaymentPermissions.Payments.Create)]
-        public virtual async Task<PaymentDto> CreateAsync(PaymentCreateDto input)
-        {
-
-            var payment = await _paymentManager.CreateAsync(
-            input.OrderId, input.State
-            );
-
-            return ObjectMapper.Map<Payment, PaymentDto>(payment);
-        }
-
-        [Authorize(PaymentPermissions.Payments.Edit)]
-        public virtual async Task<PaymentDto> UpdateAsync(Guid id, PaymentUpdateDto input)
-        {
-
-            var payment = await _paymentManager.UpdateAsync(
-            id
-            , input.ConcurrencyStamp
-            );
-
-            return ObjectMapper.Map<Payment, PaymentDto>(payment);
-        }
-
         [AllowAnonymous]
         public virtual async Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input)
         {

@@ -16,31 +16,21 @@ namespace Shopularity.Payment.Payments
             _paymentRepository = paymentRepository;
         }
 
-        public virtual async Task<Payment> CreateAsync(
-        string orderId, PaymentState state)
+        public virtual async Task<Payment> CreateAsync(string orderId)
         {
             Check.NotNullOrWhiteSpace(orderId, nameof(orderId));
-            Check.NotNull(state, nameof(state));
 
-            var payment = new Payment(
-             GuidGenerator.Create(),
-             orderId, state
-             );
+            var payment = new Payment(GuidGenerator.Create(),orderId);
 
             return await _paymentRepository.InsertAsync(payment);
         }
 
-        public virtual async Task<Payment> UpdateAsync(
-            Guid id
-            , [CanBeNull] string? concurrencyStamp = null
-        )
+        public virtual async Task<Payment> UpdateAsync(Guid id, [CanBeNull] string? concurrencyStamp = null)
         {
-
             var payment = await _paymentRepository.GetAsync(id);
 
             payment.SetConcurrencyStampIfNotNull(concurrencyStamp);
             return await _paymentRepository.UpdateAsync(payment);
         }
-
     }
 }

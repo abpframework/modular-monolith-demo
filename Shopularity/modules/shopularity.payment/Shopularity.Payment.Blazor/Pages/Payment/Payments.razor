@@ -39,8 +39,8 @@
                         <Addons>
                             <Addon AddonType="AddonType.Body">
                                 <TextEdit @bind-Text="@Filter.FilterText"
-                                        Autofocus="true"
-                                        Placeholder="@L["Search"]">
+                                          Autofocus="true"
+                                          Placeholder="@L["Search"]">
                                 </TextEdit>
                             </Addon>
                             <Addon AddonType="AddonType.End">
@@ -52,50 +52,45 @@
                     </Form>
                 </div>
             </div>
-                
-                   <div class="col-md-4 col-lg-2">
-            <div class="mb-3">
-               <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
-                         Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">@L["Filters"]
-                         <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
-               </Button>
+            <div class="col-md-4 col-lg-2">
+                <div class="mb-3">
+                    <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
+                            Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">
+                        @L["Filters"]
+                        <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
+                    </Button>
+                </div>
             </div>
-       </div>
-        
-        <div style="display: @(!ShowAdvancedFilters ? "none" : "block")"  class="mt-3">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["OrderId"]</FieldLabel>
-                        <TextEdit Text="@Filter.OrderId" TextChanged="@OnOrderIdChangedAsync" />                       
-                    </Field>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is3">
-                    <Field>
-                        <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="PaymentState?"
-		SelectedValue="@Filter.State"
-		SelectedValueChanged="@OnStateChangedAsync">
 
-<SelectItem></SelectItem>
+            <div style="display: @(!ShowAdvancedFilters ? "none" : "block")" class="mt-3">
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["OrderId"]</FieldLabel>
+                            <TextEdit Text="@Filter.OrderId" TextChanged="@OnOrderIdChangedAsync"/>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Field>
+                            <FieldLabel>@L["State"]</FieldLabel>
+                            <Select TValue="PaymentState?"
+                                    SelectedValue="@Filter.State"
+                                    SelectedValueChanged="@OnStateChangedAsync">
 
-@foreach(PaymentState value in Enum.GetValues(typeof(PaymentState)))
-{
-	<SelectItem Value="value">
-		@value
-	</SelectItem>
-}
+                                <SelectItem></SelectItem>
 
-</Select>                       
-                    </Field>
-                </Column>
-            </Row>
-
-        </div>
-
+                                @foreach (PaymentState value in Enum.GetValues(typeof(PaymentState)))
+                                {
+                                    <SelectItem Value="value">
+                                        @value
+                                    </SelectItem>
+                                }
+                            </Select>
+                        </Field>
+                    </Column>
+                </Row>
+            </div>
         </Row>
-
-
     </CardBody>
 </Card>
 
@@ -105,9 +100,6 @@
         <DataGrid TItem="PaymentDto"
                   @ref="DataGridRef"
                   Data="PaymentList"
-                  
-                  
-                  
                   ReadData="OnDataGridReadAsync"
                   TotalItems="TotalCount"
                   ShowPager="true"
@@ -117,7 +109,7 @@
             <LoadingTemplate>
                 <Row Class="w-100 align-items-center" Style="height: 150px;">
                     <Column>
-                       <RadarSpinner />
+                        <RadarSpinner/>
                     </Column>
                 </Row>
             </LoadingTemplate>
@@ -127,161 +119,20 @@
                         <Heading Size="HeadingSize.Is4" TextAlignment="TextAlignment.Center">@L["NoDataAvailable"]</Heading>
                     </Column>
                 </Row>
-            </EmptyTemplate>   
+            </EmptyTemplate>
             <DataGridColumns>
-                
-                
-                <DataGridEntityActionsColumn TItem="PaymentDto" @ref="@EntityActionsColumn">
+                <DataGridColumn TItem="PaymentDto"
+                                Field="OrderId"
+                                Caption="@L["OrderId"]">
+                </DataGridColumn>
+                <DataGridColumn TItem="PaymentDto"
+                                Field="State"
+                                Caption="@L["State"]">
                     <DisplayTemplate>
-                        <EntityActions TItem="PaymentDto" EntityActionsColumn="@EntityActionsColumn">
-                            <EntityAction TItem="PaymentDto"
-                                          Visible="@CanEditPayment"
-                                          Clicked="async () => await OpenEditPaymentModalAsync(context)"
-                                          Text="@L["Edit"]"></EntityAction>
-                            <EntityAction TItem="PaymentDto"
-                                          Visible="@CanDeletePayment"
-                                          Clicked="() => DeletePaymentAsync(context)"
-                                          ConfirmationMessage="@(()=> L["DeleteConfirmationMessage"])"
-                                          Text="@L["Delete"]"></EntityAction>
-
-                        </EntityActions>
+                        @L[$"Enum:PaymentState.{(int) context.State}"]
                     </DisplayTemplate>
-                </DataGridEntityActionsColumn>
-               
-              <DataGridColumn TItem="PaymentDto"
-                      Field="OrderId"
-                      Caption="@L["OrderId"]">
-              </DataGridColumn>
-
-              <DataGridColumn TItem="PaymentDto"
-                      Field="State"
-                      Caption="@L["State"]">
-                    <DisplayTemplate>
-                        @L[$"Enum:PaymentState.{(int)context.State}"]
-                    </DisplayTemplate>
-              </DataGridColumn>
-
-
+                </DataGridColumn>
             </DataGridColumns>
-            
-            
         </DataGrid>
     </CardBody>
 </Card>
-
-@* ************************* CREATE MODAL ************************* *@
-<Modal @ref="CreatePaymentModal" Closing="@CreatePaymentModal.CancelClosingModalWhenFocusLost">
-    <ModalContent Centered="true">
-
-        <Form id="CreatePaymentForm">
-            <ModalHeader>
-                <ModalTitle>@L["NewPayment"]</ModalTitle>
-                <CloseButton Clicked="CloseCreatePaymentModalAsync" />
-            </ModalHeader>
-            <ModalBody>
-                <Validations @ref="@NewPaymentValidations"
-                            Mode="ValidationMode.Auto"
-                            Model="@NewPayment"
-                            ValidateOnLoad="false">
-                    
-                    
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["OrderId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@NewPayment.OrderId"  >
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
-
-                    <Field>
-                        <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="PaymentState" @bind-SelectedValue="@NewPayment.State" >
-                            @foreach (var itemValue in Enum.GetValues(typeof(PaymentState)))
-                            {
-                                <SelectItem TValue="PaymentState" Value="@((PaymentState) itemValue)">
-                                    @L[$"Enum:PaymentState.{((PaymentState) itemValue).ToString("d")}"]
-                                </SelectItem>
-                            }
-                        </Select>
-                    </Field>
-
-
-                    
-                    
-                </Validations>
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary"
-                        Clicked="CloseCreatePaymentModalAsync">
-                    @L["Cancel"]
-                </Button>
-                <SubmitButton Form="CreatePaymentForm" Clicked="CreatePaymentAsync"/>
-
-            </ModalFooter>
-        </Form>
-
-    </ModalContent>
-</Modal>
-
-@* ************************* EDIT MODAL ************************* *@
-<Modal @ref="EditPaymentModal" Closing="@EditPaymentModal.CancelClosingModalWhenFocusLost">
-    <ModalContent Centered="true">
-
-        <Form id="EditPaymentForm">
-            <ModalHeader>
-                <ModalTitle>@L["Update"]</ModalTitle>
-                <CloseButton Clicked="CloseEditPaymentModalAsync" />
-            </ModalHeader>
-            <ModalBody>
-                <Validations @ref="@EditingPaymentValidations"
-                            Mode="ValidationMode.Auto"
-                            Model="@EditingPayment"
-                            ValidateOnLoad="false">
-                    
-                    
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["OrderId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingPayment.OrderId"  ReadOnly>
-                                <Feedback>
-                                    <ValidationError />
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
-
-                    <Field>
-                        <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="PaymentState" @bind-SelectedValue="@EditingPayment.State" ReadOnly>
-                            @foreach (var itemValue in Enum.GetValues(typeof(PaymentState)))
-                            {
-                                <SelectItem TValue="PaymentState" Value="@((PaymentState) itemValue)">
-                                    @L[$"Enum:PaymentState.{((PaymentState) itemValue).ToString("d")}"]
-                                </SelectItem>
-                            }
-                        </Select>
-                    </Field>
-
-
-                    
-                    
-                </Validations>
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary"
-                        Clicked="CloseEditPaymentModalAsync">
-                    @L["Cancel"]
-                </Button>
-                <SubmitButton Form="EditPaymentForm" Clicked="UpdatePaymentAsync" />
-
-            </ModalFooter>
-        </Form>
-
-    </ModalContent>
-</Modal>
-

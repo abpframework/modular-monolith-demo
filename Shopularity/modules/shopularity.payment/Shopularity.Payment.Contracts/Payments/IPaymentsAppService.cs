@@ -13,12 +13,6 @@ namespace Shopularity.Payment.Payments
 
         Task<PaymentDto> GetAsync(Guid id);
 
-        Task DeleteAsync(Guid id);
-
-        Task<PaymentDto> CreateAsync(PaymentCreateDto input);
-
-        Task<PaymentDto> UpdateAsync(Guid id, PaymentUpdateDto input);
-
         Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input);
 
         Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
