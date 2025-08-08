@@ -1,11 +1,19 @@
 @page
+@using Shopularity.Public.Pages
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Blockquote
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Card
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
 @inherits Shopularity.Public.Pages.ShopularityPublicPageBase
-@model Shopularity.Public.Pages.IndexModel
+@model IndexModel
+
+@section scripts {
+<abp-script-bundle name="@typeof(IndexModel).FullName">
+    <abp-script src="/Pages/index.js" />
+</abp-script-bundle>
+}
 
 <abp-row>
     @foreach(var item in Model.MyProducts)
