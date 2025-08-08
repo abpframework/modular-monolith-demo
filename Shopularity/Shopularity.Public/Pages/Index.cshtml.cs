@@ -8,17 +8,12 @@ namespace Shopularity.Public.Pages;
 
 public class IndexModel : ShopularityPublicPageModel
 {
-    private readonly IProductsPublicAppService _productsAppService;
+    public IProductsPublicAppService ProductsAppService { get; set; }
     
-    public List<ProductWithNavigationPropertiesPublicDto> MyProducts = new ();
+    public List<ProductWithNavigationPropertiesPublicDto> MyProducts  { get; set; }
 
-    public IndexModel(IProductsPublicAppService productsAppService)
-    {
-        _productsAppService = productsAppService;
-    }
-    
     public async Task OnGetAsync()
     {
-        MyProducts = (await _productsAppService.GetListAsync(new GetProductsInput())).Items.ToList();
+        MyProducts = (await ProductsAppService.GetListAsync(new GetProductsInput())).Items.ToList();
     }
 }
