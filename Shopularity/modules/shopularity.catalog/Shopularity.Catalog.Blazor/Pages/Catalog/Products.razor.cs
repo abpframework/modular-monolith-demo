@@ -117,7 +117,7 @@ public partial class Products
         Filter.SkipCount = (CurrentPage - 1) * PageSize;
         Filter.Sorting = CurrentSorting;
 
-        var result = await ProductsAppService.GetListAsync(Filter);
+        var result = await ProductsAdminAppService.GetListAsync(Filter);
         ProductList = result.Items;
         TotalCount = (int)result.TotalCount;
             
@@ -133,7 +133,7 @@ public partial class Products
 
     private async Task DownloadAsExcelAsync()
     {
-        var token = (await ProductsAppService.GetDownloadTokenAsync()).Token;
+        var token = (await ProductsAdminAppService.GetDownloadTokenAsync()).Token;
         var remoteService = await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Catalog") ?? await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Default");
         var culture = CultureInfo.CurrentUICulture.Name ?? CultureInfo.CurrentCulture.Name;
         if(!culture.IsNullOrEmpty())
@@ -175,7 +175,7 @@ public partial class Products
     {
         SelectedEditTab = "product-edit-tab";
             
-        var product = await ProductsAppService.GetWithNavigationPropertiesAsync(input.Product.Id);
+        var product = await ProductsAdminAppService.GetWithNavigationPropertiesAsync(input.Product.Id);
             
         EditingProductId = product.Product.Id;
         EditingProduct = ObjectMapper.Map<ProductDto, ProductUpdateDto>(product.Product);
@@ -186,7 +186,7 @@ public partial class Products
 
     private async Task DeleteProductAsync(ProductWithNavigationPropertiesDto input)
     {
-        await ProductsAppService.DeleteAsync(input.Product.Id);
+        await ProductsAdminAppService.DeleteAsync(input.Product.Id);
         await GetProductsAsync();
     }
 
@@ -199,7 +199,7 @@ public partial class Products
                 return;
             }
 
-            await ProductsAppService.CreateAsync(NewProduct);
+            await ProductsAdminAppService.CreateAsync(NewProduct);
             await GetProductsAsync();
             await CloseCreateProductModalAsync();
         }
@@ -223,7 +223,7 @@ public partial class Products
                 return;
             }
 
-            await ProductsAppService.UpdateAsync(EditingProductId, EditingProduct);
+            await ProductsAdminAppService.UpdateAsync(EditingProductId, EditingProduct);
             await GetProductsAsync();
             await EditProductModal.Hide();                
         }
@@ -281,7 +281,7 @@ public partial class Products
 
     private async Task GetCategoryCollectionLookupAsync(string? newValue = null)
     {
-        CategoriesCollection = (await ProductsAppService.GetCategoryLookupAsync(new LookupRequestDto { Filter = newValue })).Items;
+        CategoriesCollection = (await ProductsAdminAppService.GetCategoryLookupAsync(new LookupRequestDto { Filter = newValue })).Items;
     }
 
     private Task SelectAllItems()
@@ -320,11 +320,11 @@ public partial class Products
 
         if (AllProductsSelected)
         {
-            await ProductsAppService.DeleteAllAsync(Filter);
+            await ProductsAdminAppService.DeleteAllAsync(Filter);
         }
         else
         {
-            await ProductsAppService.DeleteByIdsAsync(SelectedProducts.Select(x => x.Product.Id).ToList());
+            await ProductsAdminAppService.DeleteByIdsAsync(SelectedProducts.Select(x => x.Product.Id).ToList());
         }
 
         SelectedProducts.Clear();

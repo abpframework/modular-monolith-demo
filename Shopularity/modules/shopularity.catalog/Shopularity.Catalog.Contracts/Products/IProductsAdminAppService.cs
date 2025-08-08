@@ -8,7 +8,7 @@ using Volo.Abp.Content;
 
 namespace Shopularity.Catalog.Products;
 
-public interface IProductsAppService : IApplicationService
+public interface IProductsAdminAppService : IApplicationService
 {
 
     Task<PagedResultDto<ProductWithNavigationPropertiesDto>> GetListAsync(GetProductsInput input);

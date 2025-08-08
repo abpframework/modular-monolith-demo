@@ -21,7 +21,7 @@ namespace Shopularity.Catalog.Products;
 
 [RemoteService(IsEnabled = false)]
 [Authorize(CatalogPermissions.Products.Default)]
-public class ProductsAppService : CatalogAppService, IProductsAppService
+public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppService
 {
     protected IDistributedCache<ProductDownloadTokenCacheItem, string> _downloadTokenCache;
     private readonly IBlobContainer _blobContainer;
@@ -30,7 +30,7 @@ public class ProductsAppService : CatalogAppService, IProductsAppService
 
     protected IRepository<Categories.Category, Guid> _categoryRepository;
 
-    public ProductsAppService(
+    public ProductsAdminAppService(
         IProductRepository productRepository,
         ProductManager productManager,
         IDistributedCache<ProductDownloadTokenCacheItem, string> downloadTokenCache,

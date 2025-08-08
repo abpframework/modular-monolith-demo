@@ -15,87 +15,87 @@ namespace Shopularity.Catalog.Products;
 [Area("catalog")]
 [ControllerName("Product")]
 [Route("api/catalog/products")]
-public class ProductController : AbpController, IProductsAppService
+public class ProductAdminController : AbpController, IProductsAdminAppService
 {
-    protected IProductsAppService _productsAppService;
+    protected IProductsAdminAppService ProductsAdminAppService;
 
-    public ProductController(IProductsAppService productsAppService)
+    public ProductAdminController(IProductsAdminAppService productsAdminAppService)
     {
-        _productsAppService = productsAppService;
+        ProductsAdminAppService = productsAdminAppService;
     }
 
     [HttpGet]
     public virtual Task<PagedResultDto<ProductWithNavigationPropertiesDto>> GetListAsync(GetProductsInput input)
     {
-        return _productsAppService.GetListAsync(input);
+        return ProductsAdminAppService.GetListAsync(input);
     }
 
     [HttpGet]
     [Route("with-navigation-properties/{id}")]
     public virtual Task<ProductWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id)
     {
-        return _productsAppService.GetWithNavigationPropertiesAsync(id);
+        return ProductsAdminAppService.GetWithNavigationPropertiesAsync(id);
     }
 
     [HttpGet]
     [Route("{id}")]
     public virtual Task<ProductDto> GetAsync(Guid id)
     {
-        return _productsAppService.GetAsync(id);
+        return ProductsAdminAppService.GetAsync(id);
     }
 
     [HttpGet]
     [Route("category-lookup")]
     public virtual Task<PagedResultDto<LookupDto<Guid>>> GetCategoryLookupAsync(LookupRequestDto input)
     {
-        return _productsAppService.GetCategoryLookupAsync(input);
+        return ProductsAdminAppService.GetCategoryLookupAsync(input);
     }
 
     [HttpPost]
     public virtual Task<ProductDto> CreateAsync(ProductCreateDto input)
     {
-        return _productsAppService.CreateAsync(input);
+        return ProductsAdminAppService.CreateAsync(input);
     }
 
     [HttpPut]
     [Route("{id}")]
     public virtual Task<ProductDto> UpdateAsync(Guid id, ProductUpdateDto input)
     {
-        return _productsAppService.UpdateAsync(id, input);
+        return ProductsAdminAppService.UpdateAsync(id, input);
     }
 
     [HttpDelete]
     [Route("{id}")]
     public virtual Task DeleteAsync(Guid id)
     {
-        return _productsAppService.DeleteAsync(id);
+        return ProductsAdminAppService.DeleteAsync(id);
     }
 
     [HttpGet]
     [Route("as-excel-file")]
     public virtual Task<IRemoteStreamContent> GetListAsExcelFileAsync(ProductExcelDownloadDto input)
     {
-        return _productsAppService.GetListAsExcelFileAsync(input);
+        return ProductsAdminAppService.GetListAsExcelFileAsync(input);
     }
 
     [HttpGet]
     [Route("download-token")]
     public virtual Task<Shopularity.Catalog.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
     {
-        return _productsAppService.GetDownloadTokenAsync();
+        return ProductsAdminAppService.GetDownloadTokenAsync();
     }
 
     [HttpDelete]
     [Route("")]
     public virtual Task DeleteByIdsAsync(List<Guid> productIds)
     {
-        return _productsAppService.DeleteByIdsAsync(productIds);
+        return ProductsAdminAppService.DeleteByIdsAsync(productIds);
     }
 
     [HttpDelete]
     [Route("all")]
     public virtual Task DeleteAllAsync(GetProductsInput input)
     {
-        return _productsAppService.DeleteAllAsync(input);
+        return ProductsAdminAppService.DeleteAllAsync(input);
     }
 }
