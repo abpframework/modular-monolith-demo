@@ -3,9 +3,9 @@ using Volo.Abp.Application.Services;
 
 namespace Shopularity.Basket;
 
-public abstract class BasketAppService : ApplicationService
+public abstract class BasketAppServiceBase : ApplicationService
 {
-    protected BasketAppService()
+    protected BasketAppServiceBase()
     {
         LocalizationResource = typeof(BasketResource);
         ObjectMapperContext = typeof(BasketModule);

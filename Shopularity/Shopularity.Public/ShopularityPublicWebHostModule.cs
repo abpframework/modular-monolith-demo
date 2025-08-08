@@ -1,3 +1,4 @@
+using Volo.Abp.EventBus.RabbitMq;
 using Shopularity.Basket.SignalR;
 using System;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -31,6 +32,7 @@ using Volo.Abp.UI.Navigation;
 namespace Shopularity.Public;
 
 [DependsOn(
+    typeof(AbpEventBusRabbitMqModule),
     typeof(ShopularityBasketSignalRModule),
     typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
     typeof(AbpHttpClientIdentityModelWebModule),

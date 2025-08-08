@@ -14,5 +14,11 @@
       "path": "../../Shopularity.Public/Shopularity.Public.csproj",
       "launchUrl": "https://localhost:53585"
     }
+  },
+  "containers": {
+    "files": {
+      "../docker/containers/rabbitmq.yml": {}
+    },
+    "serviceName": "Shopularity-containers"
   }
 }

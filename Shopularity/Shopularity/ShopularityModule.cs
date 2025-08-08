@@ -1,3 +1,4 @@
+using Volo.Abp.EventBus.RabbitMq;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
@@ -75,6 +76,7 @@ using Shopularity.Ordering;
 namespace Shopularity;
 
 [DependsOn(
+    typeof(AbpEventBusRabbitMqModule),
     typeof(ShopularityContractsModule),
     
     // Ordering module packages
