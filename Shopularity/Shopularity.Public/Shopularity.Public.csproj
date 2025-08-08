@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="../Shopularity.Contracts/Shopularity.Contracts.csproj" />
     <PackageReference Include="Volo.Abp.AspNetCore.Authentication.OpenIdConnect" Version="9.2.3" />
+    <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.SignalR/Shopularity.Basket.SignalR.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.2.3" />

@@ -6,12 +6,14 @@
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Card
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
 @using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Packages.SignalR
 @inherits Shopularity.Public.Pages.ShopularityPublicPageBase
 @model IndexModel
 
 @section scripts {
 <abp-script-bundle name="@typeof(IndexModel).FullName">
     <abp-script src="/Pages/index.js" />
+    <abp-script type="typeof(SignalRBrowserScriptContributor)" />
 </abp-script-bundle>
 }
 

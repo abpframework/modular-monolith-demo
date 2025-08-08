@@ -8,4 +8,7 @@
         }
     });
 
+
+    var connection = new signalR.HubConnectionBuilder().withUrl(abp.appPath + "signalr-hubs/basket").build();
+    
 })(jQuery);

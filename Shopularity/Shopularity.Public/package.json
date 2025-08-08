@@ -3,6 +3,7 @@
   "name": "my-app",
   "private": true,
   "dependencies": {
-    "@abp/aspnetcore.mvc.ui.theme.basic": "^9.2.3"
+    "@abp/aspnetcore.mvc.ui.theme.basic": "^9.2.3",
+    "@abp/signalr": "^9.2.3"
   }
 }

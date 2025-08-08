@@ -11,6 +11,9 @@
     },
     "Shopularity.Basket.Contracts": {
       "path": "Shopularity.Basket.Contracts/Shopularity.Basket.Contracts.abppkg"
+    },
+    "Shopularity.Basket.SignalR": {
+      "path": "Shopularity.Basket.SignalR/Shopularity.Basket.SignalR.abppkg"
     }
   }
 }
