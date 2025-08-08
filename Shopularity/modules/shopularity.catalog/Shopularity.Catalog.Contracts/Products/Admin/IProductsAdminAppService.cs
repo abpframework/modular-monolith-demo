@@ -1,12 +1,12 @@
-using Shopularity.Catalog.Shared;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Shopularity.Catalog.Shared;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Content;
 
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Admin;
 
 public interface IProductsAdminAppService : IApplicationService
 {

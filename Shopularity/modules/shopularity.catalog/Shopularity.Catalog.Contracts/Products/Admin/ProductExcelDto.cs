@@ -1,4 +1,4 @@
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Admin;
 
 public class ProductExcelDto
 {

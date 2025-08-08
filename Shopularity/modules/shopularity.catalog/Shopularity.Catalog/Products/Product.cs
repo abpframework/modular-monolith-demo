@@ -1,7 +1,7 @@
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
 using JetBrains.Annotations;
-
+using Shopularity.Catalog.Products.Admin;
 using Volo.Abp;
 
 namespace Shopularity.Catalog.Products;

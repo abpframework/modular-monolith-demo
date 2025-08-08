@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shopularity.Catalog.Products;
+using Shopularity.Catalog.Products.Public;
 
 namespace Shopularity.Public.Pages;
 
 public class IndexModel : ShopularityPublicPageModel
 {
-    private readonly IProductsAppService _productsAppService;
+    private readonly IProductsPublicAppService _productsAppService;
     
-    public List<ProductWithNavigationPropertiesDto> MyProducts = new ();
+    public List<ProductWithNavigationPropertiesPublicDto> MyProducts = new ();
 
-    public IndexModel(IProductsAppService productsAppService)
+    public IndexModel(IProductsPublicAppService productsAppService)
     {
         _productsAppService = productsAppService;
     }

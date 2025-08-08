@@ -2,6 +2,7 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 using Microsoft.EntityFrameworkCore;
 using Shopularity.Catalog.Categories;
 using Shopularity.Catalog.Products;
+using Shopularity.Catalog.Products.Admin;
 using Volo.Abp;
 
 namespace Shopularity.Catalog.Data;

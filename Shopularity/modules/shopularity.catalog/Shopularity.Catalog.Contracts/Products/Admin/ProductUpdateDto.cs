@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Volo.Abp.Domain.Entities;
 
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Admin;
 
 public class ProductUpdateDto : IHasConcurrencyStamp
 {

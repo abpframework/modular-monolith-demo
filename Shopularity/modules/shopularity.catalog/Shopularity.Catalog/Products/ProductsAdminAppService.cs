@@ -15,6 +15,7 @@ using Volo.Abp.Content;
 using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
+using Shopularity.Catalog.Products.Admin;
 using Volo.Abp.BlobStoring;
 
 namespace Shopularity.Catalog.Products;

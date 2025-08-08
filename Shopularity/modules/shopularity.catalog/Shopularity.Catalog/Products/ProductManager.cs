@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Shopularity.Catalog.Products.Admin;
 using Volo.Abp;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Services;

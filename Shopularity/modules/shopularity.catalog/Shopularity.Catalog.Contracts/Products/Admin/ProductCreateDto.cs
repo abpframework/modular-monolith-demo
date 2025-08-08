@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Admin;
 
 public class ProductCreateDto
 {

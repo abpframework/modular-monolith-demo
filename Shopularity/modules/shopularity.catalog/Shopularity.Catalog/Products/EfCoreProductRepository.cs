@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Shopularity.Catalog.Data;
+using Shopularity.Catalog.Products.Admin;
 
 namespace Shopularity.Catalog.Products;
 

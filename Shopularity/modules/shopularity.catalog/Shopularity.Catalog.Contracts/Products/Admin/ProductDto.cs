@@ -2,7 +2,7 @@ using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
 
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Admin;
 
 public class ProductDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
 {
@@ -19,5 +19,4 @@ public class ProductDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
     public byte[]? Image { get; set; }
 
     public string ConcurrencyStamp { get; set; } = null!;
-
 }

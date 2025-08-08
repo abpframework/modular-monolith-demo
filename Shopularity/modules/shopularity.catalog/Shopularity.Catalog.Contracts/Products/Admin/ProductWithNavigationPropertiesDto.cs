@@ -1,6 +1,6 @@
 using Shopularity.Catalog.Categories;
 
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Admin;
 
 public class ProductWithNavigationPropertiesDto
 {
