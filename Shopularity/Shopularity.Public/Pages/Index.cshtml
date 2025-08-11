@@ -34,7 +34,8 @@
             <abp-card-footer>
                 <abp-row>
                     <p>$@item.Product.Price</p>
-                    <abp-button size="Small" button-type="Primary">@L["AddToBasket"]</abp-button>
+                    <abp-button size="Small" button-type="Primary" 
+                                class="addToBasket" data-product-id="@item.Product.Id">@L["AddToBasket"]</abp-button>
                 </abp-row>
                 <p>@item.Product.Description</p>
                 @*<p>Category: @item.Category.Name</p>*@

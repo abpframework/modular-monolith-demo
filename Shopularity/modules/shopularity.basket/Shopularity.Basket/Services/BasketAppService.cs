@@ -42,6 +42,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         await _eventBus.PublishAsync(
             new BasketChangedEto
             {
+                UserId = CurrentUser.GetId(),
                 Items = value.Items
             }
         );
@@ -68,6 +69,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         await _eventBus.PublishAsync(
             new BasketChangedEto
             {
+                UserId = CurrentUser.GetId(),
                 Items = value.Items
             }
         );

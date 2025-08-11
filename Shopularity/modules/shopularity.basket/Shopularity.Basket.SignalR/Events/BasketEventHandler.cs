@@ -11,10 +11,10 @@ public class BasketEventHandler
     : IDistributedEventHandler<BasketChangedEto>,
         ITransientDependency
 {
-    private readonly BasketHub _basketHub;
+    private readonly IHubContext<BasketHub> _basketHub;
     private readonly ICurrentUser _currentUser;
 
-    public BasketEventHandler(BasketHub basketHub, ICurrentUser currentUser)
+    public BasketEventHandler(IHubContext<BasketHub> basketHub, ICurrentUser currentUser)
     {
         _basketHub = basketHub;
         _currentUser = currentUser;
@@ -24,10 +24,10 @@ public class BasketEventHandler
     {
         await _basketHub
             .Clients
-            .User(_currentUser.GetId().ToString())
+            .User(eventData.UserId.ToString())
             .SendAsync(
                 "BasketChange",
-                eventData
+                eventData.Items
             );
     }
 }
