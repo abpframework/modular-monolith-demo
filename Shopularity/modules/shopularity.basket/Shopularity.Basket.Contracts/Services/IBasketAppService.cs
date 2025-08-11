@@ -8,5 +8,7 @@ public interface IBasketAppService: IApplicationService
 {
     Task AddItemToBasket(BasketItem input);
 
+    Task RemoveItemFromBasket(BasketItem input);
+
     Task<List<BasketItem>> GetBasketItems();
 }
