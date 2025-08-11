@@ -3,9 +3,23 @@
 
 @inject IHtmlLocalizer<ShopularityResource> L
 
-<a class="lpx-menu-item-link nav-link b-tooltip b-tooltip-left b-tooltip-inline" type="button" data-bs-toggle="tooltip" data-bs-placement="left" aria-label="@L["Menu:Basket"].Value">
-    <span class="lpx-menu-item-icon">
-        <i class="lpx-icon fas fa-shopping-basket" aria-hidden="true"></i>
+
+<div class="dropdown">
+    <button class="dropdown-toggle btn btn-primary position-relative"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            type="button"
+            data-busy-text="Processing..."
+            aria-label="Basket">
+        <i class="fa fa-shopping-basket"></i>
+
+        <span id="shopularityBasketCount"
+              class="d-none position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              style="min-width:20px; height:20px; line-height:20px; font-size:.75rem; padding:0 6px;">
+      <span class="visually-hidden">items in basket</span>
     </span>
-    <span class="d-md-none">@L["Menu:Basket"].Value</span>
-</a>
+    </button>
+
+    <div class="dropdown-menu" id="shopularityBasket"></div>
+</div>
