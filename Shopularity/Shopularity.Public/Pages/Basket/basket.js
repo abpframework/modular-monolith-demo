@@ -1,26 +1,41 @@
 (function ($) {
+    var l = abp.localization.getResource('Shopularity');
 
     updateBasketCount = function (count) {
         var $basketCountArea = $('#shopularityBasketCount');
+        var $basketCountLabel = $('#shopularityBasketItemCountLabel');
+        var $BasketSunOnActions = $('#shopularityBasketSunOnActions');
+        var $BasketEmpty= $('#shopularityBasketEmpty');
 
-        if ($basketCountArea.length === 0) {
+        if ($basketCountArea.length === 0 || $basketCountLabel.length === 0 || $BasketSunOnActions.length === 0) {
             return;
         }
 
         if (count === 0) {
             $basketCountArea.addClass('d-none')
                 .text('');
+            $BasketSunOnActions.addClass('d-none')
+                .text('');
+            $BasketEmpty
+                .removeClass('d-none');
+            $basketCountLabel.text('');
             return;
         }
         
         var displayCount = count > 99 ? '99+' : String(count);
         $basketCountArea.text(displayCount)
             .removeClass('d-none');
+        $basketCountLabel.text(l('ProductWithCount{0}', displayCount))
+            .removeClass('d-none');
+        $BasketSunOnActions
+            .removeClass('d-none');
+        $BasketEmpty
+            .addClass('d-none');
     }
     
     updateBasket = function (items) {
         var productsPublicAppService = shopularity.public.controllers.products;
-        var $basketArea = $('#shopularityBasket');
+        var $basketArea = $('#shopularityBasketList');
 
         if ($basketArea.length === 0) {
             return;
@@ -31,7 +46,7 @@
         for (let i = 0; i < items.length; i++) {
             productsPublicAppService.get(items[i].productId)
                 .then(function (result) {
-                    var $item = $('<div class="row" style="padding: 10px; display: flex; align-items: center;"></div>');
+                    var $item = $('<div class="row" style="padding: 10px; display: flex; align-items: center;width: 300px"></div>');
                     $item.append('<img src="data:image/png;base64,' + result.product.image + '" alt="' + result.product.name + '" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;">');
                     var $info = $('<div></div>');
                     $info.append('<div class="product-name" style="font-weight: bold;">' + result.product.name + '</div>');

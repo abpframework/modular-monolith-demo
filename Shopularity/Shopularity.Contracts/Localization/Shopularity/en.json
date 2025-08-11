@@ -6,6 +6,12 @@
     "Welcome_Text": "This is a minimalist, single layer application startup template for the ABP Framework.",
     "Menu:Home": "Home",
     "Menu:Basket": "Basket",
-    "AddToBasket": "Add to Basket"
+    "AddToBasket": "Add to Basket",
+    "ProductWithCount{0}": "{0} product(s)",
+    "ShowBasket": "Show my basket",
+    "PurchaseNow": "Purchase now",
+    "BasketEmpty": "Your basket is empty.",
+    "Basket": "Basket",
+    "SumOn": "Sum on"
   }
 }
