@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Shopularity.Localization
+
+@inject IHtmlLocalizer<ShopularityResource> L
+
+<a class="lpx-menu-item-link nav-link b-tooltip b-tooltip-left b-tooltip-inline" type="button" data-bs-toggle="tooltip" data-bs-placement="left" aria-label="@L["Menu:Basket"].Value">
+    <span class="lpx-menu-item-icon">
+        <i class="lpx-icon fas fa-shopping-basket" aria-hidden="true"></i>
+    </span>
+    <span class="d-md-none">@L["Menu:Basket"].Value</span>
+</a>

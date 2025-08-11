@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Shopularity.Public.Components.Toolbar.BasketToolbarItem;
 using Shopularity.Public.Components.Toolbar.LoginLink;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
 using Volo.Abp.Users;
@@ -19,6 +20,8 @@ public class ShopularityToolbarContributor : IToolbarContributor
         {
             context.Toolbar.Items.Add(new ToolbarItem(typeof(LoginLinkViewComponent)));
         }
+        context.Toolbar.Items
+            .Insert(0, new ToolbarItem(typeof(BasketToolbarItemViewComponent)));
 
         return Task.CompletedTask;
     }

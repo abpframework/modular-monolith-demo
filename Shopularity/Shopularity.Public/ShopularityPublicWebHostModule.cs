@@ -22,12 +22,15 @@ using Shopularity.Catalog;
 using Shopularity.Ordering;
 using Shopularity.Payment;
 using Shopularity.Public.Menus;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation;
+using Volo.Chat.Web.Bundling;
 
 namespace Shopularity.Public;
 
@@ -56,6 +59,17 @@ public class ShopularityPublicWebHostModule : AbpModule
         ConfigureAuthentication(context, configuration);
         ConfigureNavigationServices(configuration);
         ConfigureHttpClientProxies(context);
+        ConfigureBundling();
+    }
+
+    private void ConfigureBundling()
+    {
+        Configure<AbpBundlingOptions>(options =>
+        {
+            options.ScriptBundles
+                .Get(StandardBundles.Scripts.Global)
+                .AddContributors(typeof(ShopularityPublicGlobalScriptContributor));
+        });
     }
 
     private static void ConfigureHttpClientProxies(ServiceConfigurationContext context)
