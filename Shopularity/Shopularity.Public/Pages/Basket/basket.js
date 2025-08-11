@@ -53,7 +53,7 @@
                     var $info = $('<div></div>');
                     $info.append('<div class="product-name" style="font-weight: bold;">' + result.product.name + '</div>');
                     $info.append('<div class="product-price" style="color: green;">$' + result.product.price + '</div>');
-                    $info.append('<div class="product-amount" style="color: gray;">Amount: ' + items[i].amount + '</div>');
+                    $info.append('<div class="product-amount" style="color: gray;">'+l('Amount')+': ' + items[i].amount + '</div>');
                     $item.append($info);
                     $basketArea.append($item);
                     
