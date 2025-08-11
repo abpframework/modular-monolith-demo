@@ -33,7 +33,21 @@ public class Program
             builder.Host
                 .AddAppSettingsSecretsJson()
                 .UseAutofac()
-                .UseSerilog();
+                .UseSerilog((context, services, loggerConfiguration) =>
+            {
+                loggerConfiguration
+#if DEBUG
+                    .MinimumLevel.Debug()
+#else
+                            .MinimumLevel.Information()
+#endif
+                    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                    .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+                    .Enrich.FromLogContext()
+                    .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                    .WriteTo.Async(c => c.Console())
+                    .WriteTo.Async(c => c.AbpStudio(services));
+            });
             await builder.Services.AddApplicationAsync<ShopularityPublicWebHostModule>(options =>
             {
                 options.Services.ReplaceConfiguration(builder.Configuration);
