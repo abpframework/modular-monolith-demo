@@ -36,13 +36,15 @@
     updateBasket = function (items) {
         var productsPublicAppService = shopularity.public.controllers.products;
         var $basketArea = $('#shopularityBasketList');
+        var $BasketTotal= $('#shopularityBasketTotal');
+        $BasketTotal.text('');
 
         if ($basketArea.length === 0) {
             return;
         }
         
         $basketArea.empty();
-        
+        var totalPrice = 0.00;
         for (let i = 0; i < items.length; i++) {
             productsPublicAppService.get(items[i].productId)
                 .then(function (result) {
@@ -54,6 +56,9 @@
                     $info.append('<div class="product-amount" style="color: gray;">Amount: ' + items[i].amount + '</div>');
                     $item.append($info);
                     $basketArea.append($item);
+                    
+                    totalPrice += result.product.price * items[i].amount;
+                    $BasketTotal.text('$' + totalPrice.toFixed(2));
                 })
                 .catch(function (error) {
                     console.error("Error fetching product:", error);
