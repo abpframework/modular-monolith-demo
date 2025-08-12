@@ -1,13 +1,17 @@
 (function ($) {
     var l = abp.localization.getResource('Shopularity');
-    var productsPublicAppService = shopularity.public.controllers.products;
+    const renderApi = '/api/catalog/public/products/render';
 
-/*    productsPublicAppService.getList({}).then(function (result) {
-        for (var i = 0; i < result.items.length; i++) {
-            console.log(result.items[i].product.name);
-        }
-    });*/
-
+    $("#ShopularityProductList").load(renderApi + "?skip=0&take=12");
+    
+    let skip = 12;
+    $("#loadMore").on("click", function(){
+        $.get(renderApi, { skip, take: 12, sorting: "Name" }, function(html){
+            $("#productHost").append(html);
+            skip += 12;
+        });
+    });
+    
     var basketAppService = shopularity.public.controllers.basket;
     $(".addToBasket").click(function () {
         var id = $(this).data('product-id');

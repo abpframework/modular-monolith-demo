@@ -12,12 +12,10 @@ public class BasketEventHandler
         ITransientDependency
 {
     private readonly IHubContext<BasketHub> _basketHub;
-    private readonly ICurrentUser _currentUser;
 
-    public BasketEventHandler(IHubContext<BasketHub> basketHub, ICurrentUser currentUser)
+    public BasketEventHandler(IHubContext<BasketHub> basketHub)
     {
         _basketHub = basketHub;
-        _currentUser = currentUser;
     }
     
     public async Task HandleEventAsync(BasketChangedEto eventData)

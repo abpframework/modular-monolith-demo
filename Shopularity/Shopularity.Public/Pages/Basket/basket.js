@@ -46,6 +46,9 @@
         $basketArea.empty();
         var totalPrice = 0.00;
         for (let i = 0; i < items.length; i++) {
+            
+            //todo: make single api call
+            
             productsPublicAppService.get(items[i].productId)
                 .then(function (result) {
                     var $item = $('<div class="row" style="padding: 10px; display: flex; align-items: center;width: 300px"></div>');

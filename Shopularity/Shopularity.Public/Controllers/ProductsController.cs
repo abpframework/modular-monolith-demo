@@ -4,6 +4,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Products.Public;
+using Shopularity.Public.Components.ProductList;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc;
@@ -34,5 +35,20 @@ public class ProductsController : AbpController, IProductsPublicAppService
     public virtual Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)
     {
         return ProductsPublicAppService.GetAsync(id);
+    }
+    
+    [HttpGet("render")]
+    public async Task<ViewComponentResult> Render([FromQuery] int skip = 0, [FromQuery] int take = 12, [FromQuery] string sorting = "Product.Name")
+    {
+        var result = await ProductsPublicAppService.GetListAsync(new GetProductsInput() {
+            SkipCount = skip,
+            MaxResultCount = take,
+            Sorting = sorting
+        });
+
+        return ViewComponent("ProductList", new ProductListViewModel {
+            TotalCount = result.TotalCount,
+            Items = result.Items
+        });
     }
 }

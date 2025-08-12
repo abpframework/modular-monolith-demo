@@ -109,7 +109,7 @@ public class ShopularityPublicWebHostModule : AbpModule
         .AddAbpOpenIdConnect("oidc", options =>
         {
             options.Authority = configuration["AuthServer:Authority"];
-            options.RequireHttpsMetadata = configuration.GetValue<bool>("AuthServer:RequireHttpsMetadata"); ;
+            options.RequireHttpsMetadata = configuration.GetValue<bool>("AuthServer:RequireHttpsMetadata");
             options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
 
             options.ClientId = configuration["AuthServer:ClientId"];
