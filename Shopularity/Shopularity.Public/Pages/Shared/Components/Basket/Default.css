@@ -1,0 +1,10 @@
+.amount-control button {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    line-height: 1;
+}
+.amount-value {
+    min-width: 24px;
+    text-align: center;
+}

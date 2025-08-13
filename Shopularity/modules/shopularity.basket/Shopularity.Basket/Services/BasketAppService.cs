@@ -27,6 +27,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         if (value == null)
         {
             value = new BasketCacheItem();
+            value.Items.Add(input);
         }
         else if (value.Items.Any(x => x.ProductId == input.ProductId))
         {
@@ -40,10 +41,11 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         _memoryCache.Set(CurrentUser.GetId(), value);
 
         await _eventBus.PublishAsync(
-            new BasketChangedEto
+            new BasketItemAddedEto
             {
                 UserId = CurrentUser.GetId(),
-                Items = value.Items
+                RemainingItemCountInBasket = value.Items.Count,
+                Item = value.Items.First(x => x.ProductId == input.ProductId)
             }
         );
     }
@@ -61,16 +63,27 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         {
             return;
         }
-        
-        value.Items.First(x => x.ProductId == input.ProductId).Amount -= input.Amount;
+
+        var item = value.Items.First(x => x.ProductId == input.ProductId);
+        item.Amount -= input.Amount;
+
+        if (item.Amount == 0)
+        {
+            value.Items.Remove(item);
+        }
 
         _memoryCache.Set(CurrentUser.GetId(), value);
 
         await _eventBus.PublishAsync(
-            new BasketChangedEto
+            new BasketItemRemovedEto
             {
                 UserId = CurrentUser.GetId(),
-                Items = value.Items
+                RemainingItemCountInBasket = value.Items.Count,
+                Item = new BasketItem
+                {
+                    ProductId = input.ProductId,
+                    Amount = item.Amount
+                } 
             }
         );
     }

@@ -8,7 +8,8 @@ using Volo.Abp.Users;
 namespace Shopularity.Basket.SignalR.Events;
 
 public class BasketEventHandler
-    : IDistributedEventHandler<BasketChangedEto>,
+    : IDistributedEventHandler<BasketItemAddedEto>,
+     IDistributedEventHandler<BasketItemRemovedEto>,
         ITransientDependency
 {
     private readonly IHubContext<BasketHub> _basketHub;
@@ -18,14 +19,25 @@ public class BasketEventHandler
         _basketHub = basketHub;
     }
     
-    public async Task HandleEventAsync(BasketChangedEto eventData)
+    public async Task HandleEventAsync(BasketItemAddedEto eventData)
     {
         await _basketHub
             .Clients
             .User(eventData.UserId.ToString())
             .SendAsync(
-                "BasketChange",
-                eventData.Items
+                "BasketItemAdded",
+                eventData
+            );
+    }
+    
+    public async Task HandleEventAsync(BasketItemRemovedEto eventData)
+    {
+        await _basketHub
+            .Clients
+            .User(eventData.UserId.ToString())
+            .SendAsync(
+                "BasketItemRemoved",
+                eventData
             );
     }
 }

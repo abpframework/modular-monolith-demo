@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 namespace Shopularity.Basket.Services;
 
-public class BasketChangedEto
+public class BasketItemAddedEto
 {
-    public List<BasketItem> Items {get; set; }
+    public BasketItem Item {get; set; }
+    
+    public int RemainingItemCountInBasket { get; set; }
     
     public Guid UserId { get; set; }
 }

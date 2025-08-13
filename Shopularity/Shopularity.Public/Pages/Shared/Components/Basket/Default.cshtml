@@ -1,27 +1,55 @@
 @using Microsoft.Extensions.Localization
 @using Shopularity.Localization
+@using Shopularity.Public.Components.Basket
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
 @inject IStringLocalizer<ShopularityResource> L
 @model Shopularity.Public.Components.Basket.BasketViewModel
+
+@section styles {
+<abp-style-bundle name="@typeof(BasketViewComponent).FullName">
+    <abp-style src="Default.css" />
+</abp-style-bundle>
+}
 
 <div class="border-bottom px-3 py-2 d-flex justify-content-between align-items-center">
     <span class="fw-semibold">@L["Basket"]</span>
     <span class="text-muted small" id="shopularityBasketItemCountLabel">@L["ProductWithCount{0}", Model.Items.Count]</span>
 </div>
 
-<ul class="list-unstyled m-0" id="shopularityBasketList" style="max-height: 360px; overflow-y: auto;">
+<ul class="list-unstyled m-0" id="shopularityBasketList" style="max-height: 800px; overflow-y: auto;">
     @foreach (var item in Model.Items)
     {
-        <abp-row style="padding: 10px; display: flex; align-items: center;width: 300px">
-            @if (item.Product.Image != null && item.Product.Image.Length != 0)
-            {
+        <abp-row style="padding: 10px; display: flex; align-items: center;width: 300px" abp-border="Secondary" class="basket-item">
+            <abp-column size="_6">
+                @if (item.Product.Image != null && item.Product.Image.Length != 0)
+                {
                 <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
-            }
-            <div>
-                <div style="font-weight: bold;">@item.Product.Name</div>
-                <div style="color: green;">@L["Price"]:@item.Product.Price</div>
-                <div style="color: gray;">@L["Amount"]: @item.Amount</div>
-            </div>
+                }
+            </abp-column>
+            <abp-column size="_6" style="position: relative;">
+                <abp-button button-type="Outline_Warning"
+                            icon="trash"
+                            class="remove-from-basket"
+                            style="position: absolute; top: 0; right: 0;">
+                </abp-button>
+
+                <div style="font-weight: bold; padding-right: 30px;">@item.Product.Name</div>
+                <div style="color: green;">@L["Price"]: $@item.Product.Price</div>
+                <div class="amount-control d-flex align-items-center" data-product-id="@item.Product.Id">
+                    <abp-button button-type="Outline_Secondary"
+                                size="Small"
+                                disabled="@(item.Amount == 1)"
+                                class="amount-minus">−
+                    </abp-button>
+                    <span class="amount-value mx-2">@item.Amount</span>
+                    <abp-button button-type="Outline_Secondary"
+                                size="Small"
+                                class="amount-plus">+
+                    </abp-button>
+                </div>
+            </abp-column>
+
         </abp-row>
     }
 </ul>
