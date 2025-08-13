@@ -5,7 +5,6 @@
         var $container = $(this).closest('.basket-item').find('.amount-control');
         var $value = $container.find('.amount-value');
         var amount = parseInt($value.text(), 10) || 0;
-        console.log("amount: " + amount);
 
         shopularity.public.controllers.basket.removeItemFromBasket({
             productId: $container.data('product-id'),

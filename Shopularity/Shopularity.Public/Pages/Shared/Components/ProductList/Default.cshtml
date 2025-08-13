@@ -8,30 +8,33 @@
 @inject IStringLocalizer<ShopularityResource> L
 @model Shopularity.Public.Components.ProductList.ProductListViewModel
 
-<abp-row>
-    @foreach(var item in Model.Items)
-    {
-        <abp-column size="_4">
-            <abp-card>
-                <abp-card-header>
-                    <h2>@item.Product.Name</h2>
-                </abp-card-header>
-                <abp-card-body>
-                    @if (item.Product.Image != null && item.Product.Image.Length != 0)
-                    {
-                        <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" Style="max-width: 300px; max-height: 300px; border-radius: 8px;" alt="@item.Product.Name"/>
-                    }
-                </abp-card-body>
-                <abp-card-footer>
-                    <abp-row>
-                        <p>$@item.Product.Price</p>
-                        <abp-button size="Small" button-type="Primary"
-                                    class="addToBasket" data-product-id="@item.Product.Id">@L["AddToBasket"]</abp-button>
-                    </abp-row>
-                    <p>@item.Product.Description</p>
-                    @*<p>Category: @item.Category.Name</p>*@
-                </abp-card-footer>
-            </abp-card>
-        </abp-column>
-    }
-</abp-row>
+@if (Model.Items.Count > 0)
+{
+    <abp-row>
+        @foreach(var item in Model.Items)
+        {
+            <abp-column size="_4">
+                <abp-card>
+                    <abp-card-header>
+                        <h2>@item.Product.Name</h2>
+                    </abp-card-header>
+                    <abp-card-body>
+                        @if (item.Product.Image != null && item.Product.Image.Length != 0)
+                        {
+                            <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" Style="max-width: 300px; max-height: 300px; border-radius: 8px;" alt="@item.Product.Name"/>
+                        }
+                    </abp-card-body>
+                    <abp-card-footer>
+                        <abp-row>
+                            <p>$@item.Product.Price</p>
+                            <abp-button size="Small" button-type="Primary"
+                                        class="addToBasket" data-product-id="@item.Product.Id">@L["AddToBasket"]</abp-button>
+                        </abp-row>
+                        <p>@item.Product.Description</p>
+                        @*<p>Category: @item.Category.Name</p>*@
+                    </abp-card-footer>
+                </abp-card>
+            </abp-column>
+        }
+    </abp-row>
+}
