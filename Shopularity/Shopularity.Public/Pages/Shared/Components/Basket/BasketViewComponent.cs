@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Basket.Services;
 using Shopularity.Catalog.Products.Public;
@@ -7,7 +8,15 @@ namespace Shopularity.Public.Components.Basket;
 
 public class BasketViewModel
 {
-    public List<BasketViewItemModel> Items { get; set; } = new();
+    public List<BasketViewItemModel> Items { get; set; }
+    
+    public double TotalPrice { get; set; }
+
+    public BasketViewModel(List<BasketViewItemModel> items)
+    {
+        Items = items;
+        TotalPrice = items.Select(item => item.Product.Price * item.Amount).Sum();
+    }
 }
 
 public class BasketViewComponent : ViewComponent

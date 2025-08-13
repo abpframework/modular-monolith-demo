@@ -2,39 +2,31 @@
     var l = abp.localization.getResource('Shopularity');
 
     updateBasketCount = function (count) {
-        var $basketCountArea = $('#shopularityBasketCount');
-        var $basketCountLabel = $('#shopularityBasketItemCountLabel');
-        var $BasketSunOnActions = $('#shopularityBasketSunOnActions');
-        var $BasketEmpty= $('#shopularityBasketEmpty');
+        var $basketCountArea = $('#ShopularityBasketCount');
 
-        if ($basketCountArea.length === 0 || $basketCountLabel.length === 0 || $BasketSunOnActions.length === 0) {
+        if ($basketCountArea.length === 0) {
             return;
         }
 
         if (count === 0) {
             $basketCountArea.addClass('d-none')
                 .text('');
-            $BasketSunOnActions.addClass('d-none')
-                .text('');
-            $BasketEmpty
-                .removeClass('d-none');
-            $basketCountLabel.text('');
             return;
         }
         
         var displayCount = count > 99 ? '99+' : String(count);
         $basketCountArea.text(displayCount)
             .removeClass('d-none');
-        $basketCountLabel.text(l('ProductWithCount{0}', displayCount))
-            .removeClass('d-none');
-        $BasketSunOnActions
-            .removeClass('d-none');
-        $BasketEmpty
-            .addClass('d-none');
     }
     
-    updateBasket = function () {
-        var $basketArea = $('#shopularityBasketList');
+    initBasketCount = function () {
+        shopularity.public.controllers.basket.getBasketItems({}).then(function (result) {
+            updateBasketCount(result.length);
+        });
+    }
+    
+    updateBasketItems = function () {
+        var $basketArea = $('#ShopularityBasket');
         if ($basketArea.length === 0) {
             return;
         }
@@ -45,11 +37,13 @@
     abp.event.on('abp.serviceProxyScriptInitialized', function () {
         $(function () {
             if (abp.currentUser && abp.currentUser.id) {
-                updateBasket();
+                updateBasketItems();
+                initBasketCount();
                 const connection = new signalR.HubConnectionBuilder().withUrl(abp.appPath + "signalr-hubs/basket").build();
 
                 connection.on("BasketChange", function (newBasket) {
-                    updateBasket();
+                    updateBasketItems();
+                    updateBasketCount(newBasket.length);
                 });
 
                 connection.start().then(function () {

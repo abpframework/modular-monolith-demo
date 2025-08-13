@@ -46,7 +46,7 @@ public class BasketController : AbpController, IBasketAppService
     {
         return await BasketAppService.GetBasketItems();
     }
-    
+
     [HttpGet("render")]
     public async Task<ViewComponentResult> Render()
     {
@@ -54,21 +54,21 @@ public class BasketController : AbpController, IBasketAppService
 
         if (!result.Any())
         {
-            return ViewComponent("Basket", new BasketViewModel());
+            return ViewComponent("Basket", new BasketViewModel(new List<BasketViewItemModel>()));
         }
-        
+
         var productsWithDetails = await ProductsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
         {
             Ids = result.Select(x => x.ProductId).ToList()
         });
-        
-        return ViewComponent("Basket", new BasketViewModel {
-            Items = productsWithDetails.Items.Select(x=> new BasketViewItemModel
+
+        return ViewComponent("Basket", new BasketViewModel(
+            productsWithDetails.Items.Select(x => new BasketViewItemModel
             {
                 Product = x.Product,
                 Category = x.Category,
-                Amount = result.FirstOrDefault(y=> x.Product.Id == y.ProductId)?.Amount ?? 1
+                Amount = result.FirstOrDefault(y => x.Product.Id == y.ProductId)?.Amount ?? 1
             }).ToList()
-        });
+        ));
     }
 }

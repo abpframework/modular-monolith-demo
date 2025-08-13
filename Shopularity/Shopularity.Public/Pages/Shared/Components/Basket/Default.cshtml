@@ -4,17 +4,38 @@
 @inject IStringLocalizer<ShopularityResource> L
 @model Shopularity.Public.Components.Basket.BasketViewModel
 
-@foreach (var item in Model.Items)
-{
-    <abp-row style="padding: 10px; display: flex; align-items: center;width: 300px">
-        @if (item.Product.Image != null && item.Product.Image.Length != 0)
-        {
-            <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
-        }
-        <div>
-            <div style="font-weight: bold;">@item.Product.Name</div>
-            <div style="color: green;">@item.Product.Price</div>
-            <div style="color: gray;">@item.Amount</div>
-        </div>
-    </abp-row>
-}
+<div class="border-bottom px-3 py-2 d-flex justify-content-between align-items-center">
+    <span class="fw-semibold">@L["Basket"]</span>
+    <span class="text-muted small" id="shopularityBasketItemCountLabel">@L["ProductWithCount{0}", Model.Items.Count]</span>
+</div>
+
+<ul class="list-unstyled m-0" id="shopularityBasketList" style="max-height: 360px; overflow-y: auto;">
+    @foreach (var item in Model.Items)
+    {
+        <abp-row style="padding: 10px; display: flex; align-items: center;width: 300px">
+            @if (item.Product.Image != null && item.Product.Image.Length != 0)
+            {
+                <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
+            }
+            <div>
+                <div style="font-weight: bold;">@item.Product.Name</div>
+                <div style="color: green;">@L["Price"]:@item.Product.Price</div>
+                <div style="color: gray;">@L["Amount"]: @item.Amount</div>
+            </div>
+        </abp-row>
+    }
+</ul>
+
+<div id="shopularityBasketEmpty" class="px-3 py-4 text-center text-muted @(Model.Items.Count > 0 ? "d-none" : "")">
+    @L["BasketEmpty"]
+</div>
+
+<div class="border-top p-3 @(Model.Items.Count == 0 ? "d-none" : "")" id="shopularityBasketSunOnActions">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="fw-semibold">@L["SumOn"]</span>
+        <span class="fw-bold" id="shopularityBasketTotal">$@Model.TotalPrice.ToString("F2")</span>
+    </div>
+    <div class="d-grid gap-2">
+        <a href="/basket" class="btn btn-success btn-sm">@L["ShowBasket"]</a>
+    </div>
+</div>

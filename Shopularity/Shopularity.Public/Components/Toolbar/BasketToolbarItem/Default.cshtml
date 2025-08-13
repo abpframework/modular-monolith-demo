@@ -15,37 +15,13 @@
             style="overflow: visible;">
         <i class="fa fa-shopping-basket"></i>
 
-        <span id="shopularityBasketCount"
+        <span id="ShopularityBasketCount"
               class="d-none position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
               style="min-width:20px;height:20px;line-height:20px;font-size:.75rem;padding:0 6px;"></span>
     </button>
 
-    <div class="dropdown-menu p-0" id="shopularityBasket" style="width: 300px">
-        <!-- Header -->
-        <div class="border-bottom px-3 py-2 d-flex justify-content-between align-items-center">
-            <span class="fw-semibold">@L["Basket"]</span>
-            <span class="text-muted small" id="shopularityBasketItemCountLabel"></span>
-        </div>
-
-        <!-- List -->
-        <ul class="list-unstyled m-0" id="shopularityBasketList" style="max-height: 360px; overflow-y: auto;"></ul>
-
-        <!-- Empty state -->
-        <div id="shopularityBasketEmpty" class="px-3 py-4 text-center text-muted" style="display:none;">
-            @L["BasketEmpty"]
-        </div>
-
-        <!-- Footer / Summary -->
-        <div class="border-top p-3" id="shopularityBasketSunOnActions">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="fw-semibold">@L["SumOn"]</span>
-                <span class="fw-bold" id="shopularityBasketTotal">$0.00</span>
-            </div>
-            <div class="d-grid gap-2">
-                <a href="/cart" class="btn btn-outline-secondary btn-sm">@L["ShowBasket"]</a>
-                <a href="/checkout" class="btn btn-success btn-sm">@L["PurchaseNow"]</a>
-            </div>
-        </div>
+    <div class="dropdown-menu p-0" id="ShopularityBasket" style="width: 300px">
+       
     </div>
 </div>
 
