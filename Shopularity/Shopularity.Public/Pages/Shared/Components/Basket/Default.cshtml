@@ -1,0 +1,20 @@
+@using Microsoft.Extensions.Localization
+@using Shopularity.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
+@inject IStringLocalizer<ShopularityResource> L
+@model Shopularity.Public.Components.Basket.BasketViewModel
+
+@foreach (var item in Model.Items)
+{
+    <abp-row style="padding: 10px; display: flex; align-items: center;width: 300px">
+        @if (item.Product.Image != null && item.Product.Image.Length != 0)
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
+        }
+        <div>
+            <div style="font-weight: bold;">@item.Product.Name</div>
+            <div style="color: green;">@item.Product.Price</div>
+            <div style="color: gray;">@item.Amount</div>
+        </div>
+    </abp-row>
+}

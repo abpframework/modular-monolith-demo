@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Basket.Services;
+using Shopularity.Catalog.Products;
+using Shopularity.Catalog.Products.Public;
+using Shopularity.Public.Components.Basket;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 
@@ -15,10 +19,12 @@ namespace Shopularity.Public.Controllers;
 public class BasketController : AbpController, IBasketAppService
 {
     protected IBasketAppService BasketAppService;
+    protected IProductsPublicAppService ProductsPublicAppService;
 
-    public BasketController(IBasketAppService basketAppService)
+    public BasketController(IBasketAppService basketAppService, IProductsPublicAppService productsPublicAppService)
     {
         BasketAppService = basketAppService;
+        ProductsPublicAppService = productsPublicAppService;
     }
 
     [HttpGet]
@@ -39,5 +45,30 @@ public class BasketController : AbpController, IBasketAppService
     public async Task<List<BasketItem>> GetBasketItems()
     {
         return await BasketAppService.GetBasketItems();
+    }
+    
+    [HttpGet("render")]
+    public async Task<ViewComponentResult> Render()
+    {
+        var result = await BasketAppService.GetBasketItems();
+
+        if (!result.Any())
+        {
+            return ViewComponent("Basket", new BasketViewModel());
+        }
+        
+        var productsWithDetails = await ProductsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
+        {
+            Ids = result.Select(x => x.ProductId).ToList()
+        });
+        
+        return ViewComponent("Basket", new BasketViewModel {
+            Items = productsWithDetails.Items.Select(x=> new BasketViewItemModel
+            {
+                Product = x.Product,
+                Category = x.Category,
+                Amount = result.FirstOrDefault(y=> x.Product.Id == y.ProductId)?.Amount ?? 1
+            }).ToList()
+        });
     }
 }

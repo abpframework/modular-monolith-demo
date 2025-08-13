@@ -31,20 +31,24 @@ public class ProductsController : AbpController, IProductsPublicAppService
     }
 
     [HttpGet]
+    [Route("ids")]
+    public Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input)
+    {
+        return ProductsPublicAppService.GetListByIdsAsync(input);
+    }
+
+    [HttpGet]
     [Route("{id}")]
     public virtual Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)
     {
         return ProductsPublicAppService.GetAsync(id);
     }
     
-    [HttpGet("render")]
-    public async Task<ViewComponentResult> Render([FromQuery] int skip = 0, [FromQuery] int take = 12, [FromQuery] string sorting = "Product.Name")
+    [HttpGet]
+    [Route("render")]
+    public async Task<ViewComponentResult> Render(GetProductsInput input)
     {
-        var result = await ProductsPublicAppService.GetListAsync(new GetProductsInput() {
-            SkipCount = skip,
-            MaxResultCount = take,
-            Sorting = sorting
-        });
+        var result = await ProductsPublicAppService.GetListAsync(input);
 
         return ViewComponent("ProductList", new ProductListViewModel {
             TotalCount = result.TotalCount,

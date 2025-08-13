@@ -9,5 +9,7 @@ public interface IProductsPublicAppService : IApplicationService
 {
     Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsInput input);
 
+    Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input);
+
     Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id);
 }

@@ -41,6 +41,24 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
         return result;
     }
 
+    public virtual async Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input)
+    {
+        var items = await _productRepository.GetListWithNavigationPropertiesAsync(input.Ids);
+        var result = new ListResultDto<ProductWithNavigationPropertiesPublicDto>
+        {
+            Items = ObjectMapper.Map<List<ProductWithNavigationProperties>, List<ProductWithNavigationPropertiesPublicDto>>(items)
+        };
+
+        foreach (var product in result.Items)
+        {
+            var imageStream = await _blobContainer.GetOrNullAsync(product.Product.Id.ToString());
+            
+            product.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
+        }
+        
+        return result;
+    }
+
     public virtual async Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)
     {
         var productWithNavigationProperties = ObjectMapper.Map<ProductWithNavigationProperties, ProductWithNavigationPropertiesPublicDto>

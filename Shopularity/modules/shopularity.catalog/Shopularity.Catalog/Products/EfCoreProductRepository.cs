@@ -72,6 +72,21 @@ public class EfCoreProductRepository : EfCoreRepository<CatalogDbContext, Produc
         return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
     }
 
+    public virtual async Task<List<ProductWithNavigationProperties>> GetListWithNavigationPropertiesAsync(
+        List<Guid> ids,
+        CancellationToken cancellationToken = default
+    )
+    {
+        if (ids.Count == 0)
+        {
+            return new List<ProductWithNavigationProperties>();
+        }
+        
+        var query = await GetQueryForNavigationPropertiesAsync();
+        query = query.Where(x=> ids.Contains(x.Product.Id));
+        return await query.ToListAsync(cancellationToken);
+    }
+
     protected virtual async Task<IQueryable<ProductWithNavigationProperties>> GetQueryForNavigationPropertiesAsync()
     {
         return from product in (await GetDbSetAsync())

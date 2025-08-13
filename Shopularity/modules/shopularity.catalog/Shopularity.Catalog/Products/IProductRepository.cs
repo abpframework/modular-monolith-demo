@@ -39,6 +39,11 @@ public interface IProductRepository : IRepository<Product, Guid>
         CancellationToken cancellationToken = default
     );
 
+    Task<List<ProductWithNavigationProperties>> GetListWithNavigationPropertiesAsync(
+        List<Guid> ids,
+        CancellationToken cancellationToken = default
+    );
+
     Task<List<Product>> GetListAsync(
         string? filterText = null,
         string? name = null,
