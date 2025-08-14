@@ -31,6 +31,7 @@ public class BasketController : AbpController, IBasketAppService
     [Route("add")]
     public async Task AddItemToBasket(BasketItem input)
     {
+        //todo: check stock count
         await BasketAppService.AddItemToBasket(input);
     }
 
