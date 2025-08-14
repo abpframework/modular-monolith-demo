@@ -32,6 +32,13 @@
         <span class="fw-bold" id="shopularityBasketTotal">$@Model.TotalPrice.ToString("F2")</span>
     </div>
     <div class="d-grid gap-2">
-        <a href="/basket" class="btn btn-success btn-sm">@L["ShowBasket"]</a>
+        @if (!Model.IsBasketPage)
+        {
+            <a href="/basket" class="btn btn-success btn-sm">@L["ShowBasket"]</a>
+        }
+        else
+        {
+            <a href="/check-out" class="btn btn-success btn-sm">@L["ProceedToCheckOut"]</a>
+        }
     </div>
 </div>
