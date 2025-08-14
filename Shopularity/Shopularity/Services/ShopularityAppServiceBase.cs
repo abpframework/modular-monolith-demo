@@ -4,9 +4,9 @@ using Shopularity.Localization;
 namespace Shopularity.Services;
 
 /* Inherit your application services from this class. */
-public abstract class ShopularityAppService : ApplicationService
+public abstract class ShopularityAppServiceBase : ApplicationService
 {
-    protected ShopularityAppService()
+    protected ShopularityAppServiceBase()
     {
         LocalizationResource = typeof(ShopularityResource);
     }

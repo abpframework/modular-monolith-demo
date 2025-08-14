@@ -67,7 +67,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         var item = value.Items.First(x => x.ProductId == input.ProductId);
         item.Amount -= input.Amount;
 
-        if (item.Amount == 0)
+        if (item.Amount <= 0)
         {
             value.Items.Remove(item);
         }

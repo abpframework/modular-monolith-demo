@@ -153,8 +153,6 @@ namespace Shopularity;
     typeof(BlobStoringDatabaseEntityFrameworkCoreModule),
     typeof(AbpEntityFrameworkCoreSqlServerModule)
 )]
-[DependsOn(
-)]
 public class ShopularityModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

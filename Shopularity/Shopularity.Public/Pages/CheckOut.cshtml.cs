@@ -8,6 +8,8 @@ using Shopularity.Basket.Services;
 using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Products.Public;
 using Shopularity.Public.Components.Basket;
+using Shopularity.Services.Dtos;
+using Shopularity.Services.Orders;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
@@ -17,6 +19,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 {
     public IBasketAppService BasketAppService { get; }
     public IProductsPublicAppService ProductsPublicAppService { get; }
+    public IOrderingPublicAppService OrderingPublicAppService { get; }
     public IMemoryCache MemoryCache { get; }
 
     [HiddenInput]
@@ -36,11 +39,13 @@ public class CheckOutModel : ShopularityPublicPageModel
 
     public CheckOutModel(
         IBasketAppService basketAppService,
-        IProductsPublicAppService productsPublicAppService, 
+        IProductsPublicAppService productsPublicAppService,
+        IOrderingPublicAppService orderingPublicAppService,
         IMemoryCache memoryCache)
     {
         BasketAppService = basketAppService;
         ProductsPublicAppService = productsPublicAppService;
+        OrderingPublicAppService = orderingPublicAppService;
         MemoryCache = memoryCache;
     }
     
@@ -85,7 +90,14 @@ public class CheckOutModel : ShopularityPublicPageModel
         {
             throw new UserFriendlyException("Time out! Please refresh the page to continue checking-out.");
         }
-            
+
+        await OrderingPublicAppService.CreateOrderAsync(new NewOrderInputDto
+        {
+            Address = Address,
+            CreditCardNo = CreditCardNumber,
+            Products = basketFromCache.Items.Select(x=> new BasketItem{ ProductId = x.Product.Id, Amount = x.Amount}).ToList()
+        });
+        
         return RedirectToPage("/my-orders");
     }
 

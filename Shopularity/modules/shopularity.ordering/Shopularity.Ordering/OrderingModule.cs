@@ -1,7 +1,5 @@
 using Shopularity.Ordering.OrderLines;
-
 using Shopularity.Ordering.Orders;
-
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
