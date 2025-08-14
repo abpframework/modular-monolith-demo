@@ -1,0 +1,16 @@
+@page
+@using Shopularity.Public.Pages
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.AspNetCore.Mvc.UI.Packages.SignalR
+@inherits Shopularity.Public.Pages.ShopularityPublicPageBase
+@model BasketModel
+
+@section scripts {
+<abp-script-bundle name="@typeof(BasketModel).FullName">
+    <abp-script type="typeof(SignalRBrowserScriptContributor)" />
+</abp-script-bundle>
+}
+
+<div>
+    <h2>Basket:</h2>
+</div>

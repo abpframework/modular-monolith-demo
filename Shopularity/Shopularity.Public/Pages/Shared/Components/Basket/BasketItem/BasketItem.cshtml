@@ -1,0 +1,49 @@
+@using Microsoft.Extensions.Localization
+@using Shopularity.Localization
+@using Shopularity.Public.Components.Basket
+@using Shopularity.Public.Pages.Shared.Components.Basket.BasketItem
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@inject IStringLocalizer<ShopularityResource> L
+@model BasketItemViewModel
+
+@section styles {
+    <abp-style-bundle name="@typeof(BasketItemViewComponent).FullName">
+        <abp-style src="BasketItem.css"/>
+    </abp-style-bundle>
+}
+
+<abp-row style="padding: 10px; display: flex; align-items: center;width: 300px" abp-border="Secondary" class="basket-item">
+    <abp-column size="_6">
+        @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
+        {
+            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@Model.Item.Product.Name"/>
+        }
+    </abp-column>
+    <abp-column size="_6" style="position: relative;">
+        <abp-button button-type="Outline_Warning"
+                    icon="trash"
+                    class="remove-from-basket"
+                    style="position: absolute; top: 0; right: 0;">
+        </abp-button>
+
+        <div style="font-weight: bold; padding-right: 30px;">@Model.Item.Product.Name</div>
+        <div style="color: green;">@L["Price"]: $@Model.Item.Product.Price</div>
+        <div class="amount-control d-flex align-items-center" data-product-id="@Model.Item.Product.Id">
+            <abp-button button-type="Outline_Secondary"
+                        size="Small"
+                        disabled="@(Model.Item.Amount == 1)"
+                        class="amount-minus">
+                −
+            </abp-button>
+            <span class="amount-value mx-2">@Model.Item.Amount</span>
+            <abp-button button-type="Outline_Secondary"
+                        size="Small"
+                        class="amount-plus">
+                +
+            </abp-button>
+        </div>
+    </abp-column>
+
+</abp-row>

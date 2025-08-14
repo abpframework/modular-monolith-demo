@@ -13,6 +13,6 @@ public class ShopularityPublicGlobalScriptContributor : BundleContributor
 {
     public async override Task ConfigureBundleAsync(BundleConfigurationContext context)
     {
-        context.Files.AddIfNotContains("/Pages/Basket/basket.js");
+        context.Files.AddIfNotContains("/Pages/basket.js");
     }
 }
