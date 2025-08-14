@@ -98,7 +98,7 @@ public class CheckOutModel : ShopularityPublicPageModel
             Products = basketFromCache.Items.Select(x=> new BasketItem{ ProductId = x.Product.Id, Amount = x.Amount}).ToList()
         });
         
-        return RedirectToPage("/my-orders");
+        return Redirect("/my-orders");
     }
 
     internal class BasketCheckoutCacheItem
