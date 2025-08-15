@@ -7,12 +7,14 @@
       "path": "../../Shopularity/Shopularity.csproj",
       "execution": {
         "order": 0
-      }
+      },
+      "folder": "Apps"
     },
     "Shopularity.Public": {
       "type": "dotnet-project",
       "path": "../../Shopularity.Public/Shopularity.Public.csproj",
-      "launchUrl": "https://localhost:53585"
+      "launchUrl": "https://localhost:53585",
+      "folder": "Apps"
     }
   },
   "containers": {
@@ -20,5 +22,10 @@
       "../docker/containers/rabbitmq.yml": {}
     },
     "serviceName": "Shopularity-containers"
+  },
+  "folders": {
+    "items": {
+      "Apps": {}
+    }
   }
 }

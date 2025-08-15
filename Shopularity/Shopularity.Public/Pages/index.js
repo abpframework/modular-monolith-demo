@@ -1,8 +1,9 @@
 (function ($) {
     var l = abp.localization.getResource('Shopularity');
     const renderApi = '/api/catalog/public/products/render';
-
-    $("#ShopularityProductList").load(renderApi + "?skip=0&maxResultCount=9");
+    var $shopularityProductList = $("#ShopularityProductList");
+    let selectedCategory = '';
+    $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9");
 
     let skip = 9;
     let loading = false; // todo: show loading indicator
@@ -16,14 +17,14 @@
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
             loading = true;
 
-            $.get(renderApi, {skipCount: skip, maxResultCount: 6}, function(html) {
+            $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryId: selectedCategory}, function(html) {
                 if ($.trim(html).length === 0) {
                     done = true;
                     loading = false;
                     return;
                 }
 
-                $("#ShopularityProductList").append(html);
+                $shopularityProductList.append(html);
                 skip += 6;
                 loading = false;
             });
@@ -31,6 +32,24 @@
     });
     
     var basketAppService = shopularity.public.controllers.basket;
+    $(document).on("click", ".category-item", function () {
+        selectedCategory = $(this).data('category-id');
+        skip = 0;
+        done = false;
+        $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryId: selectedCategory}, function(html) {
+            if ($.trim(html).length === 0) {
+                done = true;
+                loading = false;
+                return;
+            }
+
+            $shopularityProductList.empty();
+            $shopularityProductList.append(html);
+            skip += 6;
+            loading = false;
+        });
+    });
+    
     $(document).on("click", ".addToBasket", function () {
         var id = $(this).data('product-id');
         basketAppService.addItemToBasket({productId: id, amount: 1})

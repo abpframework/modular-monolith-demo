@@ -6,11 +6,25 @@
 @model IndexModel
 
 @section scripts {
-<abp-script-bundle name="@typeof(IndexModel).FullName">
-    <abp-script src="/Pages/index.js" />
-</abp-script-bundle>
+    <abp-script-bundle name="@typeof(IndexModel).FullName">
+        <abp-script src="/Pages/index.js"/>
+    </abp-script-bundle>
 }
 
-<div id="ShopularityProductList">
-    
-</div>
+<abp-row>
+    <abp-column size="_3">
+        <h2>@L["Categories"]:</h2>
+        <abp-list-group>
+                <abp-list-group-item class="category-item" data-category-id="">@L["all"]</abp-list-group-item>
+            @foreach (var category in Model.Categories)
+            {
+                <abp-list-group-item class="category-item" data-category-id="@category.Id">@category.Name</abp-list-group-item>
+            }
+        </abp-list-group>
+    </abp-column>
+    <abp-column size="_9">
+        <div id="ShopularityProductList">
+
+        </div>
+    </abp-column>
+</abp-row>
