@@ -33,7 +33,7 @@ namespace Shopularity.Ordering.Orders
             int skipCount = 0,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetQueryableAsync()), filterText, userId, state, totalPriceMin, totalPriceMax, shippingAddress, cargoNo);
+            var query = ApplyFilter((await WithDetailsAsync(x=> x.OrderLines)), filterText, userId, state, totalPriceMin, totalPriceMax, shippingAddress, cargoNo);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? OrderConsts.GetDefaultSorting(false) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }

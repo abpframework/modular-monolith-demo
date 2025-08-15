@@ -7,19 +7,17 @@
 
 <div>
     <h2>My Orders:</h2>
-    <abp-list>
     @foreach (var item in Model.Orders.Items)
     {
-        <abp-list-item>
-            <span>@item.TotalPrice</span>
-            <span>State: @item.State</span>
-            <span>Address: @item.ShippingAddress</span>
-            <span>CargoNo: @item.CargoNo</span>
+        <abp-row abp-border="Info">
+            <div>@item.TotalPrice.ToString("F2")</div>
+            <div>State: @item.State</div>
+            <div>Address: @item.ShippingAddress</div>
+            <div>CargoNo: @item.CargoNo</div>
             @foreach (var lineItem in item.OrderLines)
             {
-                <span> - @lineItem.Name + (@lineItem.Amount)</span>
+                <span> - @lineItem.Name (@lineItem.Amount)</span>
             }
-        </abp-list-item>
+        </abp-row>
     }
-    </abp-list>
 </div>

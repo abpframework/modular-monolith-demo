@@ -6,6 +6,5 @@ namespace Shopularity.Ordering.Orders.Public
     public interface IOrdersPublicAppService : IApplicationService
     {
         Task<OrderDto> CreateAsync(OrderCreatePublicDto input);
-
     }
 }
