@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         _eventBus = eventBus;
     }
 
-    public async Task AddItemToBasket(BasketItem input)
+    public async Task AddItemToBasketAsync(BasketItem input)
     {
         _memoryCache.TryGetValue(CurrentUser.GetId(), out BasketCacheItem? value);
 
@@ -29,9 +30,9 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
             value = new BasketCacheItem();
             value.Items.Add(input);
         }
-        else if (value.Items.Any(x => x.ProductId == input.ProductId))
+        else if (value.Items.Any(x => x.ItemId == input.ItemId))
         {
-            value.Items.First(x => x.ProductId == input.ProductId).Amount += input.Amount;
+            value.Items.First(x => x.ItemId == input.ItemId).Amount += input.Amount;
         }
         else
         {
@@ -41,16 +42,15 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         _memoryCache.Set(CurrentUser.GetId(), value);
 
         await _eventBus.PublishAsync(
-            new BasketItemAddedEto
+            new BasketUpdatedEto
             {
                 UserId = CurrentUser.GetId(),
-                RemainingItemCountInBasket = value.Items.Count,
-                Item = value.Items.First(x => x.ProductId == input.ProductId)
+                ItemCountInBasket = value.Items.Count
             }
         );
     }
 
-    public async Task RemoveItemFromBasket(BasketItem input)
+    public async Task RemoveItemFromBasketAsync(BasketItem input)
     {
         _memoryCache.TryGetValue(CurrentUser.GetId(), out BasketCacheItem? value);
 
@@ -59,12 +59,12 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
             return;
         }
 
-        if (value.Items.All(x => x.ProductId != input.ProductId))
+        if (value.Items.All(x => x.ItemId != input.ItemId))
         {
             return;
         }
 
-        var item = value.Items.First(x => x.ProductId == input.ProductId);
+        var item = value.Items.First(x => x.ItemId == input.ItemId);
         item.Amount -= input.Amount;
 
         if (item.Amount <= 0)
@@ -75,15 +75,10 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         _memoryCache.Set(CurrentUser.GetId(), value);
 
         await _eventBus.PublishAsync(
-            new BasketItemRemovedEto
+            new BasketUpdatedEto
             {
                 UserId = CurrentUser.GetId(),
-                RemainingItemCountInBasket = value.Items.Count,
-                Item = new BasketItem
-                {
-                    ProductId = input.ProductId,
-                    Amount = item.Amount
-                } 
+                ItemCountInBasket = value.Items.Count
             }
         );
     }

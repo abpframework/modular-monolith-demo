@@ -4,20 +4,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Shopularity.Ordering.Orders.Events;
 using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Data;
+using Volo.Abp.EventBus.Distributed;
 
 namespace Shopularity.Ordering.Orders
 {
     public class OrderManager : DomainService
     {
         protected IOrderRepository _orderRepository;
+        private readonly IDistributedEventBus _eventBus;
 
-        public OrderManager(IOrderRepository orderRepository)
+        public OrderManager(IOrderRepository orderRepository, IDistributedEventBus eventBus)
         {
             _orderRepository = orderRepository;
+            _eventBus = eventBus;
+        }
+
+        public virtual async Task<Order> CreateNewAsync(
+        string userId,
+        string shippingAddress,
+        Dictionary<string, int> items)
+        {
+            Check.NotNullOrWhiteSpace(userId, nameof(userId));
+            Check.NotNullOrWhiteSpace(shippingAddress, nameof(shippingAddress));
+            Check.Length(shippingAddress, nameof(shippingAddress), OrderConsts.ShippingAddressMaxLength);
+
+            var order = new Order(
+             GuidGenerator.Create(),
+             userId, 
+             OrderState.New, 
+             0, 
+             shippingAddress
+             );
+
+            order = await _orderRepository.InsertAsync(order);
+
+            await _eventBus.PublishAsync(
+                new OrderCreatedEto
+                {
+                    items = items,
+                    OrderId = order.Id
+                }
+            );
+
+            return order;
         }
 
         public virtual async Task<Order> CreateAsync(
@@ -56,5 +90,13 @@ namespace Shopularity.Ordering.Orders
             return await _orderRepository.UpdateAsync(order);
         }
 
+        public async Task UpdatePriceAsync(Guid id, double totalOrderPrice)
+        {
+            var order = await _orderRepository.GetAsync(id);
+
+            order.TotalPrice = totalOrderPrice;
+
+            await _orderRepository.UpdateAsync(order);
+        }
     }
 }

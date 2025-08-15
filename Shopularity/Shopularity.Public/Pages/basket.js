@@ -81,14 +81,9 @@
                 initBasketCount();
                 const connection = new signalR.HubConnectionBuilder().withUrl(abp.appPath + "signalr-hubs/basket").build();
 
-                connection.on("BasketItemAdded", function (result) {
-                    renderBasketItems(result.item);
-                    updateBasketCount(result.remainingItemCountInBasket);
-                });
-                
-                connection.on("BasketItemRemoved", function (result) {
-                    renderBasketItems(result.item);
-                    updateBasketCount(result.remainingItemCountInBasket);
+                connection.on("BasketUpdated", function (result) {
+                    renderBasketItems();
+                    updateBasketCount(result.itemCountInBasket);
                 });
 
                 connection.start().then(function () {

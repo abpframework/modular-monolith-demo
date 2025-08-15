@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
@@ -23,16 +24,16 @@ public class BasketController : AbpController, IBasketAppService
 
     [HttpGet]
     [Route("add")]
-    public async Task AddItemToBasket(BasketItem input)
+    public async Task AddItemToBasketAsync(BasketItem input)
     {
-        await BasketAppService.AddItemToBasket(input);
+        await BasketAppService.AddItemToBasketAsync(input);
     }
 
     [HttpGet]
     [Route("remove")]
-    public async Task RemoveItemFromBasket(BasketItem input)
+    public async Task RemoveItemFromBasketAsync(BasketItem input)
     {
-        await BasketAppService.RemoveItemFromBasket(input);
+        await BasketAppService.RemoveItemFromBasketAsync(input);
     }
 
     [HttpGet]

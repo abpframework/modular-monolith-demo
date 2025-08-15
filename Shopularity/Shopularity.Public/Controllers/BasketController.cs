@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,17 +30,17 @@ public class BasketController : AbpController, IBasketAppService
 
     [HttpGet]
     [Route("add")]
-    public async Task AddItemToBasket(BasketItem input)
+    public async Task AddItemToBasketAsync(BasketItem input)
     {
         //todo: check stock count
-        await BasketAppService.AddItemToBasket(input);
+        await BasketAppService.AddItemToBasketAsync(input);
     }
 
     [HttpGet]
     [Route("remove")]
-    public async Task RemoveItemFromBasket(BasketItem input)
+    public async Task RemoveItemFromBasketAsync(BasketItem input)
     {
-        await BasketAppService.RemoveItemFromBasket(input);
+        await BasketAppService.RemoveItemFromBasketAsync(input);
     }
 
     [HttpGet]
@@ -60,7 +61,7 @@ public class BasketController : AbpController, IBasketAppService
 
         var productsWithDetails = await ProductsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
         {
-            Ids = result.Select(x => x.ProductId).ToList()
+            Ids = result.Select(x => Guid.Parse(x.ItemId)).ToList()
         });
 
         return ViewComponent("Basket", new BasketViewModel(
@@ -68,7 +69,7 @@ public class BasketController : AbpController, IBasketAppService
             {
                 Product = x.Product,
                 Category = x.Category,
-                Amount = result.FirstOrDefault(y => x.Product.Id == y.ProductId)?.Amount ?? 1,
+                Amount = result.FirstOrDefault(y => x.Product.Id.ToString() == y.ItemId)?.Amount ?? 1
             }).ToList(),
             isBasketPage
         ));

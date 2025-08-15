@@ -4,7 +4,7 @@ namespace Shopularity.Basket.Services;
 
 public class BasketItem
 {
-    public Guid ProductId { get; set; }
+    public string ItemId { get; set; }
     
     public int Amount { get; set; }
 }

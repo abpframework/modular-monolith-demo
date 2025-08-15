@@ -18,6 +18,7 @@ namespace Shopularity.Services.Orders;
 [RemoteService]
 public class OrderingPublicAppService: ShopularityAppServiceBase, IOrderingPublicAppService
 {
+    private readonly OrderManager _orderManager;
     private readonly IOrdersAppService _ordersAppAdminService;
     private readonly IOrdersPublicAppService _ordersPublicAppService;
     private readonly IOrderLinesAppService _orderLinesAppService;
@@ -26,6 +27,7 @@ public class OrderingPublicAppService: ShopularityAppServiceBase, IOrderingPubli
     private readonly PaymentManager _paymentManager;
 
     public OrderingPublicAppService(
+        OrderManager orderManager,
         IOrdersAppService ordersAppAdminService,
         IOrdersPublicAppService ordersPublicAppService,
         IOrderLinesAppService orderLinesAppService,
@@ -34,6 +36,7 @@ public class OrderingPublicAppService: ShopularityAppServiceBase, IOrderingPubli
         PaymentManager paymentManager
     )
     {
+        _orderManager = orderManager;
         _ordersAppAdminService = ordersAppAdminService;
         _ordersPublicAppService = ordersPublicAppService;
         _orderLinesAppService = orderLinesAppService;
@@ -44,41 +47,14 @@ public class OrderingPublicAppService: ShopularityAppServiceBase, IOrderingPubli
     
     public async Task CreateOrderAsync(NewOrderInputDto input)
     {
-        //todo: remove appservice to appservice usage. create a manager class or use repository etc.
-        
-        var products = await _productsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
+        if (input.Products.Count == 0)
         {
-            Ids = input.Products.Select(x => x.ProductId).ToList()
-        });
-
-        await CheckProductStocksAsync(input, products);
-        var totalPrice = await CalculateTotalPricesAsync(input, products);
-
-        var order = await _ordersPublicAppService.CreateAsync(new OrderCreatePublicDto
-        {
-            ShippingAddress = input.Address,
-            TotalPrice = totalPrice
-        });
-
-        foreach (var item in products.Items)
-        {
-            await _orderLinesAppService.CreateAsync(new OrderLineCreateDto
-            {
-                OrderId = order.Id,
-                ProductId = item.Product.Id.ToString(),
-                Name = item.Product.Name,
-                Price = item.Product.Price,
-                Amount = input.Products.First(x => x.ProductId == item.Product.Id).Amount,
-                TotalPrice = item.Product.Price * input.Products.First(x => x.ProductId == item.Product.Id).Amount
-            });
+            //todo: make business exception
+            throw new UserFriendlyException("Order should contain a product!");
         }
 
-        await _paymentManager.CreateAsync(order.Id.ToString());
-
-        foreach (var product in input.Products)
-        {
-            await _basketAppService.RemoveItemFromBasket(product);
-        }
+        var products = input.Products.Select(x => new KeyValuePair<string, int>(x.ItemId, x.Amount)).ToDictionary();
+        await _orderManager.CreateNewAsync(CurrentUser.GetId().ToString(), input.Address, products);
     }
 
     public async Task<PagedResultDto<OrderDto>> GetOrdersAsync()
@@ -90,32 +66,5 @@ public class OrderingPublicAppService: ShopularityAppServiceBase, IOrderingPubli
         });
 
         return result;
-    }
-
-    private async Task<double> CalculateTotalPricesAsync(NewOrderInputDto input, ListResultDto<ProductWithNavigationPropertiesPublicDto> products)
-    {
-        double result = 0;
-        foreach (var item in products.Items)
-        {
-            var itemOrdered = input.Products.First(x => x.ProductId == item.Product.Id);
-
-            result += itemOrdered.Amount * item.Product.Price;
-        }
-
-        return result;
-    }
-
-    private async Task CheckProductStocksAsync(NewOrderInputDto input, ListResultDto<ProductWithNavigationPropertiesPublicDto> products)
-    {
-        foreach (var item in products.Items)
-        {
-            var itemOrdered = input.Products.First(x => x.ProductId == item.Product.Id);
-
-            if (item.Product.StockCount < itemOrdered.Amount)
-            {
-                //todo: show better message with code
-                throw new BusinessException(message:"Not Enough stock!!");
-            }
-        }
     }
 }

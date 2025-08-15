@@ -58,6 +58,11 @@ public interface IProductRepository : IRepository<Product, Guid>
         CancellationToken cancellationToken = default
     );
 
+    Task<List<Product>> GetListAsync(
+        List<Guid> ids,
+        CancellationToken cancellationToken = default
+    );
+
     Task<long> GetCountAsync(
         string? filterText = null,
         string? name = null,

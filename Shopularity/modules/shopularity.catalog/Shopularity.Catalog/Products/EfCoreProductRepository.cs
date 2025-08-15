@@ -139,6 +139,14 @@ public class EfCoreProductRepository : EfCoreRepository<CatalogDbContext, Produc
         return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
     }
 
+    public virtual async Task<List<Product>> GetListAsync(
+        List<Guid> ids,
+        CancellationToken cancellationToken = default)
+    {
+        var query = (await GetQueryableAsync()).Where(x=> ids.Contains(x.Id));
+        return await query.ToListAsync(cancellationToken);
+    }
+
     public virtual async Task<long> GetCountAsync(
         string? filterText = null,
         string? name = null,
