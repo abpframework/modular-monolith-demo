@@ -1,6 +1,7 @@
 ﻿using Shopularity.Basket.Domain;
 using Shopularity.Basket.Services;
 using Shopularity.Catalog.Products.Events;
+using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
 using Shopularity.Payment.Payments;
 using Volo.Abp.DependencyInjection;
@@ -15,15 +16,18 @@ public class ShopularityEventHandler:
     IDistributedEventHandler<OrderLinesProcessedDto>,
     ITransientDependency
 {
+    private readonly OrderLineManager _orderLineManager;
     private readonly IDistributedEventBus _eventBus;
     private readonly BasketManager _basketManager;
     private readonly PaymentManager _paymentManager;
 
     public ShopularityEventHandler(
+        OrderLineManager orderLineManager,
         IDistributedEventBus eventBus,
         BasketManager basketManager,
         PaymentManager paymentManager)
     {
+        _orderLineManager = orderLineManager;
         _eventBus = eventBus;
         _basketManager = basketManager;
         _paymentManager = paymentManager;
@@ -44,20 +48,14 @@ public class ShopularityEventHandler:
 
     public async Task HandleEventAsync(ProductsRequestCompletedEto eventData)
     {
-        await _eventBus.PublishAsync(
-            new OrderLinesReceivedEto
+        await _orderLineManager.CreateAsync(Guid.Parse(eventData.RequesterId), eventData.Products.Select(x =>
+            new OrderItemDto
             {
-                OrderId = Guid.Parse(eventData.RequesterId),
-                Items = eventData.Products.Select(x=> 
-                    new OrderItemDto
-                    {
-                        Name = x.Key.Name,
-                        ItemId = x.Key.Id.ToString(),
-                        Amount = x.Value,
-                        Price = x.Key.Price
-                    }).ToList()
-            }
-        );
+                Name = x.Key.Name,
+                ItemId = x.Key.Id.ToString(),
+                Amount = x.Value,
+                Price = x.Key.Price
+            }).ToList());
     }
 
     public async Task HandleEventAsync(OrderLinesProcessedDto eventData)
