@@ -19,7 +19,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 {
     public IBasketAppService BasketAppService { get; }
     public IProductsPublicAppService ProductsPublicAppService { get; }
-    public IOrderingPublicAppService OrderingPublicAppService { get; }
+    public IShopularityAppService ShopularityAppService { get; }
     public IMemoryCache MemoryCache { get; }
 
     [HiddenInput]
@@ -40,12 +40,12 @@ public class CheckOutModel : ShopularityPublicPageModel
     public CheckOutModel(
         IBasketAppService basketAppService,
         IProductsPublicAppService productsPublicAppService,
-        IOrderingPublicAppService orderingPublicAppService,
+        IShopularityAppService shopularityAppService,
         IMemoryCache memoryCache)
     {
         BasketAppService = basketAppService;
         ProductsPublicAppService = productsPublicAppService;
-        OrderingPublicAppService = orderingPublicAppService;
+        ShopularityAppService = shopularityAppService;
         MemoryCache = memoryCache;
     }
     
@@ -91,7 +91,7 @@ public class CheckOutModel : ShopularityPublicPageModel
             throw new UserFriendlyException("Time out! Please refresh the page to continue checking-out.");
         }
 
-        await OrderingPublicAppService.CreateOrderAsync(new NewOrderInputDto
+        await ShopularityAppService.CreateOrderAsync(new NewOrderInputDto
         {
             Address = Address,
             CreditCardNo = CreditCardNumber,

@@ -2,22 +2,65 @@
 @using Shopularity.Public.Pages
 @using Shopularity.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
+@using Shopularity.Ordering.Orders
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.ListGroup
 @inject IHtmlLocalizer<ShopularityResource> L
 @model MyOrdersModel
 
+@section scripts {
+    <abp-script-bundle name="@typeof(MyOrdersModel).FullName">
+        <abp-script src="/Pages/myOrders.js"/>
+    </abp-script-bundle>
+}
+
 <div>
     <h2>My Orders:</h2>
-    @foreach (var item in Model.Orders.Items)
-    {
-        <abp-row abp-border="Info">
-            <div>@item.TotalPrice.ToString("F2")</div>
-            <div>State: @item.State</div>
-            <div>Address: @item.ShippingAddress</div>
-            <div>CargoNo: @item.CargoNo</div>
-            @foreach (var lineItem in item.OrderLines)
-            {
-                <span> - @lineItem.Name (@lineItem.Amount)</span>
-            }
-        </abp-row>
-    }
+    <abp-list-group>
+        @foreach (var item in Model.Orders.Items)
+        {
+            <abp-list-group-item>
+                <abp-row class="align-items-center">
+                    <abp-column size-md="_6" class="mb-2">
+                        <strong>@L["Items"]:</strong>
+                        <div class="d-flex flex-column">
+                            @foreach (var lineItem in item.OrderLines)
+                            {
+                                <span>• @lineItem.Name <span class="text-muted">(@lineItem.Amount)</span></span>
+                            }
+                        </div>
+                    </abp-column>
+
+                    <abp-column size-md="_2" class="mb-2">
+                        <strong>@L["Total"]:</strong>
+                        <div class="text-success">@item.TotalPrice.ToString("C2")</div>
+                    </abp-column>
+
+                    <abp-column size-md="_2" class="mb-2 order-state">
+                        <strong>@L["State"]:</strong>
+                        <div class="order-state-label">@item.State</div>
+
+                        @if (item.State == OrderState.New)
+                        {
+                            <abp-button button-type="Danger" size="Small" class="mt-1 cancel-order" data-order-id="@item.Id">
+                                @L["Cancel"]
+                            </abp-button>
+                        }
+                    </abp-column>
+
+                    <abp-column size-md="_2" class="mb-2">
+                        <strong>@L["Address"]:</strong>
+                        <div>@item.ShippingAddress</div>
+                        @if (item.State is OrderState.Shipped or OrderState.Completed)
+                        {
+                            <small class="text-muted">@L["CargoNo"]: @item.CargoNo</small>
+                        }
+                    </abp-column>
+                </abp-row>
+            </abp-list-group-item>
+        }
+    </abp-list-group>
 </div>
+

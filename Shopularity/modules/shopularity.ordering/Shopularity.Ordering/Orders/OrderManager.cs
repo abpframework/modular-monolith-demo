@@ -10,6 +10,7 @@ using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Users;
 
 namespace Shopularity.Ordering.Orders
 {
@@ -17,11 +18,13 @@ namespace Shopularity.Ordering.Orders
     {
         protected IOrderRepository _orderRepository;
         private readonly IDistributedEventBus _eventBus;
+        private readonly ICurrentUser _currentUser;
 
-        public OrderManager(IOrderRepository orderRepository, IDistributedEventBus eventBus)
+        public OrderManager(IOrderRepository orderRepository, IDistributedEventBus eventBus, ICurrentUser currentUser)
         {
             _orderRepository = orderRepository;
             _eventBus = eventBus;
+            _currentUser = currentUser;
         }
 
         public virtual async Task<Order> CreateNewAsync(
@@ -68,6 +71,32 @@ namespace Shopularity.Ordering.Orders
              );
 
             return await _orderRepository.InsertAsync(order);
+        }
+
+        public virtual async Task CancelAsync(Guid id)
+        {
+            var order = await _orderRepository.GetAsync(id);
+
+            if (order.UserId != _currentUser.GetId().ToString())
+            {
+                // todo: business exception
+                throw new UserFriendlyException("Can't cancel someone else's order!!");
+            }
+
+            if (order.State is OrderState.Shipped or OrderState.Completed)
+            {
+                // todo: business exception
+                throw new UserFriendlyException("Can't cancel shipped or completed orders!!");
+            }
+            
+            order.State = OrderState.Cancelled;
+
+            await _orderRepository.UpdateAsync(order);
+
+            await _eventBus.PublishAsync(new OrderCancelledEto
+            {
+                Id = order.Id
+            });
         }
 
         public virtual async Task<Order> UpdateAsync(
