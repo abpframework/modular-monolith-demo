@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders;
 using Shopularity.Ordering.Orders.Events;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;
 
 namespace Shopularity.Ordering.Events;
 
-public class OrderingEventHandler : IDistributedEventHandler<OrderLinesReceivedEto>
+public class OrderingEventHandler : IDistributedEventHandler<OrderLinesReceivedEto>,
+    ITransientDependency
 {
     private readonly IDistributedEventBus _eventBus;
     private readonly IOrderRepository _orderRepository;

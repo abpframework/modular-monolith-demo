@@ -21,7 +21,9 @@ namespace Shopularity.Payment.Payments
             Check.NotNullOrWhiteSpace(orderId, nameof(orderId));
 
             var payment = new Payment(GuidGenerator.Create(),orderId);
-
+            
+            payment.State = PaymentState.Completed; // todo: discuss this
+            
             return await _paymentRepository.InsertAsync(payment);
         }
 

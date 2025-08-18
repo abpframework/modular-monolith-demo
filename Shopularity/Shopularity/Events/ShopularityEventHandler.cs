@@ -2,6 +2,8 @@
 using Shopularity.Basket.Services;
 using Shopularity.Catalog.Products.Events;
 using Shopularity.Ordering.Orders.Events;
+using Shopularity.Payment.Payments;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
 
@@ -10,15 +12,21 @@ namespace Shopularity.Events;
 public class ShopularityEventHandler:
     IDistributedEventHandler<OrderCreatedEto>,
     IDistributedEventHandler<ProductsRequestCompletedEto>,
-    IDistributedEventHandler<OrderLinesProcessedDto>
+    IDistributedEventHandler<OrderLinesProcessedDto>,
+    ITransientDependency
 {
     private readonly IDistributedEventBus _eventBus;
     private readonly BasketManager _basketManager;
+    private readonly PaymentManager _paymentManager;
 
-    public ShopularityEventHandler(IDistributedEventBus eventBus, BasketManager basketManager)
+    public ShopularityEventHandler(
+        IDistributedEventBus eventBus,
+        BasketManager basketManager,
+        PaymentManager paymentManager)
     {
         _eventBus = eventBus;
         _basketManager = basketManager;
+        _paymentManager = paymentManager;
     }
     
     public async Task HandleEventAsync(OrderCreatedEto eventData)
@@ -26,9 +34,12 @@ public class ShopularityEventHandler:
         await _eventBus.PublishAsync(
                 new ProductsRequestedEto
                 {
-                    Products = eventData.items.Select(x=> new KeyValuePair<Guid,int>(Guid.Parse(x.Key),x.Value)).ToDictionary()
+                    Products = eventData.items.Select(x=> new KeyValuePair<Guid,int>(Guid.Parse(x.Key),x.Value)).ToDictionary(),
+                    RequesterId = eventData.OrderId.ToString()
                 }
             );
+
+        await _paymentManager.CreateAsync(eventData.OrderId.ToString());
     }
 
     public async Task HandleEventAsync(ProductsRequestCompletedEto eventData)

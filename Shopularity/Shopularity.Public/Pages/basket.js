@@ -7,7 +7,7 @@
         var amount = parseInt($value.text(), 10) || 0;
 
         shopularity.public.controllers.basket.removeItemFromBasket({
-            productId: $container.data('product-id'),
+            itemId: $container.data('product-id'),
             amount: amount
         })
             .then(function (result) {
@@ -19,7 +19,7 @@
         var $container = $(this).closest('.amount-control');
 
         shopularity.public.controllers.basket.addItemToBasket({
-            productId: $container.data('product-id'),
+            itemId: $container.data('product-id'),
             amount: 1
         })
             .then(function (result) {
@@ -31,7 +31,7 @@
         var $container = $(this).closest('.amount-control');
 
         shopularity.public.controllers.basket.removeItemFromBasket({
-            productId: $container.data('product-id'),
+            itemId: $container.data('product-id'),
             amount: 1
         })
             .then(function (result) {

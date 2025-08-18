@@ -3,12 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Shopularity.Catalog.Products.Admin;
 using Volo.Abp;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.ObjectMapping;
 
 namespace Shopularity.Catalog.Products.Events;
 
-public class ProductsEventHandler : IDistributedEventHandler<ProductsRequestedEto>
+public class ProductsEventHandler : IDistributedEventHandler<ProductsRequestedEto>,
+    ITransientDependency
 {
     private readonly IDistributedEventBus _eventBus;
     private readonly IProductRepository _productRepository;
@@ -32,7 +34,7 @@ public class ProductsEventHandler : IDistributedEventHandler<ProductsRequestedEt
             if (amount > product.StockCount)
             {
                 //todo: business exception
-                throw new UserFriendlyException("Not Enough Stock!!");
+                throw new UserFriendlyException($"Not Enough Stock!! {amount} > {product.StockCount}");
             }
 
             product.StockCount -= amount;
@@ -46,7 +48,7 @@ public class ProductsEventHandler : IDistributedEventHandler<ProductsRequestedEt
         {
             Products = productsAsDto.Select(x=>
                  new KeyValuePair<ProductDto, int>(x, eventData.Products[x.Id])
-                ).ToDictionary(),
+                ).ToList(),
             RequesterId = eventData.RequesterId
         });
     }
