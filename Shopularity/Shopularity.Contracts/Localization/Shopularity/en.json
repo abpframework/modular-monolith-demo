@@ -6,6 +6,7 @@
     "Welcome_Text": "This is a minimalist, single layer application startup template for the ABP Framework.",
     "Menu:Home": "Home",
     "Menu:Basket": "Basket",
+    "Menu:MyOrdersPage": "My orders",
     "AddedToBasket": "Added to Basket",
     "ErrorAddingToBasket": "Could not add the item to Basket",
     "AddToBasket": "Add to Basket",

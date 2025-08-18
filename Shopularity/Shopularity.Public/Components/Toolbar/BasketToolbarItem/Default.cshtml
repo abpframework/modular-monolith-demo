@@ -3,9 +3,14 @@
 
 @inject IHtmlLocalizer<ShopularityResource> L
 
+<style>
+    .no-caret::after {
+        display: none !important;
+    }
+</style>
 
 <div class="dropdown">
-    <button class="dropdown-toggle btn btn-primary position-relative"
+    <button class="dropdown-toggle btn btn-primary position-relative no-caret"
             data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"

@@ -50,8 +50,19 @@ public class ShopularityPublicMenuContributor : IMenuContributor
 
     private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
     {
+        var l = context.GetLocalizer<ShopularityResource>();
         var uiResource = context.GetLocalizer<AbpUiResource>();
         var accountResource = context.GetLocalizer<AccountResource>();
+        
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                ShopularityPublicMenus.MyOrdersPage,
+                l["Menu:MyOrdersPage"],
+                "~/my-orders",
+                icon: "fa fa-shopping-cart",
+                order: 1
+            )
+        );
 
         var authServerUrl = _configuration["AuthServer:Authority"] ?? "~";
 
