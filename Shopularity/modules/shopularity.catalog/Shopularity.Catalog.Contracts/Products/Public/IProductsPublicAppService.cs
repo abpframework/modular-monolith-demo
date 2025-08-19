@@ -7,7 +7,7 @@ namespace Shopularity.Catalog.Products.Public;
 
 public interface IProductsPublicAppService : IApplicationService
 {
-    Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsInput input);
+    Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input);
 
     Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input);
 

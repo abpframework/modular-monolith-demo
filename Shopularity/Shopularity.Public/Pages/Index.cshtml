@@ -18,7 +18,7 @@
                 <abp-list-group-item class="category-item" data-category-id="">@L["all"]</abp-list-group-item>
             @foreach (var category in Model.Categories)
             {
-                <abp-list-group-item class="category-item" data-category-id="@category.Id">@category.Name</abp-list-group-item>
+                <abp-list-group-item class="category-item" data-category-name="@category.Name">@category.Name</abp-list-group-item>
             }
         </abp-list-group>
     </abp-column>

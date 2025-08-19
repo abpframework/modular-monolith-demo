@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Shopularity.Catalog.Categories;
 using Shopularity.Catalog.Products.Public;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.BlobStoring;
+using Volo.Abp.Domain.Repositories;
 
 namespace Shopularity.Catalog.Products;
 
@@ -13,18 +15,29 @@ namespace Shopularity.Catalog.Products;
 public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppService
 {
     private readonly IProductRepository _productRepository;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IBlobContainer _blobContainer;
 
-    public ProductsPublicAppService(IProductRepository productRepository, IBlobContainer blobContainer)
+    public ProductsPublicAppService(IProductRepository productRepository, ICategoryRepository categoryRepository, IBlobContainer blobContainer)
     {
         _productRepository = productRepository;
+        _categoryRepository = categoryRepository;
         _blobContainer = blobContainer;
     }
 
-    public virtual async Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsInput input)
+    public virtual async Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input)
     {
-        var totalCount = await _productRepository.GetCountAsync(input.FilterText, input.Name, input.Description, input.PriceMin, input.PriceMax, input.StockCountMin, input.StockCountMax, input.CategoryId);
-        var items = await _productRepository.GetListWithNavigationPropertiesAsync(input.FilterText, input.Name, input.Description, input.PriceMin, input.PriceMax, input.StockCountMin, input.StockCountMax, input.CategoryId, input.Sorting, input.MaxResultCount, input.SkipCount);
+        Guid? categoryId = null;
+
+        if (!input.CategoryName.IsNullOrWhiteSpace())
+        {
+            var category = await _categoryRepository.FirstOrDefaultAsync(x =>
+                x.Name.Equals(input.CategoryName));
+            categoryId = category?.Id;
+        }
+        
+        var totalCount = await _productRepository.GetCountAsync(categoryId: categoryId);
+        var items = await _productRepository.GetListWithNavigationPropertiesAsync(categoryId: categoryId, sorting: input.Sorting, maxResultCount: input.MaxResultCount, skipCount: input.SkipCount);
         var result = new PagedResultDto<ProductWithNavigationPropertiesPublicDto>
         {
             TotalCount = totalCount,

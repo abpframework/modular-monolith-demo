@@ -23,7 +23,7 @@ public class ProductPublicController : AbpController, IProductsPublicAppService
     }
 
     [HttpGet]
-    public virtual Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsInput input)
+    public virtual Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input)
     {
         return ProductsPublicAppService.GetListAsync(input);
     }

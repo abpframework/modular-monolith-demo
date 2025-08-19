@@ -25,7 +25,7 @@ public class ProductsController : AbpController, IProductsPublicAppService
     }
 
     [HttpGet]
-    public virtual Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsInput input)
+    public virtual Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input)
     {
         return ProductsPublicAppService.GetListAsync(input);
     }
@@ -46,7 +46,7 @@ public class ProductsController : AbpController, IProductsPublicAppService
     
     [HttpGet]
     [Route("render")]
-    public async Task<ViewComponentResult> Render(GetProductsInput input)
+    public async Task<ViewComponentResult> Render(GetProductsPublicInput input)
     {
         var result = await ProductsPublicAppService.GetListAsync(input);
 

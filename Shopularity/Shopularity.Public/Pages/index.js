@@ -1,12 +1,17 @@
 (function ($) {
+    let params = new URLSearchParams(window.location.search);
     var l = abp.localization.getResource('Shopularity');
     const renderApi = '/api/catalog/public/products/render';
     var $shopularityProductList = $("#ShopularityProductList");
     let selectedCategory = '';
-    $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9");
+    if (params.get("category") != null){
+        selectedCategory = params.get("category");
+    }
+    
+    $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9&categoryName=" + encodeURIComponent(selectedCategory));
 
     let skip = 9;
-    let loading = false; // todo: show loading indicator
+    let loading = false; // todo: show loading indicator?
     let done = false;
 
     $(window).on("scroll", function() {
@@ -17,7 +22,7 @@
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
             loading = true;
 
-            $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryId: selectedCategory}, function(html) {
+            $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryName: selectedCategory}, function(html) {
                 if ($.trim(html).length === 0) {
                     done = true;
                     loading = false;
@@ -31,12 +36,11 @@
         }
     });
     
-    var basketAppService = shopularity.public.controllers.basket;
     $(document).on("click", ".category-item", function () {
-        selectedCategory = $(this).data('category-id');
+        selectedCategory = $(this).data('category-name');
         skip = 0;
         done = false;
-        $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryId: selectedCategory}, function(html) {
+        $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryName: selectedCategory}, function(html) {
             if ($.trim(html).length === 0) {
                 done = true;
                 loading = false;
@@ -47,9 +51,19 @@
             $shopularityProductList.append(html);
             skip += 6;
             loading = false;
+            
+            if (selectedCategory === undefined){
+                window.history.replaceState({}, "", window.location.pathname);
+            }
+            else{
+                params.set("category", selectedCategory);
+                let newUrl = window.location.pathname + "?" + params.toString();
+                window.history.pushState({}, "", newUrl);
+            }
         });
     });
     
+    var basketAppService = shopularity.public.controllers.basket;
     $(document).on("click", ".addToBasket", function () {
         var id = $(this).data('product-id');
         basketAppService.addItemToBasket({itemId: id, amount: 1})
