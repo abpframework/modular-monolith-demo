@@ -72,6 +72,8 @@ using Shopularity.Payment.Blazor;
 using Shopularity.Payment;
 using Shopularity.Ordering.Blazor;
 using Shopularity.Ordering;
+using Volo.Abp.EntityFrameworkCore.DistributedEvents;
+using Volo.Abp.EventBus.Distributed;
 
 namespace Shopularity;
 
@@ -226,6 +228,22 @@ public class ShopularityModule : AbpModule
         ConfigureAutoApiControllers();
         ConfigureVirtualFiles(hostingEnvironment);
         ConfigureEfCore(context);
+        ConfigureEventBust();
+    }
+
+    private void ConfigureEventBust()
+    {
+        Configure<AbpDistributedEventBusOptions>(options =>
+        {
+            options.Outboxes.Configure(config =>
+            {
+                config.UseDbContext<ShopularityDbContext>();
+            });
+            options.Inboxes.Configure(config =>
+            {
+                config.UseDbContext<ShopularityDbContext>();
+            });
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
