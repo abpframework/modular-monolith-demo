@@ -32,18 +32,7 @@ public class ShopularityPublicMenuContributor : IMenuContributor
 
     private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
-        var l = context.GetLocalizer<ShopularityResource>();
-
-        //Home
-        context.Menu.AddItem(
-            new ApplicationMenuItem(
-                ShopularityPublicMenus.HomePage,
-                l["Menu:Home"],
-                "~/",
-                icon: "fa fa-home",
-                order: 1
-            )
-        );
+        //var l = context.GetLocalizer<ShopularityResource>();
 
         return Task.CompletedTask;
     }

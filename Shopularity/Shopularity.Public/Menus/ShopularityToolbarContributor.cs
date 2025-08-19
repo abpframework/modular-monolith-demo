@@ -20,6 +20,7 @@ public class ShopularityToolbarContributor : IToolbarContributor
         {
             context.Toolbar.Items.Add(new ToolbarItem(typeof(LoginLinkViewComponent)));
         }
+        
         context.Toolbar.Items
             .Insert(0, new ToolbarItem(typeof(BasketToolbarItemViewComponent)));
 
