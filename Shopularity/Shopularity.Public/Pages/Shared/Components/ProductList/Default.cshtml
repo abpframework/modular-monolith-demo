@@ -5,7 +5,9 @@
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Card
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
+@using Volo.Abp.Users
 @inject IStringLocalizer<ShopularityResource> L
+@inject ICurrentUser CurrentUser
 @model Shopularity.Public.Components.ProductList.ProductListViewModel
 
 @if (Model.Items.Count > 0)
@@ -27,8 +29,15 @@
                     <abp-card-footer>
                         <abp-row>
                             <p>$@item.Product.Price</p>
-                            <abp-button size="Small" button-type="Primary"
-                                        class="addToBasket" data-product-id="@item.Product.Id">@L["AddToBasket"]</abp-button>
+                            @if (CurrentUser.IsAuthenticated)
+                            {
+                                <abp-button size="Small" button-type="Primary"
+                                            class="addToBasket" data-product-id="@item.Product.Id">@L["AddToBasket"]</abp-button>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
+                            }
                         </abp-row>
                         <p>@item.Product.Description</p>
                         @*<p>Category: @item.Category.Name</p>*@

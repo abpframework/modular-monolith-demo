@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using Shopularity.Localization
-
+@using Volo.Abp.Users
 @inject IHtmlLocalizer<ShopularityResource> L
+@inject ICurrentUser CurrentUser
 
 <style>
     .no-caret::after {
@@ -9,24 +10,32 @@
     }
 </style>
 
-<div class="dropdown">
-    <button class="dropdown-toggle btn btn-primary position-relative no-caret"
-            data-bs-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-            type="button"
-            data-busy-text="Processing..."
-            aria-label="Basket"
-            style="overflow: visible;">
-        <i class="fa fa-shopping-basket"></i>
+@if (CurrentUser.IsAuthenticated)
+{
+    <div class="dropdown">
+        <button class="dropdown-toggle btn btn-primary position-relative no-caret"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                type="button"
+                data-busy-text="Processing..."
+                aria-label="Basket"
+                style="overflow: visible;">
+            <i class="fa fa-shopping-basket"></i>
 
-        <span id="ShopularityBasketCount"
-              class="d-none position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              style="min-width:20px;height:20px;line-height:20px;font-size:.75rem;padding:0 6px;"></span>
-    </button>
+            <span id="ShopularityBasketCount"
+                  class="d-none position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  style="min-width:20px;height:20px;line-height:20px;font-size:.75rem;padding:0 6px;"></span>
+        </button>
 
-    <div class="dropdown-menu p-0" id="ShopularityBasket" style="width: 300px;max-height: 1000px">
+        <div class="dropdown-menu p-0" id="ShopularityBasket" style="width: 300px;max-height: 1000px">
        
+        </div>
     </div>
-</div>
+}
+else
+{
+    <a class="btn btn-primary" href="~/Account/Login"><i class="fa fa-shopping-basket"></i></a>
+}
+
 
