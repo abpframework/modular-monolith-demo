@@ -10,10 +10,12 @@
     <abp-row>
         @foreach(var item in Model.Items)
         {
+        <abp-column size="_4">
             @await Component.InvokeAsync(typeof(ProductItemViewComponent), new
             {
                 model = new ProductItemViewModel(item)
             })
+        </abp-column>
         }
     </abp-row>
 }

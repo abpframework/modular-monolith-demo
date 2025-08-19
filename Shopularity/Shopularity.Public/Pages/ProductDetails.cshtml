@@ -1,0 +1,21 @@
+@page "/product-details/{id}"
+@using Shopularity.Public.Pages
+@using Shopularity.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem
+@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@inject IHtmlLocalizer<ShopularityResource> L
+@model ProductDetailsModel
+
+@section scripts {
+    <abp-script-bundle name="@typeof(ProductDetailsModel).FullName">
+        <abp-script src="/Pages/productDetails.js"/>
+    </abp-script-bundle>
+}
+
+<div>
+    @await Component.InvokeAsync(typeof(ProductItemViewComponent), new
+    {
+        model = new ProductItemViewModel(Model.Item)
+    })
+</div>
