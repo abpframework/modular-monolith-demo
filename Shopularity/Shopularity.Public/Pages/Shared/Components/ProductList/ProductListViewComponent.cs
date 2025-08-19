@@ -7,6 +7,7 @@ namespace Shopularity.Public.Components.ProductList;
 public class ProductListViewModel
 {
     public long TotalCount { get; set; }
+    
     public IReadOnlyList<ProductWithNavigationPropertiesPublicDto> Items { get; set; }
 }
 

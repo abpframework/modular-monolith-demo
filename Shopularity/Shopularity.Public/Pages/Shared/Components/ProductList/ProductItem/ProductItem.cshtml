@@ -1,0 +1,43 @@
+@using Microsoft.Extensions.Localization
+@using Shopularity.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Blockquote
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Card
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
+@using Volo.Abp.Users
+@inject IStringLocalizer<ShopularityResource> L
+@inject ICurrentUser CurrentUser
+@model Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem.ProductItemViewModel
+
+<abp-column size="_4">
+    <abp-card>
+        <abp-card-header>
+            <h2>@Model.Item.Product.Name</h2>
+        </abp-card-header>
+        <abp-card-body>
+            @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
+            {
+                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)" Style="max-width: 300px; max-height: 300px; border-radius: 8px;" alt="@Model.Item.Product.Name"/>
+            }
+        </abp-card-body>
+        <abp-card-footer>
+            <abp-row>
+                <p>$@Model.Item.Product.Price</p>
+                @if (CurrentUser.IsAuthenticated)
+                {
+                    <abp-button size="Small" button-type="Primary"
+                                class="addToBasket" data-product-id="@Model.Item.Product.Id">
+                        @L["AddToBasket"]
+                    </abp-button>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
+                }
+            </abp-row>
+            <p>@Model.Item.Product.Description</p>
+            @*<p>Category: @Model.Item.Category.Name</p>*@
+        </abp-card-footer>
+    </abp-card>
+</abp-column>

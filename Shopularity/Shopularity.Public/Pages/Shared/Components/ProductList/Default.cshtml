@@ -1,13 +1,8 @@
 @using Microsoft.Extensions.Localization
 @using Shopularity.Localization
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Blockquote
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Card
+@using Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
-@using Volo.Abp.Users
 @inject IStringLocalizer<ShopularityResource> L
-@inject ICurrentUser CurrentUser
 @model Shopularity.Public.Components.ProductList.ProductListViewModel
 
 @if (Model.Items.Count > 0)
@@ -15,35 +10,10 @@
     <abp-row>
         @foreach(var item in Model.Items)
         {
-            <abp-column size="_4">
-                <abp-card>
-                    <abp-card-header>
-                        <h2>@item.Product.Name</h2>
-                    </abp-card-header>
-                    <abp-card-body>
-                        @if (item.Product.Image != null && item.Product.Image.Length != 0)
-                        {
-                            <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" Style="max-width: 300px; max-height: 300px; border-radius: 8px;" alt="@item.Product.Name"/>
-                        }
-                    </abp-card-body>
-                    <abp-card-footer>
-                        <abp-row>
-                            <p>$@item.Product.Price</p>
-                            @if (CurrentUser.IsAuthenticated)
-                            {
-                                <abp-button size="Small" button-type="Primary"
-                                            class="addToBasket" data-product-id="@item.Product.Id">@L["AddToBasket"]</abp-button>
-                            }
-                            else
-                            {
-                                <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
-                            }
-                        </abp-row>
-                        <p>@item.Product.Description</p>
-                        @*<p>Category: @item.Category.Name</p>*@
-                    </abp-card-footer>
-                </abp-card>
-            </abp-column>
+            @await Component.InvokeAsync(typeof(ProductItemViewComponent), new
+            {
+                model = new ProductItemViewModel(item)
+            })
         }
     </abp-row>
 }
