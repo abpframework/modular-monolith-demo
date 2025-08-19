@@ -12,6 +12,10 @@
         })
             .then(function (result) {
                 // let signalr update ui
+            })
+            .catch(function (error) {
+                console.error(error);
+                abp.notify.error(l('ErrorRemovingFromBasket'));
             });
     });
 
@@ -21,10 +25,14 @@
         shopularity.public.controllers.basket.addItemToBasket({
             itemId: $container.data('product-id'),
             amount: 1
-        })
+            })
             .then(function (result) {
                 // let signalr update ui
-        });
+            })
+            .catch(function (error) {
+                console.error(error);
+                abp.notify.error(l('ErrorAddingToBasket'));
+            });
     });
 
     $(document).on('click', '.amount-minus', function() {
@@ -33,9 +41,13 @@
         shopularity.public.controllers.basket.removeItemFromBasket({
             itemId: $container.data('product-id'),
             amount: 1
-        })
+            })
             .then(function (result) {
                 // let signalr update ui
+            })
+            .catch(function (error) {
+                console.error(error);
+                abp.notify.error(l('ErrorRemovingFromBasket'));
             });
     });
 
