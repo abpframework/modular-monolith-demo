@@ -10,15 +10,17 @@
 @inject ICurrentUser CurrentUser
 @model Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem.ProductItemViewModel
 
-<abp-card>
+<abp-card class="w-100 h-100">
     <abp-card-header>
-        <h2>@Model.Item.Product.Name</h2>
+        <span>@Model.Item.Product.Name</span>
     </abp-card-header>
-    <abp-card-body>
+    <abp-card-body class="text-center">
         @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
         {
             <a href="/product-details/@(Model.Item.Product.Id)">
-                            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)" Style="max-width: 300px; max-height: 300px; border-radius: 8px;" alt="@Model.Item.Product.Name"/>
+                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)"
+                     style="max-width: 300px; max-height: 300px; border-radius: 8px;"
+                     alt="@Model.Item.Product.Name"/>
             </a>
         }
     </abp-card-body>
@@ -37,6 +39,9 @@
                 <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
             }
         </abp-row>
-        <p>@Model.Item.Product.Description</p>
+        @if (Model.ShownSolo)
+        {
+            <p>@Model.Item.Product.Description</p>
+        }
     </abp-card-footer>
 </abp-card>

@@ -77,36 +77,6 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
         
         return result;
     }    
-    
-    public async Task RequestProductsAsync(ProductsRequestedInput input)
-    {
-        var products = await _productRepository.GetListAsync(input.Products.Select(x=> x.Key).ToList());
-
-        foreach (var product in products)
-        {
-            var amount = input.Products[product.Id];
-
-            if (amount > product.StockCount)
-            {
-                //todo: business exception
-                throw new UserFriendlyException($"Not Enough Stock!! {amount} > {product.StockCount}");
-            }
-
-            product.StockCount -= amount;
-
-            await _productRepository.UpdateAsync(product);
-        }
-        
-        var productsAsDto = ObjectMapper.Map<List<Product>, List<ProductDto>>(products);
-
-        await _eventBus.PublishAsync(new ProductsRequestCompletedEto
-        {
-            Products = productsAsDto.Select(x=>
-                new KeyValuePair<ProductDto, int>(x, input.Products[x.Id])
-            ).ToList(),
-            RequesterId = input.RequesterId
-        });
-    }
 
     public virtual async Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)
     {

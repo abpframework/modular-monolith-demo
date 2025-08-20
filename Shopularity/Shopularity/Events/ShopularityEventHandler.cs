@@ -1,5 +1,6 @@
 ﻿using Shopularity.Basket.Domain;
 using Shopularity.Basket.Services;
+using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Products.Events;
 using Shopularity.Catalog.Products.Public;
 using Shopularity.Ordering.OrderLines;
@@ -20,6 +21,7 @@ public class ShopularityEventHandler:
     private readonly OrderLineManager _orderLineManager;
     private readonly IDistributedEventBus _eventBus;
     private readonly BasketManager _basketManager;
+    private readonly ProductManager _productManager;
     private readonly PaymentManager _paymentManager;
     private readonly IProductsPublicAppService _productsPublicAppService;
 
@@ -27,19 +29,21 @@ public class ShopularityEventHandler:
         OrderLineManager orderLineManager,
         IDistributedEventBus eventBus,
         BasketManager basketManager,
+        ProductManager productManager,
         PaymentManager paymentManager,
         IProductsPublicAppService productsPublicAppService)
     {
         _orderLineManager = orderLineManager;
         _eventBus = eventBus;
         _basketManager = basketManager;
+        _productManager = productManager;
         _paymentManager = paymentManager;
         _productsPublicAppService = productsPublicAppService;
     }
     
     public async Task HandleEventAsync(OrderCreatedEto eventData)
     {
-        await _productsPublicAppService.RequestProductsAsync(new ProductsRequestedInput
+        await _productManager.RequestProductsAsync(new ProductsRequestedInput
         {
             Products = eventData.items.Select(x=> new KeyValuePair<Guid,int>(Guid.Parse(x.Key),x.Value)).ToDictionary(),
             RequesterId = eventData.OrderId.ToString()

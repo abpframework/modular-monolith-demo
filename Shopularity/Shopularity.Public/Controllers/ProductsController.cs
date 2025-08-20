@@ -37,13 +37,6 @@ public class ProductsController : AbpController, IProductsPublicAppService
         return ProductsPublicAppService.GetListByIdsAsync(input);
     }
 
-    [HttpPost]
-    [Route("request")]
-    public Task RequestProductsAsync(ProductsRequestedInput input)
-    {
-        throw new NotImplementedException();
-    }
-
     [HttpGet]
     [Route("{id}")]
     public virtual Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)

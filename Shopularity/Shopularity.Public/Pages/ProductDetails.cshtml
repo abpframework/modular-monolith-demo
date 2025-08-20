@@ -17,5 +17,8 @@
     @await Component.InvokeAsync(typeof(ProductItemViewComponent), new
     {
         model = new ProductItemViewModel(Model.Item)
+        {
+            ShownSolo = true
+        }
     })
 </div>
