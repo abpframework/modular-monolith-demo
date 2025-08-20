@@ -23,7 +23,7 @@
                 @foreach (var category in Model.Categories)
                 {
                     <abp-list-group-item class="category-item" data-category-name="@category.Name">
-                        @category.Name
+                        <span class="category-item-text">@category.Name</span>
                     </abp-list-group-item>
                 }
             </abp-list-group>

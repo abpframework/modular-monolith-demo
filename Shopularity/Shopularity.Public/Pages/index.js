@@ -6,6 +6,7 @@
     let selectedCategory = '';
     if (params.get("category") != null){
         selectedCategory = params.get("category");
+        $(".category-item[data-category-name='"+selectedCategory+"']").find('.category-item-text').css("font-weight", "bold");
     }
     
     $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9&categoryName=" + encodeURIComponent(selectedCategory));
@@ -37,7 +38,10 @@
     });
     
     $(document).on("click", ".category-item", function () {
-        selectedCategory = $(this).data('category-name');
+        var $this = $(this);
+        $('.category-item-text').css("font-weight", "normal");
+        $this.find('.category-item-text').css("font-weight", "bold");
+        selectedCategory = $this.data('category-name');
         skip = 0;
         done = false;
         $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryName: selectedCategory}, function(html) {
