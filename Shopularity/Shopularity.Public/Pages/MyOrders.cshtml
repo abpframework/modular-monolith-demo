@@ -28,7 +28,7 @@
                         <div class="d-flex flex-column">
                             @foreach (var lineItem in item.OrderLines)
                             {
-                                <span>• @lineItem.Name <span class="text-muted">(@lineItem.Amount)</span></span>
+                                <span>• <a  href="/product-details/@lineItem.ProductId">@lineItem.Name</a> <span class="text-muted">(@lineItem.Amount)</span></span>
                             }
                         </div>
                     </abp-column>
