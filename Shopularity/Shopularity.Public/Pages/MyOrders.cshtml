@@ -19,13 +19,13 @@
 <div>
     @if (Model.Orders.TotalCount > 0)
     {
-        <h2>My Orders:</h2>
+        <h4>My Orders:</h4>
         <abp-list-group>
             @foreach (var item in Model.Orders.Items)
             {
                 <abp-list-group-item>
                     <abp-row class="align-items-center">
-                        <abp-column size-md="_6" class="mb-2">
+                        <abp-column size-md="_4" class="mb-2">
                             <strong>@L["Items"]:</strong>
                             <div class="d-flex flex-column">
                                 @foreach (var lineItem in item.OrderLines)
@@ -43,15 +43,17 @@
 
                         <abp-column size-md="_2" class="mb-2 order-state">
                             <strong>@L["State"]:</strong>
-                            <div class="order-state-label">@item.State</div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="order-state-label">@item.State</div>
 
-                            @if (item.State == OrderState.New)
-                            {
-                                <abp-button button-type="Danger" size="Small" class="mt-1 cancel-order"
-                                            data-order-id="@item.Id">
-                                    @L["Cancel"]
-                                </abp-button>
-                            }
+                                @if (item.State == OrderState.New)
+                                {
+                                    <abp-button button-type="Danger" size="Small" class="cancel-order"
+                                                data-order-id="@item.Id">
+                                        @L["Cancel"]
+                                    </abp-button>
+                                }
+                            </div>
                         </abp-column>
 
                         <abp-column size-md="_2" class="mb-2">
@@ -61,6 +63,11 @@
                             {
                                 <small class="text-muted">@L["CargoNo"]: @item.CargoNo</small>
                             }
+                        </abp-column>
+
+                        <abp-column size-md="_2" class="mb-2">
+                            <strong>@L["Date"]:</strong>
+                            <div class="text-muted">@item.CreationTime.ToString()</div>
                         </abp-column>
                     </abp-row>
                 </abp-list-group-item>
