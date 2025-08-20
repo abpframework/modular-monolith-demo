@@ -25,8 +25,9 @@
         }
     </abp-card-body>
     <abp-card-footer>
-        <abp-row>
-            <p>$@Model.Item.Product.Price</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <p class="mb-0 fw-bold text-success">$@Model.Item.Product.Price</p>
+
             @if (CurrentUser.IsAuthenticated)
             {
                 <abp-button size="Small" button-type="Primary"
@@ -38,10 +39,12 @@
             {
                 <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
             }
-        </abp-row>
+        </div>
+
         @if (Model.ShownSolo)
         {
-            <p>@Model.Item.Product.Description</p>
+            <p class="mt-2">@Model.Item.Product.Description</p>
         }
     </abp-card-footer>
+
 </abp-card>
