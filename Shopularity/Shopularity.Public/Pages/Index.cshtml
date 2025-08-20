@@ -15,13 +15,19 @@
 <abp-row>
     <abp-column size="_2">
         <h2>@L["Categories"]:</h2>
-        <abp-list-group>
-                <abp-list-group-item class="category-item" data-category-id="">@L["all"]</abp-list-group-item>
-            @foreach (var category in Model.Categories)
-            {
-                <abp-list-group-item class="category-item" data-category-name="@category.Name">@category.Name</abp-list-group-item>
-            }
-        </abp-list-group>
+        <div style="max-height:600px; overflow-y:auto;">
+            <abp-list-group>
+                <abp-list-group-item class="category-item" data-category-id="">
+                    @L["all"]
+                </abp-list-group-item>
+                @foreach (var category in Model.Categories)
+                {
+                    <abp-list-group-item class="category-item" data-category-name="@category.Name">
+                        @category.Name
+                    </abp-list-group-item>
+                }
+            </abp-list-group>
+        </div>
     </abp-column>
     <abp-column size="_10">
         <div id="ShopularityProductList">
