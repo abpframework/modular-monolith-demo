@@ -43,8 +43,13 @@
 
         @if (Model.ShownSolo)
         {
+            <p class="mt-1 text-muted small">
+                @L["ItemLeftInStock", Model.Item.Product.StockCount]
+            </p>
+
             <p class="mt-2">@Model.Item.Product.Description</p>
         }
     </abp-card-footer>
+
 
 </abp-card>
