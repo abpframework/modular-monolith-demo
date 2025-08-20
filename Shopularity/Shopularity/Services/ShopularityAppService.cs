@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Shopularity.Ordering.Orders;
+using Shopularity.Ordering.Orders.Public;
 using Shopularity.Services.Dtos;
 using Shopularity.Services.Orders;
 using Volo.Abp;
@@ -14,14 +15,17 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
 {
     private readonly OrderManager _orderManager;
     private readonly IOrdersAppService _ordersAppAdminService;
+    private readonly IOrdersPublicAppService _ordersPublicAppService;
 
     public ShopularityAppService(
         OrderManager orderManager,
-        IOrdersAppService ordersAppAdminService
+        IOrdersAppService ordersAppAdminService,
+        IOrdersPublicAppService ordersPublicAppService
     )
     {
         _orderManager = orderManager;
         _ordersAppAdminService = ordersAppAdminService;
+        _ordersPublicAppService = ordersPublicAppService;
     }
     
     public async Task CreateOrderAsync(NewOrderInputDto input)
@@ -32,8 +36,10 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
             throw new UserFriendlyException("Order should contain a product!");
         }
 
-        var products = input.Products.Select(x => new KeyValuePair<string, int>(x.ItemId, x.Amount)).ToDictionary();
-        await _orderManager.CreateNewAsync(CurrentUser.GetId().ToString(), input.Address, products);
+        await _ordersPublicAppService.CreateAsync(new OrderCreatePublicDto
+        {
+            Products = input.Products.Select(x=> new OrderCreatePublicProductDto{ProductId = Guid.Parse(x.ItemId), Amount = x.Amount}).ToList(),
+        });
     }
     
     public async Task CancelOrderAsync(Guid id)

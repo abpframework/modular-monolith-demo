@@ -77,7 +77,7 @@ public class CheckOutModel : ShopularityPublicPageModel
         {
             Items = Items,
             TotalPrice = TotalPrice
-        }, absoluteExpirationRelativeToNow: TimeSpan.FromMinutes(1));
+        }, absoluteExpirationRelativeToNow: TimeSpan.FromMinutes(10));
         
         return Page();
     }

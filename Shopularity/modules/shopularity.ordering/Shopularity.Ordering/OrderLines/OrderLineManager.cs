@@ -25,29 +25,6 @@ namespace Shopularity.Ordering.OrderLines
             _eventBus = eventBus;
         }
 
-        public virtual async Task CreateAsync(Guid orderId, List<OrderItemDto> items)
-        {        
-            var order = await _orderRepository.GetAsync(orderId);
-            var totalOrderPrice = items.Select(x => x.Amount * x.Price).Sum();
-            await _orderManager.UpdatePriceAsync(order.Id, totalOrderPrice);
-        
-            foreach (var eventDataItem in items)
-            {
-                var item = eventDataItem;
-                var totalPrice = item.Price * item.Amount;
-
-                await CreateAsync(order.Id, item.ItemId, item.Price, item.Amount, totalPrice, item.Name);
-            }
-
-            await _eventBus.PublishAsync(
-                new OrderLinesProcessedDto
-                {
-                    Items = items,
-                    UserId = order.UserId
-                }
-            );
-        }
-
         public virtual async Task<OrderLine> CreateAsync(Guid orderId, string productId, double price, int amount, double totalPrice, string? name = null)
         {
             Check.NotNullOrWhiteSpace(productId, nameof(productId));

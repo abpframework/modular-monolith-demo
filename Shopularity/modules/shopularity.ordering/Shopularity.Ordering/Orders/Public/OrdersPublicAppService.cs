@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Shopularity.Catalog.Products;
+using Shopularity.Catalog.Products.Admin;
 using Volo.Abp.Users;
 
 namespace Shopularity.Ordering.Orders.Public;
@@ -8,19 +12,26 @@ namespace Shopularity.Ordering.Orders.Public;
 public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
 {
     private readonly OrderManager _orderManager;
+    private readonly IProductsIntegrationService _productsIntegrationService;
 
-    public OrdersPublicAppService(OrderManager orderManager)
+    public OrdersPublicAppService(OrderManager orderManager, IProductsIntegrationService productsIntegrationService)
     {
         _orderManager = orderManager;
+        _productsIntegrationService = productsIntegrationService;
     }
     
     public virtual async Task<OrderDto> CreateAsync(OrderCreatePublicDto input)
     {
-        var order = await _orderManager.CreateAsync(
+        var products = await _productsIntegrationService.GetProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
+        
+        var order = await _orderManager.CreateNewAsync(
             CurrentUser.GetId().ToString(),
-            OrderState.New,
-            input.TotalPrice,
-            input.ShippingAddress
+            input.ShippingAddress,
+            products.Select(x=> new ProductWithAmountDto
+            {
+                Product = x,
+                Amount = input.Products.First(y=>  x.Id == y.ProductId).Amount
+            }).ToList()
         );
 
         return ObjectMapper.Map<Order, OrderDto>(order);

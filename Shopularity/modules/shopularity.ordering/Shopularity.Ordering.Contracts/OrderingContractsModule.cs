@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Application;
+using Shopularity.Catalog;
+using Volo.Abp.Application;
 using Volo.Abp.Modularity;
 using Volo.Abp.Authorization;
 using Shopularity.Ordering.Localization;
@@ -11,6 +12,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace Shopularity.Ordering;
 
 [DependsOn(
+    typeof(CatalogContractsModule),
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpValidationModule),
     typeof(AbpAuthorizationModule)

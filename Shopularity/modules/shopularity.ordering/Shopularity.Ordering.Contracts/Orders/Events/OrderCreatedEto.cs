@@ -5,7 +5,5 @@ namespace Shopularity.Ordering.Orders.Events;
 
 public class OrderCreatedEto
 {
-    public Dictionary<string, int> items { get; set; }
-    
-    public Guid OrderId { get; set; }
+    public Guid Id { get; set; }
 }
