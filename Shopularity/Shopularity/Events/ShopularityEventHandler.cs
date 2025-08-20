@@ -1,6 +1,7 @@
 ﻿using Shopularity.Basket.Domain;
 using Shopularity.Basket.Services;
 using Shopularity.Catalog.Products.Events;
+using Shopularity.Catalog.Products.Public;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
 using Shopularity.Payment.Payments;
@@ -20,29 +21,30 @@ public class ShopularityEventHandler:
     private readonly IDistributedEventBus _eventBus;
     private readonly BasketManager _basketManager;
     private readonly PaymentManager _paymentManager;
+    private readonly IProductsPublicAppService _productsPublicAppService;
 
     public ShopularityEventHandler(
         OrderLineManager orderLineManager,
         IDistributedEventBus eventBus,
         BasketManager basketManager,
-        PaymentManager paymentManager)
+        PaymentManager paymentManager,
+        IProductsPublicAppService productsPublicAppService)
     {
         _orderLineManager = orderLineManager;
         _eventBus = eventBus;
         _basketManager = basketManager;
         _paymentManager = paymentManager;
+        _productsPublicAppService = productsPublicAppService;
     }
     
     public async Task HandleEventAsync(OrderCreatedEto eventData)
     {
-        await _eventBus.PublishAsync(
-                new ProductsRequestedEto
-                {
-                    Products = eventData.items.Select(x=> new KeyValuePair<Guid,int>(Guid.Parse(x.Key),x.Value)).ToDictionary(),
-                    RequesterId = eventData.OrderId.ToString()
-                }
-            );
-
+        await _productsPublicAppService.RequestProductsAsync(new ProductsRequestedInput
+        {
+            Products = eventData.items.Select(x=> new KeyValuePair<Guid,int>(Guid.Parse(x.Key),x.Value)).ToDictionary(),
+            RequesterId = eventData.OrderId.ToString()
+        });
+        
         await _paymentManager.CreateAsync(eventData.OrderId.ToString());
     }
 

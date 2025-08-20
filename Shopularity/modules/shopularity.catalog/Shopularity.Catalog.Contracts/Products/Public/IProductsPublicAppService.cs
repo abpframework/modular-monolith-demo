@@ -11,5 +11,7 @@ public interface IProductsPublicAppService : IApplicationService
 
     Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input);
 
+    Task RequestProductsAsync(ProductsRequestedInput input);
+
     Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id);
 }
