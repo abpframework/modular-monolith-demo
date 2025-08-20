@@ -17,50 +17,59 @@
 }
 
 <div>
-    <h2>My Orders:</h2>
-    <abp-list-group>
-        @foreach (var item in Model.Orders.Items)
-        {
-            <abp-list-group-item>
-                <abp-row class="align-items-center">
-                    <abp-column size-md="_6" class="mb-2">
-                        <strong>@L["Items"]:</strong>
-                        <div class="d-flex flex-column">
-                            @foreach (var lineItem in item.OrderLines)
+    @if (Model.Orders.TotalCount > 0)
+    {
+        <h2>My Orders:</h2>
+        <abp-list-group>
+            @foreach (var item in Model.Orders.Items)
+            {
+                <abp-list-group-item>
+                    <abp-row class="align-items-center">
+                        <abp-column size-md="_6" class="mb-2">
+                            <strong>@L["Items"]:</strong>
+                            <div class="d-flex flex-column">
+                                @foreach (var lineItem in item.OrderLines)
+                                {
+                                    <span>• <a href="/product-details/@lineItem.ProductId">@lineItem.Name</a> <span
+                                            class="text-muted">(@lineItem.Amount)</span></span>
+                                }
+                            </div>
+                        </abp-column>
+
+                        <abp-column size-md="_2" class="mb-2">
+                            <strong>@L["Total"]:</strong>
+                            <div class="text-success">@item.TotalPrice.ToString("C2")</div>
+                        </abp-column>
+
+                        <abp-column size-md="_2" class="mb-2 order-state">
+                            <strong>@L["State"]:</strong>
+                            <div class="order-state-label">@item.State</div>
+
+                            @if (item.State == OrderState.New)
                             {
-                                <span>• <a  href="/product-details/@lineItem.ProductId">@lineItem.Name</a> <span class="text-muted">(@lineItem.Amount)</span></span>
+                                <abp-button button-type="Danger" size="Small" class="mt-1 cancel-order"
+                                            data-order-id="@item.Id">
+                                    @L["Cancel"]
+                                </abp-button>
                             }
-                        </div>
-                    </abp-column>
+                        </abp-column>
 
-                    <abp-column size-md="_2" class="mb-2">
-                        <strong>@L["Total"]:</strong>
-                        <div class="text-success">@item.TotalPrice.ToString("C2")</div>
-                    </abp-column>
-
-                    <abp-column size-md="_2" class="mb-2 order-state">
-                        <strong>@L["State"]:</strong>
-                        <div class="order-state-label">@item.State</div>
-
-                        @if (item.State == OrderState.New)
-                        {
-                            <abp-button button-type="Danger" size="Small" class="mt-1 cancel-order" data-order-id="@item.Id">
-                                @L["Cancel"]
-                            </abp-button>
-                        }
-                    </abp-column>
-
-                    <abp-column size-md="_2" class="mb-2">
-                        <strong>@L["Address"]:</strong>
-                        <div>@item.ShippingAddress</div>
-                        @if (item.State is OrderState.Shipped or OrderState.Completed)
-                        {
-                            <small class="text-muted">@L["CargoNo"]: @item.CargoNo</small>
-                        }
-                    </abp-column>
-                </abp-row>
-            </abp-list-group-item>
-        }
-    </abp-list-group>
+                        <abp-column size-md="_2" class="mb-2">
+                            <strong>@L["Address"]:</strong>
+                            <div>@item.ShippingAddress</div>
+                            @if (item.State is OrderState.Shipped or OrderState.Completed)
+                            {
+                                <small class="text-muted">@L["CargoNo"]: @item.CargoNo</small>
+                            }
+                        </abp-column>
+                    </abp-row>
+                </abp-list-group-item>
+            }
+        </abp-list-group>
+    }
+    else
+    {
+        <h3>@L["YouHaventOrderedYet"]</h3>
+    }
 </div>
 

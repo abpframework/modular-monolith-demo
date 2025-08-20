@@ -13,6 +13,7 @@
     "AddToBasket": "Add to Basket",
     "ProductWithCount{0}": "{0} product(s)",
     "ItemLeftInStock": "{0} left in stock",
+    "YouHaventOrderedYet": "You haven't ordered anything yet.",
     "ShowBasket": "Show my basket",
     "ProceedToCheckOut": "Proceed to check-out",
     "CompleteOrder": "Complete order",
