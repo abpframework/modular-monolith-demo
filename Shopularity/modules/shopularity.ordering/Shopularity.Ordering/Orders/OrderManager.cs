@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Shopularity.Catalog.Products;
-using Shopularity.Catalog.Products.Admin;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp;

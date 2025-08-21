@@ -9,26 +9,18 @@ namespace Shopularity.Ordering.Orders.Events;
 public class OrderDistributedEventHandler : IDistributedEventHandler<PaymentCompletedEto>, ITransientDependency
 {
     private readonly OrderManager _orderManager;
+    private readonly OrderFakeStateService _orderFakeStateService;
 
-    public OrderDistributedEventHandler(OrderManager orderManager)
+    public OrderDistributedEventHandler(OrderManager orderManager, OrderFakeStateService orderFakeStateService)
     {
         _orderManager = orderManager;
+        _orderFakeStateService = orderFakeStateService;
     }
     
     public async Task HandleEventAsync(PaymentCompletedEto eventData)
     {
         await _orderManager.UpdateStateAsync(Guid.Parse(eventData.OrderId), OrderState.Paid);
         
-        _ = Task.Run(async () =>
-        {
-            await FakeOrderProcessingAsync(Guid.Parse(eventData.OrderId));
-        });
-    }
-
-    private async Task FakeOrderProcessingAsync(Guid id)
-    {
-        await Task.Delay(1000 * 10);
-
-        await _orderManager.UpdateStateAsync(id, OrderState.Processing);
+        await _orderFakeStateService.FakeOrderProcessingAsync(Guid.Parse(eventData.OrderId));
     }
 }
