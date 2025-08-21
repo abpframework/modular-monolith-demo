@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Shopularity.Catalog.Products;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
+using Shopularity.Payment.Payments.Events;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Data;
@@ -110,10 +111,10 @@ namespace Shopularity.Ordering.Orders
                 throw new UserFriendlyException("Can't cancel someone else's order!!");
             }
 
-            if (order.State is OrderState.Shipped or OrderState.Completed)
+            if (order.State is OrderState.Shipped or OrderState.Completed or OrderState.Cancelled)
             {
                 // todo: business exception
-                throw new UserFriendlyException("Can't cancel shipped or completed orders!!");
+                throw new UserFriendlyException("Can't cancel shipped, completed or cancelled orders!!");
             }
 
             order.State = OrderState.Cancelled;
@@ -122,7 +123,7 @@ namespace Shopularity.Ordering.Orders
 
             await _eventBus.PublishAsync(new OrderCancelledEto
             {
-                Id = order.Id
+                OrderId = order.Id
             });
         }
 
@@ -161,15 +162,6 @@ namespace Shopularity.Ordering.Orders
             order.State = state;
 
             return await _orderRepository.UpdateAsync(order);
-        }
-
-        public async Task UpdatePriceAsync(Guid id, double totalOrderPrice)
-        {
-            var order = await _orderRepository.GetAsync(id);
-
-            order.TotalPrice = totalOrderPrice;
-
-            await _orderRepository.UpdateAsync(order);
         }
     }
 }

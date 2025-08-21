@@ -17,7 +17,7 @@ public class OrderFakeStateService : ISingletonDependency
     {
         _ = Task.Run(async () =>
         {
-            await Task.Delay(1000 * 60);
+            await Task.Delay(1000 * 30);
 
             await _orderManager.UpdateStateAsync(id, OrderState.Processing);
         });

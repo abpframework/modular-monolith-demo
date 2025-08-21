@@ -46,7 +46,7 @@
                             <div class="d-flex align-items-center gap-2">
                                 <div class="order-state-label">@item.State</div>
 
-                                @if (item.State == OrderState.New)
+                                @if (item.State is OrderState.New or OrderState.Paid or OrderState.WaitingForPayment or OrderState.Processing)
                                 {
                                     <abp-button button-type="Danger" size="Small" class="cancel-order"
                                                 data-order-id="@item.Id">

@@ -4,7 +4,7 @@ public enum PaymentState
 {
     Waiting,
     Completed,
+    Failed,
     Cancelled,
-    Refunded,
-    Failed
+    Refunded
 }

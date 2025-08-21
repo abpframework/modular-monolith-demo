@@ -6,6 +6,8 @@
     "Enum:PaymentState.0": "Waiting",
     "Enum:PaymentState.1": "Completed",
     "Enum:PaymentState.2": "Failed",
+    "Enum:PaymentState.3": "Cancelled",
+    "Enum:PaymentState.4": "Refunded",
     "Permission:Payments": "Payments",
     "Permission:Payment": "Payment",
     "Permission:Create": "Create",

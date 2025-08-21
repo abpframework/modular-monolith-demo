@@ -6,7 +6,10 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace Shopularity.Ordering.Orders.Events;
 
-public class OrderDistributedEventHandler : IDistributedEventHandler<PaymentCompletedEto>, ITransientDependency
+public class OrderDistributedEventHandler : 
+    IDistributedEventHandler<PaymentCompletedEto>,
+    IDistributedEventHandler<PaymentCreatedEto>,
+    ITransientDependency
 {
     private readonly OrderManager _orderManager;
     private readonly OrderFakeStateService _orderFakeStateService;
@@ -22,5 +25,10 @@ public class OrderDistributedEventHandler : IDistributedEventHandler<PaymentComp
         await _orderManager.UpdateStateAsync(Guid.Parse(eventData.OrderId), OrderState.Paid);
         
         await _orderFakeStateService.FakeOrderProcessingAsync(Guid.Parse(eventData.OrderId));
+    }
+
+    public async Task HandleEventAsync(PaymentCreatedEto eventData)
+    {
+        await _orderManager.UpdateStateAsync(eventData.OrderId, OrderState.WaitingForPayment);
     }
 }
