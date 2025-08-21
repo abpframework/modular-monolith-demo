@@ -9,7 +9,7 @@ namespace Shopularity.Payment.Payments
     public class Payment : FullAuditedAggregateRoot<Guid>
     {
         [NotNull]
-        public virtual string OrderId { get; private set; }
+        public virtual Guid OrderId { get; private set; }
 
         public virtual PaymentState State { get; set; }
 
@@ -18,7 +18,7 @@ namespace Shopularity.Payment.Payments
 
         }
 
-        public Payment(Guid id, string orderId)
+        public Payment(Guid id, Guid orderId)
         {
             Id = id;
             Check.NotNull(orderId, nameof(orderId));

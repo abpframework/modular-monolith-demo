@@ -59,7 +59,7 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
         var result = await _ordersAppAdminService.GetListAsync(new GetOrdersInput
         {
             MaxResultCount = 1000,
-            UserId = CurrentUser.GetId().ToString()
+            UserId = CurrentUser.GetId()
         });
 
         return result;

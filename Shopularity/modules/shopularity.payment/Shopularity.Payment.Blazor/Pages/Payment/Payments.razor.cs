@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Globalization;
-using System.Web;
 using Blazorise;
 using Blazorise.DataGrid;
 using Volo.Abp.BlazoriseUI.Components;
@@ -93,13 +91,8 @@ namespace Shopularity.Payment.Blazor.Pages.Payment
         {
             var token = (await PaymentsAppService.GetDownloadTokenAsync()).Token;
             var remoteService = await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Payment") ?? await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Default");
-            var culture = CultureInfo.CurrentUICulture.Name ?? CultureInfo.CurrentCulture.Name;
-            if(!culture.IsNullOrEmpty())
-            {
-                culture = "&culture=" + culture;
-            }
             await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Default");
-            NavigationManager.NavigateTo($"{remoteService?.BaseUrl.EnsureEndsWith('/') ?? string.Empty}api/payment/payments/as-excel-file?DownloadToken={token}&FilterText={HttpUtility.UrlEncode(Filter.FilterText)}{culture}&OrderId={HttpUtility.UrlEncode(Filter.OrderId)}&State={Filter.State}", forceLoad: true);
+            NavigationManager.NavigateTo($"{remoteService?.BaseUrl.EnsureEndsWith('/') ?? string.Empty}api/payment/payments/as-excel-file?DownloadToken={token}&State={Filter.State}", forceLoad: true);
         }
 
         private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<PaymentDto> e)
@@ -113,11 +106,6 @@ namespace Shopularity.Payment.Blazor.Pages.Payment
             await InvokeAsync(StateHasChanged);
         }
 
-        protected virtual async Task OnOrderIdChangedAsync(string? orderId)
-        {
-            Filter.OrderId = orderId;
-            await SearchAsync();
-        }
         protected virtual async Task OnStateChangedAsync(PaymentState? state)
         {
             Filter.State = state;

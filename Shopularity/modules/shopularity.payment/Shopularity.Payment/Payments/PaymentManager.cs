@@ -29,7 +29,7 @@ namespace Shopularity.Payment.Payments
 
         public virtual async Task<Payment> CreateAsync(Guid orderId)
         {
-            var payment = new Payment(GuidGenerator.Create(), orderId.ToString())
+            var payment = new Payment(GuidGenerator.Create(), orderId)
             {
                 State = PaymentState.Waiting
             };
@@ -49,7 +49,7 @@ namespace Shopularity.Payment.Payments
 
         public async Task CancelAsync(Guid orderId)
         {
-            var payment = await _paymentRepository.FirstOrDefaultAsync(x=> x.OrderId == orderId.ToString());
+            var payment = await _paymentRepository.FirstOrDefaultAsync(x=> x.OrderId == orderId);
 
             if (payment == null)
             {

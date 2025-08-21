@@ -20,38 +20,34 @@ namespace Shopularity.Payment.Payments
         }
 
         public virtual async Task<List<Payment>> GetListAsync(
-            string? filterText = null,
-            string? orderId = null,
+            Guid? orderId = null,
             PaymentState? state = null,
             string? sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetQueryableAsync()), filterText, orderId, state);
+            var query = ApplyFilter((await GetQueryableAsync()), orderId, state);
             query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? PaymentConsts.GetDefaultSorting(false) : sorting);
             return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
         }
 
         public virtual async Task<long> GetCountAsync(
-            string? filterText = null,
-            string? orderId = null,
+            Guid? orderId = null,
             PaymentState? state = null,
             CancellationToken cancellationToken = default)
         {
-            var query = ApplyFilter((await GetDbSetAsync()), filterText, orderId, state);
+            var query = ApplyFilter((await GetDbSetAsync()), orderId, state);
             return await query.LongCountAsync(GetCancellationToken(cancellationToken));
         }
 
         protected virtual IQueryable<Payment> ApplyFilter(
             IQueryable<Payment> query,
-            string? filterText = null,
-            string? orderId = null,
+            Guid? orderId = null,
             PaymentState? state = null)
         {
             return query
-                    .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.OrderId!.Contains(filterText!))
-                    .WhereIf(!string.IsNullOrWhiteSpace(orderId), e => e.OrderId.Contains(orderId))
+                    .WhereIf(orderId != null, e => e.OrderId == orderId)
                     .WhereIf(state.HasValue, e => e.State == state);
         }
     }

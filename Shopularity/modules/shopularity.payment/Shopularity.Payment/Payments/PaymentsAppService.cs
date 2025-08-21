@@ -32,8 +32,8 @@ namespace Shopularity.Payment.Payments
 
         public virtual async Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input)
         {
-            var totalCount = await _paymentRepository.GetCountAsync(input.FilterText, input.OrderId, input.State);
-            var items = await _paymentRepository.GetListAsync(input.FilterText, input.OrderId, input.State, input.Sorting, input.MaxResultCount, input.SkipCount);
+            var totalCount = await _paymentRepository.GetCountAsync(input.OrderId, input.State);
+            var items = await _paymentRepository.GetListAsync(input.OrderId, input.State, input.Sorting, input.MaxResultCount, input.SkipCount);
 
             return new PagedResultDto<PaymentDto>
             {
@@ -56,7 +56,7 @@ namespace Shopularity.Payment.Payments
                 throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
             }
 
-            var items = await _paymentRepository.GetListAsync(input.FilterText, input.OrderId, input.State);
+            var items = await _paymentRepository.GetListAsync(input.OrderId, input.State);
 
             var memoryStream = new MemoryStream();
             await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Payment>, List<PaymentExcelDto>>(items));

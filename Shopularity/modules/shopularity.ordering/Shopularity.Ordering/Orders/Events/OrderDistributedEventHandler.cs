@@ -22,9 +22,9 @@ public class OrderDistributedEventHandler :
     
     public async Task HandleEventAsync(PaymentCompletedEto eventData)
     {
-        await _orderManager.UpdateStateAsync(Guid.Parse(eventData.OrderId), OrderState.Paid);
+        await _orderManager.UpdateStateAsync(eventData.OrderId, OrderState.Paid);
         
-        await _orderFakeStateService.FakeOrderProcessingAsync(Guid.Parse(eventData.OrderId));
+        await _orderFakeStateService.FakeOrderProcessingAsync(eventData.OrderId);
     }
 
     public async Task HandleEventAsync(PaymentCreatedEto eventData)

@@ -10,7 +10,7 @@ namespace Shopularity.Ordering.Orders
 
         public string? FilterText { get; set; }
 
-        public string? UserId { get; set; }
+        public Guid? UserId { get; set; }
         public OrderState? State { get; set; }
         public double? TotalPriceMin { get; set; }
         public double? TotalPriceMax { get; set; }

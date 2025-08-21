@@ -17,7 +17,7 @@ namespace Shopularity.Ordering.Orders
     public class Order : FullAuditedAggregateRoot<Guid>
     {
         [NotNull]
-        public virtual string UserId { get; set; }
+        public virtual Guid UserId { get; set; }
 
         public virtual OrderState State { get; set; }
 
@@ -36,7 +36,7 @@ namespace Shopularity.Ordering.Orders
 
         }
 
-        public Order(Guid id, string userId, OrderState state, double totalPrice, string shippingAddress)
+        public Order(Guid id, Guid userId, OrderState state, double totalPrice, string shippingAddress)
         {
 
             Id = id;

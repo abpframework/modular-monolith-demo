@@ -81,12 +81,6 @@
                 <Row>
                     <Column ColumnSize="ColumnSize.Is3">
                         <Field>
-                            <FieldLabel>@L["UserId"]</FieldLabel>
-                            <TextEdit Text="@Filter.UserId" TextChanged="@OnUserIdChangedAsync"/>
-                        </Field>
-                    </Column>
-                    <Column ColumnSize="ColumnSize.Is3">
-                        <Field>
                             <FieldLabel>@L["State"]</FieldLabel>
                             <Select TValue="OrderState?"
                                     SelectedValue="@Filter.State"

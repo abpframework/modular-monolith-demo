@@ -25,7 +25,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
         var products = await _productsIntegrationService.GetProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
         
         var order = await _orderManager.CreateNewAsync(
-            CurrentUser.GetId().ToString(),
+            CurrentUser.GetId(),
             input.ShippingAddress,
             products.Select(x=> new ProductWithAmountDto
             {

@@ -6,5 +6,5 @@ public class PaymentCompletedEto
 {
     public Guid PaymentId { get; set; }
     
-    public string OrderId { get; set; }
+    public Guid OrderId { get; set; }
 }

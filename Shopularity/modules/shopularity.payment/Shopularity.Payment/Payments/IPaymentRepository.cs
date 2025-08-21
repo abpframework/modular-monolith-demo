@@ -9,8 +9,7 @@ namespace Shopularity.Payment.Payments
     public interface IPaymentRepository : IRepository<Payment, Guid>
     {
         Task<List<Payment>> GetListAsync(
-            string? filterText = null,
-            string? orderId = null,
+            Guid? orderId = null,
             PaymentState? state = null,
             string? sorting = null,
             int maxResultCount = int.MaxValue,
@@ -19,8 +18,7 @@ namespace Shopularity.Payment.Payments
         );
 
         Task<long> GetCountAsync(
-            string? filterText = null,
-            string? orderId = null,
+            Guid? orderId = null,
             PaymentState? state = null,
             CancellationToken cancellationToken = default);
     }

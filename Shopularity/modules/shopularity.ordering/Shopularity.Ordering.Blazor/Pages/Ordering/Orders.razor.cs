@@ -177,7 +177,7 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
                 culture = "&culture=" + culture;
             }
             await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Default");
-            NavigationManager.NavigateTo($"{remoteService?.BaseUrl.EnsureEndsWith('/') ?? string.Empty}api/ordering/orders/as-excel-file?DownloadToken={token}&FilterText={HttpUtility.UrlEncode(Filter.FilterText)}{culture}&UserId={HttpUtility.UrlEncode(Filter.UserId)}&State={Filter.State}&TotalPriceMin={Filter.TotalPriceMin}&TotalPriceMax={Filter.TotalPriceMax}&ShippingAddress={HttpUtility.UrlEncode(Filter.ShippingAddress)}&CargoNo={HttpUtility.UrlEncode(Filter.CargoNo)}", forceLoad: true);
+            NavigationManager.NavigateTo($"{remoteService?.BaseUrl.EnsureEndsWith('/') ?? string.Empty}api/ordering/orders/as-excel-file?DownloadToken={token}&FilterText={HttpUtility.UrlEncode(Filter.FilterText)}{culture}&UserId={HttpUtility.UrlEncode(Filter.UserId.ToString())}&State={Filter.State}&TotalPriceMin={Filter.TotalPriceMin}&TotalPriceMax={Filter.TotalPriceMax}&ShippingAddress={HttpUtility.UrlEncode(Filter.ShippingAddress)}&CargoNo={HttpUtility.UrlEncode(Filter.CargoNo)}", forceLoad: true);
         }
 
         private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<OrderDto> e)
@@ -277,12 +277,6 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
         private void OnSelectedEditTabChanged(string name)
         {
             SelectedEditTab = name;
-        }
-
-        protected virtual async Task OnUserIdChangedAsync(string? userId)
-        {
-            Filter.UserId = userId;
-            await SearchAsync();
         }
         
         protected virtual async Task OnStateChangedAsync(OrderState? state)

@@ -34,11 +34,11 @@ namespace Shopularity.Ordering.Orders
         }
 
         public virtual async Task<Order> CreateNewAsync(
-            string userId,
+            Guid userId,
             string shippingAddress,
             List<ProductWithAmountDto> productDtos) //todo: make items list of class
         {
-            Check.NotNullOrWhiteSpace(userId, nameof(userId));
+            Check.NotNull(userId, nameof(userId));
             Check.NotNullOrWhiteSpace(shippingAddress, nameof(shippingAddress));
             Check.Length(shippingAddress, nameof(shippingAddress), OrderConsts.ShippingAddressMaxLength);
             //todo: check stock count
@@ -86,16 +86,22 @@ namespace Shopularity.Ordering.Orders
         }
 
         public virtual async Task<Order> CreateAsync(
-            string userId, OrderState state, double totalPrice, string shippingAddress)
+            Guid userId,
+            OrderState state,
+            double totalPrice,
+            string shippingAddress)
         {
-            Check.NotNullOrWhiteSpace(userId, nameof(userId));
+            Check.NotNull(userId, nameof(userId));
             Check.NotNull(state, nameof(state));
             Check.NotNullOrWhiteSpace(shippingAddress, nameof(shippingAddress));
             Check.Length(shippingAddress, nameof(shippingAddress), OrderConsts.ShippingAddressMaxLength);
 
             var order = new Order(
                 GuidGenerator.Create(),
-                userId, state, totalPrice, shippingAddress
+                userId,
+                state,
+                totalPrice,
+                shippingAddress
             );
 
             return await _orderRepository.InsertAsync(order);
@@ -105,7 +111,7 @@ namespace Shopularity.Ordering.Orders
         {
             var order = await _orderRepository.GetAsync(id);
 
-            if (order.UserId != _currentUser.GetId().ToString())
+            if (order.UserId != _currentUser.GetId())
             {
                 // todo: business exception
                 throw new UserFriendlyException("Can't cancel someone else's order!!");

@@ -11,7 +11,7 @@ namespace Shopularity.Ordering.Orders
     {
         Task<List<Order>> GetListAsync(
             string? filterText = null,
-            string? userId = null,
+            Guid? userId = null,
             OrderState? state = null,
             double? totalPriceMin = null,
             double? totalPriceMax = null,
@@ -25,7 +25,7 @@ namespace Shopularity.Ordering.Orders
 
         Task<long> GetCountAsync(
             string? filterText = null,
-            string? userId = null,
+            Guid? userId = null,
             OrderState? state = null,
             double? totalPriceMin = null,
             double? totalPriceMax = null,

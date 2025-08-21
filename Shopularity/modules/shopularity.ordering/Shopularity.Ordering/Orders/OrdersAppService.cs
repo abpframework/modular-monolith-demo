@@ -57,7 +57,10 @@ namespace Shopularity.Ordering.Orders
         {
 
             var order = await _orderManager.CreateAsync(
-            input.UserId, input.State, input.TotalPrice, input.ShippingAddress
+            Guid.Parse(input.UserId),
+            input.State,
+            input.TotalPrice,
+            input.ShippingAddress
             );
 
             return ObjectMapper.Map<Order, OrderDto>(order);

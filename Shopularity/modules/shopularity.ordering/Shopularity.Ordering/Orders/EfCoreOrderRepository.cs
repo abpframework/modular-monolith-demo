@@ -22,7 +22,7 @@ namespace Shopularity.Ordering.Orders
 
         public virtual async Task<List<Order>> GetListAsync(
             string? filterText = null,
-            string? userId = null,
+            Guid? userId = null,
             OrderState? state = null,
             double? totalPriceMin = null,
             double? totalPriceMax = null,
@@ -40,7 +40,7 @@ namespace Shopularity.Ordering.Orders
 
         public virtual async Task<long> GetCountAsync(
             string? filterText = null,
-            string? userId = null,
+            Guid? userId = null,
             OrderState? state = null,
             double? totalPriceMin = null,
             double? totalPriceMax = null,
@@ -55,7 +55,7 @@ namespace Shopularity.Ordering.Orders
         protected virtual IQueryable<Order> ApplyFilter(
             IQueryable<Order> query,
             string? filterText = null,
-            string? userId = null,
+            Guid? userId = null,
             OrderState? state = null,
             double? totalPriceMin = null,
             double? totalPriceMax = null,
@@ -63,8 +63,8 @@ namespace Shopularity.Ordering.Orders
             string? cargoNo = null)
         {
             return query
-                    .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.UserId!.Contains(filterText!) || e.ShippingAddress!.Contains(filterText!) || e.CargoNo!.Contains(filterText!))
-                    .WhereIf(!string.IsNullOrWhiteSpace(userId), e => e.UserId.Contains(userId))
+                    .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.ShippingAddress!.Contains(filterText!) || e.CargoNo!.Contains(filterText!))
+                    .WhereIf(userId != null, e => e.UserId == userId)
                     .WhereIf(state.HasValue, e => e.State == state)
                     .WhereIf(totalPriceMin.HasValue, e => e.TotalPrice >= totalPriceMin!.Value)
                     .WhereIf(totalPriceMax.HasValue, e => e.TotalPrice <= totalPriceMax!.Value)
