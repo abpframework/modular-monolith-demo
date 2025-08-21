@@ -404,6 +404,10 @@ FodyWeavers.xsd
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+# JetBrains Rider
+**/.idea/
+*.sln.iml
+
 # Local History for Visual Studio Code
 .history/
 
