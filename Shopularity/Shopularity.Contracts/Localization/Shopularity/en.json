@@ -28,6 +28,7 @@
     "BasketEmpty": "Your basket is empty.",
     "Basket": "Basket",
     "Amount": "Amount",
-    "SumOn": "Sum on"
+    "SumOn": "Sum on",
+    "CreditCardNumber": "Credit Card Number"
   }
 }
