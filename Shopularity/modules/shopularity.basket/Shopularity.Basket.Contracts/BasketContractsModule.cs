@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Application;
+using Shopularity.Ordering;
+using Volo.Abp.Application;
 using Volo.Abp.Modularity;
 using Volo.Abp.Authorization;
 using Shopularity.Basket.Localization;
@@ -11,6 +12,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace Shopularity.Basket;
 
 [DependsOn(
+    typeof(OrderingContractsModule),
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpValidationModule),
     typeof(AbpAuthorizationModule)

@@ -7,13 +7,13 @@ using Volo.Abp.Users;
 
 namespace Shopularity.Basket.SignalR.Events;
 
-public class BasketEventHandler
+public class BasketSignalREventHandler
     : IDistributedEventHandler<BasketUpdatedEto>,
-        ITransientDependency
+      ITransientDependency
 {
     private readonly IHubContext<BasketHub> _basketHub;
 
-    public BasketEventHandler(IHubContext<BasketHub> basketHub)
+    public BasketSignalREventHandler(IHubContext<BasketHub> basketHub)
     {
         _basketHub = basketHub;
     }

@@ -39,7 +39,7 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
         await _ordersPublicAppService.CreateAsync(new OrderCreatePublicDto
         {
             ShippingAddress = input.Address,
-            Products = input.Products.Select(x=> new OrderCreatePublicProductDto{ProductId = Guid.Parse(x.ItemId), Amount = x.Amount}).ToList(),
+            Products = input.Products.Select(x=> new OrderCreatePublicProductDto{ProductId = x.ItemId, Amount = x.Amount}).ToList(),
         });
     }
     

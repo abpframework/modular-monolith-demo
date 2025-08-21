@@ -77,7 +77,9 @@ namespace Shopularity.Ordering.Orders
             
             await _eventBus.PublishAsync(new OrderCreatedEto
             {
-                Id = order.Id
+                Id = order.Id,
+                UserId = _currentUser.GetId(),
+                Products = productDtos
             });
             
             return order;

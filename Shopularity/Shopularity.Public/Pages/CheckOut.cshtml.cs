@@ -60,14 +60,14 @@ public class CheckOutModel : ShopularityPublicPageModel
 
         var productsWithDetails = await ProductsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
         {
-            Ids = result.Select(x => Guid.Parse(x.ItemId)).ToList()
+            Ids = result.Select(x => x.ItemId).ToList()
         });
 
         Items = productsWithDetails.Items.Select(x => new BasketViewItemModel
         {
             Product = x.Product,
             Category = x.Category,
-            Amount = result.FirstOrDefault(y => x.Product.Id.ToString() == y.ItemId)?.Amount ?? 1,
+            Amount = result.FirstOrDefault(y => x.Product.Id == y.ItemId)?.Amount ?? 1,
         }).ToList();
 
         TotalPrice = Items.Select(x => x.Product.Price * x.Amount).Sum();
@@ -95,7 +95,7 @@ public class CheckOutModel : ShopularityPublicPageModel
         {
             Address = Address,
             CreditCardNo = CreditCardNumber,
-            Products = basketFromCache.Items.Select(x=> new BasketItem{ ItemId = x.Product.Id.ToString(), Amount = x.Amount}).ToList()
+            Products = basketFromCache.Items.Select(x=> new BasketItem{ ItemId = x.Product.Id, Amount = x.Amount}).ToList()
         });
         
         return Redirect("/my-orders");

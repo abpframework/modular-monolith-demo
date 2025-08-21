@@ -61,7 +61,7 @@ public class BasketController : AbpController, IBasketAppService
 
         var productsWithDetails = await ProductsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
         {
-            Ids = result.Select(x => Guid.Parse(x.ItemId)).ToList()
+            Ids = result.Select(x => x.ItemId).ToList()
         });
 
         return ViewComponent("Basket", new BasketViewModel(
@@ -69,7 +69,7 @@ public class BasketController : AbpController, IBasketAppService
             {
                 Product = x.Product,
                 Category = x.Category,
-                Amount = result.FirstOrDefault(y => x.Product.Id.ToString() == y.ItemId)?.Amount ?? 1
+                Amount = result.FirstOrDefault(y => x.Product.Id == y.ItemId)?.Amount ?? 1
             }).ToList(),
             isBasketPage
         ));

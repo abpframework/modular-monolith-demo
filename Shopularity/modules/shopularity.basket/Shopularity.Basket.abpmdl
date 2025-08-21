@@ -15,5 +15,11 @@
     "Shopularity.Basket.SignalR": {
       "path": "Shopularity.Basket.SignalR/Shopularity.Basket.SignalR.abppkg"
     }
+  },
+  "imports": {
+    "Shopularity.Ordering": {
+      "path": "../shopularity.ordering/Shopularity.Ordering.abpmdl",
+      "isInstalled": true
+    }
   }
 }
