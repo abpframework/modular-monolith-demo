@@ -13,8 +13,8 @@ namespace Shopularity.Payment.Blazor.Pages.Payment
 {
     public partial class Payments
     {
-        protected List<Volo.Abp.BlazoriseUI.BreadcrumbItem> BreadcrumbItems = new List<Volo.Abp.BlazoriseUI.BreadcrumbItem>();
-        protected PageToolbar Toolbar {get;} = new PageToolbar();
+        protected List<Volo.Abp.BlazoriseUI.BreadcrumbItem> BreadcrumbItems = new();
+        protected PageToolbar Toolbar {get;} = new();
         protected bool ShowAdvancedFilters { get; set; }
         public DataGrid<PaymentDto> DataGridRef { get; set; }
         private IReadOnlyList<PaymentDto> PaymentList { get; set; }
@@ -23,10 +23,6 @@ namespace Shopularity.Payment.Blazor.Pages.Payment
         private string CurrentSorting { get; set; } = string.Empty;
         private int TotalCount { get; set; }
         private GetPaymentsInput Filter { get; set; }
-        private DataGridEntityActionsColumn<PaymentDto> EntityActionsColumn { get; set; } = new();
-        protected string SelectedCreateTab = "payment-create-tab";
-        protected string SelectedEditTab = "payment-edit-tab";
-        private PaymentDto? SelectedPayment;
         
         public Payments()
         {

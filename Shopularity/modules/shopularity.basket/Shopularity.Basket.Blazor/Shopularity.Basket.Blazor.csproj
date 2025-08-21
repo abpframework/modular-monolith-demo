@@ -15,4 +15,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Shopularity.Basket.Contracts\Shopularity.Basket.Contracts.csproj"/>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
 </Project>

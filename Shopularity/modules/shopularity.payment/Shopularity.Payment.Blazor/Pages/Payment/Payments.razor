@@ -32,30 +32,7 @@
 <Card>
     <CardBody>
         <Row>
-            <div class="col col-md-8 col-lg-10">
-                <div class="mb-3">
-                    <Form id="PaymentSearchForm">
-                        <Addons>
-                            <Addon AddonType="AddonType.End">
-                                <SubmitButton Form="PaymentSearchForm" Clicked="GetPaymentsAsync">
-                                    <Icon Name="IconName.Search" Class="me-1"></Icon>@L["Search"]
-                                </SubmitButton>
-                            </Addon>
-                        </Addons>
-                    </Form>
-                </div>
-            </div>
-            <div class="col-md-4 col-lg-2">
-                <div class="mb-3">
-                    <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
-                            Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">
-                        @L["Filters"]
-                        <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
-                    </Button>
-                </div>
-            </div>
-
-            <div style="display: @(!ShowAdvancedFilters ? "none" : "block")" class="mt-3">
+            <div class="mt-3">
                 <Row>
                     <Column ColumnSize="ColumnSize.Is3">
                         <Field>
@@ -63,7 +40,6 @@
                             <Select TValue="PaymentState?"
                                     SelectedValue="@Filter.State"
                                     SelectedValueChanged="@OnStateChangedAsync">
-
                                 <SelectItem></SelectItem>
 
                                 @foreach (PaymentState value in Enum.GetValues(typeof(PaymentState)))
