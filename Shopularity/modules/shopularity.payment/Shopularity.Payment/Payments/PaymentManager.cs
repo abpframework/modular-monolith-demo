@@ -1,38 +1,66 @@
 using System;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
-using Volo.Abp;
+using Shopularity.Payment.Payments.Events;
 using Volo.Abp.Domain.Services;
-using Volo.Abp.Data;
+using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Uow;
 
 namespace Shopularity.Payment.Payments
 {
     public class PaymentManager : DomainService
     {
         protected IPaymentRepository _paymentRepository;
+        private readonly IUnitOfWorkAccessor _unitOfWorkAccessor;
+        private readonly IDistributedEventBus _eventBus;
 
-        public PaymentManager(IPaymentRepository paymentRepository)
+        public PaymentManager(
+            IPaymentRepository paymentRepository,
+            IUnitOfWorkAccessor unitOfWorkAccessor,
+            IDistributedEventBus eventBus)
         {
             _paymentRepository = paymentRepository;
+            _unitOfWorkAccessor = unitOfWorkAccessor;
+            _eventBus = eventBus;
         }
 
-        public virtual async Task<Payment> CreateAsync(string orderId)
+        public virtual async Task<Payment> CreateAsync(Guid orderId)
         {
-            Check.NotNullOrWhiteSpace(orderId, nameof(orderId));
+            var payment = new Payment(GuidGenerator.Create(), orderId.ToString())
+            {
+                State = PaymentState.Waiting
+            };
+            
+            payment = await _paymentRepository.InsertAsync(payment);
+            await _unitOfWorkAccessor.UnitOfWork!.SaveChangesAsync();
+            
+            _ = Task.Run(async () =>
+            {
+                await FakePaymentCompleteAsync(payment.Id);
+            });
 
-            var payment = new Payment(GuidGenerator.Create(),orderId);
-            
-            payment.State = PaymentState.Completed; // todo: discuss this
-            
-            return await _paymentRepository.InsertAsync(payment);
+            return payment;
         }
 
-        public virtual async Task<Payment> UpdateAsync(Guid id, [CanBeNull] string? concurrencyStamp = null)
+        private async Task FakePaymentCompleteAsync(Guid paymentId)
         {
-            var payment = await _paymentRepository.GetAsync(id);
+            await Task.Delay(1000 * 60);
+            
+            var payment = await _paymentRepository.GetAsync(paymentId);
 
-            payment.SetConcurrencyStampIfNotNull(concurrencyStamp);
-            return await _paymentRepository.UpdateAsync(payment);
+            if (payment.State != PaymentState.Waiting)
+            {
+                return;
+            }
+            
+            payment.State = PaymentState.Completed;
+            
+            await _paymentRepository.UpdateAsync(payment);
+
+            await _eventBus.PublishAsync(new PaymentCompletedEto
+            {
+                PaymentId = paymentId,
+                OrderId = payment.OrderId
+            });
         }
     }
 }

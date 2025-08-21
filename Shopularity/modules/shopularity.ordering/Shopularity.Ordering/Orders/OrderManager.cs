@@ -129,7 +129,9 @@ namespace Shopularity.Ordering.Orders
 
         public virtual async Task<Order> UpdateAsync(
             Guid id,
-            OrderState state, string shippingAddress, string? cargoNo = null,
+            OrderState state,
+            string shippingAddress,
+            string? cargoNo = null,
             [CanBeNull] string? concurrencyStamp = null
         )
         {
@@ -146,6 +148,19 @@ namespace Shopularity.Ordering.Orders
             order.CargoNo = cargoNo;
 
             order.SetConcurrencyStampIfNotNull(concurrencyStamp);
+            return await _orderRepository.UpdateAsync(order);
+        }
+
+        public virtual async Task<Order> UpdateStateAsync(
+            Guid id,
+            OrderState state)
+        {
+            Check.NotNull(state, nameof(state));
+
+            var order = await _orderRepository.GetAsync(id);
+
+            order.State = state;
+
             return await _orderRepository.UpdateAsync(order);
         }
 

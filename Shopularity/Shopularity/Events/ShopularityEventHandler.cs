@@ -18,6 +18,6 @@ public class ShopularityEventHandler:
     
     public async Task HandleEventAsync(OrderCreatedEto eventData)
     {
-        await _paymentManager.CreateAsync(eventData.Id.ToString());
+       // await _paymentManager.CreateAsync(eventData.Id);
     }
 }

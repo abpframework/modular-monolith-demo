@@ -1,18 +1,17 @@
-using Shopularity.Ordering.OrderLines;
-
 using System.Threading.Tasks;
+using Shopularity.Ordering.OrderLines;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.EventBus;
 
-namespace Shopularity.Ordering.Orders;
+namespace Shopularity.Ordering.Orders.Events;
 
-public class OrderDeletedEventHandler : ILocalEventHandler<EntityDeletedEventData<Order>>, ITransientDependency
+public class OrderLocalEventHandler : ILocalEventHandler<EntityDeletedEventData<Order>>, ITransientDependency
 {
     private readonly IOrderLineRepository _orderLineRepository;
 
-    public OrderDeletedEventHandler(IOrderLineRepository orderLineRepository)
+    public OrderLocalEventHandler(IOrderLineRepository orderLineRepository)
     {
         _orderLineRepository = orderLineRepository;
 

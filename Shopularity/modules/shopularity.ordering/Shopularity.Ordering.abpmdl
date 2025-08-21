@@ -17,6 +17,10 @@
     "Shopularity.Catalog": {
       "path": "../shopularity.catalog/Shopularity.Catalog.abpmdl",
       "isInstalled": true
+    },
+    "Shopularity.Payment": {
+      "path": "../shopularity.payment/Shopularity.Payment.abpmdl",
+      "isInstalled": true
     }
   }
 }

@@ -27,7 +27,6 @@ namespace Shopularity.Ordering.Orders
             _downloadTokenCache = downloadTokenCache;
             _orderRepository = orderRepository;
             _orderManager = orderManager;
-
         }
 
         public virtual async Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input)

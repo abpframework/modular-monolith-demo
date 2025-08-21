@@ -1,3 +1,4 @@
+using Shopularity.Payment;
 using Shopularity.Catalog;
 using Volo.Abp.Application;
 using Volo.Abp.Modularity;
@@ -12,6 +13,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace Shopularity.Ordering;
 
 [DependsOn(
+    typeof(PaymentContractsModule),
     typeof(CatalogContractsModule),
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpValidationModule),
