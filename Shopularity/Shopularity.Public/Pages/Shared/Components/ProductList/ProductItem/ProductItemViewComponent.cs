@@ -9,8 +9,6 @@ namespace Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem;
 public class ProductItemViewModel
 {
     public ProductWithNavigationPropertiesPublicDto Item { get; set; }
-    
-    public bool ShownSolo { get; set; }
 
     public ProductItemViewModel(ProductWithNavigationPropertiesPublicDto item)
     {

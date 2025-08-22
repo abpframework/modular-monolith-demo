@@ -11,14 +11,11 @@ public class BasketViewModel
     public List<BasketViewItemModel> Items { get; set; }
     
     public double TotalPrice { get; set; }
-    
-    public bool IsBasketPage { get; set; }
 
-    public BasketViewModel(List<BasketViewItemModel> items, bool isBasketPage = false)
+    public BasketViewModel(List<BasketViewItemModel> items)
     {
         Items = items;
         TotalPrice = items.Select(item => item.Product.Price * item.Amount).Sum();
-        IsBasketPage = isBasketPage;
     }
 }
 

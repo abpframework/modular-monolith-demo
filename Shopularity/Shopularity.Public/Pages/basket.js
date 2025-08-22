@@ -77,13 +77,11 @@
     
     renderBasketItems = function () {
         var $basketArea = $('#ShopularityBasket');
-        var $basketPageListArea = $('#ShopularityBasketPageList');
         if ($basketArea.length === 0) {
             return;
         }
         const renderApi = '/api/basket/basket/render';
         $basketArea.load(renderApi);
-        $basketPageListArea.load(renderApi + '?isBasketPage=true');
     }
     
     abp.event.on('abp.serviceProxyScriptInitialized', function () {

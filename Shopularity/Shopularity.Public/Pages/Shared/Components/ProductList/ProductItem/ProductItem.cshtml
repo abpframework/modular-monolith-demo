@@ -1,10 +1,5 @@
 @using Microsoft.Extensions.Localization
 @using Shopularity.Localization
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Blockquote
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Card
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
 @using Volo.Abp.Users
 @inject IStringLocalizer<ShopularityResource> L
 @inject ICurrentUser CurrentUser
@@ -40,16 +35,5 @@
                 <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
             }
         </div>
-
-        @if (Model.ShownSolo)
-        {
-            <p class="mt-1 text-muted small">
-                @L["ItemLeftInStock", Model.Item.Product.StockCount]
-            </p>
-
-            <p class="mt-2">@Model.Item.Product.Description</p>
-        }
     </abp-card-footer>
-
-
 </abp-card>

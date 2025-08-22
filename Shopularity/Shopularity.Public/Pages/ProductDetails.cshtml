@@ -2,8 +2,8 @@
 @using Shopularity.Public.Pages
 @using Shopularity.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem
-@using Volo.Abp.AspNetCore.Mvc.UI.Bundling.TagHelpers
+@using Volo.Abp.Users
+@inject ICurrentUser CurrentUser
 @inject IHtmlLocalizer<ShopularityResource> L
 @model ProductDetailsModel
 
@@ -14,11 +14,42 @@
 }
 
 <div>
-    @await Component.InvokeAsync(typeof(ProductItemViewComponent), new
-    {
-        model = new ProductItemViewModel(Model.Item)
-        {
-            ShownSolo = true
-        }
-    })
+    <abp-card class="w-100 h-100">
+        <abp-card-header>
+            <span>@Model.Item.Product.Name</span>
+        </abp-card-header>
+        <abp-card-body class="text-center">
+            @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
+            {
+                <a href="/product-details/@(Model.Item.Product.Id)">
+                    <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)"
+                         style="max-width: 300px; max-height: 300px; border-radius: 8px;"
+                         alt="@Model.Item.Product.Name"/>
+                </a>
+            }
+        </abp-card-body>
+        <abp-card-footer>
+            <div class="d-flex justify-content-between align-items-center">
+                <p class="mb-0 fw-bold text-success">$@Model.Item.Product.Price</p>
+
+                @if (CurrentUser.IsAuthenticated)
+                {
+                    <abp-button size="Small" button-type="Primary"
+                                class="addToBasket" data-product-id="@Model.Item.Product.Id">
+                        @L["AddToBasket"]
+                    </abp-button>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
+                }
+            </div>
+
+            <p class="mt-1 text-muted small">
+                @L["ItemLeftInStock", Model.Item.Product.StockCount]
+            </p>
+
+            <p class="mt-2">@Model.Item.Product.Description</p>
+        </abp-card-footer>
+    </abp-card>
 </div>

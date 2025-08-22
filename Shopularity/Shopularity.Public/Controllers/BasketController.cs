@@ -50,7 +50,7 @@ public class BasketController : AbpController, IBasketAppService
     }
 
     [HttpGet("render")]
-    public async Task<ViewComponentResult> Render([FromQuery] bool isBasketPage = false)
+    public async Task<ViewComponentResult> Render()
     {
         var result = await BasketAppService.GetBasketItems();
 
@@ -70,8 +70,7 @@ public class BasketController : AbpController, IBasketAppService
                 Product = x.Product,
                 Category = x.Category,
                 Amount = result.FirstOrDefault(y => x.Product.Id == y.ItemId)?.Amount ?? 1
-            }).ToList(),
-            isBasketPage
+            }).ToList()
         ));
     }
 }
