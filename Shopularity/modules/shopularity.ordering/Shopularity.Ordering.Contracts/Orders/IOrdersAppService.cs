@@ -6,24 +6,25 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Content;
 using Shopularity.Ordering.Shared;
 
-namespace Shopularity.Ordering.Orders
+namespace Shopularity.Ordering.Orders;
+
+public interface IOrdersAppService : IApplicationService
 {
-    public interface IOrdersAppService : IApplicationService
-    {
 
-        Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input);
+    Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input);
 
-        Task<OrderDto> GetAsync(Guid id);
+    Task<OrderDto> GetAsync(Guid id);
 
-        Task DeleteAsync(Guid id);
+    Task DeleteAsync(Guid id);
 
-        Task<OrderDto> CreateAsync(OrderCreateDto input);
+    Task<OrderDto> CreateAsync(OrderCreateDto input);
 
-        Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input);
+    Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input);
 
-        Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input);
+    Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input);
 
-        Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
+    Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input);
 
-    }
+    Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
+
 }

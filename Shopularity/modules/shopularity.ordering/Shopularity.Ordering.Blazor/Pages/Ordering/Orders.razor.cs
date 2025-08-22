@@ -31,13 +31,18 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
         private bool CanCreateOrder { get; set; }
         private bool CanEditOrder { get; set; }
         private bool CanDeleteOrder { get; set; }
+        private bool CanSetShipment { get; set; }
         private OrderCreateDto NewOrder { get; set; }
         private Validations NewOrderValidations { get; set; } = new();
         private OrderUpdateDto EditingOrder { get; set; }
+        private SetShippingInfoInput Shipment { get; set; }
         private Validations EditingOrderValidations { get; set; } = new();
+        private Validations ShipmentValidations { get; set; } = new();
         private Guid EditingOrderId { get; set; }
+        private Guid ShippingOrderId { get; set; }
         private Modal CreateOrderModal { get; set; } = new();
         private Modal EditOrderModal { get; set; } = new();
+        private Modal ShippingModal { get; set; } = new();
         private GetOrdersInput Filter { get; set; }
         private DataGridEntityActionsColumn<OrderDto> EntityActionsColumn { get; set; } = new();
         protected string SelectedCreateTab = "order-create-tab";
@@ -69,6 +74,7 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
             
             NewOrder = new OrderCreateDto();
             EditingOrder = new OrderUpdateDto();
+            Shipment = new SetShippingInfoInput();
             Filter = new GetOrdersInput
             {
                 MaxResultCount = PageSize,
@@ -136,6 +142,8 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
                             .IsGrantedAsync(OrderingPermissions.Orders.Edit);
             CanDeleteOrder = await AuthorizationService
                             .IsGrantedAsync(OrderingPermissions.Orders.Delete);
+            CanSetShipment = await AuthorizationService
+                            .IsGrantedAsync(OrderingPermissions.Orders.SetShippingInfo);
             
             #region OrderLines
             CanListOrderLine = await AuthorizationService
@@ -220,6 +228,17 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
             await EditOrderModal.Show();
         }
 
+        private async Task OpenShipmentModalAsync(OrderDto input)
+        {
+            var order = await OrdersAppService.GetAsync(input.Id);
+            
+            ShippingOrderId = order.Id;
+            Shipment = ObjectMapper.Map<OrderDto, SetShippingInfoInput>(order);
+            
+            await ShipmentValidations.ClearAll();
+            await ShippingModal.Show();
+        }
+
         private async Task DeleteOrderAsync(OrderDto input)
         {
             await OrdersAppService.DeleteAsync(input.Id);
@@ -250,6 +269,11 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
             await EditOrderModal.Hide();
         }
 
+        private async Task CloseShipmentModalAsync()
+        {
+            await ShippingModal.Hide();
+        }
+
         private async Task UpdateOrderAsync()
         {
             try
@@ -262,6 +286,25 @@ namespace Shopularity.Ordering.Blazor.Pages.Ordering
                 await OrdersAppService.UpdateAsync(EditingOrderId, EditingOrder);
                 await GetOrdersAsync();
                 await EditOrderModal.Hide();                
+            }
+            catch (Exception ex)
+            {
+                await HandleErrorAsync(ex);
+            }
+        }
+
+        private async Task SetShipmentAsync()
+        {
+            try
+            {
+                if (await ShipmentValidations.ValidateAll() == false)
+                {
+                    return;
+                }
+
+                await OrdersAppService.SetShippingInfoAsync(ShippingOrderId, Shipment);
+                await GetOrdersAsync();
+                await ShippingModal.Hide();                
             }
             catch (Exception ex)
             {

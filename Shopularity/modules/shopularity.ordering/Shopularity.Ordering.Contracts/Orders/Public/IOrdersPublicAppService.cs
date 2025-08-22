@@ -1,10 +1,9 @@
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
-namespace Shopularity.Ordering.Orders.Public
+namespace Shopularity.Ordering.Orders.Public;
+
+public interface IOrdersPublicAppService : IApplicationService
 {
-    public interface IOrdersPublicAppService : IApplicationService
-    {
-        Task<OrderDto> CreateAsync(OrderCreatePublicDto input);
-    }
+    Task<OrderDto> CreateAsync(OrderCreatePublicDto input);
 }

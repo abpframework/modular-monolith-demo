@@ -51,6 +51,13 @@ namespace Shopularity.Ordering.Orders
             return _ordersAppService.UpdateAsync(id, input);
         }
 
+        [HttpPut]
+        [Route("shipped/{id}")]
+        public virtual Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input)
+        {
+            return _ordersAppService.SetShippingInfoAsync(id, input);
+        }
+
         [HttpDelete]
         [Route("{id}")]
         public virtual Task DeleteAsync(Guid id)

@@ -14,6 +14,7 @@ public class OrderingPermissions
     public static class Orders
     {
         public const string Default = GroupName + ".Orders";
+        public const string SetShippingInfo = Default + ".SetShippingInfo";
         public const string Edit = Default + ".Edit";
         public const string Create = Default + ".Create";
         public const string Delete = Default + ".Delete";

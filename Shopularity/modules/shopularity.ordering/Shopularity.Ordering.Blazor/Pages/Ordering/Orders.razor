@@ -188,6 +188,11 @@
                     <DisplayTemplate>
                         <EntityActions TItem="OrderDto" EntityActionsColumn="@EntityActionsColumn">
                             <EntityAction TItem="OrderDto"
+                                          Visible="@(CanSetShipment && context.State == OrderState.Processing)"
+                                          Clicked="async () => await OpenShipmentModalAsync(context)"
+                                          Text="@L["SetShipmentDetails"]">
+                            </EntityAction>
+                            <EntityAction TItem="OrderDto"
                                           Visible="@CanEditOrder"
                                           Clicked="async () => await OpenEditOrderModalAsync(context)"
                                           Text="@L["Edit"]">
@@ -496,6 +501,42 @@
             </ModalFooter>
         </Form>
 
+    </ModalContent>
+</Modal>
+
+@* ************************* SHIPMENT MODAL ************************* *@
+<Modal @ref="ShippingModal" Closing="@ShippingModal.CancelClosingModalWhenFocusLost">
+    <ModalContent Centered="true">
+        <Form id="SetShipmentForm">
+            <ModalHeader>
+                <ModalTitle>@L["Update"]</ModalTitle>
+                <CloseButton Clicked="CloseShipmentModalAsync"/>
+            </ModalHeader>
+            <ModalBody>
+                <Validations @ref="@ShipmentValidations"
+                             Mode="ValidationMode.Auto"
+                             Model="@Shipment"
+                             ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["CargoNo"]</FieldLabel>
+                            <TextEdit @bind-Text="@Shipment.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength">
+                                <Feedback>
+                                    <ValidationError/>
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                </Validations>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseShipmentModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <SubmitButton Form="SetShipmentForm" Clicked="SetShipmentAsync"/>
+            </ModalFooter>
+        </Form>
     </ModalContent>
 </Modal>
 
