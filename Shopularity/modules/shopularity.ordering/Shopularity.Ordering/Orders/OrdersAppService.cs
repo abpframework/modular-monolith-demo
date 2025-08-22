@@ -12,124 +12,123 @@ using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace Shopularity.Ordering.Orders
+namespace Shopularity.Ordering.Orders;
+
+[RemoteService(IsEnabled = false)]
+[Authorize(OrderingPermissions.Orders.Default)]
+public class OrdersAppService : OrderingAppService, IOrdersAppService
 {
-    [RemoteService(IsEnabled = false)]
-    [Authorize(OrderingPermissions.Orders.Default)]
-    public class OrdersAppService : OrderingAppService, IOrdersAppService
+    protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
+    protected IOrderRepository _orderRepository;
+    protected OrderManager _orderManager;
+
+    public OrdersAppService(IOrderRepository orderRepository, OrderManager orderManager, IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache)
     {
-        protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
-        protected IOrderRepository _orderRepository;
-        protected OrderManager _orderManager;
+        _downloadTokenCache = downloadTokenCache;
+        _orderRepository = orderRepository;
+        _orderManager = orderManager;
+    }
 
-        public OrdersAppService(IOrderRepository orderRepository, OrderManager orderManager, IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache)
+    public virtual async Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input)
+    {
+        var totalCount = await _orderRepository.GetCountAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
+        var items = await _orderRepository.GetListAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo, input.Sorting, input.MaxResultCount, input.SkipCount);
+
+        return new PagedResultDto<OrderDto>
         {
-            _downloadTokenCache = downloadTokenCache;
-            _orderRepository = orderRepository;
-            _orderManager = orderManager;
-        }
+            TotalCount = totalCount,
+            Items = ObjectMapper.Map<List<Order>, List<OrderDto>>(items)
+        };
+    }
 
-        public virtual async Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input)
-        {
-            var totalCount = await _orderRepository.GetCountAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
-            var items = await _orderRepository.GetListAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo, input.Sorting, input.MaxResultCount, input.SkipCount);
+    public virtual async Task<OrderDto> GetAsync(Guid id)
+    {
+        return ObjectMapper.Map<Order, OrderDto>(await _orderRepository.GetAsync(id));
+    }
 
-            return new PagedResultDto<OrderDto>
-            {
-                TotalCount = totalCount,
-                Items = ObjectMapper.Map<List<Order>, List<OrderDto>>(items)
-            };
-        }
+    [Authorize(OrderingPermissions.Orders.Delete)]
+    public virtual async Task DeleteAsync(Guid id)
+    {
+        await _orderRepository.DeleteAsync(id);
+    }
 
-        public virtual async Task<OrderDto> GetAsync(Guid id)
-        {
-            return ObjectMapper.Map<Order, OrderDto>(await _orderRepository.GetAsync(id));
-        }
+    [Authorize(OrderingPermissions.Orders.Create)]
+    public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
+    {
 
-        [Authorize(OrderingPermissions.Orders.Delete)]
-        public virtual async Task DeleteAsync(Guid id)
-        {
-            await _orderRepository.DeleteAsync(id);
-        }
-
-        [Authorize(OrderingPermissions.Orders.Create)]
-        public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
-        {
-
-            var order = await _orderManager.CreateAsync(
+        var order = await _orderManager.CreateAsync(
             Guid.Parse(input.UserId),
             input.State,
             input.TotalPrice,
             input.ShippingAddress
-            );
+        );
 
-            return ObjectMapper.Map<Order, OrderDto>(order);
-        }
+        return ObjectMapper.Map<Order, OrderDto>(order);
+    }
 
-        [Authorize(OrderingPermissions.Orders.Edit)]
-        public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
-        {
-            var order = await _orderManager.UpdateAsync(
+    [Authorize(OrderingPermissions.Orders.Edit)]
+    public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
+    {
+        var order = await _orderManager.UpdateAsync(
             id,
             input.State, input.ShippingAddress, input.CargoNo, input.ConcurrencyStamp
-            );
+        );
 
-            return ObjectMapper.Map<Order, OrderDto>(order);
-        }
+        return ObjectMapper.Map<Order, OrderDto>(order);
+    }
 
-        [Authorize(OrderingPermissions.Orders.SetShippingInfo)]
-        public virtual async Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input)
+    [Authorize(OrderingPermissions.Orders.SetShippingInfo)]
+    public virtual async Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input)
+    {
+        var order = await _orderRepository.GetAsync(id);
+
+        if (order.State != OrderState.Processing)
         {
-            var order = await _orderRepository.GetAsync(id);
-
-            if (order.State != OrderState.Processing)
-            {
-                //todo: business exception
-                throw new UserFriendlyException("Order is not available for shipping!!");
-            }
+            //todo: business exception
+            throw new UserFriendlyException("Order is not available for shipping!!");
+        }
             
-            order.CargoNo = input.CargoNo;
-            order.State = OrderState.Shipped;
+        order.CargoNo = input.CargoNo;
+        order.State = OrderState.Shipped;
 
-            order = await _orderRepository.UpdateAsync(order);
+        order = await _orderRepository.UpdateAsync(order);
             
-            return ObjectMapper.Map<Order, OrderDto>(order);
-        }
+        return ObjectMapper.Map<Order, OrderDto>(order);
+    }
 
-        [AllowAnonymous]
-        public virtual async Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input)
+    [AllowAnonymous]
+    public virtual async Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input)
+    {
+        var downloadToken = await _downloadTokenCache.GetAsync(input.DownloadToken);
+        if (downloadToken == null || input.DownloadToken != downloadToken.Token)
         {
-            var downloadToken = await _downloadTokenCache.GetAsync(input.DownloadToken);
-            if (downloadToken == null || input.DownloadToken != downloadToken.Token)
-            {
-                throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
-            }
-
-            var items = await _orderRepository.GetListAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
-
-            var memoryStream = new MemoryStream();
-            await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Order>, List<OrderExcelDto>>(items));
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            return new RemoteStreamContent(memoryStream, "Orders.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
         }
 
-        public virtual async Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+        var items = await _orderRepository.GetListAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
+
+        var memoryStream = new MemoryStream();
+        await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Order>, List<OrderExcelDto>>(items));
+        memoryStream.Seek(0, SeekOrigin.Begin);
+
+        return new RemoteStreamContent(memoryStream, "Orders.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    }
+
+    public virtual async Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    {
+        var token = Guid.NewGuid().ToString("N");
+
+        await _downloadTokenCache.SetAsync(
+            token,
+            new OrderDownloadTokenCacheItem { Token = token },
+            new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+            });
+
+        return new Shopularity.Ordering.Shared.DownloadTokenResultDto
         {
-            var token = Guid.NewGuid().ToString("N");
-
-            await _downloadTokenCache.SetAsync(
-                token,
-                new OrderDownloadTokenCacheItem { Token = token },
-                new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
-                });
-
-            return new Shopularity.Ordering.Shared.DownloadTokenResultDto
-            {
-                Token = token
-            };
-        }
+            Token = token
+        };
     }
 }

@@ -12,75 +12,74 @@ using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace Shopularity.Payment.Payments
+namespace Shopularity.Payment.Payments;
+
+[RemoteService(IsEnabled = false)]
+[Authorize(PaymentPermissions.Payments.Default)]
+public class PaymentsAppService : PaymentAppService, IPaymentsAppService
 {
-    [RemoteService(IsEnabled = false)]
-    [Authorize(PaymentPermissions.Payments.Default)]
-    public class PaymentsAppService : PaymentAppService, IPaymentsAppService
+    protected IDistributedCache<PaymentDownloadTokenCacheItem, string> _downloadTokenCache;
+    protected IPaymentRepository _paymentRepository;
+    protected PaymentManager _paymentManager;
+
+    public PaymentsAppService(IPaymentRepository paymentRepository, PaymentManager paymentManager, IDistributedCache<PaymentDownloadTokenCacheItem, string> downloadTokenCache)
     {
-        protected IDistributedCache<PaymentDownloadTokenCacheItem, string> _downloadTokenCache;
-        protected IPaymentRepository _paymentRepository;
-        protected PaymentManager _paymentManager;
+        _downloadTokenCache = downloadTokenCache;
+        _paymentRepository = paymentRepository;
+        _paymentManager = paymentManager;
 
-        public PaymentsAppService(IPaymentRepository paymentRepository, PaymentManager paymentManager, IDistributedCache<PaymentDownloadTokenCacheItem, string> downloadTokenCache)
+    }
+
+    public virtual async Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input)
+    {
+        var totalCount = await _paymentRepository.GetCountAsync(input.OrderId, input.State);
+        var items = await _paymentRepository.GetListAsync(input.OrderId, input.State, input.Sorting, input.MaxResultCount, input.SkipCount);
+
+        return new PagedResultDto<PaymentDto>
         {
-            _downloadTokenCache = downloadTokenCache;
-            _paymentRepository = paymentRepository;
-            _paymentManager = paymentManager;
+            TotalCount = totalCount,
+            Items = ObjectMapper.Map<List<Payment>, List<PaymentDto>>(items)
+        };
+    }
 
+    public virtual async Task<PaymentDto> GetAsync(Guid id)
+    {
+        return ObjectMapper.Map<Payment, PaymentDto>(await _paymentRepository.GetAsync(id));
+    }
+
+    [AllowAnonymous]
+    public virtual async Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input)
+    {
+        var downloadToken = await _downloadTokenCache.GetAsync(input.DownloadToken);
+        if (downloadToken == null || input.DownloadToken != downloadToken.Token)
+        {
+            throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
         }
 
-        public virtual async Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input)
-        {
-            var totalCount = await _paymentRepository.GetCountAsync(input.OrderId, input.State);
-            var items = await _paymentRepository.GetListAsync(input.OrderId, input.State, input.Sorting, input.MaxResultCount, input.SkipCount);
+        var items = await _paymentRepository.GetListAsync(input.OrderId, input.State);
 
-            return new PagedResultDto<PaymentDto>
+        var memoryStream = new MemoryStream();
+        await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Payment>, List<PaymentExcelDto>>(items));
+        memoryStream.Seek(0, SeekOrigin.Begin);
+
+        return new RemoteStreamContent(memoryStream, "Payments.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    }
+
+    public virtual async Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    {
+        var token = Guid.NewGuid().ToString("N");
+
+        await _downloadTokenCache.SetAsync(
+            token,
+            new PaymentDownloadTokenCacheItem { Token = token },
+            new DistributedCacheEntryOptions
             {
-                TotalCount = totalCount,
-                Items = ObjectMapper.Map<List<Payment>, List<PaymentDto>>(items)
-            };
-        }
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
+            });
 
-        public virtual async Task<PaymentDto> GetAsync(Guid id)
+        return new Shopularity.Payment.Shared.DownloadTokenResultDto
         {
-            return ObjectMapper.Map<Payment, PaymentDto>(await _paymentRepository.GetAsync(id));
-        }
-
-        [AllowAnonymous]
-        public virtual async Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input)
-        {
-            var downloadToken = await _downloadTokenCache.GetAsync(input.DownloadToken);
-            if (downloadToken == null || input.DownloadToken != downloadToken.Token)
-            {
-                throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
-            }
-
-            var items = await _paymentRepository.GetListAsync(input.OrderId, input.State);
-
-            var memoryStream = new MemoryStream();
-            await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Payment>, List<PaymentExcelDto>>(items));
-            memoryStream.Seek(0, SeekOrigin.Begin);
-
-            return new RemoteStreamContent(memoryStream, "Payments.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        }
-
-        public virtual async Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
-        {
-            var token = Guid.NewGuid().ToString("N");
-
-            await _downloadTokenCache.SetAsync(
-                token,
-                new PaymentDownloadTokenCacheItem { Token = token },
-                new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
-                });
-
-            return new Shopularity.Payment.Shared.DownloadTokenResultDto
-            {
-                Token = token
-            };
-        }
+            Token = token
+        };
     }
 }

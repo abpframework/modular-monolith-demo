@@ -6,72 +6,71 @@ using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Uow;
 
-namespace Shopularity.Payment.Payments
+namespace Shopularity.Payment.Payments;
+
+public class PaymentManager : DomainService
 {
-    public class PaymentManager : DomainService
+    protected IPaymentRepository _paymentRepository;
+    private readonly IUnitOfWorkAccessor _unitOfWorkAccessor;
+    private readonly IDistributedEventBus _eventBus;
+    private readonly PaymentFakeEventService _paymentFakeEventService;
+
+    public PaymentManager(
+        IPaymentRepository paymentRepository,
+        IUnitOfWorkAccessor unitOfWorkAccessor,
+        IDistributedEventBus eventBus,
+        PaymentFakeEventService  paymentFakeEventService)
     {
-        protected IPaymentRepository _paymentRepository;
-        private readonly IUnitOfWorkAccessor _unitOfWorkAccessor;
-        private readonly IDistributedEventBus _eventBus;
-        private readonly PaymentFakeEventService _paymentFakeEventService;
+        _paymentRepository = paymentRepository;
+        _unitOfWorkAccessor = unitOfWorkAccessor;
+        _eventBus = eventBus;
+        _paymentFakeEventService = paymentFakeEventService;
+    }
 
-        public PaymentManager(
-            IPaymentRepository paymentRepository,
-            IUnitOfWorkAccessor unitOfWorkAccessor,
-            IDistributedEventBus eventBus,
-            PaymentFakeEventService  paymentFakeEventService)
+    public virtual async Task<Payment> CreateAsync(Guid orderId)
+    {
+        var payment = new Payment(GuidGenerator.Create(), orderId)
         {
-            _paymentRepository = paymentRepository;
-            _unitOfWorkAccessor = unitOfWorkAccessor;
-            _eventBus = eventBus;
-            _paymentFakeEventService = paymentFakeEventService;
+            State = PaymentState.Waiting
+        };
+            
+        payment = await _paymentRepository.InsertAsync(payment);
+        await _unitOfWorkAccessor.UnitOfWork!.SaveChangesAsync();
+
+        await _eventBus.PublishAsync(new PaymentCreatedEto
+        {
+            OrderId = orderId
+        });
+            
+        await _paymentFakeEventService.CompletePaymentAsync(payment.Id);
+            
+        return payment;
+    }
+
+    public async Task CancelAsync(Guid orderId)
+    {
+        var payment = await _paymentRepository.FirstOrDefaultAsync(x=> x.OrderId == orderId);
+
+        if (payment == null)
+        {
+            return;
         }
 
-        public virtual async Task<Payment> CreateAsync(Guid orderId)
+        if (payment.State is PaymentState.Cancelled or PaymentState.Refunded)
         {
-            var payment = new Payment(GuidGenerator.Create(), orderId)
-            {
-                State = PaymentState.Waiting
-            };
-            
-            payment = await _paymentRepository.InsertAsync(payment);
-            await _unitOfWorkAccessor.UnitOfWork!.SaveChangesAsync();
-
-            await _eventBus.PublishAsync(new PaymentCreatedEto
-            {
-                OrderId = orderId
-            });
-            
-            await _paymentFakeEventService.CompletePaymentAsync(payment.Id);
-            
-            return payment;
+            return;
         }
-
-        public async Task CancelAsync(Guid orderId)
+            
+        if (payment.State is PaymentState.Waiting or PaymentState.Failed)
         {
-            var payment = await _paymentRepository.FirstOrDefaultAsync(x=> x.OrderId == orderId);
-
-            if (payment == null)
-            {
-                return;
-            }
-
-            if (payment.State is PaymentState.Cancelled or PaymentState.Refunded)
-            {
-                return;
-            }
-            
-            if (payment.State is PaymentState.Waiting or PaymentState.Failed)
-            {
-                payment.State = PaymentState.Cancelled;
-            }
-            else if (payment.State is PaymentState.Completed)
-            {
-                // refund process not implemented. Ideally we would have a state called "RefundRequested" etc.
-                payment.State = PaymentState.Refunded;
-            }
-            
-            await _paymentRepository.UpdateAsync(payment);
+            payment.State = PaymentState.Cancelled;
         }
+        else if (payment.State is PaymentState.Completed)
+        {
+            // refund process not implemented. Ideally we would have a state called "RefundRequested" etc.
+            payment.State = PaymentState.Refunded;
+        }
+            
+        await _paymentRepository.UpdateAsync(payment);
     }
 }

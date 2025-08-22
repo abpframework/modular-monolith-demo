@@ -4,18 +4,17 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Content;
 
-namespace Shopularity.Payment.Payments
+namespace Shopularity.Payment.Payments;
+
+public interface IPaymentsAppService : IApplicationService
 {
-    public interface IPaymentsAppService : IApplicationService
-    {
 
-        Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input);
+    Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input);
 
-        Task<PaymentDto> GetAsync(Guid id);
+    Task<PaymentDto> GetAsync(Guid id);
 
-        Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input);
+    Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input);
 
-        Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
+    Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
 
-    }
 }

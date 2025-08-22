@@ -1,14 +1,13 @@
 using Volo.Abp.Application.Dtos;
 
-namespace Shopularity.Payment.Shared
-{
-    public class LookupRequestDto : PagedResultRequestDto
-    {
-        public string? Filter { get; set; }
+namespace Shopularity.Payment.Shared;
 
-        public LookupRequestDto()
-        {
-            MaxResultCount = MaxMaxResultCount;
-        }
+public class LookupRequestDto : PagedResultRequestDto
+{
+    public string? Filter { get; set; }
+
+    public LookupRequestDto()
+    {
+        MaxResultCount = MaxMaxResultCount;
     }
 }

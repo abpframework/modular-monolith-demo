@@ -1,8 +1,7 @@
-namespace Shopularity.Payment.Payments
+namespace Shopularity.Payment.Payments;
+
+public class PaymentExcelDto
 {
-    public class PaymentExcelDto
-    {
-        public string OrderId { get; set; } = null!;
-        public PaymentState State { get; set; }
-    }
+    public string OrderId { get; set; } = null!;
+    public PaymentState State { get; set; }
 }

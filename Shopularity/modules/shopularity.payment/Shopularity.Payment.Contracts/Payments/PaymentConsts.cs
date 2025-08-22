@@ -1,13 +1,12 @@
-namespace Shopularity.Payment.Payments
+namespace Shopularity.Payment.Payments;
+
+public static class PaymentConsts
 {
-    public static class PaymentConsts
+    private const string DefaultSorting = "{0}CreationTime desc";
+
+    public static string GetDefaultSorting(bool withEntityName)
     {
-        private const string DefaultSorting = "{0}CreationTime desc";
-
-        public static string GetDefaultSorting(bool withEntityName)
-        {
-            return string.Format(DefaultSorting, withEntityName ? "Payment." : string.Empty);
-        }
-
+        return string.Format(DefaultSorting, withEntityName ? "Payment." : string.Empty);
     }
+
 }

@@ -1,16 +1,15 @@
 using System;
 
-namespace Shopularity.Payment.Payments
+namespace Shopularity.Payment.Payments;
+
+public class PaymentExcelDownloadDto
 {
-    public class PaymentExcelDownloadDto
+    public string DownloadToken { get; set; } = null!;
+    public Guid? OrderId { get; set; }
+    public PaymentState? State { get; set; }
+
+    public PaymentExcelDownloadDto()
     {
-        public string DownloadToken { get; set; } = null!;
-        public Guid? OrderId { get; set; }
-        public PaymentState? State { get; set; }
 
-        public PaymentExcelDownloadDto()
-        {
-
-        }
     }
 }
