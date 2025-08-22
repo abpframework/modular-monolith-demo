@@ -38,12 +38,6 @@ public class OrderController : AbpController, IOrdersAppService
         return _ordersAppService.GetAsync(id);
     }
 
-    [HttpPost]
-    public virtual Task<OrderDto> CreateAsync(OrderCreateDto input)
-    {
-        return _ordersAppService.CreateAsync(input);
-    }
-
     [HttpPut]
     [Route("{id}")]
     public virtual Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)

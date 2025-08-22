@@ -11,7 +11,6 @@ public class OrderingPermissionDefinitionProvider : PermissionDefinitionProvider
         var myGroup = context.AddGroup(OrderingPermissions.GroupName, L("Permission:Ordering"));
 
         var orderPermission = myGroup.AddPermission(OrderingPermissions.Orders.Default, L("Permission:Orders"));
-        orderPermission.AddChild(OrderingPermissions.Orders.Create, L("Permission:Create"));
         orderPermission.AddChild(OrderingPermissions.Orders.Edit, L("Permission:Edit"));
         orderPermission.AddChild(OrderingPermissions.Orders.SetShippingInfo, L("Permission:SetShippingInfo"));
         orderPermission.AddChild(OrderingPermissions.Orders.Delete, L("Permission:Delete"));

@@ -10,14 +10,11 @@ namespace Shopularity.Ordering.Orders;
 
 public interface IOrdersAppService : IApplicationService
 {
-
     Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input);
 
     Task<OrderDto> GetAsync(Guid id);
 
     Task DeleteAsync(Guid id);
-
-    Task<OrderDto> CreateAsync(OrderCreateDto input);
 
     Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input);
 

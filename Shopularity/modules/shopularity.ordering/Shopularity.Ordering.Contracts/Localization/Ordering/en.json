@@ -11,7 +11,6 @@
     "Enum:OrderState.6": "Cancelled",
     "Permission:Orders": "Orders",
     "Permission:Ordering": "Ordering",
-    "Permission:Create": "Create",
     "Permission:Edit": "Edit",
     "Permission:SetShippingInfo": "Set shipping info",
     "Permission:Delete": "Delete",

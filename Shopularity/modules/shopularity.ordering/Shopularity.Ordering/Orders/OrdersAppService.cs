@@ -52,20 +52,6 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         await _orderRepository.DeleteAsync(id);
     }
 
-    [Authorize(OrderingPermissions.Orders.Create)]
-    public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
-    {
-
-        var order = await _orderManager.CreateAsync(
-            Guid.Parse(input.UserId),
-            input.State,
-            input.TotalPrice,
-            input.ShippingAddress
-        );
-
-        return ObjectMapper.Map<Order, OrderDto>(order);
-    }
-
     [Authorize(OrderingPermissions.Orders.Edit)]
     public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
     {
