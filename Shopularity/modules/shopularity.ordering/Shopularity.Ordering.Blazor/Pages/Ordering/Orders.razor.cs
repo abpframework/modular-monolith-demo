@@ -45,8 +45,6 @@ public partial class Orders
     private Modal ShippingModal { get; set; } = new();
     private GetOrdersInput Filter { get; set; }
     private DataGridEntityActionsColumn<OrderDto> EntityActionsColumn { get; set; } = new();
-    protected string SelectedCreateTab = "order-create-tab";
-    protected string SelectedEditTab = "order-edit-tab";
     private OrderDto? SelectedOrder;
 
     #region OrderLines
@@ -145,16 +143,8 @@ public partial class Orders
         CanSetShipment = await AuthorizationService
             .IsGrantedAsync(OrderingPermissions.Orders.SetShippingInfo);
             
-        #region OrderLines
         CanListOrderLine = await AuthorizationService
-            .IsGrantedAsync(OrderingPermissions.OrderLines.Default);
-        CanCreateOrderLine = await AuthorizationService
-            .IsGrantedAsync(OrderingPermissions.OrderLines.Create);
-        CanEditOrderLine = await AuthorizationService
-            .IsGrantedAsync(OrderingPermissions.OrderLines.Edit);
-        CanDeleteOrderLine = await AuthorizationService
-            .IsGrantedAsync(OrderingPermissions.OrderLines.Delete);
-        #endregion                
+            .IsGrantedAsync(OrderingPermissions.OrderLines.Default);   
     }
 
     private async Task GetOrdersAsync()
@@ -202,9 +192,6 @@ public partial class Orders
     private async Task OpenCreateOrderModalAsync()
     {
         NewOrder = new OrderCreateDto();
-
-        SelectedCreateTab = "order-create-tab";
-            
         await NewOrderValidations.ClearAll();
         await CreateOrderModal.Show();
     }
@@ -217,8 +204,6 @@ public partial class Orders
 
     private async Task OpenEditOrderModalAsync(OrderDto input)
     {
-        SelectedEditTab = "order-edit-tab";
-            
         var order = await OrdersAppService.GetAsync(input.Id);
             
         EditingOrderId = order.Id;
@@ -311,16 +296,6 @@ public partial class Orders
             await HandleErrorAsync(ex);
         }
     }
-
-    private void OnSelectedCreateTabChanged(string name)
-    {
-        SelectedCreateTab = name;
-    }
-
-    private void OnSelectedEditTabChanged(string name)
-    {
-        SelectedEditTab = name;
-    }
         
     protected virtual async Task OnStateChangedAsync(OrderState? state)
     {
@@ -366,8 +341,6 @@ public partial class Orders
         return Task.CompletedTask;
     }
 
-    #region OrderLines
-        
     private async Task OnOrderLineDataGridReadAsync(DataGridReadDataEventArgs<OrderLineDto> e, Guid orderId)
     {
         var sorting = e.Columns
@@ -403,84 +376,4 @@ public partial class Orders
         orderLineDataGrid.CurrentPage = currentPage;
         orderLineDataGrid.TotalItems = (int)orderLines.TotalCount;
     }
-        
-    private async Task OpenEditOrderLineModalAsync(OrderLineDto input)
-    {
-        var orderLine = await OrderLinesAppService.GetAsync(input.Id);
-
-        EditingOrderLineId = orderLine.Id;
-        EditingOrderLine = ObjectMapper.Map<OrderLineDto, OrderLineUpdateDto>(orderLine);
-            
-        await EditingOrderLineValidations.ClearAll();
-        await EditOrderLineModal.Show();
-    }
-        
-    private async Task CloseEditOrderLineModalAsync()
-    {
-        await EditOrderLineModal.Hide();
-    }
-        
-    private async Task UpdateOrderLineAsync()
-    {
-        try
-        {
-            if (await EditingOrderLineValidations.ValidateAll() == false)
-            {
-                return;
-            }
-
-            await OrderLinesAppService.UpdateAsync(EditingOrderLineId, EditingOrderLine);
-            await SetOrderLinesAsync(EditingOrderLine.OrderId);
-            await EditOrderLineModal.Hide();
-        }
-        catch (Exception ex)
-        {
-            await HandleErrorAsync(ex);
-        }
-    }
-        
-    private async Task DeleteOrderLineAsync(OrderLineDto input)
-    {
-        await OrderLinesAppService.DeleteAsync(input.Id);
-        await SetOrderLinesAsync(input.OrderId);
-    }
-        
-    private async Task OpenCreateOrderLineModalAsync(Guid orderId)
-    {
-        NewOrderLine = new OrderLineCreateDto
-        {
-            OrderId = orderId
-        };
-            
-        await NewOrderLineValidations.ClearAll();
-        await CreateOrderLineModal.Show();
-    }
-        
-    private async Task CloseCreateOrderLineModalAsync()
-    {
-        NewOrderLine = new OrderLineCreateDto();
-
-        await CreateOrderLineModal.Hide();
-    }
-        
-    private async Task CreateOrderLineAsync()
-    {
-        try
-        {
-            if (await NewOrderLineValidations.ValidateAll() == false)
-            {
-                return;
-            }
-
-            await OrderLinesAppService.CreateAsync(NewOrderLine);
-            await SetOrderLinesAsync(NewOrderLine.OrderId);
-            await CloseCreateOrderLineModalAsync();
-        }
-        catch (Exception ex)
-        {
-            await HandleErrorAsync(ex);
-        }
-    }
-        
-    #endregion
 }

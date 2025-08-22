@@ -14,10 +14,4 @@ public interface IOrderLinesAppService : IApplicationService
     Task<PagedResultDto<OrderLineDto>> GetListAsync(GetOrderLinesInput input);
 
     Task<OrderLineDto> GetAsync(Guid id);
-
-    Task DeleteAsync(Guid id);
-
-    Task<OrderLineDto> CreateAsync(OrderLineCreateDto input);
-
-    Task<OrderLineDto> UpdateAsync(Guid id, OrderLineUpdateDto input);
 }

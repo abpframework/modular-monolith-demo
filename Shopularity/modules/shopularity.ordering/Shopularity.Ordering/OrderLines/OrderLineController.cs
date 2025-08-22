@@ -40,24 +40,4 @@ public class OrderLineController : AbpController, IOrderLinesAppService
     {
         return _orderLinesAppService.GetAsync(id);
     }
-
-    [HttpPost]
-    public virtual Task<OrderLineDto> CreateAsync(OrderLineCreateDto input)
-    {
-        return _orderLinesAppService.CreateAsync(input);
-    }
-
-    [HttpPut]
-    [Route("{id}")]
-    public virtual Task<OrderLineDto> UpdateAsync(Guid id, OrderLineUpdateDto input)
-    {
-        return _orderLinesAppService.UpdateAsync(id, input);
-    }
-
-    [HttpDelete]
-    [Route("{id}")]
-    public virtual Task DeleteAsync(Guid id)
-    {
-        return _orderLinesAppService.DeleteAsync(id);
-    }
 }
