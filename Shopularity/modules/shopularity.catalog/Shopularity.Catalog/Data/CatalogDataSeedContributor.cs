@@ -49,7 +49,7 @@ public class CatalogDataSeedContributor : IDataSeedContributor, ITransientDepend
 
         foreach (var dummyProduct in dummyProducts.Products)
         {
-            var categoryId = await GetCategoryIdAsync(dummyProduct.Category.Split("-").First());
+            var categoryId = await GetCategoryIdAsync(dummyProduct.Category.Split("-").First().ToPascalCase());
             
             if (!await _productRepository.AnyAsync(x => x.Name == dummyProduct.Title))
             {

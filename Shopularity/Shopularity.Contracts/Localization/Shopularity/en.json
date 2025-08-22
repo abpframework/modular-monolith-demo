@@ -22,13 +22,14 @@
     "ErrorCancellingOrder": "An error occured during cancelling order.",
     "State": "State",
     "Total": "Total",
+    "TotalPrice": "Total price",
     "Items": "Items",
     "Address": "Address",
     "CargoNo": "Cargo No",
     "BasketEmpty": "Your basket is empty.",
     "Basket": "Basket",
     "Amount": "Amount",
-    "SumOn": "Sum on",
-    "CreditCardNumber": "Credit Card Number"
+    "CreditCardNumber": "Credit Card Number",
+    "FakeCreditCardInfo": "Please do not use a real credit card number. This is a demo app."
   }
 }

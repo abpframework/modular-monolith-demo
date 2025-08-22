@@ -36,12 +36,12 @@
             </abp-list-group-item>
         }
     </abp-list-group>
-    <span class="fw-semibold">@L["SumOn"]</span>
+    <span class="fw-semibold">@L["TotalPrice"]</span>
     <span class="fw-bold">$@Model.TotalPrice.ToString("F2")</span>
     
     <form method="post">
         <abp-input asp-for="CacheId"/>
-        <abp-input asp-for="CreditCardNumber"/>
+        <abp-input asp-for="CreditCardNumber" info="@L["FakeCreditCardInfo"].Value"/>
         <abp-input asp-for="Address"/>
         <abp-button button-type="Success" type="submit">@L["CompleteOrder"]</abp-button>
     </form>
