@@ -45,8 +45,6 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
             ShippingAddress = input.Address,
             Products = input.Products.Select(x=> new OrderCreatePublicProductDto{ProductId = x.ItemId, Amount = x.Amount}).ToList(),
         });
-
-        await _paymentManager.CreateAsync(order.Id);
     }
     
     public async Task CancelOrderAsync(Guid id)
