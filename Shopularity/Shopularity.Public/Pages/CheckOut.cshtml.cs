@@ -12,6 +12,8 @@ using Shopularity.Services.Dtos;
 using Shopularity.Services.Orders;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
+using Volo.Abp.Caching;
+using DistributedCacheEntryOptions = Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions;
 
 namespace Shopularity.Public.Pages;
 
@@ -20,35 +22,30 @@ public class CheckOutModel : ShopularityPublicPageModel
     public IBasketAppService BasketAppService { get; }
     public IProductsPublicAppService ProductsPublicAppService { get; }
     public IShopularityAppService ShopularityAppService { get; }
-    public IMemoryCache MemoryCache { get; }
+    public IDistributedCache<BasketCheckoutCacheItem> Cache { get; }
 
-    [HiddenInput]
-    [BindProperty]
-    public string CacheId { get; set; }
-    
+    [HiddenInput] [BindProperty] public string CacheId { get; set; }
+
     public List<BasketViewItemModel> Items { get; set; }
-    
+
     public double TotalPrice { get; set; }
-    
-    [BindProperty]
-    public string CreditCardNumber { get; set; }
-    
-    [TextArea]
-    [BindProperty]
-    public string Address { get; set; }
+
+    [BindProperty] public string CreditCardNumber { get; set; }
+
+    [TextArea] [BindProperty] public string Address { get; set; }
 
     public CheckOutModel(
         IBasketAppService basketAppService,
         IProductsPublicAppService productsPublicAppService,
         IShopularityAppService shopularityAppService,
-        IMemoryCache memoryCache)
+        IDistributedCache<BasketCheckoutCacheItem> cache)
     {
         BasketAppService = basketAppService;
         ProductsPublicAppService = productsPublicAppService;
         ShopularityAppService = shopularityAppService;
-        MemoryCache = memoryCache;
+        Cache = cache;
     }
-    
+
     public virtual async Task<ActionResult> OnGetAsync()
     {
         var result = await BasketAppService.GetBasketItems();
@@ -73,19 +70,23 @@ public class CheckOutModel : ShopularityPublicPageModel
         TotalPrice = Items.Select(x => x.Product.Price * x.Amount).Sum();
 
         CacheId = GuidGenerator.Create().ToString();
-        MemoryCache.Set(CacheId, new BasketCheckoutCacheItem
-        {
-            Items = Items,
-            TotalPrice = TotalPrice
-        }, absoluteExpirationRelativeToNow: TimeSpan.FromMinutes(10));
-        
+        await Cache.SetAsync(CacheId, new BasketCheckoutCacheItem
+            {
+                Items = Items,
+                TotalPrice = TotalPrice
+            },
+            new DistributedCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddMinutes(15)
+            });
+
         return Page();
     }
 
     public virtual async Task<ActionResult> OnPostAsync()
     {
-        MemoryCache.TryGetValue(CacheId, out BasketCheckoutCacheItem? basketFromCache);
-
+        var basketFromCache = await Cache.GetAsync(CacheId);
+        
         if (basketFromCache == null)
         {
             throw new UserFriendlyException("Time out! Please refresh the page to continue checking-out.");
@@ -95,16 +96,17 @@ public class CheckOutModel : ShopularityPublicPageModel
         {
             Address = Address,
             CreditCardNo = CreditCardNumber,
-            Products = basketFromCache.Items.Select(x=> new BasketItem{ ItemId = x.Product.Id, Amount = x.Amount}).ToList()
+            Products = basketFromCache.Items.Select(x => new BasketItem { ItemId = x.Product.Id, Amount = x.Amount })
+                .ToList()
         });
-        
+
         return Redirect("/my-orders");
     }
 
-    internal class BasketCheckoutCacheItem
+    public class BasketCheckoutCacheItem
     {
         public List<BasketViewItemModel> Items { get; set; }
-    
+
         public double TotalPrice { get; set; }
     }
 }

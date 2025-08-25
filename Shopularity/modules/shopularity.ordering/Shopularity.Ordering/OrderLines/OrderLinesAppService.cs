@@ -13,13 +13,11 @@ namespace Shopularity.Ordering.OrderLines;
 public class OrderLinesAppService : OrderingAppService, IOrderLinesAppService
 {
     protected IOrderLineRepository _orderLineRepository;
-    protected OrderLineManager _orderLineManager;
 
-    public OrderLinesAppService(IOrderLineRepository orderLineRepository, OrderLineManager orderLineManager)
+    public OrderLinesAppService(IOrderLineRepository orderLineRepository)
     {
 
         _orderLineRepository = orderLineRepository;
-        _orderLineManager = orderLineManager;
     }
 
     public virtual async Task<PagedResultDto<OrderLineDto>> GetListByOrderIdAsync(GetOrderLineListInput input)
@@ -52,39 +50,5 @@ public class OrderLinesAppService : OrderingAppService, IOrderLinesAppService
     public virtual async Task<OrderLineDto> GetAsync(Guid id)
     {
         return ObjectMapper.Map<OrderLine, OrderLineDto>(await _orderLineRepository.GetAsync(id));
-    }
-
-    [Authorize(OrderingPermissions.OrderLines.Delete)]
-    public virtual async Task DeleteAsync(Guid id)
-    {
-        await _orderLineRepository.DeleteAsync(id);
-    }
-
-    [Authorize(OrderingPermissions.OrderLines.Create)]
-    public virtual async Task<OrderLineDto> CreateAsync(OrderLineCreateDto input)
-    {
-        var orderLine = await _orderLineManager.CreateAsync(
-            input.OrderId,
-            input.ProductId,
-            input.Price,
-            input.Amount,
-            input.TotalPrice,
-            input.Name
-        );
-
-        return ObjectMapper.Map<OrderLine, OrderLineDto>(orderLine);
-    }
-
-    [Authorize(OrderingPermissions.OrderLines.Edit)]
-    public virtual async Task<OrderLineDto> UpdateAsync(Guid id, OrderLineUpdateDto input)
-    {
-
-        var orderLine = await _orderLineManager.UpdateAsync(
-            id,
-            input.OrderId,
-            input.Name
-        );
-
-        return ObjectMapper.Map<OrderLine, OrderLineDto>(orderLine);
     }
 }

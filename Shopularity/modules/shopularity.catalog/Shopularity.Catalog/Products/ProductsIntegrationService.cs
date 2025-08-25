@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Shopularity.Catalog.Products.Admin;
+using Volo.Abp;
 
 namespace Shopularity.Catalog.Products;
 
@@ -14,10 +16,28 @@ public class ProductsIntegrationService : CatalogAppService, IProductsIntegratio
         _productRepository = productRepository;
     }
     
-    public async Task<List<ProductDto>> GetProductsAsync(List<Guid> ids)
+    public async Task<List<ProductDto>> GetProductsWithAmountControlAsync(List<ProductIdsWithAmountDto> productIdsWithAmount)
     {
-        var products = await _productRepository.GetListAsync(ids);
+        var products = await _productRepository.GetListAsync(productIdsWithAmount.Select(x=> x.ProductId).ToList());
+
+        foreach (var product in products)
+        {
+            var amount = productIdsWithAmount.First(x => x.ProductId == product.Id).Amount;
+
+            if (product.StockCount < amount)
+            {
+                //todo: make business exception
+                throw new UserFriendlyException("Not enough stock for the product!");
+            }
+        }
         
         return ObjectMapper.Map<List<Product>, List<ProductDto>>(products);
+    }
+
+    public async Task<bool> CheckStockAsync(Guid id, int amount)
+    {
+        var product = await _productRepository.GetAsync(id);
+
+        return product.StockCount >= amount;
     }
 }

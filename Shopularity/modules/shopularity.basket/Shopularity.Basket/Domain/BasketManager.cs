@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Shopularity.Basket.Services;
+using Volo.Abp.Caching;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
@@ -12,49 +14,63 @@ namespace Shopularity.Basket.Domain;
 
 public class BasketManager: DomainService
 {
-    private readonly IMemoryCache _memoryCache;
     private readonly IDistributedEventBus _eventBus;
+    private readonly IDistributedCache<BasketCacheItem> _cache;
 
-    public BasketManager(IMemoryCache memoryCache, IDistributedEventBus eventBus)
+    public BasketManager(IDistributedEventBus eventBus, IDistributedCache<BasketCacheItem> cache)
     {
-        _memoryCache = memoryCache;
         _eventBus = eventBus;
+        _cache = cache;
     }
     
 
     public async Task RemoveItemsFromUserBasketAsync(Guid userId, List<BasketItem> items)
     {
-        _memoryCache.TryGetValue(userId, out BasketCacheItem? value);
-        
-        if (value == null)
-        {
-            return;
-        }
+        var basket = await GetBasketAsync(userId);
         
         foreach (var item in items)
         {
-            if (value.Items.All(x => x.ItemId != item.ItemId))
+            if (basket.Items.All(x => x.ItemId != item.ItemId))
             {
                 continue;
             }
 
-            var itemInCache = value.Items.First(x => x.ItemId == item.ItemId);
+            var itemInCache = basket.Items.First(x => x.ItemId == item.ItemId);
             itemInCache.Amount -= item.Amount;
 
             if (itemInCache.Amount <= 0)
             {
-                value.Items.Remove(itemInCache);
+                basket.Items.Remove(itemInCache);
             }
         }
 
-        _memoryCache.Set(userId, value);
+        if (basket.Items.Any())
+        {
+            await _cache.SetAsync(userId.ToString(), basket);
+        }
+        else
+        {
+            await _cache.RemoveAsync(userId.ToString());
+        }
         
         await _eventBus.PublishAsync(
             new BasketUpdatedEto
             {
                 UserId = userId,
-                ItemCountInBasket = value.Items.Count
+                ItemCountInBasket = basket.Items.Count
             });
     }
-    
+
+    private async Task<BasketCacheItem> GetBasketAsync(Guid userId)
+    {
+        var basket = await _cache.GetOrAddAsync(
+            userId.ToString(),
+            () => Task.FromResult(new BasketCacheItem()),
+            () => new DistributedCacheEntryOptions
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddMonths(1)
+            }
+        );
+        return basket!;
+    }
 }

@@ -41,7 +41,7 @@ public class CatalogMenuContributor : IMenuContributor
     {
         parentMenu.AddItem(
             new ApplicationMenuItem(
-                Menus.CatalogMenus.Categories,
+                CatalogMenus.Categories,
                 context.GetLocalizer<CatalogResource>()["Menu:Categories"],
                 "/Catalog/Categories",
                 icon: "fa fa-file-alt",
@@ -54,7 +54,7 @@ public class CatalogMenuContributor : IMenuContributor
     {
         parentMenu.AddItem(
             new ApplicationMenuItem(
-                Menus.CatalogMenus.Products,
+                CatalogMenus.Products,
                 context.GetLocalizer<CatalogResource>()["Menu:Products"],
                 "/Catalog/Products",
                 icon: "fa fa-file-alt",

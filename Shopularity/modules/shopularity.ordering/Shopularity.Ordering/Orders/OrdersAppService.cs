@@ -11,6 +11,8 @@ using Volo.Abp.Content;
 using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
+using Shopularity.Ordering.Orders.Events;
+using Volo.Abp.EventBus.Distributed;
 
 namespace Shopularity.Ordering.Orders;
 
@@ -19,12 +21,18 @@ namespace Shopularity.Ordering.Orders;
 public class OrdersAppService : OrderingAppService, IOrdersAppService
 {
     protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
+    private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
     protected OrderManager _orderManager;
 
-    public OrdersAppService(IOrderRepository orderRepository, OrderManager orderManager, IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache)
+    public OrdersAppService(
+        IOrderRepository orderRepository,
+        OrderManager orderManager,
+        IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
+        IDistributedEventBus eventBus)
     {
         _downloadTokenCache = downloadTokenCache;
+        _eventBus = eventBus;
         _orderRepository = orderRepository;
         _orderManager = orderManager;
     }
@@ -46,32 +54,11 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         return ObjectMapper.Map<Order, OrderDto>(await _orderRepository.GetAsync(id));
     }
 
-    [Authorize(OrderingPermissions.Orders.Delete)]
-    public virtual async Task DeleteAsync(Guid id)
-    {
-        await _orderRepository.DeleteAsync(id);
-    }
-
-    [Authorize(OrderingPermissions.Orders.Create)]
-    public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
-    {
-
-        var order = await _orderManager.CreateAsync(
-            Guid.Parse(input.UserId),
-            input.State,
-            input.TotalPrice,
-            input.ShippingAddress
-        );
-
-        return ObjectMapper.Map<Order, OrderDto>(order);
-    }
-
     [Authorize(OrderingPermissions.Orders.Edit)]
     public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
     {
-        var order = await _orderManager.UpdateAsync(
-            id,
-            input.State, input.ShippingAddress, input.CargoNo, input.ConcurrencyStamp
+        var order = await _orderManager.UpdateShippingAddressAsync(
+            id, input.ShippingAddress,input.ConcurrencyStamp
         );
 
         return ObjectMapper.Map<Order, OrderDto>(order);
@@ -92,6 +79,13 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         order.State = OrderState.Shipped;
 
         order = await _orderRepository.UpdateAsync(order);
+
+        await _eventBus.PublishAsync(new OrderShippedEto
+        {
+            Id = order.Id,
+            Address = order.ShippingAddress,
+            CargoNo = order.CargoNo!
+        });
             
         return ObjectMapper.Map<Order, OrderDto>(order);
     }
@@ -114,7 +108,7 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         return new RemoteStreamContent(memoryStream, "Orders.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
 
-    public virtual async Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    public virtual async Task<Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         var token = Guid.NewGuid().ToString("N");
 
@@ -126,7 +120,7 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
             });
 
-        return new Shopularity.Ordering.Shared.DownloadTokenResultDto
+        return new Shared.DownloadTokenResultDto
         {
             Token = token
         };

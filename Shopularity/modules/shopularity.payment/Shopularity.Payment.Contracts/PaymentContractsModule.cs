@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Application;
+using Volo.Abp.BackgroundJobs;
+using Volo.Abp.Application;
 using Volo.Abp.Modularity;
 using Volo.Abp.Authorization;
 using Shopularity.Payment.Localization;
@@ -11,6 +12,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace Shopularity.Payment;
 
 [DependsOn(
+    typeof(AbpBackgroundJobsAbstractionsModule),
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpValidationModule),
     typeof(AbpAuthorizationModule)

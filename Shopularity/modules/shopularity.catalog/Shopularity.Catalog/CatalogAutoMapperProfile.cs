@@ -18,7 +18,7 @@ public class CatalogAutoMapperProfile : Profile
         CreateMap<Category, CategoryPublicDto>();
 
         CreateMap<Product, ProductDto>().Ignore(x=> x.Image);
-        CreateMap<Product, ProductPublicDto>().Ignore(x=> x.Image);
+        CreateMap<Product, ProductPublicDto>();
         CreateMap<Product, ProductExcelDto>();
         CreateMap<ProductWithNavigationProperties, ProductWithNavigationPropertiesDto>();
         CreateMap<ProductWithNavigationProperties, ProductWithNavigationPropertiesPublicDto>();

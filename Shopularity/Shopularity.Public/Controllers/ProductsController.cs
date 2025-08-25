@@ -43,7 +43,28 @@ public class ProductsController : AbpController, IProductsPublicAppService
     {
         return ProductsPublicAppService.GetAsync(id);
     }
-    
+
+    [HttpGet]
+    [Route("image-as-bytes/{id}")]
+    public Task<byte[]> GetImageAsByteArrayAsync(Guid id)
+    {
+        return ProductsPublicAppService.GetImageAsByteArrayAsync(id);
+    }
+
+    [HttpGet]
+    [Route("image/{id}")]
+    public async Task<IActionResult> GetImageAsFileAsync(Guid id)
+    {
+        var imageBytes = await ProductsPublicAppService.GetImageAsByteArrayAsync(id);
+
+        if (imageBytes.Length == 0)
+        {
+            return NotFound();
+        }
+
+        return File(imageBytes, "image/png");
+    }
+
     [HttpGet]
     [Route("render")]
     public async Task<ViewComponentResult> Render(GetProductsPublicInput input)

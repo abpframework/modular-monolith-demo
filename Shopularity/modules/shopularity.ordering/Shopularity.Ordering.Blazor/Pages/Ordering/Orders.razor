@@ -195,15 +195,8 @@
                             <EntityAction TItem="OrderDto"
                                           Visible="@CanEditOrder"
                                           Clicked="async () => await OpenEditOrderModalAsync(context)"
-                                          Text="@L["Edit"]">
+                                          Text="@(context.State.IsShipped() ? L["Details"]: L["Edit"])">
                             </EntityAction>
-                            <EntityAction TItem="OrderDto"
-                                          Visible="@CanDeleteOrder"
-                                          Clicked="() => DeleteOrderAsync(context)"
-                                          ConfirmationMessage="@(() => L["DeleteConfirmationMessage"])"
-                                          Text="@L["Delete"]">
-                            </EntityAction>
-
                         </EntityActions>
                     </DisplayTemplate>
                 </DataGridEntityActionsColumn>
@@ -248,17 +241,6 @@
 
                         <Content>
                             <TabPanel Name="orderline-tab" Class="mt-0">
-                                @if (CanCreateOrderLine)
-                                {
-                                    <Row Class="mb-2">
-                                        <Column Class="d-flex justify-content-end">
-                                            <Button Color="Color.Primary" Clicked="async () => await OpenCreateOrderLineModalAsync(context.Id)">
-                                                <i class="fas fa-plus me-1"></i>@L["NewOrderLine"]
-                                            </Button>
-                                        </Column>
-                                    </Row>
-                                }
-
                                 @{
                                     var orderLines = (context as OrderDto).OrderLines;
 
@@ -273,25 +255,6 @@
                                               PageSize="OrderLinePageSize">
 
                                         <DataGridColumns>
-
-                                            <DataGridEntityActionsColumn TItem="OrderLineDto" @ref="@OrderLineEntityActionsColumns">
-                                                <DisplayTemplate Context="order_line_context">
-                                                    <EntityActions TItem="OrderLineDto" EntityActionsColumn="@OrderLineEntityActionsColumns">
-                                                        <EntityAction TItem="OrderLineDto"
-                                                                      Visible="@CanEditOrderLine"
-                                                                      Clicked="async () => await OpenEditOrderLineModalAsync(order_line_context)"
-                                                                      Text="@L["Edit"]">
-                                                        </EntityAction>
-                                                        <EntityAction TItem="OrderLineDto"
-                                                                      Visible="@CanDeleteOrderLine"
-                                                                      Clicked="async () => await DeleteOrderLineAsync(order_line_context)"
-                                                                      ConfirmationMessage="@(() => L["DeleteConfirmationMessage"])"
-                                                                      Text="@L["Delete"]">
-                                                        </EntityAction>
-                                                    </EntityActions>
-                                                </DisplayTemplate>
-                                            </DataGridEntityActionsColumn>
-
                                             <DataGridCommandColumn/>
 
 
@@ -332,93 +295,13 @@
     </CardBody>
 </Card>
 
-@* ************************* CREATE MODAL ************************* *@
-<Modal @ref="CreateOrderModal" Closing="@CreateOrderModal.CancelClosingModalWhenFocusLost">
-    <ModalContent Centered="true">
-
-        <Form id="CreateOrderForm">
-            <ModalHeader>
-                <ModalTitle>@L["NewOrder"]</ModalTitle>
-                <CloseButton Clicked="CloseCreateOrderModalAsync"/>
-            </ModalHeader>
-            <ModalBody>
-                <Validations @ref="@NewOrderValidations"
-                             Mode="ValidationMode.Auto"
-                             Model="@NewOrder"
-                             ValidateOnLoad="false">
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["UserId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@NewOrder.UserId">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
-
-                    <Field>
-                        <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="OrderState" @bind-SelectedValue="@NewOrder.State">
-                            @foreach (var itemValue in Enum.GetValues(typeof(OrderState)))
-                            {
-                                <SelectItem TValue="OrderState" Value="@((OrderState) itemValue)">
-                                    @L[$"Enum:OrderState.{((OrderState) itemValue).ToString("d")}"]
-                                </SelectItem>
-                            }
-                        </Select>
-                    </Field>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@NewOrder.TotalPrice">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                            <MemoEdit @bind-Text="@NewOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </MemoEdit>
-                        </Field>
-                    </Validation>
-
-
-                </Validations>
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary"
-                        Clicked="CloseCreateOrderModalAsync">
-                    @L["Cancel"]
-                </Button>
-                <SubmitButton Form="CreateOrderForm" Clicked="CreateOrderAsync"/>
-
-            </ModalFooter>
-        </Form>
-
-    </ModalContent>
-</Modal>
-
-@* ************************* EDIT MODAL ************************* *@
+@* ************************* DETAILS/EDIT MODAL ************************* *@
 <Modal @ref="EditOrderModal" Closing="@EditOrderModal.CancelClosingModalWhenFocusLost">
     <ModalContent Centered="true">
 
         <Form id="EditOrderForm">
             <ModalHeader>
-                <ModalTitle>@L["Update"]</ModalTitle>
+                <ModalTitle>@(EditingOrder.State.IsShipped() ? L["Details"]: L["Update"])</ModalTitle>
                 <CloseButton Clicked="CloseEditOrderModalAsync"/>
             </ModalHeader>
             <ModalBody>
@@ -427,77 +310,65 @@
                              Model="@EditingOrder"
                              ValidateOnLoad="false">
 
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["UserId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrder.UserId" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
+                    <Field>
+                        <FieldLabel>@L["UserId"]</FieldLabel>
+                        <span class="form-control-plaintext">@EditingOrder.UserId</span>
+                    </Field>
 
                     <Field>
                         <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="OrderState" @bind-SelectedValue="@EditingOrder.State">
-                            @foreach (var itemValue in Enum.GetValues(typeof(OrderState)))
-                            {
-                                <SelectItem TValue="OrderState" Value="@((OrderState) itemValue)">
-                                    @L[$"Enum:OrderState.{((OrderState) itemValue).ToString("d")}"]
-                                </SelectItem>
-                            }
-                        </Select>
+                        <span class="form-control-plaintext">
+                            @L[$"Enum:OrderState.{EditingOrder.State.ToString("d")}"]
+                        </span>
                     </Field>
 
+                    <Field>
+                        <FieldLabel>@L["TotalPrice"]</FieldLabel>
+                        <span class="form-control-plaintext">
+                            $@EditingOrder.TotalPrice.ToString("F2")
+                        </span>
+                    </Field>
 
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingOrder.TotalPrice" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
+                @if(EditingOrder.State is OrderState.New or OrderState.WaitingForPayment or OrderState.Paid or OrderState.Processing)
+                    {
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
+                                    <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
+                                        <Feedback>
+                                            <ValidationError/>
+                                        </Feedback>
+                                    </MemoEdit>
+                            </Field>
+                        </Validation>
+                    }
+                    else
+                    {
                         <Field>
                             <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                            <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </MemoEdit>
+                            <span class="form-control-plaintext">@EditingOrder.ShippingAddress</span>
                         </Field>
-                    </Validation>
+                    }
 
-
-                    <Validation MessageLocalizer="@LH.Localize">
+                    @if (!EditingOrder.CargoNo.IsNullOrWhiteSpace())
+                    {
                         <Field>
-                            <FieldLabel>@L["CargoNo"]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrder.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
+                            <FieldLabel>@L["CargoNo"] *</FieldLabel>
+                            <span class="form-control-plaintext">@EditingOrder.CargoNo</span>
                         </Field>
-                    </Validation>
-
+                    }
 
                 </Validations>
             </ModalBody>
             <ModalFooter>
                 <Button Color="Color.Secondary"
                         Clicked="CloseEditOrderModalAsync">
-                    @L["Cancel"]
+                    @(EditingOrder.State.IsShipped() ? L["Ok"]: L["Cancel"])
                 </Button>
-                <SubmitButton Form="EditOrderForm" Clicked="UpdateOrderAsync"/>
-
+                @if (!EditingOrder.State.IsShipped())
+                {
+                    <SubmitButton Form="EditOrderForm" Clicked="UpdateOrderAsync"/>
+                }
             </ModalFooter>
         </Form>
 
@@ -509,7 +380,7 @@
     <ModalContent Centered="true">
         <Form id="SetShipmentForm">
             <ModalHeader>
-                <ModalTitle>@L["Update"]</ModalTitle>
+                <ModalTitle>@L["SetShipmentDetails"]</ModalTitle>
                 <CloseButton Clicked="CloseShipmentModalAsync"/>
             </ModalHeader>
             <ModalBody>
@@ -535,182 +406,6 @@
                     @L["Cancel"]
                 </Button>
                 <SubmitButton Form="SetShipmentForm" Clicked="SetShipmentAsync"/>
-            </ModalFooter>
-        </Form>
-    </ModalContent>
-</Modal>
-
-@* ************************* OrderLine: CREATE MODAL ************************* *@
-<Modal @ref="CreateOrderLineModal" Closing="@CreateOrderLineModal.CancelClosingModalWhenFocusLost">
-    <ModalContent Centered="true">
-        <Form id="CreateOrderLineForm">
-            <ModalHeader>
-                <ModalTitle>@L["NewOrderLine"]</ModalTitle>
-                <CloseButton Clicked="CloseCreateOrderLineModalAsync"/>
-            </ModalHeader>
-            <ModalBody>
-                <Validations @ref="@NewOrderLineValidations"
-                             Mode="ValidationMode.Auto"
-                             Model="@NewOrderLine"
-                             ValidateOnLoad="false">
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["ProductId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@NewOrderLine.ProductId">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["Name"]</FieldLabel>
-                            <TextEdit @bind-Text="@NewOrderLine.Name" MaxLength="OrderLineConsts.NameMaxLength">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["Price"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@NewOrderLine.Price">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["Amount"]</FieldLabel>
-                            <NumericPicker TValue="int" @bind-Value="@NewOrderLine.Amount" Decimals="0">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@NewOrderLine.TotalPrice">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                </Validations>
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary"
-                        Clicked="CloseCreateOrderLineModalAsync">
-                    @L["Cancel"]
-                </Button>
-                <SubmitButton Form="CreateOrderLineForm" Clicked="CreateOrderLineAsync"/>
-            </ModalFooter>
-        </Form>
-    </ModalContent>
-</Modal>
-
-@* ************************* OrderLine: EDIT MODAL ************************* *@
-<Modal @ref="EditOrderLineModal" Closing="@EditOrderLineModal.CancelClosingModalWhenFocusLost">
-    <ModalContent Centered="true">
-        <Form id="EditOrderLineForm">
-            <ModalHeader>
-                <ModalTitle>@L["Update"]</ModalTitle>
-                <CloseButton Clicked="CloseEditOrderLineModalAsync"/>
-            </ModalHeader>
-            <ModalBody>
-                <Validations @ref="@EditingOrderLineValidations"
-                             Mode="ValidationMode.Auto"
-                             Model="@EditingOrderLine"
-                             ValidateOnLoad="false">
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["ProductId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrderLine.ProductId" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["Name"]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrderLine.Name" MaxLength="OrderLineConsts.NameMaxLength">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["Price"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingOrderLine.Price" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["Amount"]</FieldLabel>
-                            <NumericPicker TValue="int" @bind-Value="@EditingOrderLine.Amount" Decimals="0" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingOrderLine.TotalPrice" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                </Validations>
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary"
-                        Clicked="CloseEditOrderLineModalAsync">
-                    @L["Cancel"]
-                </Button>
-                <SubmitButton Form="EditOrderLineForm" Clicked="UpdateOrderLineAsync"/>
             </ModalFooter>
         </Form>
     </ModalContent>

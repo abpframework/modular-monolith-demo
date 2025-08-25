@@ -38,12 +38,6 @@ public class OrderController : AbpController, IOrdersAppService
         return _ordersAppService.GetAsync(id);
     }
 
-    [HttpPost]
-    public virtual Task<OrderDto> CreateAsync(OrderCreateDto input)
-    {
-        return _ordersAppService.CreateAsync(input);
-    }
-
     [HttpPut]
     [Route("{id}")]
     public virtual Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
@@ -58,13 +52,6 @@ public class OrderController : AbpController, IOrdersAppService
         return _ordersAppService.SetShippingInfoAsync(id, input);
     }
 
-    [HttpDelete]
-    [Route("{id}")]
-    public virtual Task DeleteAsync(Guid id)
-    {
-        return _ordersAppService.DeleteAsync(id);
-    }
-
     [HttpGet]
     [Route("as-excel-file")]
     public virtual Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input)
@@ -74,7 +61,7 @@ public class OrderController : AbpController, IOrdersAppService
 
     [HttpGet]
     [Route("download-token")]
-    public virtual Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    public virtual Task<DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         return _ordersAppService.GetDownloadTokenAsync();
     }
