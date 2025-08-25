@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +23,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
     
     public virtual async Task<OrderDto> CreateAsync(OrderCreatePublicDto input)
     {
-        var products = await _productsIntegrationService.GetProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
+        var products = await _productsIntegrationService.GetProductsWithAmountControlAsync(input.Products);
         
         var order = await _orderManager.CreateNewAsync(
             CurrentUser.GetId(),

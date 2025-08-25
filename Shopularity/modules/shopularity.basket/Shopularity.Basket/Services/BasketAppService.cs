@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
+using Shopularity.Catalog.Products;
+using Volo.Abp;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
 
@@ -14,11 +16,16 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
 {
     private readonly IMemoryCache _memoryCache;
     private readonly IDistributedEventBus _eventBus;
+    private readonly IProductsIntegrationService _productsService;
 
-    public BasketAppService(IMemoryCache memoryCache, IDistributedEventBus eventBus)
+    public BasketAppService(
+        IMemoryCache memoryCache,
+        IDistributedEventBus eventBus,
+        IProductsIntegrationService productsService)
     {
         _memoryCache = memoryCache;
         _eventBus = eventBus;
+        _productsService = productsService;
     }
 
     public async Task AddItemToBasketAsync(BasketItem input)
@@ -39,6 +46,8 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
             value.Items.Add(input);
         }
 
+        await CheckStockAsync(value.Items.First(x => x.ItemId == input.ItemId));
+
         _memoryCache.Set(CurrentUser.GetId(), value);
 
         await _eventBus.PublishAsync(
@@ -48,6 +57,17 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
                 ItemCountInBasket = value.Items.Count
             }
         );
+    }
+
+    private async Task CheckStockAsync(BasketItem item)
+    {
+        var isStockEnough = await _productsService.CheckStockAsync(item.ItemId, item.Amount);
+
+        if (!isStockEnough)
+        {
+            //todo: make business exception
+            throw new UserFriendlyException("Not enough stock for the product!");
+        }
     }
 
     public async Task RemoveItemFromBasketAsync(BasketItem input)
