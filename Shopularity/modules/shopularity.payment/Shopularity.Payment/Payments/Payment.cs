@@ -11,6 +11,8 @@ public class Payment : FullAuditedAggregateRoot<Guid>
     [NotNull]
     public virtual Guid OrderId { get; private set; }
 
+    public virtual double TotalPrice { get; set; }
+
     public virtual PaymentState State { get; set; }
 
     protected Payment()

@@ -18,6 +18,7 @@ public static class PaymentDbContextModelCreatingExtensions
                 b.ToTable(PaymentDbProperties.DbTablePrefix + "Payments", PaymentDbProperties.DbSchema);
                 b.ConfigureByConvention();
                 b.Property(x => x.OrderId).HasColumnName(nameof(Payments.Payment.OrderId)).IsRequired();
+                b.Property(x => x.TotalPrice).HasColumnName(nameof(Payments.Payment.TotalPrice));
                 b.Property(x => x.State).HasColumnName(nameof(Payments.Payment.State));
             });
 

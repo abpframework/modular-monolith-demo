@@ -28,11 +28,12 @@ public class PaymentManager : DomainService
         _backgroundJobManager = backgroundJobManager;
     }
 
-    public virtual async Task<Payment> CreateAsync(Guid orderId)
+    public virtual async Task<Payment> CreateAsync(Guid orderId, double totalPrice)
     {
         var payment = new Payment(GuidGenerator.Create(), orderId)
         {
-            State = PaymentState.Waiting
+            State = PaymentState.Waiting,
+            TotalPrice = totalPrice
         };
 
         payment = await _paymentRepository.InsertAsync(payment);

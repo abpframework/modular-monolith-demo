@@ -7,6 +7,9 @@ namespace Shopularity.Payment.Payments;
 public class PaymentDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
 {
     public string OrderId { get; set; } = null!;
+
+    public double TotalPrice { get; set; }
+    
     public PaymentState State { get; set; }
 
     public string ConcurrencyStamp { get; set; } = null!;

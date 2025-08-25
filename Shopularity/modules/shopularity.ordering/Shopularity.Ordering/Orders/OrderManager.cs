@@ -84,7 +84,8 @@ public class OrderManager : DomainService
             
         await _eventBus.PublishAsync(new PaymentOrderCreatedEto
         {
-            OrderId = order.Id
+            OrderId = order.Id,
+            TotalPrice = order.TotalPrice
         });
             
         return order;

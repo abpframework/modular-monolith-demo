@@ -24,6 +24,6 @@ public class PaymentDistributedEventHandler:
 
     public async Task HandleEventAsync(PaymentOrderCreatedEto eventData)
     {
-        await _paymentManager.CreateAsync(eventData.OrderId);
+        await _paymentManager.CreateAsync(eventData.OrderId, eventData.TotalPrice);
     }
 }
