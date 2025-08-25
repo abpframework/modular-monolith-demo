@@ -195,7 +195,7 @@
                             <EntityAction TItem="OrderDto"
                                           Visible="@CanEditOrder"
                                           Clicked="async () => await OpenEditOrderModalAsync(context)"
-                                          Text="@L["Edit"]">
+                                          Text="@(context.State.IsShipped() ? L["Details"]: L["Edit"])">
                             </EntityAction>
                         </EntityActions>
                     </DisplayTemplate>
@@ -295,13 +295,13 @@
     </CardBody>
 </Card>
 
-@* ************************* EDIT MODAL ************************* *@
+@* ************************* DETAILS/EDIT MODAL ************************* *@
 <Modal @ref="EditOrderModal" Closing="@EditOrderModal.CancelClosingModalWhenFocusLost">
     <ModalContent Centered="true">
 
         <Form id="EditOrderForm">
             <ModalHeader>
-                <ModalTitle>@L["Update"]</ModalTitle>
+                <ModalTitle>@(EditingOrder.State.IsShipped() ? L["Details"]: L["Update"])</ModalTitle>
                 <CloseButton Clicked="CloseEditOrderModalAsync"/>
             </ModalHeader>
             <ModalBody>
@@ -310,87 +310,65 @@
                              Model="@EditingOrder"
                              ValidateOnLoad="false">
 
-
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["UserId"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrder.UserId" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-
+                    <Field>
+                        <FieldLabel>@L["UserId"]</FieldLabel>
+                        <span class="form-control-plaintext">@EditingOrder.UserId</span>
+                    </Field>
 
                     <Field>
                         <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="OrderState" @bind-SelectedValue="@EditingOrder.State" ReadOnly>
-                            @foreach (var itemValue in Enum.GetValues(typeof(OrderState)))
-                            {
-                                <SelectItem TValue="OrderState" Value="@((OrderState) itemValue)">
-                                    @L[$"Enum:OrderState.{((OrderState) itemValue).ToString("d")}"]
-                                </SelectItem>
-                            }
-                        </Select>
+                        <span class="form-control-plaintext">
+                            @L[$"Enum:OrderState.{EditingOrder.State.ToString("d")}"]
+                        </span>
                     </Field>
 
+                    <Field>
+                        <FieldLabel>@L["TotalPrice"]</FieldLabel>
+                        <span class="form-control-plaintext">
+                            $@EditingOrder.TotalPrice.ToString("F2")
+                        </span>
+                    </Field>
 
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["TotalPrice"]</FieldLabel>
-                            <NumericPicker TValue="double" @bind-Value="@EditingOrder.TotalPrice" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </NumericPicker>
-                        </Field>
-                    </Validation>
-
-
-                    <Validation MessageLocalizer="@LH.Localize">
+                @if(EditingOrder.State is OrderState.New or OrderState.WaitingForPayment or OrderState.Paid or OrderState.Processing)
+                    {
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
+                                    <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
+                                        <Feedback>
+                                            <ValidationError/>
+                                        </Feedback>
+                                    </MemoEdit>
+                            </Field>
+                        </Validation>
+                    }
+                    else
+                    {
                         <Field>
                             <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                            @if(EditingOrder.State is OrderState.New or OrderState.WaitingForPayment or OrderState.Paid or OrderState.Processing){
-                                <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
-                                    <Feedback>
-                                        <ValidationError/>
-                                    </Feedback>
-                                </MemoEdit>
-                            }
-                            else
-                            {
-                                <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength" ReadOnly>
-                                    <Feedback>
-                                        <ValidationError/>
-                                    </Feedback>
-                                </MemoEdit>
-                            }
+                            <span class="form-control-plaintext">@EditingOrder.ShippingAddress</span>
                         </Field>
-                    </Validation>
+                    }
 
-
-                    <Validation MessageLocalizer="@LH.Localize">
+                    @if (!EditingOrder.CargoNo.IsNullOrWhiteSpace())
+                    {
                         <Field>
-                            <FieldLabel>@L["CargoNo"]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrder.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength" ReadOnly>
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
+                            <FieldLabel>@L["CargoNo"] *</FieldLabel>
+                            <span class="form-control-plaintext">@EditingOrder.CargoNo</span>
                         </Field>
-                    </Validation>
-
+                    }
 
                 </Validations>
             </ModalBody>
             <ModalFooter>
                 <Button Color="Color.Secondary"
                         Clicked="CloseEditOrderModalAsync">
-                    @L["Cancel"]
+                    @(EditingOrder.State.IsShipped() ? L["Ok"]: L["Cancel"])
                 </Button>
-                <SubmitButton Form="EditOrderForm" Clicked="UpdateOrderAsync"/>
-
+                @if (!EditingOrder.State.IsShipped())
+                {
+                    <SubmitButton Form="EditOrderForm" Clicked="UpdateOrderAsync"/>
+                }
             </ModalFooter>
         </Form>
 
@@ -402,7 +380,7 @@
     <ModalContent Centered="true">
         <Form id="SetShipmentForm">
             <ModalHeader>
-                <ModalTitle>@L["Update"]</ModalTitle>
+                <ModalTitle>@L["SetShipmentDetails"]</ModalTitle>
                 <CloseButton Clicked="CloseShipmentModalAsync"/>
             </ModalHeader>
             <ModalBody>
