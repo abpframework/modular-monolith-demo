@@ -16,11 +16,13 @@ public class OrderFakeStateJob : AsyncBackgroundJob<OrderFakeStateJob.OrderFakeS
 
     public override async Task ExecuteAsync(OrderFakeStateJobArgs args)
     {
-        await _orderManager.UpdateStateAsync(args.OrderId, OrderState.Processing);
+        await _orderManager.UpdateStateAsync(args.OrderId, args.State);
     }
 
     public class OrderFakeStateJobArgs
     {
         public Guid OrderId { get; set; }
+        
+        public OrderState State { get; set; }
     }
 }

@@ -11,6 +11,8 @@ using Volo.Abp.Content;
 using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
+using Shopularity.Ordering.Orders.Events;
+using Volo.Abp.EventBus.Distributed;
 
 namespace Shopularity.Ordering.Orders;
 
@@ -19,12 +21,18 @@ namespace Shopularity.Ordering.Orders;
 public class OrdersAppService : OrderingAppService, IOrdersAppService
 {
     protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
+    private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
     protected OrderManager _orderManager;
 
-    public OrdersAppService(IOrderRepository orderRepository, OrderManager orderManager, IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache)
+    public OrdersAppService(
+        IOrderRepository orderRepository,
+        OrderManager orderManager,
+        IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
+        IDistributedEventBus eventBus)
     {
         _downloadTokenCache = downloadTokenCache;
+        _eventBus = eventBus;
         _orderRepository = orderRepository;
         _orderManager = orderManager;
     }
@@ -71,6 +79,13 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         order.State = OrderState.Shipped;
 
         order = await _orderRepository.UpdateAsync(order);
+
+        await _eventBus.PublishAsync(new OrderShippedEto
+        {
+            Id = order.Id,
+            Address = order.ShippingAddress,
+            CargoNo = order.CargoNo!
+        });
             
         return ObjectMapper.Map<Order, OrderDto>(order);
     }
