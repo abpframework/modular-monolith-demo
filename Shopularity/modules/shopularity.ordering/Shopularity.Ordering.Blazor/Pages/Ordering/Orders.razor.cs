@@ -120,6 +120,15 @@ public partial class Orders
 
         var result = await OrdersAppService.GetListAsync(Filter);
         OrderList = result.Items;
+
+        foreach (var orderDto in OrderList)
+        {
+            if (orderDto.ShippingAddress.Length > 50)
+            {
+                orderDto.ShippingAddress = orderDto.ShippingAddress[..47] + "...";
+            }
+        }
+        
         TotalCount = (int)result.TotalCount;
     }
 
