@@ -30,7 +30,7 @@ public partial class Orders
     private int TotalCount { get; set; }
     private bool CanEditOrder { get; set; }
     private bool CanSetShipment { get; set; }
-    private OrderUpdateDto EditingOrder { get; set; }
+    private OrderDto EditingOrder { get; set; }
     private SetShippingInfoInput Shipment { get; set; }
     private Validations EditingOrderValidations { get; set; } = new();
     private Validations ShipmentValidations { get; set; } = new();
@@ -50,7 +50,7 @@ public partial class Orders
     {
         LocalizationResource = typeof(OrderingResource);
             
-        EditingOrder = new OrderUpdateDto();
+        EditingOrder = new OrderDto();
         Shipment = new SetShippingInfoInput();
         Filter = new GetOrdersInput
         {
@@ -168,7 +168,7 @@ public partial class Orders
         var order = await OrdersAppService.GetAsync(input.Id);
             
         EditingOrderId = order.Id;
-        EditingOrder = ObjectMapper.Map<OrderDto, OrderUpdateDto>(order);
+        EditingOrder = order;
             
         await EditingOrderValidations.ClearAll();
         await EditOrderModal.Show();
@@ -204,7 +204,11 @@ public partial class Orders
                 return;
             }
 
-            await OrdersAppService.UpdateAsync(EditingOrderId, EditingOrder);
+            await OrdersAppService.UpdateAsync(EditingOrderId, new OrderUpdateDto
+            {
+                ShippingAddress = EditingOrder.ShippingAddress,
+                ConcurrencyStamp = EditingOrder.ConcurrencyStamp
+            });
             await GetOrdersAsync();
             await EditOrderModal.Hide();                
         }

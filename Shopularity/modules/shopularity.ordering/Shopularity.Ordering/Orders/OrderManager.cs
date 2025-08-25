@@ -116,25 +116,17 @@ public class OrderManager : DomainService
         });
     }
 
-    public virtual async Task<Order> UpdateAsync(
+    public virtual async Task<Order> UpdateShippingAddressAsync(
         Guid id,
-        OrderState state,
         string shippingAddress,
-        string? cargoNo = null,
-        [CanBeNull] string? concurrencyStamp = null
-    )
+        string? concurrencyStamp = null)
     {
-        Check.NotNull(state, nameof(state));
         Check.NotNullOrWhiteSpace(shippingAddress, nameof(shippingAddress));
-        Check.Length(shippingAddress, nameof(shippingAddress), OrderConsts.ShippingAddressMaxLength,
-            OrderConsts.ShippingAddressMinLength);
-        Check.Length(cargoNo, nameof(cargoNo), OrderConsts.CargoNoMaxLength, OrderConsts.CargoNoMinLength);
+        Check.Length(shippingAddress, nameof(shippingAddress), OrderConsts.ShippingAddressMaxLength);
 
         var order = await _orderRepository.GetAsync(id);
 
-        order.State = state;
         order.ShippingAddress = shippingAddress;
-        order.CargoNo = cargoNo;
 
         order.SetConcurrencyStampIfNotNull(concurrencyStamp);
         return await _orderRepository.UpdateAsync(order);

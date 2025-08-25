@@ -49,9 +49,8 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
     [Authorize(OrderingPermissions.Orders.Edit)]
     public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
     {
-        var order = await _orderManager.UpdateAsync(
-            id,
-            input.State, input.ShippingAddress, input.CargoNo, input.ConcurrencyStamp
+        var order = await _orderManager.UpdateShippingAddressAsync(
+            id, input.ShippingAddress,input.ConcurrencyStamp
         );
 
         return ObjectMapper.Map<Order, OrderDto>(order);
