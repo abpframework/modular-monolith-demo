@@ -22,10 +22,7 @@
             <abp-list-group-item>
                 <abp-row>
                     <abp-column size="_6">
-                        @if (item.Product.Image != null && item.Product.Image.Length != 0)
-                        {
-                            <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
-                        }
+                        <img src="/api/catalog/public/products/image/@(item.Product.Id)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
                     </abp-column>
                     <abp-column size="_6">
                         <h3>@item.Product.Name</h3>

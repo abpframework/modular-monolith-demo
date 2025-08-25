@@ -21,14 +21,15 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IBlobContainer _blobContainer;
-    private readonly IDistributedEventBus _eventBus;
 
-    public ProductsPublicAppService(IProductRepository productRepository, ICategoryRepository categoryRepository, IBlobContainer blobContainer, IDistributedEventBus eventBus)
+    public ProductsPublicAppService(
+        IProductRepository productRepository,
+        ICategoryRepository categoryRepository,
+        IBlobContainer blobContainer)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
         _blobContainer = blobContainer;
-        _eventBus = eventBus;
     }
 
     public virtual async Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input)
@@ -49,13 +50,6 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
             TotalCount = totalCount,
             Items = ObjectMapper.Map<List<ProductWithNavigationProperties>, List<ProductWithNavigationPropertiesPublicDto>>(items)
         };
-
-        foreach (var product in result.Items)
-        {
-            var imageStream = await _blobContainer.GetOrNullAsync(product.Product.Id.ToString());
-            
-            product.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
-        }
         
         return result;
     }
@@ -67,13 +61,6 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
         {
             Items = ObjectMapper.Map<List<ProductWithNavigationProperties>, List<ProductWithNavigationPropertiesPublicDto>>(items)
         };
-
-        foreach (var product in result.Items)
-        {
-            var imageStream = await _blobContainer.GetOrNullAsync(product.Product.Id.ToString());
-            
-            product.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
-        }
         
         return result;
     }    
@@ -83,11 +70,19 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
         var productWithNavigationProperties = ObjectMapper.Map<ProductWithNavigationProperties, ProductWithNavigationPropertiesPublicDto>
             (await _productRepository.GetWithNavigationPropertiesAsync(id));
             
-        var imageStream = await _blobContainer.GetOrNullAsync(id.ToString());
-            
-        productWithNavigationProperties.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
-
         return productWithNavigationProperties;
+    }
+
+    public async Task<byte[]> GetImageAsByteArrayAsync(Guid id)
+    {
+        var imageStream = await _blobContainer.GetOrNullAsync(id.ToString());
+
+        if (imageStream == null)
+        {
+            return [];
+        }
+
+        return ReadAllBytesFromStream(imageStream);
     }
 
     private byte[] ReadAllBytesFromStream(Stream input)

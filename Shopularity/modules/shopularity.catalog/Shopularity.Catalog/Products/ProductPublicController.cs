@@ -41,4 +41,11 @@ public class ProductPublicController : AbpController, IProductsPublicAppService
     {
         return ProductsPublicAppService.GetAsync(id);
     }
+
+    [HttpGet]
+    [Route("image-as-bytes/{id}")]
+    public Task<byte[]> GetImageAsByteArrayAsync(Guid id)
+    {
+        return ProductsPublicAppService.GetImageAsByteArrayAsync(id);
+    }
 }

@@ -15,6 +15,4 @@ public class ProductPublicDto
     public int StockCount { get; set; }
         
     public Guid? CategoryId { get; set; }
-        
-    public byte[]? Image { get; set; }
 }
