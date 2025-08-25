@@ -95,7 +95,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
                 x => x.Name != null &&
                      x.Name.Contains(input.Filter));
 
-        var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Shopularity.Catalog.Categories.Category>();
+        var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Categories.Category>();
         var totalCount = query.Count();
         return new PagedResultDto<LookupDto<Guid>>
         {
@@ -183,7 +183,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
         await _productRepository.DeleteAllAsync(input.FilterText, input.Name, input.Description, input.PriceMin, input.PriceMax, input.StockCountMin, input.StockCountMax, input.CategoryId);
     }
         
-    public virtual async Task<Shopularity.Catalog.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    public virtual async Task<DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         var token = Guid.NewGuid().ToString("N");
 
@@ -195,7 +195,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
             });
 
-        return new Shopularity.Catalog.Shared.DownloadTokenResultDto
+        return new DownloadTokenResultDto
         {
             Token = token
         };

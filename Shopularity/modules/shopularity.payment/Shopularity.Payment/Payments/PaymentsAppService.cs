@@ -65,7 +65,7 @@ public class PaymentsAppService : PaymentAppService, IPaymentsAppService
         return new RemoteStreamContent(memoryStream, "Payments.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
 
-    public virtual async Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    public virtual async Task<Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         var token = Guid.NewGuid().ToString("N");
 
@@ -77,7 +77,7 @@ public class PaymentsAppService : PaymentAppService, IPaymentsAppService
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
             });
 
-        return new Shopularity.Payment.Shared.DownloadTokenResultDto
+        return new Shared.DownloadTokenResultDto
         {
             Token = token
         };

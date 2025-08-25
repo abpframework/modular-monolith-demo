@@ -39,7 +39,7 @@ public class PaymentMenuContributor : IMenuContributor
     {
         parentMenu.AddItem(
             new ApplicationMenuItem(
-                Menus.PaymentMenus.Payments,
+                PaymentMenus.Payments,
                 context.GetLocalizer<PaymentResource>()["Menu:Payments"],
                 "/Payment/Payments",
                 icon: "fa fa-file-alt",

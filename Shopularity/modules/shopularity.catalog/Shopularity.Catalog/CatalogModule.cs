@@ -44,9 +44,9 @@ public class CatalogModule : AbpModule
             /* Add custom repositories here. Example:
              * options.AddRepository<Question, EfCoreQuestionRepository>();
              */
-            options.AddRepository<Category, Categories.EfCoreCategoryRepository>();
+            options.AddRepository<Category, EfCoreCategoryRepository>();
 
-            options.AddRepository<Product, Products.EfCoreProductRepository>();
+            options.AddRepository<Product, EfCoreProductRepository>();
 
         });
     }

@@ -197,13 +197,6 @@
                                           Clicked="async () => await OpenEditOrderModalAsync(context)"
                                           Text="@L["Edit"]">
                             </EntityAction>
-                            <EntityAction TItem="OrderDto"
-                                          Visible="@CanDeleteOrder"
-                                          Clicked="() => DeleteOrderAsync(context)"
-                                          ConfirmationMessage="@(() => L["DeleteConfirmationMessage"])"
-                                          Text="@L["Delete"]">
-                            </EntityAction>
-
                         </EntityActions>
                     </DisplayTemplate>
                 </DataGridEntityActionsColumn>
@@ -332,7 +325,7 @@
 
                     <Field>
                         <FieldLabel>@L["State"]</FieldLabel>
-                        <Select TValue="OrderState" @bind-SelectedValue="@EditingOrder.State">
+                        <Select TValue="OrderState" @bind-SelectedValue="@EditingOrder.State" ReadOnly>
                             @foreach (var itemValue in Enum.GetValues(typeof(OrderState)))
                             {
                                 <SelectItem TValue="OrderState" Value="@((OrderState) itemValue)">
@@ -358,11 +351,21 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                            <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </MemoEdit>
+                            @if(EditingOrder.State is OrderState.New or OrderState.WaitingForPayment or OrderState.Paid or OrderState.Processing){
+                                <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
+                                    <Feedback>
+                                        <ValidationError/>
+                                    </Feedback>
+                                </MemoEdit>
+                            }
+                            else
+                            {
+                                <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength" ReadOnly>
+                                    <Feedback>
+                                        <ValidationError/>
+                                    </Feedback>
+                                </MemoEdit>
+                            }
                         </Field>
                     </Validation>
 
@@ -370,7 +373,7 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["CargoNo"]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingOrder.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength">
+                            <TextEdit @bind-Text="@EditingOrder.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength" ReadOnly>
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>

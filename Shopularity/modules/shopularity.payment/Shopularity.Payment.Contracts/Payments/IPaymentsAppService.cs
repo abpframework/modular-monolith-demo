@@ -15,6 +15,6 @@ public interface IPaymentsAppService : IApplicationService
 
     Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input);
 
-    Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
+    Task<Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
 
 }

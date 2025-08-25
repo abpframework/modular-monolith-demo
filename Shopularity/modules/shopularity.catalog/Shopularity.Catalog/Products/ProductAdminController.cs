@@ -81,7 +81,7 @@ public class ProductAdminController : AbpController, IProductsAdminAppService
 
     [HttpGet]
     [Route("download-token")]
-    public virtual Task<Shopularity.Catalog.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    public virtual Task<DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         return ProductsAdminAppService.GetDownloadTokenAsync();
     }

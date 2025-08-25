@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Shopularity.Payment.Payments.Events;
+using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
@@ -12,19 +13,23 @@ public class OrderDistributedEventHandler :
     ITransientDependency
 {
     private readonly OrderManager _orderManager;
-    private readonly OrderFakeStateService _orderFakeStateService;
+    private readonly IBackgroundJobManager _backgroundJobManager;
 
-    public OrderDistributedEventHandler(OrderManager orderManager, OrderFakeStateService orderFakeStateService)
+    public OrderDistributedEventHandler(OrderManager orderManager, IBackgroundJobManager backgroundJobManager)
     {
         _orderManager = orderManager;
-        _orderFakeStateService = orderFakeStateService;
+        _backgroundJobManager = backgroundJobManager;
     }
     
     public async Task HandleEventAsync(PaymentCompletedEto eventData)
     {
         await _orderManager.UpdateStateAsync(eventData.OrderId, OrderState.Paid);
         
-        await _orderFakeStateService.FakeOrderProcessingAsync(eventData.OrderId);
+        await _backgroundJobManager.EnqueueAsync(new OrderFakeStateJob.OrderFakeStateJobArgs
+        {
+            OrderId = eventData.OrderId
+        },
+            delay: TimeSpan.FromSeconds(30));
     }
 
     public async Task HandleEventAsync(PaymentCreatedEto eventData)

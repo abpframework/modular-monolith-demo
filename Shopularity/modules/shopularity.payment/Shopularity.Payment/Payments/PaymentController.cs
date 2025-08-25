@@ -44,7 +44,7 @@ public class PaymentController : AbpController, IPaymentsAppService
 
     [HttpGet]
     [Route("download-token")]
-    public virtual Task<Shopularity.Payment.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    public virtual Task<Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         return _paymentsAppService.GetDownloadTokenAsync();
     }

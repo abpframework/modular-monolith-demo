@@ -29,6 +29,6 @@ public interface IProductsAdminAppService : IApplicationService
     Task DeleteByIdsAsync(List<Guid> productIds);
 
     Task DeleteAllAsync(GetProductsInput input);
-    Task<Shopularity.Catalog.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
+    Task<DownloadTokenResultDto> GetDownloadTokenAsync();
 
 }

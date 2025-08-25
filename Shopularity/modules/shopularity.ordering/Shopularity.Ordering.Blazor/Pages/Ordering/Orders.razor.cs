@@ -29,7 +29,6 @@ public partial class Orders
     private string CurrentSorting { get; set; } = string.Empty;
     private int TotalCount { get; set; }
     private bool CanEditOrder { get; set; }
-    private bool CanDeleteOrder { get; set; }
     private bool CanSetShipment { get; set; }
     private OrderUpdateDto EditingOrder { get; set; }
     private SetShippingInfoInput Shipment { get; set; }
@@ -94,9 +93,6 @@ public partial class Orders
     {
         DataGridRef.ToggleDetailRow(order, true);
     }
-        
-    private bool RowSelectableHandler( RowSelectableEventArgs<OrderDto> rowSelectableEventArgs )
-        => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick && CanDeleteOrder;
             
     private bool DetailRowTriggerHandler(DetailRowTriggerEventArgs<OrderDto> detailRowTriggerEventArgs)
     {
@@ -109,8 +105,6 @@ public partial class Orders
     {
         CanEditOrder = await AuthorizationService
             .IsGrantedAsync(OrderingPermissions.Orders.Edit);
-        CanDeleteOrder = await AuthorizationService
-            .IsGrantedAsync(OrderingPermissions.Orders.Delete);
         CanSetShipment = await AuthorizationService
             .IsGrantedAsync(OrderingPermissions.Orders.SetShippingInfo);
             
@@ -180,12 +174,6 @@ public partial class Orders
             
         await ShipmentValidations.ClearAll();
         await ShippingModal.Show();
-    }
-
-    private async Task DeleteOrderAsync(OrderDto input)
-    {
-        await OrdersAppService.DeleteAsync(input.Id);
-        await GetOrdersAsync();
     }
 
     private async Task CloseEditOrderModalAsync()

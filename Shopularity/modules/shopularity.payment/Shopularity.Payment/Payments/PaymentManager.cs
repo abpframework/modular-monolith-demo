@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Shopularity.Payment.Payments.Events;
+using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -13,18 +14,18 @@ public class PaymentManager : DomainService
     protected IPaymentRepository _paymentRepository;
     private readonly IUnitOfWorkAccessor _unitOfWorkAccessor;
     private readonly IDistributedEventBus _eventBus;
-    private readonly PaymentFakeEventService _paymentFakeEventService;
+    private readonly IBackgroundJobManager _backgroundJobManager;
 
     public PaymentManager(
         IPaymentRepository paymentRepository,
         IUnitOfWorkAccessor unitOfWorkAccessor,
         IDistributedEventBus eventBus,
-        PaymentFakeEventService  paymentFakeEventService)
+        IBackgroundJobManager backgroundJobManager)
     {
         _paymentRepository = paymentRepository;
         _unitOfWorkAccessor = unitOfWorkAccessor;
         _eventBus = eventBus;
-        _paymentFakeEventService = paymentFakeEventService;
+        _backgroundJobManager = backgroundJobManager;
     }
 
     public virtual async Task<Payment> CreateAsync(Guid orderId)
@@ -33,7 +34,7 @@ public class PaymentManager : DomainService
         {
             State = PaymentState.Waiting
         };
-            
+
         payment = await _paymentRepository.InsertAsync(payment);
         await _unitOfWorkAccessor.UnitOfWork!.SaveChangesAsync();
 
@@ -41,15 +42,19 @@ public class PaymentManager : DomainService
         {
             OrderId = orderId
         });
-            
-        await _paymentFakeEventService.CompletePaymentAsync(payment.Id);
-            
+
+        await _backgroundJobManager.EnqueueAsync(new PaymentFakeEventJob.PaymentFakeEventJobArgs
+            {
+                PaymentId = payment.Id,
+            },
+            delay: TimeSpan.FromSeconds(60));
+
         return payment;
     }
 
     public async Task CancelAsync(Guid orderId)
     {
-        var payment = await _paymentRepository.FirstOrDefaultAsync(x=> x.OrderId == orderId);
+        var payment = await _paymentRepository.FirstOrDefaultAsync(x => x.OrderId == orderId);
 
         if (payment == null)
         {
@@ -60,7 +65,7 @@ public class PaymentManager : DomainService
         {
             return;
         }
-            
+
         if (payment.State is PaymentState.Waiting or PaymentState.Failed)
         {
             payment.State = PaymentState.Cancelled;
@@ -70,7 +75,7 @@ public class PaymentManager : DomainService
             // refund process not implemented. Ideally we would have a state called "RefundRequested" etc.
             payment.State = PaymentState.Refunded;
         }
-            
+
         await _paymentRepository.UpdateAsync(payment);
     }
 }

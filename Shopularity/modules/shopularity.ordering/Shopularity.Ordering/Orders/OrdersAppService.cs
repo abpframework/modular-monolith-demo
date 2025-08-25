@@ -46,12 +46,6 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         return ObjectMapper.Map<Order, OrderDto>(await _orderRepository.GetAsync(id));
     }
 
-    [Authorize(OrderingPermissions.Orders.Delete)]
-    public virtual async Task DeleteAsync(Guid id)
-    {
-        await _orderRepository.DeleteAsync(id);
-    }
-
     [Authorize(OrderingPermissions.Orders.Edit)]
     public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
     {
@@ -100,7 +94,7 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         return new RemoteStreamContent(memoryStream, "Orders.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
 
-    public virtual async Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
+    public virtual async Task<Shared.DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         var token = Guid.NewGuid().ToString("N");
 
@@ -112,7 +106,7 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(30)
             });
 
-        return new Shopularity.Ordering.Shared.DownloadTokenResultDto
+        return new Shared.DownloadTokenResultDto
         {
             Token = token
         };

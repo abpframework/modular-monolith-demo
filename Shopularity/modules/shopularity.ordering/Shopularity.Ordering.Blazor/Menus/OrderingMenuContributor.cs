@@ -40,7 +40,7 @@ public class OrderingMenuContributor : IMenuContributor
     {
         parentMenu.AddItem(
             new ApplicationMenuItem(
-                Menus.OrderingMenus.Orders,
+                OrderingMenus.Orders,
                 context.GetLocalizer<OrderingResource>()["Menu:Orders"],
                 "/Ordering/Orders",
                 icon: "fa fa-file-alt",

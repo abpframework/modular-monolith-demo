@@ -82,29 +82,12 @@ public class OrderManager : DomainService
             Products = productDtos
         });
             
+        await _eventBus.PublishAsync(new PaymentOrderCreatedEto
+        {
+            OrderId = order.Id
+        });
+            
         return order;
-    }
-
-    public virtual async Task<Order> CreateAsync(
-        Guid userId,
-        OrderState state,
-        double totalPrice,
-        string shippingAddress)
-    {
-        Check.NotNull(userId, nameof(userId));
-        Check.NotNull(state, nameof(state));
-        Check.NotNullOrWhiteSpace(shippingAddress, nameof(shippingAddress));
-        Check.Length(shippingAddress, nameof(shippingAddress), OrderConsts.ShippingAddressMaxLength);
-
-        var order = new Order(
-            GuidGenerator.Create(),
-            userId,
-            state,
-            totalPrice,
-            shippingAddress
-        );
-
-        return await _orderRepository.InsertAsync(order);
     }
 
     public virtual async Task CancelAsync(Guid id)

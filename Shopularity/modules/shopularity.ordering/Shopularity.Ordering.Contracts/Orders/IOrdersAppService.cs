@@ -14,14 +14,12 @@ public interface IOrdersAppService : IApplicationService
 
     Task<OrderDto> GetAsync(Guid id);
 
-    Task DeleteAsync(Guid id);
-
     Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input);
 
     Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input);
 
     Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input);
 
-    Task<Shopularity.Ordering.Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
+    Task<DownloadTokenResultDto> GetDownloadTokenAsync();
 
 }
