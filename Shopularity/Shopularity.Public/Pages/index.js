@@ -6,7 +6,7 @@
     let selectedCategory = '';
     if (params.get("category") != null){
         selectedCategory = params.get("category");
-        $(".category-item[data-category-name='"+selectedCategory+"']").find('.category-item-text').css("font-weight", "bold");
+        $(".category-item[data-category-name='"+selectedCategory+"']").find('.category-item-text').addClass("selected-category");
     }
     
     $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9&categoryName=" + encodeURIComponent(selectedCategory));
@@ -39,8 +39,8 @@
     
     $(document).on("click", ".category-item", function () {
         var $this = $(this);
-        $('.category-item-text').css("font-weight", "normal");
-        $this.find('.category-item-text').css("font-weight", "bold");
+        $('.category-item-text').removeClass("selected-category");
+        $this.find('.category-item-text').addClass("selected-category");
         selectedCategory = $this.data('category-name');
         skip = 0;
         done = false;

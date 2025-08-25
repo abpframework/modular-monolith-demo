@@ -10,55 +10,49 @@
 @inject IHtmlLocalizer<ShopularityResource> L
 @model MyOrdersModel
 
+@section styles {
+    <abp-style-bundle>
+        <abp-style src="/Pages/Global.css"/>
+    </abp-style-bundle>
+}
 @section scripts {
     <abp-script-bundle name="@typeof(MyOrdersModel).FullName">
         <abp-script src="/Pages/myOrders.js"/>
     </abp-script-bundle>
 }
 
-<div>
+<h4>My Orders</h4>
     @if (Model.Orders.TotalCount > 0)
     {
-        <h4>My Orders:</h4>
-        <abp-list-group>
             @foreach (var item in Model.Orders.Items)
             {
-                <abp-list-group-item>
-                    <abp-row class="align-items-center">
-                        <abp-column size-md="_4" class="mb-2">
-                            <strong>@L["Items"]:</strong>
-                            <div class="d-flex flex-column">
+                <abp-card>
+                    <abp-card-body> 
+                    <abp-row class="align-items-top">
+                        <abp-column size-md="_3" class="mb-2">
+                            <span class="text-muted fw-lighter">@L["Items"]</span> 
                                 @foreach (var lineItem in item.OrderLines)
                                 {
-                                    <span>• <a href="/product-details/@lineItem.ProductId">@lineItem.Name</a> <span
-                                            class="text-muted">(@lineItem.Amount)</span></span>
-                                }
-                            </div>
+                                    <div>
+                                        <a class="text-decoration-none" href="/product-details/@lineItem.ProductId">@lineItem.Name</a>
+                                        <span class="text-muted small fw-light">(@lineItem.Amount)</span>
+                                    </div>
+                                } 
                         </abp-column>
 
                         <abp-column size-md="_2" class="mb-2">
-                            <strong>@L["Total"]:</strong>
-                            <div class="text-success">$@item.TotalPrice.ToString("F2")</div>
+                            <span class="text-muted fw-lighter">@L["Total"]</span>
+                            <div class="text-primary fw-bold">$@item.TotalPrice.ToString("F2")</div>
                         </abp-column>
 
                         <abp-column size-md="_2" class="mb-2 order-state">
-                            <strong>@L["State"]:</strong>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="order-state-label">@item.State</div>
-
-                                @if (item.State is OrderState.New or OrderState.Paid or OrderState.WaitingForPayment or OrderState.Processing)
-                                {
-                                    <abp-button button-type="Danger" size="Small" class="cancel-order"
-                                                data-order-id="@item.Id">
-                                        @L["Cancel"]
-                                    </abp-button>
-                                }
-                            </div>
+                            <span class="text-muted fw-lighter">@L["State"]</span>
+                            <div class="fw-semibold order-state-label">@item.State</div> 
                         </abp-column>
 
                         <abp-column size-md="_2" class="mb-2">
-                            <strong>@L["Address"]:</strong>
-                            <div>@item.ShippingAddress</div>
+                            <span class="text-muted fw-lighter">@L["Address"]</span>
+                            <div class="fw-semibold">@item.ShippingAddress</div>
                             @if (item.State is OrderState.Shipped or OrderState.Completed)
                             {
                                 <small class="text-muted">@L["CargoNo"]: @item.CargoNo</small>
@@ -66,17 +60,25 @@
                         </abp-column>
 
                         <abp-column size-md="_2" class="mb-2">
-                            <strong>@L["Date"]:</strong>
-                            <div class="text-muted">@item.CreationTime.ToString()</div>
+                            <span class="text-muted fw-lighter">@L["Date"]</span>
+                            <div class="fw-semibold">@item.CreationTime.ToString()</div>
+                        </abp-column>
+                        <abp-column size-md="_1" class="mb-2">
+                            @if (item.State is OrderState.New or OrderState.Paid or OrderState.WaitingForPayment or OrderState.Processing)
+                            {
+                                <abp-button button-type="Danger" size="Small" class="cancel-order w-100"
+                                            data-order-id="@item.Id">
+                                    @L["Cancel"]
+                                </abp-button>
+                            }
                         </abp-column>
                     </abp-row>
-                </abp-list-group-item>
+                    </abp-card-body>
+                </abp-card>
             }
-        </abp-list-group>
     }
     else
     {
         <h3>@L["YouHaventOrderedYet"]</h3>
     }
-</div>
 

@@ -14,35 +14,53 @@
 @inject IHtmlLocalizer<ShopularityResource> L
 @model CheckOutModel
 
-<div>
-    <h2>@L["Items"]</h2>
-    <abp-list-group>
-        @foreach (var item in Model.Items)
-        {
-            <abp-list-group-item>
-                <abp-row>
-                    <abp-column size="_6">
-                        @if (item.Product.Image != null && item.Product.Image.Length != 0)
-                        {
-                            <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
-                        }
-                    </abp-column>
-                    <abp-column size="_6">
-                        <h3>@item.Product.Name</h3>
-                        <span>@L["Price"]: @item.Product.Price</span>
-                        <span>@L["Amount"]: @item.Amount</span>
-                    </abp-column>
-                </abp-row>
-            </abp-list-group-item>
-        }
-    </abp-list-group>
-    <span class="fw-semibold">@L["TotalPrice"]</span>
-    <span class="fw-bold">$@Model.TotalPrice.ToString("F2")</span>
-    
-    <form method="post">
-        <abp-input asp-for="CacheId"/>
-        <abp-input asp-for="CreditCardNumber" info="@L["FakeCreditCardInfo"].Value"/>
-        <abp-input asp-for="Address"/>
-        <abp-button button-type="Success" type="submit">@L["CompleteOrder"]</abp-button>
-    </form>
-</div>
+@section styles {
+    <abp-style-bundle>
+        <abp-style src="/Pages/Global.css"/>
+    </abp-style-bundle>
+} 
+     
+        <h4>@L["Items"]</h4>
+        <abp-row>
+            <abp-column size-md="_8">
+                @foreach (var item in Model.Items)
+                {
+                    <abp-card>
+                        <abp-card-body>
+                            <abp-row>
+                                <abp-column size="Auto">
+                                    @if (item.Product.Image != null && item.Product.Image.Length != 0)
+                                    {
+                                        <img src="data:image/png;base64,@Convert.ToBase64String(item.Product.Image)" style="width: 60px; height: auto;" alt="@item.Product.Name"/>
+                                    }
+                                </abp-column>
+                                <abp-column class="align-content-center">
+                                    <div class="d-flex justify-content-between"> 
+                                        <span class="fw-light">@item.Product.Name</span>
+                                        <span class="fw-semibold">$@item.Product.Price</span>
+                                    </div> 
+                                    <span class="fw-lighter">@L["Amount"]: @item.Amount</span>
+                                </abp-column>
+                            </abp-row>
+                        </abp-card-body>
+                    </abp-card>
+                }
+            </abp-column>
+            <abp-column> 
+                <abp-card>
+                    <abp-card-body class="p-4">
+                        <div class="d-flex justify-content-between"> 
+                            <span class="h4 fw-light">@L["TotalPrice"]</span>
+                            <span class="h4 fw-semibold text-primary">$@Model.TotalPrice.ToString("F2")</span>
+                        </div> 
+                        <form method="post">
+                            <abp-input asp-for="CacheId"/>
+                            <abp-input asp-for="CreditCardNumber" info="@L["FakeCreditCardInfo"].Value" class="small fw-lighter text-muted"/>
+                            <abp-input asp-for="Address"/>
+                            <abp-button button-type="Primary" size="Large" type="submit" class="w-100">@L["CompleteOrder"]</abp-button>
+                        </form>
+                    </abp-card-body>
+                </abp-card>
+            </abp-column>
+        </abp-row> 
+     

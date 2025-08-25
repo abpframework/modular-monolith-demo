@@ -6,34 +6,36 @@
 @model Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem.ProductItemViewModel
 
 <abp-card class="w-100 h-100">
-    <abp-card-header>
-        <span>@Model.Item.Product.Name</span>
-    </abp-card-header>
-    <abp-card-body class="text-center">
+    <abp-card-body class="text-center p-0">
         @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
         {
             <a href="/product-details/@(Model.Item.Product.Id)">
                 <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)"
-                     style="max-width: 300px; max-height: 300px; border-radius: 8px;"
+                     style=""
+                     class="product-image zoom"
                      alt="@Model.Item.Product.Name"/>
             </a>
         }
     </abp-card-body>
-    <abp-card-footer>
-        <div class="d-flex justify-content-between align-items-center">
-            <p class="mb-0 fw-bold text-success">$@Model.Item.Product.Price</p>
-
+    <abp-card-footer class="p-4 pt-2">
+        <div class="d-flex flex-column ">
+            <div class="d-flex flex-row justify-content-between mb-2 px-1">
+                <span class="product-name h6 fw-light">@Model.Item.Product.Name</span> 
+                <span class="product-price h6 fw-semibold ">$@Model.Item.Product.Price</span>
+            </div>
             @if (CurrentUser.IsAuthenticated)
             {
-                <abp-button size="Small" button-type="Primary"
-                            class="addToBasket" data-product-id="@Model.Item.Product.Id">
-                    @L["AddToBasket"]
+                <abp-button 
+                    class="btn list-btn addToBasket" data-product-id="@Model.Item.Product.Id">
+                    <i class="fa-solid fa-cart-plus me-3"></i>  @L["AddToBasket"]
                 </abp-button>
             }
             else
             {
-                <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
-            }
+                <a class="btn list-btn" href="~/Account/Login">
+                    <i class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]
+                </a>
+            } 
         </div>
     </abp-card-footer>
 </abp-card>

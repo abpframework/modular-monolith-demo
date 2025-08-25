@@ -13,37 +13,37 @@
         <abp-style src="BasketItem.css"/>
     </abp-style-bundle>
 }
-
-<abp-row style="padding: 30px; display: flex; align-items: center;" abp-border="Secondary" class="basket-item">
-    <abp-column size="_6">
-        @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
-        {
-            <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@Model.Item.Product.Name"/>
-        }
-    </abp-column>
-    <abp-column size="_6" style="position: relative;">
-        <abp-button button-type="Outline_Warning"
-                    icon="trash"
-                    class="remove-from-basket"
-                    style="position: absolute; top: 0; right: 0;">
-        </abp-button>
-
-        <div style="font-weight: bold; padding-right: 30px;">@Model.Item.Product.Name</div>
-        <div style="color: green;">@L["Price"]: $@Model.Item.Product.Price</div>
-        <div class="amount-control d-flex align-items-center" data-product-id="@Model.Item.Product.Id">
-            <abp-button button-type="Outline_Secondary"
+<abp-container>
+    <abp-row class="basket-item">
+        <abp-column size="_5">
+            @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
+            {
+                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)" style="width: 100%; height: auto;" alt="@Model.Item.Product.Name"/>
+            }
+        </abp-column>
+        <abp-column size="_7" class="position-relative align-content-center" style="position: relative;">
+            <abp-button button-type="Link"
                         size="Small"
-                        disabled="@(Model.Item.Amount == 1)"
-                        class="amount-minus">
-                −
+                        icon="fa-solid fa-xmark"
+                        class="remove-from-basket">
             </abp-button>
-            <span class="amount-value mx-2">@Model.Item.Amount</span>
-            <abp-button button-type="Outline_Secondary"
-                        size="Small"
-                        class="amount-plus">
-                +
-            </abp-button>
-        </div>
-    </abp-column>
 
-</abp-row>
+            <p class="small fw-light mb-0">@Model.Item.Product.Name</p>
+            <p class="small fw-semibold mb-1">$@Model.Item.Product.Price</p>
+            <div class="amount-control d-flex align-items-center" data-product-id="@Model.Item.Product.Id">
+                <abp-button button-type="Outline_Secondary"
+                            size="Small"
+                            disabled="@(Model.Item.Amount == 1)"
+                            class="amount-minus">
+                    <i class="fa-solid fa-minus"></i>
+                </abp-button>
+                <span class="amount-value mx-2">@Model.Item.Amount</span>
+                <abp-button button-type="Outline_Secondary"
+                            size="Small"
+                            class="amount-plus">
+                    <i class="fa-solid fa-plus"></i>
+                </abp-button>
+            </div>
+        </abp-column>
+    </abp-row>
+</abp-container>
