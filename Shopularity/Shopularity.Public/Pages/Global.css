@@ -6,9 +6,12 @@ body {
 p {
     color: #6e6e73;
 }
-.navbar-nav {
-    flex-direction: row-reverse !important;
-    column-gap: 1.5rem;
+
+@media (min-width: 575px) { 
+    .navbar-nav {
+        flex-direction: row-reverse !important;
+        column-gap: 1.5rem;
+    }
 }
 .navbar .dropdown-menu {
     margin: 0;
@@ -40,7 +43,7 @@ p {
     --bs-btn-padding-x: 0.36rem !important; 
 }
 .navbar-brand {
-    background: linear-gradient(160deg, #02C6A2 0%, #ffffff 100%); 
+    background: linear-gradient(160deg, #02C6A2 -50%, #ffffff 100%); 
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
@@ -95,9 +98,7 @@ p {
 }
 .btn-lg, .btn-group-lg > .btn {
     --bs-btn-padding-y: 0.75rem;
-    --bs-btn-padding-x: 1rem;
-    --bs-btn-font-size: 1.25rem;
-    --bs-btn-border-radius: var(--bs-border-radius-lg);
+    --bs-btn-padding-x: 1rem; 
 }
 
 
