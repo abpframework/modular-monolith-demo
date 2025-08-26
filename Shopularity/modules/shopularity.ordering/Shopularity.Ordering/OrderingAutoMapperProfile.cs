@@ -11,7 +11,7 @@ public class OrderingAutoMapperProfile : Profile
 {
     public OrderingAutoMapperProfile()
     {
-        CreateMap<Order, OrderDto>();
+        CreateMap<Order, OrderDto>().Ignore(x=> x.Username);
         CreateMap<Order, OrderExcelDto>();
 
         CreateMap<OrderLine, OrderLineDto>();

@@ -13,6 +13,7 @@ using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Identity.Integration;
 
 namespace Shopularity.Ordering.Orders;
 
@@ -21,6 +22,7 @@ namespace Shopularity.Ordering.Orders;
 public class OrdersAppService : OrderingAppService, IOrdersAppService
 {
     protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
+    private readonly IIdentityUserIntegrationService _userIntegrationService;
     private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
     protected OrderManager _orderManager;
@@ -29,9 +31,11 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         IOrderRepository orderRepository,
         OrderManager orderManager,
         IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
+        IIdentityUserIntegrationService userIntegrationService,
         IDistributedEventBus eventBus)
     {
         _downloadTokenCache = downloadTokenCache;
+        _userIntegrationService = userIntegrationService;
         _eventBus = eventBus;
         _orderRepository = orderRepository;
         _orderManager = orderManager;
@@ -41,11 +45,18 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
     {
         var totalCount = await _orderRepository.GetCountAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
         var items = await _orderRepository.GetListAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo, input.Sorting, input.MaxResultCount, input.SkipCount);
+        var itemsDto = ObjectMapper.Map<List<Order>, List<OrderDto>>(items);
 
+        foreach (var itemDto in itemsDto)
+        {
+            var user = await _userIntegrationService.FindByIdAsync(itemDto.UserId);
+            itemDto.Username = user.UserName;
+        }
+        
         return new PagedResultDto<OrderDto>
         {
             TotalCount = totalCount,
-            Items = ObjectMapper.Map<List<Order>, List<OrderDto>>(items)
+            Items = itemsDto
         };
     }
 

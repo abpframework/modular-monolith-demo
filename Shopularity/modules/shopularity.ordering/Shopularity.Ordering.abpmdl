@@ -21,6 +21,10 @@
     "Shopularity.Payment": {
       "path": "../shopularity.payment/Shopularity.Payment.abpmdl",
       "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "9.2.3",
+      "isInstalled": true
     }
   }
 }
