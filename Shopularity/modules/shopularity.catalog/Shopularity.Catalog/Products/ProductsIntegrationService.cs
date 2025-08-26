@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shopularity.Catalog.Products.Admin;
+using Shopularity.Catalog.Products.Public;
 using Volo.Abp;
 
 namespace Shopularity.Catalog.Products;
@@ -32,6 +33,13 @@ public class ProductsIntegrationService : CatalogAppService, IProductsIntegratio
         }
         
         return ObjectMapper.Map<List<Product>, List<ProductDto>>(products);
+    }
+    
+    public async Task<List<ProductPublicDto>> GetProductsAsync(List<Guid> ids)
+    {
+        var products = await _productRepository.GetListAsync(ids);
+
+        return ObjectMapper.Map<List<Product>, List<ProductPublicDto>>(products);
     }
 
     public async Task<bool> CheckStockAsync(Guid id, int amount)

@@ -5,6 +5,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Basket.Services;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Shopularity.Basket.Controllers;
@@ -37,8 +38,15 @@ public class BasketController : AbpController, IBasketAppService
     }
 
     [HttpGet]
-    public async Task<List<BasketItem>> GetBasketItems()
+    public async Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync()
     {
-        return await BasketAppService.GetBasketItems();
+        return await BasketAppService.GetBasketItemsAsync();
+    }
+
+    [HttpGet]
+    [Route("count")]
+    public async Task<int> GetCountOfItemsInBasketAsync()
+    {
+        return await BasketAppService.GetCountOfItemsInBasketAsync();
     }
 }

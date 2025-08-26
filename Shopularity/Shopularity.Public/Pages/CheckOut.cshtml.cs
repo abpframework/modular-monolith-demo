@@ -26,7 +26,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 
     [HiddenInput] [BindProperty] public string CacheId { get; set; }
 
-    public List<BasketViewItemModel> Items { get; set; }
+    public List<BasketViewItemModel> Items { get; set; } = new();
 
     public double TotalPrice { get; set; }
 
@@ -48,26 +48,21 @@ public class CheckOutModel : ShopularityPublicPageModel
 
     public virtual async Task<ActionResult> OnGetAsync()
     {
-        var result = await BasketAppService.GetBasketItems();
+        var basket = await BasketAppService.GetBasketItemsAsync();
 
-        if (!result.Any())
+        if (!basket.Items.Any())
         {
-            Items = new List<BasketViewItemModel>();
+            return Redirect("/my-orders");
         }
 
-        var productsWithDetails = await ProductsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
+        foreach (var item in basket.Items)
         {
-            Ids = result.Select(x => x.ItemId).ToList()
-        });
+            var newItem = ObjectMapper.Map<ProductPublicDto, BasketViewItemModel>(item.Product);
+            newItem.Amount = item.Amount;
+            Items.Add(newItem);
+        }
 
-        Items = productsWithDetails.Items.Select(x => new BasketViewItemModel
-        {
-            Product = x.Product,
-            Category = x.Category,
-            Amount = result.FirstOrDefault(y => x.Product.Id == y.ItemId)?.Amount ?? 1,
-        }).ToList();
-
-        TotalPrice = Items.Select(x => x.Product.Price * x.Amount).Sum();
+        TotalPrice = Items.Select(x => x.Price * x.Amount).Sum();
 
         CacheId = GuidGenerator.Create().ToString();
         await Cache.SetAsync(CacheId, new BasketCheckoutCacheItem
@@ -96,7 +91,7 @@ public class CheckOutModel : ShopularityPublicPageModel
         {
             Address = Address,
             CreditCardNo = CreditCardNumber,
-            Products = basketFromCache.Items.Select(x => new BasketItem { ItemId = x.Product.Id, Amount = x.Amount })
+            Products = basketFromCache.Items.Select(x => new BasketItem { ItemId = x.Id, Amount = x.Amount })
                 .ToList()
         });
 

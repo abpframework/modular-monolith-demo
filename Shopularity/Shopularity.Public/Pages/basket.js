@@ -70,8 +70,8 @@
     }
     
     initBasketCount = function () {
-        shopularity.public.controllers.basket.getBasketItems({}).then(function (result) {
-            updateBasketCount(result.length);
+        shopularity.public.controllers.basket.getCountOfItemsInBasket({}).then(function (result) {
+            updateBasketCount(result);
         });
     }
     

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace Shopularity.Basket.Services;
@@ -11,5 +12,7 @@ public interface IBasketAppService: IApplicationService
 
     Task RemoveItemFromBasketAsync(BasketItem input);
     
-    Task<List<BasketItem>> GetBasketItems();
+    Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync();
+    
+    Task<int> GetCountOfItemsInBasketAsync();
 }
