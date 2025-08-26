@@ -31,6 +31,8 @@
     "Basket": "Basket",
     "Amount": "Amount",
     "CreditCardNumber": "Credit Card Number",
-    "FakeCreditCardInfo": "Please do not use a real credit card number. This is a demo app."
+    "FakeCreditCardInfo": "Please do not use a real credit card number. This is a demo app.",
+    "LoginRequiredToContinueText" : "You need to login to continue.",
+    "LoginRequiredToContinueTitle": "Information"
   }
 }

@@ -4,7 +4,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Packages.SignalR;
 using Volo.Abp.Modularity;
 
-namespace Volo.Chat.Web.Bundling;
+namespace Shopularity.Public.Bundling;
 
 [DependsOn(
     typeof(SignalRBrowserScriptContributor)

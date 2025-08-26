@@ -26,7 +26,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 
     [HiddenInput] [BindProperty] public string CacheId { get; set; }
 
-    public List<BasketViewItemModel> Items { get; set; } = new();
+    public List<BasketCacheItemModel> Items { get; set; } = new();
 
     public double TotalPrice { get; set; }
 
@@ -57,7 +57,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 
         foreach (var item in basket.Items)
         {
-            var newItem = ObjectMapper.Map<ProductPublicDto, BasketViewItemModel>(item.Product);
+            var newItem = ObjectMapper.Map<ProductPublicDto, BasketCacheItemModel>(item.Product);
             newItem.Amount = item.Amount;
             Items.Add(newItem);
         }
@@ -91,7 +91,11 @@ public class CheckOutModel : ShopularityPublicPageModel
         {
             Address = Address,
             CreditCardNo = CreditCardNumber,
-            Products = basketFromCache.Items.Select(x => new BasketItem { ItemId = x.Id, Amount = x.Amount })
+            Products = basketFromCache.Items.Select(x => new BasketItem
+                {
+                    ItemId = x.Id,
+                    Amount = x.Amount
+                })
                 .ToList()
         });
 
@@ -100,8 +104,21 @@ public class CheckOutModel : ShopularityPublicPageModel
 
     public class BasketCheckoutCacheItem
     {
-        public List<BasketViewItemModel> Items { get; set; }
+        public List<BasketCacheItemModel> Items { get; set; }
 
         public double TotalPrice { get; set; }
+    }
+
+    public class BasketCacheItemModel
+    {
+        public Guid Id { get; set; }
+    
+        public string Name { get; set; } = null!;
+        
+        public string? Description { get; set; }
+        
+        public double Price { get; set; }
+    
+        public int Amount { get; set; }
     }
 }

@@ -6,11 +6,6 @@
 @inject IHtmlLocalizer<ShopularityResource> L
 @model OrderHistoryModel
 
-@section styles {
-    <abp-style-bundle>
-        <abp-style src="/Pages/Global.css"/>
-    </abp-style-bundle>
-}
 @section scripts {
     <abp-script-bundle name="@typeof(OrderHistoryModel).FullName">
         <abp-script src="/Pages/orderHistory.js"/>

@@ -5,13 +5,9 @@
 @inherits Shopularity.Public.Pages.ShopularityPublicPageBase
 @model IndexModel
 
-@section styles {
-    <abp-style-bundle>
-        <abp-style src="/Pages/Global.css"/>
-    </abp-style-bundle>
-}
 @section scripts {
     <abp-script-bundle name="@typeof(IndexModel).FullName">
+        <abp-script src="/Pages/login.js"/>
         <abp-script src="/Pages/index.js"/>
         <abp-script src="/Pages/productDetails.js"/>
     </abp-script-bundle>

@@ -15,6 +15,7 @@
 
 @section scripts {
     <abp-script-bundle name="@typeof(ProductDetailsModel).FullName">
+        <abp-script src="/Pages/login.js"/>
         <abp-script src="/Pages/productDetails.js"/>
     </abp-script-bundle>
 }
@@ -44,7 +45,7 @@
                         }
                         else
                         {
-                            <a class="btn btn-primary btn-lg" href="~/Account/Login"><i
+                            <a class="btn btn-primary btn-lg button-login-required" href="~/Account/Login"><i
                                     class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
                         }
 

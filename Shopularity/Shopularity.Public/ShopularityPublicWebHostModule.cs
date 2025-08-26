@@ -21,6 +21,7 @@ using Shopularity.Basket;
 using Shopularity.Catalog;
 using Shopularity.Ordering;
 using Shopularity.Payment;
+using Shopularity.Public.Bundling;
 using Shopularity.Public.Menus;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
@@ -31,7 +32,6 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation;
-using Volo.Chat.Web.Bundling;
 
 namespace Shopularity.Public;
 
@@ -72,6 +72,9 @@ public class ShopularityPublicWebHostModule : AbpModule
             options.ScriptBundles
                 .Get(StandardBundles.Scripts.Global)
                 .AddContributors(typeof(ShopularityPublicGlobalScriptContributor));
+            options.StyleBundles
+                .Get(StandardBundles.Styles.Global)
+                .AddContributors(typeof(ShopularityPublicGlobalStyleContributor));
         });
     }
 
