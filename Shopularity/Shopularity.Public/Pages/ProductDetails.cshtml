@@ -3,6 +3,7 @@
 @using Shopularity.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.Users
+@using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Commenting
 @inject ICurrentUser CurrentUser
 @inject IHtmlLocalizer<ShopularityResource> L
 @model ProductDetailsModel
@@ -46,16 +47,24 @@
                         else
                         {
                             <a class="btn btn-primary btn-lg button-login-required" href="~/Account/Login"><i
-                                    class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
+                                                                                                               class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
                         }
 
                         <p class="mb-0 mt-3 text-muted fw-lighter">
                             @L["ItemLeftInStock", Model.Item.Product.StockCount]
                         </p>
-
                     </div>
                 </div>
             </div>
         </abp-card-body>
+        <abp-card-footer>
+            @await Component.InvokeAsync(typeof(CommentingViewComponent), new
+            {
+                entityType = "Product",
+                entityId = Model.Item.Product.Id.ToString(),
+                isReadOnly = false,
+                referralLinks  = new [] {"nofollow"}
+            })
+        </abp-card-footer>
     </abp-card>
 </div>

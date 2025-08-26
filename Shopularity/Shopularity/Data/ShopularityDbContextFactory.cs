@@ -7,6 +7,8 @@ public class ShopularityDbContextFactory : IDesignTimeDbContextFactory<Shopulari
 {
     public ShopularityDbContext CreateDbContext(string[] args)
     {
+        ShopularityGlobalFeatureConfigurator.Configure();
+        
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<ShopularityDbContext>()

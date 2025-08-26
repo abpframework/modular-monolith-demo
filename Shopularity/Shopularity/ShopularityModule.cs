@@ -75,7 +75,11 @@ using Shopularity.Ordering.Blazor;
 using Shopularity.Ordering;
 using Volo.Abp.EntityFrameworkCore.DistributedEvents;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.GlobalFeatures;
+using Volo.Abp.Threading;
 using Volo.CmsKit;
+using Volo.CmsKit.Comments;
+using Volo.CmsKit.GlobalFeatures;
 
 namespace Shopularity;
 
@@ -234,6 +238,21 @@ public class ShopularityModule : AbpModule
         ConfigureVirtualFiles(hostingEnvironment);
         ConfigureEfCore(context);
         ConfigureEventBust();
+        Configure<CmsKitCommentOptions>(options =>
+        {
+            options.EntityTypes.Add(new CommentEntityTypeDefinition("Product"));
+            //options.IsRecaptchaEnabled = true; //false by default
+            /*options.AllowedExternalUrls = new Dictionary<string, List<string>>
+            {
+                {
+                    "Product",
+                    new List<string>
+                    {
+                        "https://abp.io/"
+                    }
+                }
+            };*/
+        });
     }
 
     private void ConfigureEventBust()

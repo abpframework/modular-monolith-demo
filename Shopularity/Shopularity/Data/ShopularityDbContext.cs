@@ -38,7 +38,6 @@ public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>,
     {
         base.OnModelCreating(builder);
 
-        builder.ConfigureCmsKit();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
         builder.ConfigureAuditLogging();
@@ -54,6 +53,7 @@ public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>,
         builder.ConfigureOrdering();
         builder.ConfigureEventOutbox();
         builder.ConfigureEventInbox();
+        builder.ConfigureCmsKit();
     }
 }
 
