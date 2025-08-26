@@ -75,6 +75,7 @@ using Shopularity.Ordering.Blazor;
 using Shopularity.Ordering;
 using Volo.Abp.EntityFrameworkCore.DistributedEvents;
 using Volo.Abp.EventBus.Distributed;
+using Volo.CmsKit;
 
 namespace Shopularity;
 
