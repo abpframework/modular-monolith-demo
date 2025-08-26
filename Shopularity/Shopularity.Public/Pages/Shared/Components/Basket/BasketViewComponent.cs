@@ -15,7 +15,7 @@ public class BasketViewModel
     public BasketViewModel(List<BasketViewItemModel> items)
     {
         Items = items;
-        TotalPrice = items.Select(item => item.Product.Price * item.Amount).Sum();
+        TotalPrice = items.Select(item => item.Price * item.Amount).Sum();
     }
 }
 
@@ -27,7 +27,7 @@ public class BasketViewComponent : ViewComponent
     }
 }
 
-public class BasketViewItemModel : ProductWithNavigationPropertiesPublicDto
+public class BasketViewItemModel : ProductPublicDto
 {
     public int Amount { get; set; }
 }

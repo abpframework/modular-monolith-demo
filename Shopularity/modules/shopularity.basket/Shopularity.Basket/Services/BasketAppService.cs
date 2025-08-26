@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Shopularity.Catalog.Products;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
@@ -91,9 +92,22 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         );
     }
 
-    public async Task<List<BasketItem>> GetBasketItems()
+    public async Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync()
     {
-        return (await GetBasketAsync()).Items;
+        var items = (await GetBasketAsync()).Items;
+
+        var products = await _productsService.GetProductsAsync(items.Select(x => x.ItemId).ToList());
+
+        return new ListResultDto<BasketItemDto>(products.Select(x => new BasketItemDto
+        {
+            Product = x,
+            Amount = items.First(y => y.ItemId == x.Id).Amount
+        }).ToList());
+    }
+
+    public async Task<int> GetCountOfItemsInBasketAsync()
+    {
+        return (await GetBasketAsync()).Items.Count;
     }
 
     private async Task<BasketCacheItem> GetBasketAsync()

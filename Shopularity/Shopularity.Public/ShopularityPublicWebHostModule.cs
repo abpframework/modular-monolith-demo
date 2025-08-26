@@ -25,6 +25,7 @@ using Shopularity.Public.Menus;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio.Client.AspNetCore;
@@ -41,6 +42,7 @@ namespace Shopularity.Public;
     typeof(AbpHttpClientIdentityModelWebModule),
     typeof(ShopularityContractsModule),
     typeof(AbpAutofacModule),
+    typeof(AbpAutoMapperModule),
     typeof(AbpAspNetCoreMvcModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
@@ -59,6 +61,7 @@ public class ShopularityPublicWebHostModule : AbpModule
         ConfigureAuthentication(context, configuration);
         ConfigureNavigationServices(configuration);
         ConfigureHttpClientProxies(context);
+        ConfigureAutoMapper(context);
         ConfigureBundling();
     }
 
@@ -69,6 +72,15 @@ public class ShopularityPublicWebHostModule : AbpModule
             options.ScriptBundles
                 .Get(StandardBundles.Scripts.Global)
                 .AddContributors(typeof(ShopularityPublicGlobalScriptContributor));
+        });
+    }
+
+    private void ConfigureAutoMapper(ServiceConfigurationContext context)
+    {
+        context.Services.AddAutoMapperObjectMapper<ShopularityPublicWebHostModule>();
+        Configure<AbpAutoMapperOptions>(options =>
+        {
+            options.AddMaps<ShopularityPublicWebHostModule>();
         });
     }
 

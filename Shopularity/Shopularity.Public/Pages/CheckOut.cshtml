@@ -22,11 +22,11 @@
             <abp-list-group-item>
                 <abp-row>
                     <abp-column size="_6">
-                        <img src="/api/catalog/public/products/image/@(item.Product.Id)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Product.Name"/>
+                        <img src="/api/catalog/public/products/image/@(item.Id)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Name"/>
                     </abp-column>
                     <abp-column size="_6">
-                        <h3>@item.Product.Name</h3>
-                        <span>@L["Price"]: @item.Product.Price</span>
+                        <h3>@item.Name</h3>
+                        <span>@L["Price"]: @item.Price</span>
                         <span>@L["Amount"]: @item.Amount</span>
                     </abp-column>
                 </abp-row>

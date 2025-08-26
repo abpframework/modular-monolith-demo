@@ -366,11 +366,7 @@ public class ShopularityModule : AbpModule
         context.Services.AddAutoMapperObjectMapper<ShopularityModule>();
         Configure<AbpAutoMapperOptions>(options =>
         {
-            /* Uncomment `validate: true` if you want to enable the Configuration Validation feature.
-             * See AutoMapper's documentation to learn what it is:
-             * https://docs.automapper.org/en/stable/Configuration-validation.html
-             */
-            options.AddMaps<ShopularityModule>(/* validate: true */);
+            options.AddMaps<ShopularityModule>();
         });
     }
 

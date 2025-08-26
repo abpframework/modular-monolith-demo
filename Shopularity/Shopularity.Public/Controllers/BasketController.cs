@@ -9,6 +9,7 @@ using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Products.Public;
 using Shopularity.Public.Components.Basket;
 using Volo.Abp;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Shopularity.Public.Controllers;
@@ -20,12 +21,10 @@ namespace Shopularity.Public.Controllers;
 public class BasketController : AbpController, IBasketAppService
 {
     protected IBasketAppService BasketAppService;
-    protected IProductsPublicAppService ProductsPublicAppService;
 
-    public BasketController(IBasketAppService basketAppService, IProductsPublicAppService productsPublicAppService)
+    public BasketController(IBasketAppService basketAppService)
     {
         BasketAppService = basketAppService;
-        ProductsPublicAppService = productsPublicAppService;
     }
 
     [HttpGet]
@@ -44,33 +43,37 @@ public class BasketController : AbpController, IBasketAppService
     }
 
     [HttpGet]
-    public async Task<List<BasketItem>> GetBasketItems()
+    public async Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync()
     {
-        return await BasketAppService.GetBasketItems();
+        return await BasketAppService.GetBasketItemsAsync();
+    }
+
+    [HttpGet]
+    [Route("count")]
+    public async Task<int> GetCountOfItemsInBasketAsync()
+    {
+        return await BasketAppService.GetCountOfItemsInBasketAsync();
     }
 
     [HttpGet("render")]
     public async Task<ViewComponentResult> Render()
     {
-        var result = await BasketAppService.GetBasketItems();
+        var basket = await BasketAppService.GetBasketItemsAsync();
 
-        if (!result.Any())
+        if (!basket.Items.Any())
         {
             return ViewComponent("Basket", new BasketViewModel(new List<BasketViewItemModel>()));
         }
 
-        var productsWithDetails = await ProductsPublicAppService.GetListByIdsAsync(new GetListByIdsInput
-        {
-            Ids = result.Select(x => x.ItemId).ToList()
-        });
+        var items = new List<BasketViewItemModel>();
 
-        return ViewComponent("Basket", new BasketViewModel(
-            productsWithDetails.Items.Select(x => new BasketViewItemModel
-            {
-                Product = x.Product,
-                Category = x.Category,
-                Amount = result.FirstOrDefault(y => x.Product.Id == y.ItemId)?.Amount ?? 1
-            }).ToList()
-        ));
+        foreach (var item in basket.Items)
+        {
+            var newItem = ObjectMapper.Map<ProductPublicDto, BasketViewItemModel>(item.Product);
+            newItem.Amount = item.Amount;
+            items.Add(newItem);
+        }
+        
+        return ViewComponent("Basket", new BasketViewModel(items));
     }
 }
