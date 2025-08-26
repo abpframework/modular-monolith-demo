@@ -45,9 +45,9 @@ public class ShopularityPublicMenuContributor : IMenuContributor
         
         context.Menu.AddItem(
             new ApplicationMenuItem(
-                ShopularityPublicMenus.MyOrdersPage,
-                l["Menu:MyOrdersPage"],
-                "~/my-orders",
+                ShopularityPublicMenus.OrderHistoryPage,
+                l["Menu:OrderHistoryPage"],
+                "~/order-history",
                 icon: "fa fa-shopping-cart",
                 order: 1
             )

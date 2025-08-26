@@ -6,13 +6,13 @@ using Volo.Abp.Application.Dtos;
 
 namespace Shopularity.Public.Pages;
 
-public class MyOrdersModel : ShopularityPublicPageModel
+public class OrderHistoryModel : ShopularityPublicPageModel
 {
     public IShopularityAppService ShopularityAppService { get; }
     
     public PagedResultDto<OrderDto> Orders { get; set; }
 
-    public MyOrdersModel(IShopularityAppService shopularityAppService)
+    public OrderHistoryModel(IShopularityAppService shopularityAppService)
     {
         ShopularityAppService = shopularityAppService;
     }

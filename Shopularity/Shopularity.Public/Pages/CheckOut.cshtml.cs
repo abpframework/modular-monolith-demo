@@ -52,7 +52,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 
         if (!basket.Items.Any())
         {
-            return Redirect("/my-orders");
+            return Redirect("/order-history");
         }
 
         foreach (var item in basket.Items)
@@ -95,7 +95,7 @@ public class CheckOutModel : ShopularityPublicPageModel
                 .ToList()
         });
 
-        return Redirect("/my-orders");
+        return Redirect("/order-history");
     }
 
     public class BasketCheckoutCacheItem

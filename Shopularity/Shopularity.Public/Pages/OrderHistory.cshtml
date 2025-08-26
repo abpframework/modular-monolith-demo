@@ -1,14 +1,10 @@
-@page "/my-orders"
+@page "/order-history"
 @using Shopularity.Public.Pages
 @using Shopularity.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Shopularity.Ordering.Orders
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Alert
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Button
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Grid
-@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.ListGroup
 @inject IHtmlLocalizer<ShopularityResource> L
-@model MyOrdersModel
+@model OrderHistoryModel
 
 @section styles {
     <abp-style-bundle>
@@ -16,12 +12,12 @@
     </abp-style-bundle>
 }
 @section scripts {
-    <abp-script-bundle name="@typeof(MyOrdersModel).FullName">
-        <abp-script src="/Pages/myOrders.js"/>
+    <abp-script-bundle name="@typeof(OrderHistoryModel).FullName">
+        <abp-script src="/Pages/orderHistory.js"/>
     </abp-script-bundle>
 }
 
-<h4>My Orders</h4>
+<h4>@L["OrderHistory"]</h4>
     @if (Model.Orders.TotalCount > 0)
     {
             @foreach (var item in Model.Orders.Items)
