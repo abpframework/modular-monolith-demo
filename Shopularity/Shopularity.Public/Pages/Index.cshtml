@@ -5,6 +5,11 @@
 @inherits Shopularity.Public.Pages.ShopularityPublicPageBase
 @model IndexModel
 
+@section styles {
+    <abp-style-bundle>
+        <abp-style src="/Pages/Global.css"/>
+    </abp-style-bundle>
+}
 @section scripts {
     <abp-script-bundle name="@typeof(IndexModel).FullName">
         <abp-script src="/Pages/index.js"/>
@@ -13,23 +18,25 @@
 }
 
 <abp-row>
-    <abp-column size="_2">
-        <h4>@L["Categories"]</h4>
-        <div style="max-height:600px; overflow-y:auto;">
-            <abp-list-group>
-                <abp-list-group-item class="category-item" data-category-id="">
-                    @L["all"]
-                </abp-list-group-item>
-                @foreach (var category in Model.Categories)
-                {
-                    <abp-list-group-item class="category-item" data-category-name="@category.Name">
-                        <span class="category-item-text">@category.Name</span>
+    <abp-column size-sm="_4" size-md="_3" size-lg="_2">
+        <div class="position-sticky mb-5 mb-md-0" style="top: 30px;">
+            <h5>@L["Categories"]</h5>
+            <div class="category-list-container">
+                <abp-list-group>    
+                    <abp-list-group-item class="category-item" data-category-id="">
+                        <span class="category-item-text">@L["All"]</span>
                     </abp-list-group-item>
-                }
-            </abp-list-group>
+                    @foreach (var category in Model.Categories)
+                                                                   {
+                    <abp-list-group-item class="category-item" data-category-name="@category.Name">
+                    <span class="category-item-text">@category.Name</span>
+                        </abp-list-group-item>
+                    }
+                </abp-list-group>
+            </div> 
         </div>
     </abp-column>
-    <abp-column size="_10">
+    <abp-column size-sm="_8" size-md="_9" size-lg="_10">
         <div id="ShopularityProductList">
             
         </div>

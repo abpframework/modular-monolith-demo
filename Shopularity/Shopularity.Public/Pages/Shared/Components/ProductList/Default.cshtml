@@ -10,7 +10,7 @@
     <abp-row>
         @foreach (var item in Model.Items)
         {
-            <abp-column size="_4" class="d-flex mb-2">
+            <abp-column size-lg="_4" size-md="_6" class="d-flex mb-4">
                     @await Component.InvokeAsync(typeof(ProductItemViewComponent), new
                     {
                         model = new ProductItemViewModel(item)

@@ -7,6 +7,12 @@
 @inject IHtmlLocalizer<ShopularityResource> L
 @model ProductDetailsModel
 
+@section styles {
+    <abp-style-bundle>
+        <abp-style src="/Pages/Global.css"/>
+    </abp-style-bundle>
+}
+
 @section scripts {
     <abp-script-bundle name="@typeof(ProductDetailsModel).FullName">
         <abp-script src="/Pages/productDetails.js"/>
@@ -14,39 +20,41 @@
 }
 
 <div>
-    <abp-card class="w-100 h-100">
-        <abp-card-header>
-            <span>@Model.Item.Product.Name</span>
-        </abp-card-header>
-        <abp-card-body class="text-center">
-                <a href="/product-details/@(Model.Item.Product.Id)">
+    <abp-card class="w-100 h-100 px-lg-3">
+        <abp-card-body>
+            <div class="row">
+                <div class="col-lg">
                     <img src="/api/catalog/public/products/image/@(Model.Item.Product.Id)"
-                         style="max-width: 300px; max-height: 300px; border-radius: 8px;"
+                         class="product-image"
                          alt="@Model.Item.Product.Name"/>
-                </a>
-        </abp-card-body>
-        <abp-card-footer>
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="mb-0 fw-bold text-success">$@Model.Item.Product.Price</p>
+                </div>
+                <div class="col align-content-center">
+                    <div class="d-flex flex-column justify-content-between p-4 px-lg-5">
+                        <span class="h4 fw-light mb-3">@Model.Item.Product.Name</span>
+                        <div class="mb-4">
+                            <p class="fw-lighter mb-0">@Model.Item.Product.Description</p>
+                        </div>
+                        <span class="h4 fw-semibold mb-4">$@Model.Item.Product.Price</span>
+                        @if (CurrentUser.IsAuthenticated)
+                        {
+                            <abp-button size="Large" button-type="Primary"
+                                        class="addToBasket" data-product-id="@Model.Item.Product.Id">
+                                <i class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]
+                            </abp-button>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary btn-lg" href="~/Account/Login"><i
+                                    class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
+                        }
 
-                @if (CurrentUser.IsAuthenticated)
-                {
-                    <abp-button size="Small" button-type="Primary"
-                                class="addToBasket" data-product-id="@Model.Item.Product.Id">
-                        @L["AddToBasket"]
-                    </abp-button>
-                }
-                else
-                {
-                    <a class="btn btn-primary btn-sm" href="~/Account/Login">@L["AddToBasket"]</a>
-                }
+                        <p class="mb-0 mt-3 text-muted fw-lighter">
+                            @L["ItemLeftInStock", Model.Item.Product.StockCount]
+                        </p>
+
+                    </div>
+                </div>
             </div>
-
-            <p class="mt-1 text-muted small">
-                @L["ItemLeftInStock", Model.Item.Product.StockCount]
-            </p>
-
-            <p class="mt-2">@Model.Item.Product.Description</p>
-        </abp-card-footer>
+        </abp-card-body>
     </abp-card>
 </div>

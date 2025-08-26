@@ -1,0 +1,208 @@
+/* overwrites */
+body {
+    background-color: #f5f5f7;
+    color: #6e6e73;
+}
+p {
+    color: #6e6e73;
+}
+
+@media (min-width: 575px) { 
+    .navbar-nav {
+        flex-direction: row-reverse !important;
+        column-gap: 1.5rem;
+    }
+}
+.navbar .dropdown-menu {
+    margin: 0;
+    padding: 0;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 4px 8px 24px 0px #00000010;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: calc(100vh - 160px);
+}
+.navbar .dropdown-menu .dropdown-item {
+    padding: 6px 12px !important;
+    display: block;
+    min-width: 210px;
+    min-height: 28px !important;
+}
+.navbar .dropdown-menu .dropdown-item .fa { 
+    min-width: 28px; 
+    text-align: center;
+    color: #06947A !important;
+}
+.navbar .dropdown-menu .btn { 
+    text-align: center !important;
+    font-size: 16px !important;
+}
+.navbar .dropdown-menu .btn-sm {
+    --bs-btn-padding-y: 0rem !important;
+    --bs-btn-padding-x: 0.36rem !important; 
+}
+.navbar-brand {
+    background: linear-gradient(160deg, #02C6A2 -50%, #ffffff 100%); 
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    font-size: 24px; 
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.5px;
+    text-transform: capitalize; 
+}
+.card {
+    border: 0 !important;
+    overflow: hidden;
+    border-radius: 18px;
+    box-shadow: 2px 4px 12px 0px #00000005;
+    transition: all .3s cubic-bezier(0,0,.5,1);
+}
+.card-header, .card-footer {
+    border: 0 !important;
+    background: #fff;
+    border-radius: 0px;
+}
+.card:hover {
+    box-shadow: 4px 8px 24px 0px #00000010;
+}
+.card:hover .product-image.zoom {
+    transform: scale(1.1) rotate(2deg);
+}
+.btn {
+    font-weight: 500;
+    border-radius: 36px !important;
+    text-align: center;
+}
+.btn-primary {
+    background-color: #06947A !important;
+    border-color: #06947A !important;
+    border-radius: 30px;
+}
+.btn-primary:hover {
+    background-color: #06715e !important;
+}
+.bg-dark {
+    background-color: #1d1d1f !important;
+}
+.bg-danger {
+    background-color: #ff6100 !important;
+}
+.text-primary {
+    color: #06947A !important; 
+}
+.rounded {
+    border-radius: 12px !important;
+}
+.btn-lg, .btn-group-lg > .btn {
+    --bs-btn-padding-y: 0.75rem;
+    --bs-btn-padding-x: 1rem; 
+}
+
+
+
+/* product item */
+.product-name {
+    color: #6e6e73;
+}
+.product-price {
+    color: #1d1d1f;
+}
+.product-image {
+    max-width: 100%;
+    height: auto;
+    max-height: inherit;
+    transition: transform 0.35s;
+}
+
+
+/* category list button & hover */
+.card .list-btn { 
+    transition: all 0.2s;
+    border: none !important; 
+    background-color: #f5f5f7;
+    color: #6e6e73; 
+    padding: 12px 16px;
+    font-size: 14px !important; 
+}
+.card:hover .list-btn   {
+    background-color: #e9e9ef;
+    color: #1d1d1f;
+}
+.card .list-btn:hover   {
+    background-color: #06947A;
+    color: #fff;
+}
+
+
+/* category list */
+.category-list-container {
+    max-height:calc(100vh - 180px); 
+    overflow-y:auto;
+}
+@media (max-width: 575px) {
+    .category-list-container {
+        max-height: inherit;
+        overflow:hidden; 
+    }
+    .category-list-container .list-group { 
+        flex-direction: row;
+        flex-wrap: wrap !important;
+        gap: 0.5rem;
+    }
+    .category-list-container .list-group .list-group-item .category-item-text {
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: #e1e1e7;
+        font-size: 14px !important;
+    }
+    .category-list-container .list-group .list-group-item .selected-category{ 
+        background: #fff; 
+    }
+}
+.list-group-item {
+    padding: 0;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.list-group-item span{
+    padding: 3px 0;
+    display: block;
+    color: #6e6e73;
+}
+.list-group-item:hover span{
+    color: #06947A;
+}
+.list-group-item .selected-category{
+    color: #06947A;
+}
+
+ /* basket list */
+#shopularityBasketList > div:nth-child(odd){ 
+    background-color: #f5f5f7;
+}
+.remove-from-basket {
+    position: absolute;
+    top: -4px;
+    right: -6px;
+    color: #aaa;
+}
+.remove-from-basket:hover { 
+    color: #444;
+}
+
+/* toaster */
+.abp-toast { 
+    border-radius: 30px !important;
+}
+.abp-toast-success {
+    background-color: #06947A !important;
+    border-color: #06947A !important; 
+}
+.abp-toast-success p { 
+    color: white !important;
+}

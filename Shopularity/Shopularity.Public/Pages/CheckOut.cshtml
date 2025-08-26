@@ -13,33 +13,52 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject IHtmlLocalizer<ShopularityResource> L
 @model CheckOutModel
+@section styles {
+    <abp-style-bundle>
+        <abp-style src="/Pages/Global.css"/>
+    </abp-style-bundle>
+}
 
-<div>
-    <h2>@L["Items"]</h2>
-    <abp-list-group>
+<h4>@L["Items"]</h4>
+<abp-row>
+    <abp-column size-md="_8">
         @foreach (var item in Model.Items)
         {
-            <abp-list-group-item>
-                <abp-row>
-                    <abp-column size="_6">
-                        <img src="/api/catalog/public/products/image/@(item.Id)" style="width: 80px; height: auto; margin-right: 15px; border-radius: 4px;" alt="@item.Name"/>
-                    </abp-column>
-                    <abp-column size="_6">
-                        <h3>@item.Name</h3>
-                        <span>@L["Price"]: @item.Price</span>
-                        <span>@L["Amount"]: @item.Amount</span>
-                    </abp-column>
-                </abp-row>
-            </abp-list-group-item>
+            <abp-card>
+                <abp-card-body>
+                    <abp-row>
+                        <abp-column size="Auto">
+                            <img src="/api/catalog/public/products/image/@(item.Id)" style="width: 60px; height: auto;"
+                                 alt="@item.Name"/>
+                        </abp-column>
+                        <abp-column class="align-content-center">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-light">@item.Name</span>
+                                <span class="fw-semibold">$@item.Price</span>
+                            </div>
+                            <span class="fw-lighter">@L["Amount"]: @item.Amount</span>
+                        </abp-column>
+                    </abp-row>
+                </abp-card-body>
+            </abp-card>
         }
-    </abp-list-group>
-    <span class="fw-semibold">@L["TotalPrice"]</span>
-    <span class="fw-bold">$@Model.TotalPrice.ToString("F2")</span>
-    
-    <form method="post">
-        <abp-input asp-for="CacheId"/>
-        <abp-input asp-for="CreditCardNumber" info="@L["FakeCreditCardInfo"].Value"/>
-        <abp-input asp-for="Address"/>
-        <abp-button button-type="Success" type="submit">@L["CompleteOrder"]</abp-button>
-    </form>
-</div>
+    </abp-column>
+    <abp-column>
+        <abp-card>
+            <abp-card-body class="p-4">
+                <div class="d-flex justify-content-between">
+                    <span class="h4 fw-light">@L["TotalPrice"]</span>
+                    <span class="h4 fw-semibold text-primary">$@Model.TotalPrice.ToString("F2")</span>
+                </div>
+                <form method="post">
+                    <abp-input asp-for="CacheId"/>
+                    <abp-input asp-for="CreditCardNumber" info="@L["FakeCreditCardInfo"].Value"
+                               class="small fw-lighter text-muted"/>
+                    <abp-input asp-for="Address"/>
+                    <abp-button button-type="Primary" size="Large" type="submit"
+                                class="w-100">@L["CompleteOrder"]</abp-button>
+                </form>
+            </abp-card-body>
+        </abp-card>
+    </abp-column>
+</abp-row> 
