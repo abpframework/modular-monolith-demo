@@ -1,4 +1,5 @@
 ﻿using Shopularity.Ordering.Orders;
+using Shopularity.Ordering.Orders.Public;
 using Shopularity.Services.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -11,5 +12,5 @@ public interface IShopularityAppService : IApplicationService
 
     Task CancelOrderAsync(Guid id);
     
-    Task<PagedResultDto<OrderDto>> GetOrdersAsync();
+    Task<ListResultDto<OrderPublicDto>> GetOrdersAsync();
 }

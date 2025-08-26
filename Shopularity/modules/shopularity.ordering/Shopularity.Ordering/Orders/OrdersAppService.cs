@@ -14,6 +14,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity.Integration;
+using Volo.Abp.Users;
 
 namespace Shopularity.Ordering.Orders;
 
@@ -43,13 +44,20 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
 
     public virtual async Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input)
     {
-        var totalCount = await _orderRepository.GetCountAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
-        var items = await _orderRepository.GetListAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo, input.Sorting, input.MaxResultCount, input.SkipCount);
+        var targetUser = await FindFilterTargetUser(input.Username);
+
+        if (!input.Username.IsNullOrWhiteSpace() && targetUser == null)
+        {
+            return new PagedResultDto<OrderDto>();
+        }
+        
+        var totalCount = await _orderRepository.GetCountAsync(targetUser?.Id, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
+        var items = await _orderRepository.GetListAsync(targetUser?.Id, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo, input.Sorting, input.MaxResultCount, input.SkipCount);
         var itemsDto = ObjectMapper.Map<List<Order>, List<OrderDto>>(items);
 
         foreach (var itemDto in itemsDto)
         {
-            var user = await _userIntegrationService.FindByIdAsync(itemDto.UserId);
+            var user = targetUser ?? await _userIntegrationService.FindByIdAsync(itemDto.UserId);
             itemDto.Username = user.UserName;
         }
         
@@ -58,6 +66,21 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
             TotalCount = totalCount,
             Items = itemsDto
         };
+    }
+
+    private async Task<UserData?> FindFilterTargetUser(string? username)
+    {
+        UserData? targetUser;
+        if (!username.IsNullOrWhiteSpace())
+        {
+            targetUser = await _userIntegrationService.FindByUserNameAsync(username);
+        }
+        else
+        {
+            targetUser = null;
+        }
+
+        return targetUser;
     }
 
     public virtual async Task<OrderDto> GetAsync(Guid id)
@@ -110,10 +133,24 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
             throw new AbpAuthorizationException("Invalid download token: " + input.DownloadToken);
         }
 
-        var items = await _orderRepository.GetListAsync(input.FilterText, input.UserId, input.State, input.TotalPriceMin, input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
+        var targetUser = await FindFilterTargetUser(input.Username);
 
+        var itemsMapped = new List<OrderExcelDto>();
+        if (input.Username.IsNullOrWhiteSpace() || targetUser != null)
+        {
+            var items = await _orderRepository.GetListAsync(targetUser?.Id, input.State, input.TotalPriceMin,
+                input.TotalPriceMax, input.ShippingAddress, input.CargoNo);
+            itemsMapped = ObjectMapper.Map<List<Order>, List<OrderExcelDto>>(items);
+
+            foreach (var itemDto in itemsMapped)
+            {
+                var user = targetUser ?? await _userIntegrationService.FindByIdAsync(itemDto.UserId);
+                itemDto.Username = user.UserName;
+            }
+        }
+        
         var memoryStream = new MemoryStream();
-        await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Order>, List<OrderExcelDto>>(items));
+        await memoryStream.SaveAsAsync(itemsMapped);
         memoryStream.Seek(0, SeekOrigin.Begin);
 
         return new RemoteStreamContent(memoryStream, "Orders.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

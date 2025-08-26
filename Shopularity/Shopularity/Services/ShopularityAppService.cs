@@ -17,19 +17,16 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
 {
     private readonly OrderManager _orderManager;
     private readonly PaymentManager _paymentManager;
-    private readonly IOrdersAppService _ordersAppAdminService;
     private readonly IOrdersPublicAppService _ordersPublicAppService;
 
     public ShopularityAppService(
         OrderManager orderManager,
         PaymentManager paymentManager,
-        IOrdersAppService ordersAppAdminService,
         IOrdersPublicAppService ordersPublicAppService
     )
     {
         _orderManager = orderManager;
         _paymentManager = paymentManager;
-        _ordersAppAdminService = ordersAppAdminService;
         _ordersPublicAppService = ordersPublicAppService;
     }
     
@@ -53,14 +50,8 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
         await _orderManager.CancelAsync(id);
     }
 
-    public async Task<PagedResultDto<OrderDto>> GetOrdersAsync()
+    public async Task<ListResultDto<OrderPublicDto>> GetOrdersAsync()
     {
-        var result = await _ordersAppAdminService.GetListAsync(new GetOrdersInput
-        {
-            MaxResultCount = 1000,
-            UserId = CurrentUser.GetId()
-        });
-
-        return result;
+        return await _ordersPublicAppService.GetListAsync();
     }
 }

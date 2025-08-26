@@ -52,9 +52,9 @@
                     <Form id="OrderSearchForm">
                         <Addons>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit @bind-Text="@Filter.FilterText"
+                                <TextEdit @bind-Text="@Filter.Username"
                                           Autofocus="true"
-                                          Placeholder="@L["Search"]">
+                                          Placeholder="@L["Username"]">
                                 </TextEdit>
                             </Addon>
                             <Addon AddonType="AddonType.End">
@@ -203,6 +203,7 @@
 
                 <DataGridColumn TItem="OrderDto"
                                 Field="Username"
+                                Sortable="false"
                                 Caption="@L["Username"]">
                 </DataGridColumn>
 

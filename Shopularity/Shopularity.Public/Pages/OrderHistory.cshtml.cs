@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Ordering.Orders;
+using Shopularity.Ordering.Orders.Public;
 using Shopularity.Services.Orders;
 using Volo.Abp.Application.Dtos;
 
@@ -10,7 +11,7 @@ public class OrderHistoryModel : ShopularityPublicPageModel
 {
     public IShopularityAppService ShopularityAppService { get; }
     
-    public PagedResultDto<OrderDto> Orders { get; set; }
+    public ListResultDto<OrderPublicDto> Orders { get; set; }
 
     public OrderHistoryModel(IShopularityAppService shopularityAppService)
     {

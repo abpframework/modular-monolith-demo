@@ -149,7 +149,7 @@ public partial class Orders
             culture = "&culture=" + culture;
         }
         await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Default");
-        NavigationManager.NavigateTo($"{remoteService?.BaseUrl.EnsureEndsWith('/') ?? string.Empty}api/ordering/orders/as-excel-file?DownloadToken={token}&FilterText={HttpUtility.UrlEncode(Filter.FilterText)}{culture}&UserId={HttpUtility.UrlEncode(Filter.UserId.ToString())}&State={Filter.State}&TotalPriceMin={Filter.TotalPriceMin}&TotalPriceMax={Filter.TotalPriceMax}&ShippingAddress={HttpUtility.UrlEncode(Filter.ShippingAddress)}&CargoNo={HttpUtility.UrlEncode(Filter.CargoNo)}", forceLoad: true);
+        NavigationManager.NavigateTo($"{remoteService?.BaseUrl.EnsureEndsWith('/') ?? string.Empty}api/ordering/orders/as-excel-file?DownloadToken={token}&Username={HttpUtility.UrlEncode(Filter.Username)}&State={Filter.State}&TotalPriceMin={Filter.TotalPriceMin}&TotalPriceMax={Filter.TotalPriceMax}&ShippingAddress={HttpUtility.UrlEncode(Filter.ShippingAddress)}&CargoNo={HttpUtility.UrlEncode(Filter.CargoNo)}", forceLoad: true);
     }
 
     private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<OrderDto> e)
@@ -264,6 +264,12 @@ public partial class Orders
     protected virtual async Task OnCargoNoChangedAsync(string? cargoNo)
     {
         Filter.CargoNo = cargoNo;
+        await SearchAsync();
+    }
+        
+    protected virtual async Task OnUsernameChangedAsync(string? username)
+    {
+        Filter.Username = username;
         await SearchAsync();
     }
 

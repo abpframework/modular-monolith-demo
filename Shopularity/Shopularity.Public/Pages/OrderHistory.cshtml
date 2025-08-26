@@ -18,7 +18,7 @@
 }
 
 <h4>@L["OrderHistory"]</h4>
-    @if (Model.Orders.TotalCount > 0)
+    @if (Model.Orders.Items.Count > 0)
     {
             @foreach (var item in Model.Orders.Items)
             {

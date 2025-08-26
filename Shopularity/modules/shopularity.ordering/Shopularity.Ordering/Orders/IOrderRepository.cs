@@ -10,7 +10,6 @@ namespace Shopularity.Ordering.Orders;
 public interface IOrderRepository : IRepository<Order, Guid>
 {
     Task<List<Order>> GetListAsync(
-        string? filterText = null,
         Guid? userId = null,
         OrderState? state = null,
         double? totalPriceMin = null,
@@ -24,7 +23,6 @@ public interface IOrderRepository : IRepository<Order, Guid>
     );
 
     Task<long> GetCountAsync(
-        string? filterText = null,
         Guid? userId = null,
         OrderState? state = null,
         double? totalPriceMin = null,

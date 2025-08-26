@@ -21,7 +21,6 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingDbContext, Order, 
     }
 
     public virtual async Task<List<Order>> GetListAsync(
-        string? filterText = null,
         Guid? userId = null,
         OrderState? state = null,
         double? totalPriceMin = null,
@@ -33,13 +32,12 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingDbContext, Order, 
         int skipCount = 0,
         CancellationToken cancellationToken = default)
     {
-        var query = ApplyFilter((await WithDetailsAsync(x=> x.OrderLines)), filterText, userId, state, totalPriceMin, totalPriceMax, shippingAddress, cargoNo);
+        var query = ApplyFilter((await WithDetailsAsync(x=> x.OrderLines)), userId, state, totalPriceMin, totalPriceMax, shippingAddress, cargoNo);
         query = query.OrderBy(string.IsNullOrWhiteSpace(sorting) ? OrderConsts.GetDefaultSorting(false) : sorting);
         return await query.PageBy(skipCount, maxResultCount).ToListAsync(cancellationToken);
     }
 
     public virtual async Task<long> GetCountAsync(
-        string? filterText = null,
         Guid? userId = null,
         OrderState? state = null,
         double? totalPriceMin = null,
@@ -48,13 +46,12 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingDbContext, Order, 
         string? cargoNo = null,
         CancellationToken cancellationToken = default)
     {
-        var query = ApplyFilter((await GetDbSetAsync()), filterText, userId, state, totalPriceMin, totalPriceMax, shippingAddress, cargoNo);
+        var query = ApplyFilter((await GetDbSetAsync()), userId, state, totalPriceMin, totalPriceMax, shippingAddress, cargoNo);
         return await query.LongCountAsync(GetCancellationToken(cancellationToken));
     }
 
     protected virtual IQueryable<Order> ApplyFilter(
         IQueryable<Order> query,
-        string? filterText = null,
         Guid? userId = null,
         OrderState? state = null,
         double? totalPriceMin = null,
@@ -63,8 +60,7 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingDbContext, Order, 
         string? cargoNo = null)
     {
         return query
-            .WhereIf(!string.IsNullOrWhiteSpace(filterText), e => e.ShippingAddress!.Contains(filterText!) || e.CargoNo!.Contains(filterText!))
-            .WhereIf(userId != null, e => e.UserId == userId)
+            .WhereIf(userId.HasValue, e => e.UserId == userId)
             .WhereIf(state.HasValue, e => e.State == state)
             .WhereIf(totalPriceMin.HasValue, e => e.TotalPrice >= totalPriceMin!.Value)
             .WhereIf(totalPriceMax.HasValue, e => e.TotalPrice <= totalPriceMax!.Value)
