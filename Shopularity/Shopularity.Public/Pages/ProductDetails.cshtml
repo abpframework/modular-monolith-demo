@@ -12,6 +12,7 @@
         <abp-style src="/Pages/Global.css"/>
     </abp-style-bundle>
 }
+
 @section scripts {
     <abp-script-bundle name="@typeof(ProductDetailsModel).FullName">
         <abp-script src="/Pages/productDetails.js"/>
@@ -22,21 +23,18 @@
     <abp-card class="w-100 h-100 px-lg-3">
         <abp-card-body>
             <div class="row">
-                @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
-                {      
-                    <div class="col-lg">
-                    <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)"
-                        class="product-image"
-                        alt="@Model.Item.Product.Name"/> 
-                    </div>
-                }
-                <div class="col align-content-center"> 
+                <div class="col-lg">
+                    <img src="/api/catalog/public/products/image/@(Model.Item.Product.Id)"
+                         class="product-image"
+                         alt="@Model.Item.Product.Name"/>
+                </div>
+                <div class="col align-content-center">
                     <div class="d-flex flex-column justify-content-between p-4 px-lg-5">
-                        <span class="h4 fw-light mb-3">@Model.Item.Product.Name</span> 
+                        <span class="h4 fw-light mb-3">@Model.Item.Product.Name</span>
                         <div class="mb-4">
                             <p class="fw-lighter mb-0">@Model.Item.Product.Description</p>
                         </div>
-                        <span class="h4 fw-semibold mb-4">$@Model.Item.Product.Price</span> 
+                        <span class="h4 fw-semibold mb-4">$@Model.Item.Product.Price</span>
                         @if (CurrentUser.IsAuthenticated)
                         {
                             <abp-button size="Large" button-type="Primary"
@@ -46,8 +44,9 @@
                         }
                         else
                         {
-                            <a class="btn btn-primary btn-lg" href="~/Account/Login"><i class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
-                        } 
+                            <a class="btn btn-primary btn-lg" href="~/Account/Login"><i
+                                    class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
+                        }
 
                         <p class="mb-0 mt-3 text-muted fw-lighter">
                             @L["ItemLeftInStock", Model.Item.Product.StockCount]
@@ -56,6 +55,6 @@
                     </div>
                 </div>
             </div>
-        </abp-card-body> 
+        </abp-card-body>
     </abp-card>
 </div>

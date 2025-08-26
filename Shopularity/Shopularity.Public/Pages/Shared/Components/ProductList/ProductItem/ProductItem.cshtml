@@ -7,15 +7,12 @@
 
 <abp-card class="w-100 h-100">
     <abp-card-body class="text-center p-0">
-        @if (Model.Item.Product.Image != null && Model.Item.Product.Image.Length != 0)
-        {
-            <a href="/product-details/@(Model.Item.Product.Id)">
-                <img src="data:image/png;base64,@Convert.ToBase64String(Model.Item.Product.Image)"
-                     style=""
-                     class="product-image zoom"
-                     alt="@Model.Item.Product.Name"/>
-            </a>
-        }
+        <a href="/product-details/@(Model.Item.Product.Id)">
+            <img src="/api/catalog/public/products/image/@(Model.Item.Product.Id)"
+                 style=""
+                 class="product-image zoom"
+                 alt="@Model.Item.Product.Name"/>
+        </a>
     </abp-card-body>
     <abp-card-footer class="p-4 pt-2">
         <div class="d-flex flex-column ">
