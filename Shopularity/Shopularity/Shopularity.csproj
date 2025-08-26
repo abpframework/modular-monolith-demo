@@ -11,6 +11,9 @@
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageReference Include="Blazorise.Bootstrap5" Version="1.7.6" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.7.6" />
+    <PackageReference Include="Volo.CmsKit.Application" Version="9.2.3" />
+    <PackageReference Include="Volo.CmsKit.EntityFrameworkCore" Version="9.2.3" />
+    <PackageReference Include="Volo.CmsKit.HttpApi" Version="9.2.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.2.3" />

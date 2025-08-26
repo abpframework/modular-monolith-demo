@@ -1,3 +1,5 @@
+using Volo.CmsKit.Public.Web;
+using Volo.CmsKit;
 using Volo.Abp.EventBus.RabbitMq;
 using Shopularity.Basket.SignalR;
 using System;
@@ -36,6 +38,8 @@ using Volo.Abp.UI.Navigation;
 namespace Shopularity.Public;
 
 [DependsOn(
+    typeof(CmsKitPublicWebModule),
+    typeof(CmsKitHttpApiClientModule),
     typeof(AbpEventBusRabbitMqModule),
     typeof(ShopularityBasketSignalRModule),
     typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),

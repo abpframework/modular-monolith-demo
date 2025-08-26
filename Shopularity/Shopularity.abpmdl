@@ -48,6 +48,10 @@
     "Shopularity.Basket": {
       "path": "modules/shopularity.basket/Shopularity.Basket.abpmdl",
       "isInstalled": true
+    },
+    "Volo.CmsKit": {
+      "version": "9.2.3",
+      "isInstalled": true
     }
   },
   "packages": {

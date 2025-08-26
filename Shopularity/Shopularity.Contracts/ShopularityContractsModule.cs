@@ -1,3 +1,4 @@
+using Volo.CmsKit;
 using Shopularity.Payment;
 using Shopularity.Ordering;
 using Shopularity.Catalog;
@@ -19,6 +20,7 @@ using Volo.Abp.TenantManagement;
 namespace Shopularity;
 
 [DependsOn(
+    typeof(CmsKitDomainSharedModule),
     typeof(PaymentContractsModule),
     typeof(OrderingContractsModule),
     typeof(CatalogContractsModule),

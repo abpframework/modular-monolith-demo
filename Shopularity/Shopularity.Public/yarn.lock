@@ -59,12 +59,27 @@
     "@abp/core" "~9.2.3"
     bootstrap "^5.3.3"
 
+"@abp/cms-kit.public@9.2.3":
+  version "9.2.3"
+  resolved "https://registry.yarnpkg.com/@abp/cms-kit.public/-/cms-kit.public-9.2.3.tgz#d122ee6b6fffe281e2d0fa3d6ef393cf559d5256"
+  integrity sha512-vJDtzt1xtyeyjRWi+YolnSweraAmriClF8sylHRJDlIg6wWc6XSbJxftnMBQGXmgP9JNxiPI9RsuzpMZ7i7EOw==
+  dependencies:
+    "@abp/highlight.js" "~9.2.3"
+    "@abp/star-rating-svg" "~9.2.3"
+
 "@abp/core@~9.2.3":
   version "9.2.3"
   resolved "https://registry.yarnpkg.com/@abp/core/-/core-9.2.3.tgz#646aef4f238f6db53f92de538441c0682a7f59ca"
   integrity sha512-j4rsJK1ZCTjSfo+aDcUrZK6kXIeqXIqN7AtPjUI+UIHyxe7ZfIrvSUfB6ddVy0iWlO7PmFXbT2jfC7jETCucrw==
   dependencies:
     "@abp/utils" "~9.2.3"
+
+"@abp/core@~9.2.4":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@abp/core/-/core-9.2.4.tgz#b1b24f24e6fbc05726f0e8bf2d606c76cd1e3c51"
+  integrity sha512-02OUR/6/8u5qfAqB9KMgS0HudFqE065gx21A/Zj2lyPml9cBnTXlDVWiKnOjDgaRCduwHLhNokpSGoz7qzAT0A==
+  dependencies:
+    "@abp/utils" "~9.2.4"
 
 "@abp/core@~9.3.0":
   version "9.3.0"
@@ -97,6 +112,14 @@
     "@abp/core" "~9.2.3"
     "@fortawesome/fontawesome-free" "^6.6.0"
 
+"@abp/highlight.js@~9.2.3":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@abp/highlight.js/-/highlight.js-9.2.4.tgz#cc8cbca7a876a918f2e3f875470b81838f3e99e7"
+  integrity sha512-NrRcMCGsPuYj/6yKuNEo9Il3doyOZl280RN5P4l4SaZFMVq6wZcsDWBQpFacWVFDiu8SJ0eCPXFhbv0k4i9CEg==
+  dependencies:
+    "@abp/core" "~9.2.4"
+    "@highlightjs/cdn-assets" "~11.10.0"
+
 "@abp/jquery-form@~9.2.3":
   version "9.2.3"
   resolved "https://registry.yarnpkg.com/@abp/jquery-form/-/jquery-form-9.2.3.tgz#62e762052ff523321d6e02036f4bb148dd9d03a3"
@@ -127,6 +150,14 @@
   integrity sha512-F518ynGV8nSuVXjy4HyQTGp2loW7qmSjMlAYMxyDyEoaRAHa2oiVzqHgchXVxNvJ+hvRvWkCHey2KQ+a5pKsNQ==
   dependencies:
     "@abp/core" "~9.2.3"
+    jquery "~3.7.1"
+
+"@abp/jquery@~9.2.4":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@abp/jquery/-/jquery-9.2.4.tgz#7fdd09ce974bef7560482727dba186cd089f37d9"
+  integrity sha512-mDV/3YWnJPwr5ICLSaG1HdQsw5Wac7gPhsJdt8H5fqapvaI3nl/osgHfOvge5zaxnsFv2pXuBLlRp6eGqMKO1w==
+  dependencies:
+    "@abp/core" "~9.2.4"
     jquery "~3.7.1"
 
 "@abp/lodash@~9.2.3":
@@ -176,6 +207,14 @@
     "@abp/core" "~9.3.0"
     "@microsoft/signalr" "~8.0.7"
 
+"@abp/star-rating-svg@~9.2.3":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@abp/star-rating-svg/-/star-rating-svg-9.2.4.tgz#b1eaba1b18177982aced5cdbd8ca449f1bed3820"
+  integrity sha512-thnNbSsuk2VtQx9lHgorHagX1s0EVBWQPvuRgDS2Cv/U+tu/TQ5HqJE11Wv7OgXp12znTtfNT6fbULixSy7qiA==
+  dependencies:
+    "@abp/jquery" "~9.2.4"
+    star-rating-svg "^3.5.0"
+
 "@abp/sweetalert2@~9.2.3":
   version "9.2.3"
   resolved "https://registry.yarnpkg.com/@abp/sweetalert2/-/sweetalert2-9.2.3.tgz#8ea17876a330fd60d1c7bef1af4a40e7143b24cb"
@@ -199,6 +238,13 @@
   dependencies:
     just-compare "^2.3.0"
 
+"@abp/utils@~9.2.4":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@abp/utils/-/utils-9.2.4.tgz#abedd66ce3e6cfa10e21a1d41e41ec13d26e84f0"
+  integrity sha512-lm86rmdLb1CY09UeYXuXqiYCsdDAtQ4lDFpG80fGXuvyzh35I3OP4wMpa5nUeBYUrNm3k0LDhlsT/QTf8D1Jmg==
+  dependencies:
+    just-compare "^2.3.0"
+
 "@abp/utils@~9.3.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@abp/utils/-/utils-9.3.0.tgz#25668cdc5b58ea071aed300e04fdf9c9d44a41c5"
@@ -210,6 +256,11 @@
   version "6.7.2"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-6.7.2.tgz#8249de9b7e22fcb3ceb5e66090c30a1d5492b81a"
   integrity sha512-JUOtgFW6k9u4Y+xeIaEiLr3+cjoUPiAuLXoyKOJSia6Duzb7pq+A76P9ZdPDoAoxHdHzq6gE9/jKBGXlZT8FbA==
+
+"@highlightjs/cdn-assets@~11.10.0":
+  version "11.10.0"
+  resolved "https://registry.yarnpkg.com/@highlightjs/cdn-assets/-/cdn-assets-11.10.0.tgz#cbf79698d83eea89e5cde01fee40f1b7df46ad7f"
+  integrity sha512-vWXpu+Rdm0YMJmugFdUiL/9DmgYjEiV+d5DBqlXdApnGPSIeo6+LRS5Hpx6fvVsKkvR4RsLYD9rQ6DOLkj7OKA==
 
 "@microsoft/signalr@~8.0.7":
   version "8.0.17"
@@ -384,6 +435,11 @@ set-cookie-parser@^2.4.8:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.7.1.tgz#3016f150072202dfbe90fadee053573cc89d2943"
   integrity sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==
+
+star-rating-svg@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/star-rating-svg/-/star-rating-svg-3.5.0.tgz#72b147015a433da63153fb607af6d51c7c1ea364"
+  integrity sha512-ItfRzGQxDuf4IMR9VV7nfbbcfZ2pAkQ2xfiq/kLzeGUxnyZXttbJrI1erRM2CZedQ+Qu6+yS4u+hUGybkDGYEA==
 
 sweetalert2@^11.14.1:
   version "11.22.2"

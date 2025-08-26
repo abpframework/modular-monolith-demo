@@ -1,3 +1,4 @@
+using Volo.CmsKit.EntityFrameworkCore;
 using Volo.Abp.EventBus.RabbitMq;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
@@ -78,6 +79,9 @@ using Volo.Abp.EventBus.Distributed;
 namespace Shopularity;
 
 [DependsOn(
+    typeof(CmsKitHttpApiModule),
+    typeof(CmsKitEntityFrameworkCoreModule),
+    typeof(CmsKitApplicationModule),
     typeof(AbpEventBusRabbitMqModule),
     typeof(ShopularityContractsModule),
     

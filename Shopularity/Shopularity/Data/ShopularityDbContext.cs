@@ -1,4 +1,5 @@
-﻿using Shopularity.Basket.Data;
+﻿using Volo.CmsKit.EntityFrameworkCore;
+using Shopularity.Basket.Data;
 using Shopularity.Catalog.Data;
 using Shopularity.Payment.Data;
 using Shopularity.Ordering.Data;
@@ -37,8 +38,7 @@ public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>,
     {
         base.OnModelCreating(builder);
 
-        /* Include modules to your migration db context */
-
+        builder.ConfigureCmsKit();
         builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
         builder.ConfigureAuditLogging();
@@ -54,7 +54,6 @@ public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>,
         builder.ConfigureOrdering();
         builder.ConfigureEventOutbox();
         builder.ConfigureEventInbox();
-        /* Configure your own entities here */
     }
 }
 

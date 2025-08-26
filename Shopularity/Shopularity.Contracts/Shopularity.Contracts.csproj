@@ -21,6 +21,7 @@
     <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Contracts/Shopularity.Catalog.Contracts.csproj" />
     <ProjectReference Include="../modules/shopularity.ordering/Shopularity.Ordering.Contracts/Shopularity.Ordering.Contracts.csproj" />
     <ProjectReference Include="../modules/shopularity.payment/Shopularity.Payment.Contracts/Shopularity.Payment.Contracts.csproj" />
+    <PackageReference Include="Volo.CmsKit.Domain.Shared" Version="9.2.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="9.2.3" />
