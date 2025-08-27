@@ -34,12 +34,13 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation;
+using Volo.CmsKit.Public;
 
 namespace Shopularity.Public;
 
 [DependsOn(
+    typeof(CmsKitPublicHttpApiModule),
     typeof(CmsKitPublicWebModule),
-    typeof(CmsKitHttpApiClientModule),
     typeof(AbpEventBusRabbitMqModule),
     typeof(ShopularityBasketSignalRModule),
     typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
@@ -94,7 +95,7 @@ public class ShopularityPublicWebHostModule : AbpModule
     private static void ConfigureHttpClientProxies(ServiceConfigurationContext context)
     {
         context.Services.AddHttpClientProxies(typeof(ShopularityContractsModule).Assembly);
-        context.Services.AddHttpClientProxies(typeof(CmsKitApplicationContractsModule).Assembly);
+        context.Services.AddHttpClientProxies(typeof(CmsKitPublicApplicationContractsModule).Assembly);
         context.Services.AddHttpClientProxies(typeof(CatalogContractsModule).Assembly);
         context.Services.AddHttpClientProxies(typeof(OrderingContractsModule).Assembly);
         context.Services.AddHttpClientProxies(typeof(PaymentContractsModule).Assembly);

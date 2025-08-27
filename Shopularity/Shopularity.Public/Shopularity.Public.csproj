@@ -14,8 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="../Shopularity.Contracts/Shopularity.Contracts.csproj" />
     <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.SignalR/Shopularity.Basket.SignalR.csproj" />
-    <PackageReference Include="Volo.CmsKit.HttpApi.Client" Version="9.2.3" />
     <PackageReference Include="Volo.CmsKit.Public.Web" Version="9.2.3" />
+    <PackageReference Include="Volo.CmsKit.Public.HttpApi" Version="9.2.3" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AutoMapper" Version="9.2.3" />
