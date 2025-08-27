@@ -80,6 +80,7 @@ using Volo.Abp.Threading;
 using Volo.CmsKit;
 using Volo.CmsKit.Comments;
 using Volo.CmsKit.GlobalFeatures;
+using Volo.CmsKit.Ratings;
 
 namespace Shopularity;
 
@@ -238,20 +239,18 @@ public class ShopularityModule : AbpModule
         ConfigureVirtualFiles(hostingEnvironment);
         ConfigureEfCore(context);
         ConfigureEventBust();
+        ConfigureCmsKit();
+    }
+
+    private void ConfigureCmsKit()
+    {
         Configure<CmsKitCommentOptions>(options =>
         {
             options.EntityTypes.Add(new CommentEntityTypeDefinition("Product"));
-            //options.IsRecaptchaEnabled = true; //false by default
-            /*options.AllowedExternalUrls = new Dictionary<string, List<string>>
-            {
-                {
-                    "Product",
-                    new List<string>
-                    {
-                        "https://abp.io/"
-                    }
-                }
-            };*/
+        });
+        Configure<CmsKitRatingOptions>(options =>
+        {
+            options.EntityTypes.Add(new RatingEntityTypeDefinition("Product"));
         });
     }
 

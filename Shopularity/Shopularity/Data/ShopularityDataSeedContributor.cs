@@ -9,6 +9,7 @@ using Volo.Abp.Identity;
 using Volo.Abp.Uow;
 using Volo.Abp.Users;
 using Volo.CmsKit.Comments;
+using Volo.CmsKit.Ratings;
 using Volo.CmsKit.Users;
 
 namespace Shopularity.Data;
@@ -23,6 +24,7 @@ public class ShopularityDataSeedContributor : IDataSeedContributor, ITransientDe
     private readonly ICategoryRepository _categoryRepository;
     private readonly IUnitOfWorkAccessor _unitOfWorkAccessor;
     private readonly CommentManager _commentManager;
+    private readonly RatingManager _ratingManager;
     private readonly ICmsUserRepository _cmsUserRepository;
     private readonly ICommentRepository _commentRepository;
     private readonly IGuidGenerator _guidGenerator;
@@ -36,6 +38,7 @@ public class ShopularityDataSeedContributor : IDataSeedContributor, ITransientDe
         ICategoryRepository categoryRepository,
         IUnitOfWorkAccessor unitOfWorkAccessor,
         CommentManager commentManager,
+        RatingManager ratingManager,
         ICmsUserRepository cmsUserRepository,
         ICommentRepository commentRepository,
         IGuidGenerator guidGenerator,
@@ -48,6 +51,7 @@ public class ShopularityDataSeedContributor : IDataSeedContributor, ITransientDe
         _categoryRepository = categoryRepository;
         _unitOfWorkAccessor = unitOfWorkAccessor;
         _commentManager = commentManager;
+        _ratingManager = ratingManager;
         _cmsUserRepository = cmsUserRepository;
         _commentRepository = commentRepository;
         _guidGenerator = guidGenerator;
@@ -143,11 +147,10 @@ public class ShopularityDataSeedContributor : IDataSeedContributor, ITransientDe
                     for (var i = 0; i < dummyProduct.Reviews.Count; i++)
                     {
                         var review = dummyProduct.Reviews[i];
-                        var user = randomUsers[i];
-                        var comment = await _commentManager.CreateAsync(new CmsUser(user), "Product",
-                            product.Id.ToString(),
-                            review.Comment);
+                        var cmsUser = new CmsUser(randomUsers[i]);
+                        var comment = await _commentManager.CreateAsync(cmsUser, "Product",product.Id.ToString(),review.Comment);
                         await _commentRepository.InsertAsync(comment);
+                        await _ratingManager.SetStarAsync(cmsUser, "Product", product.Id.ToString(), review.Rating);
                     }
                 }
             }
@@ -209,7 +212,7 @@ public class ShopularityDataSeedContributor : IDataSeedContributor, ITransientDe
 
     private class DummyProductReview
     {
-        public int Rating { get; set; }
+        public short Rating { get; set; }
 
         public string Comment { get; set; } = "";
     }

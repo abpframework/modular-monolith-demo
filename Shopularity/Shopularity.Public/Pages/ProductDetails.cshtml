@@ -4,6 +4,7 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Volo.Abp.Users
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Commenting
+@using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating
 @inject ICurrentUser CurrentUser
 @inject IHtmlLocalizer<ShopularityResource> L
 @model ProductDetailsModel
@@ -58,12 +59,18 @@
             </div>
         </abp-card-body>
         <abp-card-footer>
+            @await Component.InvokeAsync(typeof(RatingViewComponent), new
+            {
+                entityType = "Product",
+                entityId = Model.Item.Product.Id.ToString(),
+                isReadOnly = false
+            })
             @await Component.InvokeAsync(typeof(CommentingViewComponent), new
             {
                 entityType = "Product",
                 entityId = Model.Item.Product.Id.ToString(),
                 isReadOnly = false,
-                referralLinks  = new [] {"nofollow"}
+                referralLinks = new[] { "nofollow" }
             })
         </abp-card-footer>
     </abp-card>

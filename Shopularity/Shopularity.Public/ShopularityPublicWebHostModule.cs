@@ -94,6 +94,7 @@ public class ShopularityPublicWebHostModule : AbpModule
     private static void ConfigureHttpClientProxies(ServiceConfigurationContext context)
     {
         context.Services.AddHttpClientProxies(typeof(ShopularityContractsModule).Assembly);
+        context.Services.AddHttpClientProxies(typeof(CmsKitApplicationContractsModule).Assembly);
         context.Services.AddHttpClientProxies(typeof(CatalogContractsModule).Assembly);
         context.Services.AddHttpClientProxies(typeof(OrderingContractsModule).Assembly);
         context.Services.AddHttpClientProxies(typeof(PaymentContractsModule).Assembly);
