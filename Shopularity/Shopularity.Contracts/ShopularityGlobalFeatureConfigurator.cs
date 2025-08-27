@@ -14,6 +14,7 @@ public static class ShopularityGlobalFeatureConfigurator
             GlobalFeatureManager.Instance.Modules.CmsKit(cmsKit =>
             {
                 cmsKit.Comments.Enable();
+                cmsKit.Ratings.Enable();
             });  
         });
     }
