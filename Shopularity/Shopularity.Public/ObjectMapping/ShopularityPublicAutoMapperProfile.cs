@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Shopularity.Catalog.Products.Public;
+using Shopularity.Public.Components.Basket;
 using Shopularity.Public.Pages;
 using Volo.Abp.AutoMapper;
 
@@ -10,5 +11,6 @@ public class ShopularityPublicAutoMapperProfile : Profile
     public ShopularityPublicAutoMapperProfile()
     {
         CreateMap<ProductPublicDto, CheckOutModel.BasketCacheItemModel>().Ignore(x=> x.Amount);
+        CreateMap<ProductPublicDto, BasketViewItemModel>().Ignore(x=> x.Amount);
     }
 }
