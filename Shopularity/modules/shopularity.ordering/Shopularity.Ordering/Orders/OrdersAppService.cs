@@ -104,9 +104,8 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         var order = await _orderRepository.GetAsync(id);
 
         if (order.State != OrderState.Processing)
-        {
-            //todo: business exception
-            throw new UserFriendlyException("Order is not available for shipping!!");
+        {            
+            throw new BusinessException(OrderingErrorCodes.OrderIsNotAvailableYetForShipping);
         }
             
         order.CargoNo = input.CargoNo;

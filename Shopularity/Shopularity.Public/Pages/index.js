@@ -12,7 +12,7 @@
     $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9&categoryName=" + encodeURIComponent(selectedCategory));
 
     let skip = 9;
-    let loading = false; // todo: show loading indicator?
+    let loading = false;
     let done = false;
 
     $(window).on("scroll", function() {

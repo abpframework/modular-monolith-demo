@@ -36,12 +36,11 @@ public class OrderManager : DomainService
     public virtual async Task<Order> CreateNewAsync(
         Guid userId,
         string shippingAddress,
-        List<ProductWithAmountDto> productDtos) //todo: make items list of class
+        List<ProductWithAmountDto> productDtos)
     {
         Check.NotNull(userId, nameof(userId));
         Check.NotNullOrWhiteSpace(shippingAddress, nameof(shippingAddress));
         Check.Length(shippingAddress, nameof(shippingAddress), OrderConsts.ShippingAddressMaxLength);
-        //todo: check stock count
 
         var order = new Order(
             GuidGenerator.Create(),
@@ -97,14 +96,12 @@ public class OrderManager : DomainService
 
         if (order.UserId != _currentUser.GetId())
         {
-            // todo: business exception
-            throw new UserFriendlyException("Can't cancel someone else's order!!");
+            throw new BusinessException(OrderingErrorCodes.CanOnlyCancelOwnedOrders);
         }
 
         if (order.State is OrderState.Shipped or OrderState.Completed or OrderState.Cancelled)
         {
-            // todo: business exception
-            throw new UserFriendlyException("Can't cancel shipped, completed or cancelled orders!!");
+            throw new BusinessException(OrderingErrorCodes.CanOnlyCancelNotShippedOrders);
         }
 
         order.State = OrderState.Cancelled;
