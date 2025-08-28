@@ -59,12 +59,6 @@
             </div>
         </abp-card-body>
         <abp-card-footer>
-            @await Component.InvokeAsync(typeof(RatingViewComponent), new
-            {
-                entityType = "Product",
-                entityId = Model.Item.Product.Id.ToString(),
-                isReadOnly = false
-            })
             @await Component.InvokeAsync(typeof(CommentingViewComponent), new
             {
                 entityType = "Product",
