@@ -23,7 +23,6 @@ using Shopularity.Ordering;
 using Shopularity.Payment;
 using Shopularity.Public.Bundling;
 using Shopularity.Public.Menus;
-using Shopularity.Public.SignalR;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
@@ -67,8 +66,6 @@ public class ShopularityPublicWebHostModule : AbpModule
         ConfigureHttpClientProxies(context);
         ConfigureAutoMapper(context);
         ConfigureBundling();
-        
-        context.Services.AddHostedService<ExternalBasketHubService>();
     }
 
     private void ConfigureBundling()

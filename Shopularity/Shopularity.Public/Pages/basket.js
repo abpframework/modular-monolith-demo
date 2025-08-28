@@ -86,7 +86,8 @@
             if (abp.currentUser && abp.currentUser.id) {
                 renderBasketItems();
                 initBasketCount();
-                const connection = new signalR.HubConnectionBuilder().withUrl(abp.appPath + "signalr-hubs/basket").build();
+                console.log(abp.remoteServiceUrl);
+                const connection = new signalR.HubConnectionBuilder().withUrl(abp.remoteServiceUrl + "/signalr-hubs/basket").build();
 
                 connection.on("BasketUpdated", function (result) {
                     renderBasketItems();

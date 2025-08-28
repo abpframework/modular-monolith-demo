@@ -1,5 +1,11 @@
-﻿@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+﻿@using Microsoft.Extensions.Configuration
+@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+@inject IConfiguration Configuration
 @inject IThemeManager ThemeManager
 @{
     Layout = ThemeManager.CurrentTheme.GetPublicLayout();
 }
+<script>
+    window.abp = window.abp || {};
+    abp.remoteServiceUrl = '@(Configuration["RemoteServices:Default:BaseUrl"])';
+</script>

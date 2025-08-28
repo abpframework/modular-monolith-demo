@@ -22,7 +22,7 @@ public class BasketSignalREventHandler
     {
         await _basketHub
             .Clients
-            .All
+            .User(eventData.UserId.ToString())
             .SendAsync(
                 "BasketUpdated",
                 eventData
