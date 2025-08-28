@@ -1,6 +1,7 @@
 {
   "culture": "en",
   "texts": {
+    "Basket:NotEnoughStock": "Not enough stock!",
     "MyAccount":  "My account",
     "SamplePageMessage": "A sample page for the Basket module"
   }

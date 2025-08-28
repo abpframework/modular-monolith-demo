@@ -129,8 +129,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
 
         if (!isStockEnough)
         {
-            //todo: make business exception
-            throw new UserFriendlyException("Not enough stock for the product!");
+            throw new BusinessException(BasketErrorCodes.NotEnoughStock);
         }
     }
 }

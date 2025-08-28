@@ -27,8 +27,7 @@ public class ProductsIntegrationService : CatalogAppService, IProductsIntegratio
 
             if (product.StockCount < amount)
             {
-                //todo: make business exception
-                throw new UserFriendlyException("Not enough stock for the product!");
+                throw new BusinessException(CatalogErrorCodes.NotEnoughStock);
             }
         }
         

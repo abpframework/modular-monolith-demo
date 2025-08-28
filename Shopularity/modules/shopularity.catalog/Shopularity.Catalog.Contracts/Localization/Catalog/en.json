@@ -1,6 +1,7 @@
 {
   "Culture": "en",
   "Texts": {
+    "Catalog:NotEnoughStock": "Not enough stock!",
     "MyAccount": "My account",
     "SamplePageMessage": "A sample page for the Catalog module",
     "Permission:Categories": "Categories",

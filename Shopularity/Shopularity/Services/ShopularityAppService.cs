@@ -34,8 +34,7 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
     {
         if (input.Products.Count == 0)
         {
-            //todo: make business exception
-            throw new UserFriendlyException("Order should contain a product!");
+            throw new BusinessException(ShopularityErrorCodes.OrderShouldContainProducts);
         }
 
         var order = await _ordersPublicAppService.CreateAsync(new OrderCreatePublicDto
