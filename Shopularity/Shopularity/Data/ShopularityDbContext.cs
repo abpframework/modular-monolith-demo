@@ -8,7 +8,6 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.DistributedEvents;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
@@ -18,16 +17,10 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Shopularity.Data;
 
-public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>,
-    IHasEventOutbox,
-    IHasEventInbox
+public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>
 {
     public const string DbTablePrefix = "App";
     public const string DbSchema = null;
-
-    public DbSet<OutgoingEventRecord> OutgoingEvents { get; set; }
-    
-    public DbSet<IncomingEventRecord> IncomingEvents { get; set; }
 
     public ShopularityDbContext(DbContextOptions<ShopularityDbContext> options)
         : base(options)
@@ -51,8 +44,6 @@ public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>,
         builder.ConfigureCatalog();
         builder.ConfigurePayment();
         builder.ConfigureOrdering();
-        builder.ConfigureEventOutbox();
-        builder.ConfigureEventInbox();
         builder.ConfigureCmsKit();
     }
 }
