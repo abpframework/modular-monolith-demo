@@ -49,7 +49,9 @@ dotnet run --migrate-database
 
 This command will create and seed the initial database. Then you can run the application with any IDE that supports .NET.
 
-Happy coding..!
+## Default credicredentials
+
+Default password for the user `admin` is `1q2w3E*`.
 
 ## Deploying the application
 
