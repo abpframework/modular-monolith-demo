@@ -6,6 +6,7 @@ using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Shopularity;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -66,6 +67,15 @@ public class ShopularityPublicWebHostModule : AbpModule
         ConfigureHttpClientProxies(context);
         ConfigureAutoMapper(context);
         ConfigureBundling();
+        ConfigurePages();
+    }
+
+    private void ConfigurePages()
+    {
+        Configure<RazorPagesOptions>(options =>
+        {
+            options.Conventions.AuthorizePage("/order-history");
+        });
     }
 
     private void ConfigureBundling()
