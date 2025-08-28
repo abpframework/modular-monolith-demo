@@ -1,6 +1,7 @@
 using Volo.CmsKit.EntityFrameworkCore;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -233,12 +234,12 @@ public class ShopularityModule : AbpModule
         ConfigureMultiTenancy();
         ConfigureMenu(context);
         ConfigureUrls(configuration);
+        ConfigureCors(context, configuration);
         ConfigureAutoMapper(context);
         ConfigureSwagger(context.Services);
         ConfigureAutoApiControllers();
         ConfigureVirtualFiles(hostingEnvironment);
         ConfigureEfCore(context);
-        ConfigureEventBust();
         ConfigureCmsKit();
     }
 
@@ -251,21 +252,6 @@ public class ShopularityModule : AbpModule
         Configure<CmsKitRatingOptions>(options =>
         {
             options.EntityTypes.Add(new RatingEntityTypeDefinition("Product"));
-        });
-    }
-
-    private void ConfigureEventBust()
-    {
-        Configure<AbpDistributedEventBusOptions>(options =>
-        {
-            options.Outboxes.Configure(config =>
-            {
-                config.UseDbContext<ShopularityDbContext>();
-            });
-            options.Inboxes.Configure(config =>
-            {
-                config.UseDbContext<ShopularityDbContext>();
-            });
         });
     }
 
@@ -442,6 +428,28 @@ public class ShopularityModule : AbpModule
         
     }
 
+    private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        context.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
+            {
+                builder
+                    .WithOrigins(
+                        configuration["App:CorsOrigins"]?
+                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(o => o.Trim().RemovePostFix("/"))
+                            .ToArray() ?? Array.Empty<string>()
+                    )
+                    .WithAbpExposedHeaders()
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
+    }
+
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
@@ -459,6 +467,20 @@ public class ShopularityModule : AbpModule
         {
             app.UseErrorPage();
         }
+        
+        app.Use(async (httpContext, next) =>
+        {
+            var accessToken = httpContext.Request.Query["access_token"];
+
+            var path = httpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/signalr-hubs/basket")))
+            {
+                httpContext.Request.Headers["Authorization"] = "Bearer " + accessToken;
+            }
+
+            await next();
+        });
 
         app.UseCorrelationId();
         app.UseAbpSecurityHeaders();
@@ -473,6 +495,7 @@ public class ShopularityModule : AbpModule
             app.UseMultiTenancy();
         }
 
+        app.UseCors();
         app.UseUnitOfWork();
         app.UseDynamicClaims();
         app.UseAntiforgery();
