@@ -1,5 +1,4 @@
 using Volo.CmsKit.EntityFrameworkCore;
-using Volo.Abp.EventBus.RabbitMq;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
@@ -67,6 +66,7 @@ using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Shopularity.Basket;
 using Shopularity.Basket.Blazor;
+using Shopularity.Basket.SignalR;
 using Shopularity.Catalog.Blazor;
 using Shopularity.Catalog;
 using Shopularity.Payment.Blazor;
@@ -88,7 +88,6 @@ namespace Shopularity;
     typeof(CmsKitHttpApiModule),
     typeof(CmsKitEntityFrameworkCoreModule),
     typeof(CmsKitApplicationModule),
-    typeof(AbpEventBusRabbitMqModule),
     typeof(ShopularityContractsModule),
     
     // Ordering module packages
@@ -98,6 +97,7 @@ namespace Shopularity;
     // Basket module packages
     typeof(BasketBlazorModule),
     typeof(BasketModule),
+    typeof(ShopularityBasketSignalRModule),
     
     // Catalog module packages
     typeof(CatalogBlazorModule),

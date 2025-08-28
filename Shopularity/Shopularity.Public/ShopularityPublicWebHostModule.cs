@@ -1,7 +1,5 @@
 using Volo.CmsKit.Public.Web;
 using Volo.CmsKit;
-using Volo.Abp.EventBus.RabbitMq;
-using Shopularity.Basket.SignalR;
 using System;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -25,9 +23,11 @@ using Shopularity.Ordering;
 using Shopularity.Payment;
 using Shopularity.Public.Bundling;
 using Shopularity.Public.Menus;
+using Shopularity.Public.SignalR;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
+using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Security.Claims;
@@ -39,10 +39,9 @@ using Volo.CmsKit.Public;
 namespace Shopularity.Public;
 
 [DependsOn(
+    typeof(AbpAspNetCoreSignalRModule),
     typeof(CmsKitPublicHttpApiModule),
     typeof(CmsKitPublicWebModule),
-    typeof(AbpEventBusRabbitMqModule),
-    typeof(ShopularityBasketSignalRModule),
     typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
     typeof(AbpHttpClientIdentityModelWebModule),
     typeof(ShopularityContractsModule),
@@ -68,6 +67,8 @@ public class ShopularityPublicWebHostModule : AbpModule
         ConfigureHttpClientProxies(context);
         ConfigureAutoMapper(context);
         ConfigureBundling();
+        
+        context.Services.AddHostedService<ExternalBasketHubService>();
     }
 
     private void ConfigureBundling()
@@ -167,6 +168,7 @@ public class ShopularityPublicWebHostModule : AbpModule
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
+        var config = context.GetConfiguration();
 
         if (env.IsDevelopment())
         {

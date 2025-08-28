@@ -18,9 +18,7 @@
     }
   },
   "containers": {
-    "files": {
-      "../docker/containers/rabbitmq.yml": {}
-    },
+    "files": {},
     "serviceName": "Shopularity-containers"
   },
   "folders": {
