@@ -13,6 +13,12 @@ p {
         column-gap: 1.5rem;
     }
 }
+
+.navbar .dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
 .navbar .dropdown-menu {
     margin: 0;
     padding: 0;
