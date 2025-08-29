@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Shopularity.Catalog.Categories;
-using Shopularity.Catalog.Products.Admin;
-using Shopularity.Catalog.Products.Events;
-using Shopularity.Catalog.Products.Public;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.EventBus.Distributed;
 
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Public;
 
 [RemoteService(IsEnabled = false)]
 public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppService
