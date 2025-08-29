@@ -10,7 +10,6 @@ public interface ICategoryRepository : IRepository<Category, Guid>
 {
     Task<List<Category>> GetListAsync(
         string? filterText = null,
-        string? name = null,
         string? sorting = null,
         int maxResultCount = int.MaxValue,
         int skipCount = 0,
@@ -19,6 +18,5 @@ public interface ICategoryRepository : IRepository<Category, Guid>
 
     Task<long> GetCountAsync(
         string? filterText = null,
-        string? name = null,
         CancellationToken cancellationToken = default);
 }

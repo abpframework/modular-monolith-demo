@@ -1,7 +1,7 @@
 (function ($) {
     var l = abp.localization.getResource('Shopularity');
 
-    $(document).on('click', '.remove-from-basket', function() {
+    $(document).on('click', '.remove-from-basket', function () {
         var $container = $(this).closest('.basket-item').find('.amount-control');
         var $value = $container.find('.amount-value');
         var amount = parseInt($value.text(), 10) || 0;
@@ -15,25 +15,25 @@
             });
     });
 
-    $(document).on('click', '.amount-plus', function() {
+    $(document).on('click', '.amount-plus', function () {
         var $container = $(this).closest('.amount-control');
 
         shopularity.public.controllers.basket.addItemToBasket({
             itemId: $container.data('product-id'),
             amount: 1
-            })
+        })
             .then(function (result) {
                 // let signalr update ui
             });
     });
 
-    $(document).on('click', '.amount-minus', function() {
+    $(document).on('click', '.amount-minus', function () {
         var $container = $(this).closest('.amount-control');
 
         shopularity.public.controllers.basket.removeItemFromBasket({
             itemId: $container.data('product-id'),
             amount: 1
-            })
+        })
             .then(function (result) {
                 // let signalr update ui
             });
@@ -51,18 +51,18 @@
                 .text('');
             return;
         }
-        
+
         var displayCount = count > 99 ? '99+' : String(count);
         $basketCountArea.text(displayCount)
             .removeClass('d-none');
     }
-    
+
     initBasketCount = function () {
         shopularity.public.controllers.basket.getCountOfItemsInBasket({}).then(function (result) {
             updateBasketCount(result);
         });
     }
-    
+
     renderBasketItems = function () {
         var $basketArea = $('#ShopularityBasket');
         if ($basketArea.length === 0) {
@@ -71,7 +71,7 @@
         const renderApi = '/api/basket/basket/render';
         $basketArea.load(renderApi);
     }
-    
+
     abp.event.on('abp.serviceProxyScriptInitialized', function () {
         $(function () {
             if (abp.currentUser && abp.currentUser.id) {

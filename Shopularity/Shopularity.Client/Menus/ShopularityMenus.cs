@@ -1,6 +1,6 @@
 ﻿namespace Shopularity.Menus;
 
-public class ShopularityMenus
+public static class ShopularityMenus
 {
     private const string Prefix = "Shopularity";
 

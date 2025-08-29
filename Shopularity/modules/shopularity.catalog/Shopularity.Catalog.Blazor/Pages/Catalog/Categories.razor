@@ -29,7 +29,7 @@
     <CardBody>
 
         <Row>
-            <div class="col col-md-8 col-lg-10">
+            <div class="col col-12">
                 <div class="mb-3">
                     <Form id="CategorySearchForm">
                         <Addons>
@@ -48,32 +48,7 @@
                     </Form>
                 </div>
             </div>
-
-            <div class="col-md-4 col-lg-2">
-                <div class="mb-3">
-                    <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
-                            Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">
-                        @L["Filters"]
-                        <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
-                    </Button>
-                </div>
-            </div>
-
-            <div style="display: @(!ShowAdvancedFilters ? "none" : "block")" class="mt-3">
-                <Row>
-                    <Column ColumnSize="ColumnSize.Is3">
-                        <Field>
-                            <FieldLabel>@L["Name"]</FieldLabel>
-                            <TextEdit Text="@Filter.Name" TextChanged="@OnNameChangedAsync"/>
-                        </Field>
-                    </Column>
-                </Row>
-
-            </div>
-
         </Row>
-
-
     </CardBody>
 </Card>
 

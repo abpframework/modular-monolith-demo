@@ -16,9 +16,8 @@ namespace Shopularity.Catalog.Blazor.Pages.Catalog;
 
 public partial class Categories
 {
-    protected List<Volo.Abp.BlazoriseUI.BreadcrumbItem> BreadcrumbItems = new List<Volo.Abp.BlazoriseUI.BreadcrumbItem>();
-    protected PageToolbar Toolbar {get;} = new PageToolbar();
-    protected bool ShowAdvancedFilters { get; set; }
+    protected List<Volo.Abp.BlazoriseUI.BreadcrumbItem> BreadcrumbItems = new();
+    protected PageToolbar Toolbar {get;} = new ();
     public DataGrid<CategoryDto> DataGridRef { get; set; }
     private IReadOnlyList<CategoryDto> CategoryList { get; set; }
     private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
@@ -37,8 +36,6 @@ public partial class Categories
     private Modal EditCategoryModal { get; set; } = new();
     private GetCategoriesInput Filter { get; set; }
     private DataGridEntityActionsColumn<CategoryDto> EntityActionsColumn { get; set; } = new();
-    protected string SelectedCreateTab = "category-create-tab";
-    protected string SelectedEditTab = "category-edit-tab";
     private CategoryDto? SelectedCategory;
         
     public Categories()
@@ -86,21 +83,6 @@ public partial class Categories
 
         return ValueTask.CompletedTask;
     }
-        
-    private void ToggleDetails(CategoryDto category)
-    {
-        DataGridRef.ToggleDetailRow(category, true);
-    }
-        
-    private bool RowSelectableHandler( RowSelectableEventArgs<CategoryDto> rowSelectableEventArgs )
-        => rowSelectableEventArgs.SelectReason is not DataGridSelectReason.RowClick && CanDeleteCategory;
-            
-    private bool DetailRowTriggerHandler(DetailRowTriggerEventArgs<CategoryDto> detailRowTriggerEventArgs)
-    {
-        detailRowTriggerEventArgs.Toggleable = false;
-        detailRowTriggerEventArgs.DetailRowTriggerType = DetailRowTriggerType.Manual;
-        return true;
-    }
 
     private async Task SetPermissionsAsync()
     {
@@ -123,13 +105,6 @@ public partial class Categories
         TotalCount = (int)result.TotalCount;
     }
 
-    protected virtual async Task SearchAsync()
-    {
-        CurrentPage = 1;
-        await GetCategoriesAsync();
-        await InvokeAsync(StateHasChanged);
-    }
-
     private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<CategoryDto> e)
     {
         CurrentSorting = e.Columns
@@ -145,8 +120,6 @@ public partial class Categories
     {
         NewCategory = new CategoryCreateDto();
 
-        SelectedCreateTab = "category-create-tab";
-            
         await NewCategoryValidations.ClearAll();
         await CreateCategoryModal.Show();
     }
@@ -159,8 +132,6 @@ public partial class Categories
 
     private async Task OpenEditCategoryModalAsync(CategoryDto input)
     {
-        SelectedEditTab = "category-edit-tab";
-            
         var category = await CategoriesAppService.GetAsync(input.Id);
             
         EditingCategoryId = category.Id;
@@ -217,21 +188,5 @@ public partial class Categories
         {
             await HandleErrorAsync(ex);
         }
-    }
-
-    private void OnSelectedCreateTabChanged(string name)
-    {
-        SelectedCreateTab = name;
-    }
-
-    private void OnSelectedEditTabChanged(string name)
-    {
-        SelectedEditTab = name;
-    }
-
-    protected virtual async Task OnNameChangedAsync(string? name)
-    {
-        Filter.Name = name;
-        await SearchAsync();
     }
 }

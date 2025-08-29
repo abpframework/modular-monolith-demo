@@ -23,8 +23,8 @@ public class CategoriesAppService : CatalogAppService, ICategoriesAppService
 
     public virtual async Task<PagedResultDto<CategoryDto>> GetListAsync(GetCategoriesInput input)
     {
-        var totalCount = await _categoryRepository.GetCountAsync(input.FilterText, input.Name);
-        var items = await _categoryRepository.GetListAsync(input.FilterText, input.Name, input.Sorting, input.MaxResultCount, input.SkipCount);
+        var totalCount = await _categoryRepository.GetCountAsync(input.FilterText);
+        var items = await _categoryRepository.GetListAsync(input.FilterText, input.Sorting, input.MaxResultCount, input.SkipCount);
 
         return new PagedResultDto<CategoryDto>
         {
