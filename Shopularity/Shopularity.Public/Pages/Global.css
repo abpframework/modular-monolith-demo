@@ -9,7 +9,6 @@ p {
 
 @media (min-width: 575px) { 
     .navbar-nav {
-        flex-direction: row-reverse !important;
         column-gap: 1.5rem;
     }
 }

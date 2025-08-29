@@ -12,9 +12,6 @@
         })
             .then(function (result) {
                 // let signalr update ui
-            })
-            .catch(function (error) {
-                abp.notify.error(l('ErrorRemovingFromBasket'));
             });
     });
 
@@ -27,9 +24,6 @@
             })
             .then(function (result) {
                 // let signalr update ui
-            })
-            .catch(function (error) {
-                abp.notify.error(l('ErrorAddingToBasket'));
             });
     });
 
@@ -42,9 +36,6 @@
             })
             .then(function (result) {
                 // let signalr update ui
-            })
-            .catch(function (error) {
-                abp.notify.error(l('ErrorRemovingFromBasket'));
             });
     });
 

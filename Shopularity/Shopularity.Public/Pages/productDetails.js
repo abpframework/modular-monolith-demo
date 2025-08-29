@@ -7,10 +7,6 @@
         basketAppService.addItemToBasket({itemId: id, amount: 1})
             .then(function (result) {
                 abp.notify.success(l('AddedToBasket'));
-            })
-            .catch(function (error) {
-                console.error(error);
-                abp.notify.error(l('ErrorAddingToBasket'));
             });
     });
     
