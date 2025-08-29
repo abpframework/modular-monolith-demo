@@ -72,7 +72,8 @@
                     <Button Color="Color.Primary" Outline Style="width:100%" id="AdvancedFilterSectionToggler"
                             Clicked="@(() => ShowAdvancedFilters = !ShowAdvancedFilters)">
                         @L["Filters"]
-                        <i aria-hidden="true" class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
+                        <i aria-hidden="true"
+                           class="fa ms-1 @(!ShowAdvancedFilters ? "fa-angle-down" : "fa-angle-up")"></i>
                     </Button>
                 </div>
             </div>
@@ -161,7 +162,8 @@
             <EmptyTemplate>
                 <Row Class="w-100 align-items-center" Style="height: 150px;">
                     <Column>
-                        <Heading Size="HeadingSize.Is4" TextAlignment="TextAlignment.Center">@L["NoDataAvailable"]</Heading>
+                        <Heading Size="HeadingSize.Is4"
+                                 TextAlignment="TextAlignment.Center">@L["NoDataAvailable"]</Heading>
                     </Column>
                 </Row>
             </EmptyTemplate>
@@ -175,11 +177,13 @@
                         <DisplayTemplate>
                             @if (context.Id == SelectedOrder?.Id)
                             {
-                                <i class="fas fa-chevron-up" @onclick="() => ToggleDetails(context)" style="cursor: pointer;"/>
+                                <i class="fas fa-chevron-up" @onclick="() => ToggleDetails(context)"
+                                   style="cursor: pointer;"/>
                             }
                             else
                             {
-                                <i class="fas fa-chevron-down" @onclick="() => ToggleDetails(context)" style="cursor: pointer;"/>
+                                <i class="fas fa-chevron-down" @onclick="() => ToggleDetails(context)"
+                                   style="cursor: pointer;"/>
                             }
                         </DisplayTemplate>
                     </DataGridColumn>
@@ -195,7 +199,7 @@
                             <EntityAction TItem="OrderDto"
                                           Visible="@CanEditOrder"
                                           Clicked="async () => await OpenEditOrderModalAsync(context)"
-                                          Text="@(context.State.IsShipped() ? L["Details"]: L["Edit"])">
+                                          Text="@(context.State.IsShipped() ? L["Details"] : L["Edit"])">
                             </EntityAction>
                         </EntityActions>
                     </DisplayTemplate>
@@ -211,7 +215,7 @@
                                 Field="State"
                                 Caption="@L["State"]">
                     <DisplayTemplate>
-                        @L[$"Enum:OrderState.{(int) context.State}"]
+                        @L[$"Enum:OrderState.{(int)context.State}"]
                     </DisplayTemplate>
                 </DataGridColumn>
 
@@ -258,12 +262,6 @@
                                         <DataGridColumns>
                                             <DataGridCommandColumn/>
 
-
-                                            <DataGridColumn TItem="OrderLineDto"
-                                                            Field="ProductId"
-                                                            Caption="@L["ProductId"]">
-                                            </DataGridColumn>
-
                                             <DataGridColumn TItem="OrderLineDto"
                                                             Field="Name"
                                                             Caption="@L["Name"]">
@@ -302,7 +300,7 @@
 
         <Form id="EditOrderForm">
             <ModalHeader>
-                <ModalTitle>@(EditingOrder.State.IsShipped() ? L["Details"]: L["Update"])</ModalTitle>
+                <ModalTitle>@(EditingOrder.State.IsShipped() ? L["Details"] : L["Update"])</ModalTitle>
                 <CloseButton Clicked="CloseEditOrderModalAsync"/>
             </ModalHeader>
             <ModalBody>
@@ -330,16 +328,17 @@
                         </span>
                     </Field>
 
-                @if(EditingOrder.State is OrderState.New or OrderState.WaitingForPayment or OrderState.Paid or OrderState.Processing)
+                    @if (EditingOrder.State is OrderState.New or OrderState.WaitingForPayment or OrderState.Paid or OrderState.Processing)
                     {
                         <Validation MessageLocalizer="@LH.Localize">
                             <Field>
                                 <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                                    <MemoEdit @bind-Text="@EditingOrder.ShippingAddress" MaxLength="OrderConsts.ShippingAddressMaxLength">
-                                        <Feedback>
-                                            <ValidationError/>
-                                        </Feedback>
-                                    </MemoEdit>
+                                <MemoEdit @bind-Text="@EditingOrder.ShippingAddress"
+                                          MaxLength="OrderConsts.ShippingAddressMaxLength">
+                                    <Feedback>
+                                        <ValidationError/>
+                                    </Feedback>
+                                </MemoEdit>
                             </Field>
                         </Validation>
                     }
@@ -364,7 +363,7 @@
             <ModalFooter>
                 <Button Color="Color.Secondary"
                         Clicked="CloseEditOrderModalAsync">
-                    @(EditingOrder.State.IsShipped() ? L["Ok"]: L["Cancel"])
+                    @(EditingOrder.State.IsShipped() ? L["Ok"] : L["Cancel"])
                 </Button>
                 @if (!EditingOrder.State.IsShipped())
                 {
