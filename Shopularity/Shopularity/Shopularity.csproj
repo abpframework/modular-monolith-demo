@@ -68,7 +68,6 @@
     <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Blazor/Shopularity.Catalog.Blazor.csproj" />
     <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket/Shopularity.Basket.csproj" />
     <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Blazor/Shopularity.Basket.Blazor.csproj" />
-    <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.SignalR/Shopularity.Basket.SignalR.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="9.2.3" />

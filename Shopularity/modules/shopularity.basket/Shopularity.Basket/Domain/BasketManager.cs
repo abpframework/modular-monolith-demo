@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Shopularity.Basket.Services;
+using Shopularity.Basket.SignalR;
 using Volo.Abp.Caching;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -14,13 +16,15 @@ namespace Shopularity.Basket.Domain;
 
 public class BasketManager: DomainService
 {
-    private readonly IDistributedEventBus _eventBus;
     private readonly IDistributedCache<BasketCacheItem> _cache;
+    private readonly IHubContext<BasketHub> _basketHub;
 
-    public BasketManager(IDistributedEventBus eventBus, IDistributedCache<BasketCacheItem> cache)
+    public BasketManager(
+        IDistributedCache<BasketCacheItem> cache,
+        IHubContext<BasketHub> basketHub)
     {
-        _eventBus = eventBus;
         _cache = cache;
+        _basketHub = basketHub;
     }
     
 
@@ -52,13 +56,17 @@ public class BasketManager: DomainService
         {
             await _cache.RemoveAsync(userId.ToString());
         }
-        
-        await _eventBus.PublishAsync(
-            new BasketUpdatedEto
-            {
-                UserId = userId,
-                ItemCountInBasket = basket.Items.Count
-            });
+
+        await _basketHub
+            .Clients
+            .User(userId.ToString())
+            .SendAsync(
+                "BasketUpdated",
+                new BasketUpdatedEto
+                {
+                    ItemCountInBasket = basket.Items.Count
+                }
+            );
     }
 
     private async Task<BasketCacheItem> GetBasketAsync(Guid userId)

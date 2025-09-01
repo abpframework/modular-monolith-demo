@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
+using Shopularity.Basket.SignalR;
 using Shopularity.Catalog.Products;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -17,18 +17,18 @@ namespace Shopularity.Basket.Services;
 [Authorize]
 public class BasketAppService : BasketAppServiceBase, IBasketAppService
 {
-    private readonly IDistributedEventBus _eventBus;
     private readonly IDistributedCache<BasketCacheItem> _cache;
     private readonly IProductsIntegrationService _productsService;
+    private readonly IHubContext<BasketHub> _basketHub;
 
     public BasketAppService(
-        IDistributedEventBus eventBus,
         IDistributedCache<BasketCacheItem> cache,
-        IProductsIntegrationService productsService)
+        IProductsIntegrationService productsService,
+        IHubContext<BasketHub> basketHub)
     {
-        _eventBus = eventBus;
         _cache = cache;
         _productsService = productsService;
+        _basketHub = basketHub;
     }
 
     public async Task AddItemToBasketAsync(BasketItem input)
@@ -48,13 +48,16 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
 
         await _cache.SetAsync(CurrentUser.GetId().ToString(), basket);
 
-        await _eventBus.PublishAsync(
-            new BasketUpdatedEto
-            {
-                UserId = CurrentUser.GetId(),
-                ItemCountInBasket = basket.Items.Count
-            }
-        );
+        await _basketHub
+            .Clients
+            .User(CurrentUser.GetId().ToString())
+            .SendAsync(
+                "BasketUpdated",
+                new BasketUpdatedEto
+                {
+                    ItemCountInBasket = basket.Items.Count
+                }
+            );
     }
 
     public async Task RemoveItemFromBasketAsync(BasketItem input)
@@ -82,14 +85,17 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         {
             await _cache.RemoveAsync(CurrentUser.GetId().ToString());
         }
-
-        await _eventBus.PublishAsync(
-            new BasketUpdatedEto
-            {
-                UserId = CurrentUser.GetId(),
-                ItemCountInBasket = basket.Items.Count
-            }
-        );
+        
+        await _basketHub
+            .Clients
+            .User(CurrentUser.GetId().ToString())
+            .SendAsync(
+                "BasketUpdated",
+                new BasketUpdatedEto
+                {
+                    ItemCountInBasket = basket.Items.Count
+                }
+            );
     }
 
     public async Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync()

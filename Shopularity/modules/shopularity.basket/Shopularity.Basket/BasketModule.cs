@@ -5,6 +5,7 @@ using Volo.Abp.Application;
 using Volo.Abp.EntityFrameworkCore;
 using Shopularity.Basket.Data;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.SignalR;
 
 namespace Shopularity.Basket;
 
@@ -13,6 +14,7 @@ namespace Shopularity.Basket;
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule),
     typeof(AbpAspNetCoreMvcModule),
+    typeof(AbpAspNetCoreSignalRModule),
     typeof(AbpEntityFrameworkCoreModule)
 )]
 public class BasketModule : AbpModule

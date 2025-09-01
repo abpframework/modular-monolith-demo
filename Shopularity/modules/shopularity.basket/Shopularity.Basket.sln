@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBD}") = "Shopularity.Basket.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.Blazor", "Shopularity.Basket.Blazor\Shopularity.Basket.Blazor.csproj", "{827FCC18-A22B-4175-82CD-1233F6DEE8FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.SignalR", "Shopularity.Basket.SignalR\Shopularity.Basket.SignalR.csproj", "{0EC15246-B461-4B1B-A3EE-F8CE7063D889}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,18 +69,6 @@ Global
 		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|x64.Build.0 = Release|Any CPU
 		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|x86.ActiveCfg = Release|Any CPU
 		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|x86.Build.0 = Release|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Debug|x64.Build.0 = Debug|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Debug|x86.Build.0 = Debug|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Release|x64.ActiveCfg = Release|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Release|x64.Build.0 = Release|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Release|x86.ActiveCfg = Release|Any CPU
-		{0EC15246-B461-4B1B-A3EE-F8CE7063D889}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

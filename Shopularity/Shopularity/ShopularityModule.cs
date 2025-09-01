@@ -67,20 +67,14 @@ using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Shopularity.Basket;
 using Shopularity.Basket.Blazor;
-using Shopularity.Basket.SignalR;
 using Shopularity.Catalog.Blazor;
 using Shopularity.Catalog;
 using Shopularity.Payment.Blazor;
 using Shopularity.Payment;
 using Shopularity.Ordering.Blazor;
 using Shopularity.Ordering;
-using Volo.Abp.EntityFrameworkCore.DistributedEvents;
-using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.GlobalFeatures;
-using Volo.Abp.Threading;
 using Volo.CmsKit;
 using Volo.CmsKit.Comments;
-using Volo.CmsKit.GlobalFeatures;
 using Volo.CmsKit.Ratings;
 
 namespace Shopularity;
@@ -98,7 +92,6 @@ namespace Shopularity;
     // Basket module packages
     typeof(BasketBlazorModule),
     typeof(BasketModule),
-    typeof(ShopularityBasketSignalRModule),
     
     // Catalog module packages
     typeof(CatalogBlazorModule),
