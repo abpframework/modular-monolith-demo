@@ -47,7 +47,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
 
         await _cache.SetAsync(CurrentUser.GetId().ToString(), basket);
 
-        await _basketHub
+        await _basketHub //TODO: Local event -> signalR (+ try-catch / hide errors)
             .Clients
             .User(CurrentUser.GetId().ToString())
             .SendAsync(

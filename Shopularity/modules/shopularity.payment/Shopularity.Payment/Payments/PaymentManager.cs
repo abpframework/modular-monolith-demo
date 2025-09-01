@@ -36,8 +36,8 @@ public class PaymentManager : DomainService
             TotalPrice = totalPrice
         };
 
-        payment = await _paymentRepository.InsertAsync(payment);
-        await _unitOfWorkAccessor.UnitOfWork!.SaveChangesAsync();
+        payment = await _paymentRepository.InsertAsync(payment, autoSave: true);
+        //await _unitOfWorkAccessor.UnitOfWork!.SaveChangesAsync();
 
         await _eventBus.PublishAsync(new PaymentCreatedEto
         {

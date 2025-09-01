@@ -28,7 +28,9 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
     
     public virtual async Task<OrderDto> CreateAsync(OrderCreatePublicDto input)
     {
-        var products = await _productsIntegrationService.GetProductsWithAmountControlAsync(input.Products);
+        // TODO: GetProductsWithAmountControlAsync is unnecessary
+        var products = await _productsIntegrationService
+            .GetProductsWithAmountControlAsync(input.Products);
         
         var order = await _orderManager.CreateNewAsync(
             CurrentUser.GetId(),

@@ -66,6 +66,7 @@ public class OrderManager : DomainService
             await _orderLineRepository.InsertAsync(orderLine);
             order.OrderLines.Add(orderLine);
                 
+            // TODO: Discard this event and handle OrderCreatedEto in catalog module
             await _eventBus.PublishAsync(new ProductStockDecreaseEto
             {
                 ProductId = product.Product.Id,
@@ -79,7 +80,8 @@ public class OrderManager : DomainService
             UserId = _currentUser.GetId(),
             Products = productDtos
         });
-            
+
+        // TODO: Discard this event and use OrderCreatedEto in payment module
         await _eventBus.PublishAsync(new PaymentOrderCreatedEto
         {
             OrderId = order.Id,

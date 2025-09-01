@@ -10,6 +10,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Shopularity.Services;
 
+//TODO: Remove this service
 [Authorize]
 [RemoteService]
 public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppService
