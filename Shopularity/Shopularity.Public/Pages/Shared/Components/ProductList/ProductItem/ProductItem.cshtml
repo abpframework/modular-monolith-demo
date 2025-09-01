@@ -22,10 +22,20 @@
             </div>
             @if (CurrentUser.IsAuthenticated)
             {
-                <abp-button 
-                    class="btn list-btn addToBasket" data-product-id="@Model.Item.Product.Id">
-                    <i class="fa-solid fa-cart-plus me-2"></i>  @L["AddToBasket"]
-                </abp-button>
+                @if (Model.Item.Product.StockCount <= 0)
+                {
+                    <abp-button 
+                        class="btn list-btn addToBasket" disabled="true" data-product-id="@Model.Item.Product.Id">
+                        <i class="fa-solid fa-ban me-2"></i>  @L["NotInStock"]
+                    </abp-button>
+                }
+                else
+                {
+                    <abp-button 
+                        class="btn list-btn addToBasket" data-product-id="@Model.Item.Product.Id">
+                        <i class="fa-solid fa-cart-plus me-2"></i>  @L["AddToBasket"]
+                    </abp-button>
+                }
             }
             else
             {

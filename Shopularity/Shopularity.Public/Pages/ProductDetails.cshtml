@@ -39,10 +39,20 @@
                         <span class="h4 fw-semibold mb-4">$@Model.Item.Product.Price</span>
                         @if (CurrentUser.IsAuthenticated)
                         {
-                            <abp-button size="Large" button-type="Primary"
-                                        class="addToBasket" data-product-id="@Model.Item.Product.Id">
-                                <i class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]
-                            </abp-button>
+                            @if (Model.Item.Product.StockCount <= 0)
+                            {
+                                <abp-button size="Large" button-type="Primary" disabled="true"
+                                            class="addToBasket" data-product-id="@Model.Item.Product.Id">
+                                    <i class="fa-solid fa-ban me-3"></i> @L["NotInStock"]
+                                </abp-button>
+                            }
+                            else
+                            {
+                                <abp-button size="Large" button-type="Primary"
+                                            class="addToBasket" data-product-id="@Model.Item.Product.Id">
+                                    <i class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]
+                                </abp-button>
+                            }
                         }
                         else
                         {
@@ -50,9 +60,12 @@
                                                                                                                class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
                         }
 
-                        <p class="mb-0 mt-3 text-muted fw-lighter">
-                            @L["ItemLeftInStock", Model.Item.Product.StockCount]
-                        </p>
+                        @if (Model.Item.Product.StockCount > 0)
+                        {
+                            <p class="mb-0 mt-3 text-muted fw-lighter">
+                                @L["ItemLeftInStock", Model.Item.Product.StockCount]
+                            </p>
+                        }
                     </div>
                 </div>
             </div>

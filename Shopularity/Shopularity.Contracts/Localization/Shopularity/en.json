@@ -12,6 +12,7 @@
     "ErrorAddingToBasket": "Could not add the item to basket",
     "ErrorRemovingFromBasket": "Could not remove the item from basket",
     "AddToBasket": "Add to Basket",
+    "NotInStock": "Not in stock",
     "ProductWithCount{0}": "{0} product(s)",
     "ItemLeftInStock": "{0} left in stock",
     "YouHaventOrderedYet": "You haven't ordered anything yet.",
