@@ -4,6 +4,7 @@ using Shopularity.Ordering;
 using Shopularity.Catalog;
 using Shopularity.Basket;
 using Shopularity.Localization;
+using Shopularity.Ordering.Localization;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -53,6 +54,7 @@ public class ShopularityContractsModule : AbpModule
             options.Resources
                 .Add<ShopularityResource>("en")
                 .AddBaseTypes(typeof(AbpValidationResource))
+                .AddBaseTypes(typeof(OrderingResource))
                 .AddVirtualJson("/Localization/Shopularity");
 
             options.DefaultResourceType = typeof(ShopularityResource);

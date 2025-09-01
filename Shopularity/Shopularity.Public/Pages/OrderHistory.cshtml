@@ -38,7 +38,7 @@
 
                         <abp-column size-md="_2" class="mb-2 order-state">
                             <span class="text-muted fw-lighter">@L["State"]</span>
-                            <div class="fw-semibold order-state-label">@item.State</div> 
+                            <div class="fw-semibold order-state-label">@L[$"Enum:OrderState.{(int)item.State}"]</div> 
                         </abp-column>
 
                         <abp-column size-md="_2" class="mb-2">
