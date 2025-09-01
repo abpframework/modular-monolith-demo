@@ -95,11 +95,6 @@ public class OrderManager : DomainService
     {
         var order = await _orderRepository.GetAsync(id);
 
-        if (order.UserId != _currentUser.GetId())
-        {
-            throw new BusinessException(OrderingErrorCodes.CanOnlyCancelOwnedOrders);
-        }
-
         if (order.State is OrderState.Shipped or OrderState.Completed or OrderState.Cancelled)
         {
             throw new BusinessException(OrderingErrorCodes.CanOnlyCancelNotShippedOrders);

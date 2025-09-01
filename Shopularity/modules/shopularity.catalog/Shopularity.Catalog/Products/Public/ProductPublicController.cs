@@ -1,13 +1,12 @@
-using Asp.Versioning;
 using System;
 using System.Threading.Tasks;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Catalog.Products.Public;
 using Volo.Abp;
-using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 
-namespace Shopularity.Catalog.Products;
+namespace Shopularity.Catalog.Products.Public;
 
 [RemoteService(Name = "Catalog")]
 [Area("catalog")]

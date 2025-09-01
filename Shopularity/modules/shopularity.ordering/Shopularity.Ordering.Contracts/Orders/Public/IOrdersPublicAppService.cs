@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -9,4 +10,6 @@ public interface IOrdersPublicAppService : IApplicationService
     Task<OrderDto> CreateAsync(OrderCreatePublicDto input);
     
     Task<ListResultDto<OrderPublicDto>> GetListAsync();
+    
+    Task CancelAsync(Guid id);
 }

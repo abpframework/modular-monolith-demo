@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Basket.Services;
+using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Products.Public;
-using Shopularity.Services.Dtos;
-using Shopularity.Services.Orders;
+using Shopularity.Ordering.Orders.Public;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 using Volo.Abp.Caching;
@@ -18,7 +18,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 {
     public IBasketAppService BasketAppService { get; }
     public IProductsPublicAppService ProductsPublicAppService { get; }
-    public IShopularityAppService ShopularityAppService { get; }
+    public IOrdersPublicAppService OrdersPublicAppService { get; }
     public IDistributedCache<BasketCheckoutCacheItem> Cache { get; }
 
     [HiddenInput] [BindProperty] public string CacheId { get; set; }
@@ -34,12 +34,12 @@ public class CheckOutModel : ShopularityPublicPageModel
     public CheckOutModel(
         IBasketAppService basketAppService,
         IProductsPublicAppService productsPublicAppService,
-        IShopularityAppService shopularityAppService,
+        IOrdersPublicAppService ordersPublicAppService,
         IDistributedCache<BasketCheckoutCacheItem> cache)
     {
         BasketAppService = basketAppService;
         ProductsPublicAppService = productsPublicAppService;
-        ShopularityAppService = shopularityAppService;
+        OrdersPublicAppService = ordersPublicAppService;
         Cache = cache;
     }
 
@@ -83,17 +83,15 @@ public class CheckOutModel : ShopularityPublicPageModel
         {
             throw new UserFriendlyException("Time out! Please refresh the page to continue checking-out.");
         }
-
-        await ShopularityAppService.CreateOrderAsync(new NewOrderInputDto
+        
+        await OrdersPublicAppService.CreateAsync(new OrderCreatePublicDto
         {
-            Address = Address,
-            CreditCardNo = CreditCardNumber,
-            Products = basketFromCache.Items.Select(x => new BasketItem
-                {
-                    ItemId = x.Id,
-                    Amount = x.Amount
-                })
-                .ToList()
+            ShippingAddress = Address,
+            Products = basketFromCache.Items.Select(x=> new ProductIdsWithAmountDto
+            {
+                ProductId = x.Id,
+                Amount = x.Amount
+            }).ToList(),
         });
 
         return Redirect("/order-history");

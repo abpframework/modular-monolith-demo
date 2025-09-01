@@ -4,10 +4,11 @@
     $(".cancel-order").click(function () {
         var $button = $(this);
         var id = $(this).data('order-id');
-        shopularity.public.controllers.shopularity.cancelOrder(id)
+        
+        shopularity.public.controllers.ordering.cancel(id)
             .then(function () {
                 $button.addClass("d-none")
-                var $state = $button.closest('.order-state').find('.order-state-label');
+                var $state = $($($button.parent()).parent().parent()).find('.order-state-label');
                 $state.text(l('Cancelled'));
                 abp.notify.success(l('CancelledOrder'));
             })

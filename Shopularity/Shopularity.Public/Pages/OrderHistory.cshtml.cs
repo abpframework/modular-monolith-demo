@@ -1,25 +1,23 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Ordering.Orders.Public;
-using Shopularity.Services.Orders;
 using Volo.Abp.Application.Dtos;
 
 namespace Shopularity.Public.Pages;
 
 public class OrderHistoryModel : ShopularityPublicPageModel
 {
-    public IShopularityAppService ShopularityAppService { get; }
-    
+    public IOrdersPublicAppService OrdersPublicAppService { get; }
     public ListResultDto<OrderPublicDto> Orders { get; set; }
 
-    public OrderHistoryModel(IShopularityAppService shopularityAppService)
+    public OrderHistoryModel(IOrdersPublicAppService ordersPublicAppService)
     {
-        ShopularityAppService = shopularityAppService;
+        OrdersPublicAppService = ordersPublicAppService;
     }
     
     public virtual async Task<ActionResult> OnGetAsync()
     {
-        Orders = await ShopularityAppService.GetOrdersAsync();
+        Orders = await OrdersPublicAppService.GetListAsync();
         
         return Page();
     }

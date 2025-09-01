@@ -55,7 +55,7 @@
                             <div class="fw-semibold">@item.CreationTime.ToString()</div>
                         </abp-column>
                         <abp-column size-md="_1" class="mb-2">
-                            @if (item.State is OrderState.New or OrderState.Paid or OrderState.WaitingForPayment or OrderState.Processing)
+                            @if (!item.State.IsShipped() && item.State != OrderState.Cancelled)
                             {
                                 <abp-button button-type="Danger" size="Small" class="cancel-order w-100"
                                             data-order-id="@item.Id">
