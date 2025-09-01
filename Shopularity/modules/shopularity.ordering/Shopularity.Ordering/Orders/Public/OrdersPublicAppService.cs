@@ -47,7 +47,10 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
 
     public async Task<ListResultDto<OrderPublicDto>> GetListAsync()
     {
-        var items = await (await _orderRepository.GetQueryableAsync()).Where(x=> x.UserId == CurrentUser.GetId()).ToListAsync();
+        var items = await (await _orderRepository.GetQueryableAsync())
+            .Where(x=> x.UserId == CurrentUser.GetId())
+            .Include(x=> x.OrderLines)
+            .ToListAsync();
         
         return new ListResultDto<OrderPublicDto>
         {
