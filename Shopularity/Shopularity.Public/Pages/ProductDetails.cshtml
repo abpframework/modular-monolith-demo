@@ -60,10 +60,16 @@
                                                                                                                class="fa-solid fa-cart-plus me-3"></i> @L["AddToBasket"]</a>
                         }
 
-                        @if (Model.Item.Product.StockCount > 0)
+                        @if (Model.Item.Product.StockCount > 5)
                         {
                             <p class="mb-0 mt-3 text-muted fw-lighter">
                                 @L["ItemLeftInStock", Model.Item.Product.StockCount]
+                            </p>
+                        }
+                        else if (Model.Item.Product.StockCount > 0)
+                        {
+                            <p class="mb-0 mt-3 fw-lighter text-danger">
+                                @L["OnlyItemLeftInStock", Model.Item.Product.StockCount]
                             </p>
                         }
                     </div>

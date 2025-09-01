@@ -15,6 +15,7 @@
     "NotInStock": "Not in stock",
     "ProductWithCount{0}": "{0} product(s)",
     "ItemLeftInStock": "{0} left in stock",
+    "OnlyItemLeftInStock": "Only {0} left in stock!",
     "YouHaventOrderedYet": "You haven't ordered anything yet.",
     "OrderHistory": "Order History",
     "ShowBasket": "Show my basket",

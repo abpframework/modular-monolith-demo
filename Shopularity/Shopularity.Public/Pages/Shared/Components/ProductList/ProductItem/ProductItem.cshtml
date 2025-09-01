@@ -17,23 +17,23 @@
     <abp-card-footer class="p-4 pt-2">
         <div class="d-flex flex-column ">
             <div class="d-flex flex-row justify-content-between mb-2 px-1">
-                <span class="product-name h6 fw-light">@Model.Item.Product.Name</span> 
+                <span class="product-name h6 fw-light">@Model.Item.Product.Name</span>
                 <span class="product-price h6 fw-semibold ">$@Model.Item.Product.Price</span>
             </div>
             @if (CurrentUser.IsAuthenticated)
             {
                 @if (Model.Item.Product.StockCount <= 0)
                 {
-                    <abp-button 
+                    <abp-button
                         class="btn list-btn addToBasket" disabled="true" data-product-id="@Model.Item.Product.Id">
-                        <i class="fa-solid fa-ban me-2"></i>  @L["NotInStock"]
+                        <i class="fa-solid fa-ban me-2"></i> @L["NotInStock"]
                     </abp-button>
                 }
                 else
                 {
-                    <abp-button 
+                    <abp-button
                         class="btn list-btn addToBasket" data-product-id="@Model.Item.Product.Id">
-                        <i class="fa-solid fa-cart-plus me-2"></i>  @L["AddToBasket"]
+                        <i class="fa-solid fa-cart-plus me-2"></i> @L["AddToBasket"]
                     </abp-button>
                 }
             }
@@ -42,7 +42,7 @@
                 <a class="btn list-btn button-login-required" href="~/Account/Login">
                     <i class="fa-solid fa-cart-plus me-2"></i> @L["AddToBasket"]
                 </a>
-            } 
+            }
         </div>
     </abp-card-footer>
 </abp-card>
