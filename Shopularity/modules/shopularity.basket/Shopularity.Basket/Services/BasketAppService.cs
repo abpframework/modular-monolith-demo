@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
+using Shopularity.Basket.Events;
 using Shopularity.Basket.SignalR;
 using Shopularity.Catalog.Products;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.Users;
 
 namespace Shopularity.Basket.Services;
@@ -18,16 +20,16 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
 {
     private readonly IDistributedCache<BasketCacheItem> _cache;
     private readonly IProductsIntegrationService _productsService;
-    private readonly IHubContext<BasketHub> _basketHub;
+    private readonly ILocalEventBus _eventBus;
 
     public BasketAppService(
         IDistributedCache<BasketCacheItem> cache,
         IProductsIntegrationService productsService,
-        IHubContext<BasketHub> basketHub)
+        ILocalEventBus eventBus)
     {
         _cache = cache;
         _productsService = productsService;
-        _basketHub = basketHub;
+        _eventBus = eventBus;
     }
 
     public async Task AddItemToBasketAsync(BasketItem input)
@@ -47,16 +49,7 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
 
         await _cache.SetAsync(CurrentUser.GetId().ToString(), basket);
 
-        await _basketHub //TODO: Local event -> signalR (+ try-catch / hide errors)
-            .Clients
-            .User(CurrentUser.GetId().ToString())
-            .SendAsync(
-                "BasketUpdated",
-                new BasketUpdatedEto
-                {
-                    ItemCountInBasket = basket.Items.Count
-                }
-            );
+        await PublishBasketUpdatedEventAsync(basket);
     }
 
     public async Task RemoveItemFromBasketAsync(BasketItem input)
@@ -84,17 +77,8 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         {
             await _cache.RemoveAsync(CurrentUser.GetId().ToString());
         }
-        
-        await _basketHub
-            .Clients
-            .User(CurrentUser.GetId().ToString())
-            .SendAsync(
-                "BasketUpdated",
-                new BasketUpdatedEto
-                {
-                    ItemCountInBasket = basket.Items.Count
-                }
-            );
+
+        await PublishBasketUpdatedEventAsync(basket);
     }
 
     public async Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync()
@@ -113,6 +97,22 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
     public async Task<int> GetCountOfItemsInBasketAsync()
     {
         return (await GetBasketAsync()).Items.Count;
+    }
+
+    private async Task PublishBasketUpdatedEventAsync(BasketCacheItem basket)
+    {
+        try
+        {
+            await _eventBus.PublishAsync(new BasketUpdatedEto
+            {
+                UserId = CurrentUser.GetId(),
+                ItemCountInBasket = basket.Items.Count
+            });
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     private async Task<BasketCacheItem> GetBasketAsync()
