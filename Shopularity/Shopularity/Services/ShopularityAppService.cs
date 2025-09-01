@@ -7,7 +7,6 @@ using Shopularity.Services.Dtos;
 using Shopularity.Services.Orders;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Users;
 
 namespace Shopularity.Services;
 

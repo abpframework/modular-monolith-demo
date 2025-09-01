@@ -1,5 +1,3 @@
-using System;
-
 namespace Shopularity.Basket.Services;
 
 public class BasketUpdatedEto

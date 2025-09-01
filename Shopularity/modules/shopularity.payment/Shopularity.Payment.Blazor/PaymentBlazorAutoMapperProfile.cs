@@ -1,5 +1,4 @@
-﻿using Shopularity.Payment.Payments;
-using AutoMapper;
+﻿using AutoMapper;
 
 namespace Shopularity.Payment.Blazor;
 

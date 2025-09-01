@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Basket.Services;
-using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Products.Public;
 using Shopularity.Public.Components.Basket;
 using Volo.Abp;

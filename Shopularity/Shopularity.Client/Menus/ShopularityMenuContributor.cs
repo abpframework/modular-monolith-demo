@@ -1,5 +1,4 @@
 ﻿using Shopularity.Localization;
-using Shopularity.Permissions;
 using Volo.Abp.Account.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.SettingManagement.Blazor.Menus;

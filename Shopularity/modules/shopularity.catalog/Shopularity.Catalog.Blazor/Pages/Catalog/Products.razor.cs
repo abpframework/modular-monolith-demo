@@ -16,7 +16,6 @@ using Shopularity.Catalog.Permissions;
 using Shopularity.Catalog.Shared;
 using Shopularity.Catalog.Localization;
 using Shopularity.Catalog.Products.Admin;
-using Volo.Abp;
 
 namespace Shopularity.Catalog.Blazor.Pages.Catalog;
 

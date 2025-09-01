@@ -1,7 +1,5 @@
-using Shopularity.Ordering.Orders;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 
 namespace Shopularity.Ordering.Orders;
 

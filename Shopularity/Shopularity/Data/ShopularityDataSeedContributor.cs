@@ -9,7 +9,6 @@ using Volo.Abp.Identity;
 using Volo.Abp.Uow;
 using Volo.Abp.Users;
 using Volo.CmsKit.Comments;
-using Volo.CmsKit.Ratings;
 using Volo.CmsKit.Users;
 
 namespace Shopularity.Data;

@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Ordering.Orders;
 using Shopularity.Ordering.Orders.Public;
 using Shopularity.Services.Dtos;
 using Shopularity.Services.Orders;

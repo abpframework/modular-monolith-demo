@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Basket.Services;
 using Shopularity.Catalog.Products.Public;
 
 namespace Shopularity.Public.Components.Basket;

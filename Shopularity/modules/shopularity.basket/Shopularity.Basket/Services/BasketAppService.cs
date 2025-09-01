@@ -9,7 +9,6 @@ using Shopularity.Catalog.Products;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Caching;
-using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Users;
 
 namespace Shopularity.Basket.Services;

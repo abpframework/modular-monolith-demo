@@ -1,7 +1,6 @@
 using Shopularity.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
-using Volo.Abp.MultiTenancy;
 
 namespace Shopularity.Permissions;
 

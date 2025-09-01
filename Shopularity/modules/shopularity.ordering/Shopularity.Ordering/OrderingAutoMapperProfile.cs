@@ -1,6 +1,4 @@
 using Shopularity.Ordering.OrderLines;
-using System;
-using Shopularity.Ordering.Shared;
 using Shopularity.Ordering.Orders;
 using Volo.Abp.AutoMapper;
 using AutoMapper;

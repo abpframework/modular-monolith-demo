@@ -1,10 +1,7 @@
 using Volo.CmsKit.Public.Web;
-using Volo.CmsKit;
 using System;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
 using Volo.Abp.Http.Client.IdentityModel.Web;
-using Shopularity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;

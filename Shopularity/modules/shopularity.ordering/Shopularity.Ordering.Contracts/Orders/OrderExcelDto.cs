@@ -1,4 +1,3 @@
-using Shopularity.Ordering.Orders;
 using System;
 
 namespace Shopularity.Ordering.Orders;

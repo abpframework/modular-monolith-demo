@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Ordering.Orders;
 using Shopularity.Ordering.Orders.Public;
 using Shopularity.Services.Orders;
 using Volo.Abp.Application.Dtos;

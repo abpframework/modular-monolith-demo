@@ -4,13 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.Memory;
 using Shopularity.Basket.Services;
 using Shopularity.Basket.SignalR;
 using Volo.Abp.Caching;
 using Volo.Abp.Domain.Services;
-using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Users;
 
 namespace Shopularity.Basket.Domain;
 

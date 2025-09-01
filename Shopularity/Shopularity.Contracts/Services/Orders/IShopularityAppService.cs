@@ -1,5 +1,4 @@
-﻿using Shopularity.Ordering.Orders;
-using Shopularity.Ordering.Orders.Public;
+﻿using Shopularity.Ordering.Orders.Public;
 using Shopularity.Services.Dtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;

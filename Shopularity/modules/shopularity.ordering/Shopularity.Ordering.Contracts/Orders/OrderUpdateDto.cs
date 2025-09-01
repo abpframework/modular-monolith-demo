@@ -1,7 +1,4 @@
-using Shopularity.Ordering.Orders;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
 using Volo.Abp.Domain.Entities;
 
 namespace Shopularity.Ordering.Orders;

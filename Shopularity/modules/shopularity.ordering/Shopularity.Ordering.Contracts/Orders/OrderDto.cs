@@ -1,4 +1,3 @@
-using Shopularity.Ordering.Orders;
 using System;
 using System.Collections.Generic;
 using Shopularity.Ordering.OrderLines;

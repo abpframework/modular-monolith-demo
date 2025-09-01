@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Shopularity.Catalog.Products.Public;
-using Shopularity.Public.Components.Basket;
-using Shopularity.Public.Pages.Shared.Components.Basket.BasketItem;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem;

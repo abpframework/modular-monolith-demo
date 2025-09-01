@@ -1,25 +1,14 @@
 @page "/Ordering/Orders"
 @attribute [Authorize(OrderingPermissions.Orders.Default)]
 @using global::Shopularity.Ordering.Orders
-@using global::Shopularity.Ordering.Orders
 @using global::Shopularity.Ordering.Localization
-@using global::Shopularity.Ordering.Shared
 @using Microsoft.AspNetCore.Authorization
-@using Microsoft.Extensions.Localization
-@using Microsoft.AspNetCore.Components.Web
-@using Blazorise
-@using Blazorise.Components
-@using Blazorise.DataGrid
-@using Volo.Abp.BlazoriseUI
 @using Volo.Abp.BlazoriseUI.Components
-@using Volo.Abp.ObjectMapping
 @using Volo.Abp.AspNetCore.Components.Messages
 @using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using global::Shopularity.Ordering.OrderLines
 @using global::Shopularity.Ordering.Permissions
-@using Volo.Abp.AspNetCore.Components.Web
 @using Volo.Abp.AspNetCore.Components
-@using Microsoft.AspNetCore.Components
 @using Volo.Abp.Http.Client
 @inherits AbpComponentBase
 @inject IOrdersAppService OrdersAppService
@@ -28,7 +17,6 @@
 @inject AbpBlazorMessageLocalizerHelper<OrderingResource> LH
 @inject IRemoteServiceConfigurationProvider RemoteServiceConfigurationProvider
 @inject NavigationManager NavigationManager
-@using Shopularity.Ordering.Orders
 
 
 @* ************************* PAGE HEADER ************************* *@

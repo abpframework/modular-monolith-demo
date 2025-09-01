@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Catalog.Products.Public;
 using Shopularity.Public.Components.Basket;
 using Volo.Abp.AspNetCore.Mvc;
 

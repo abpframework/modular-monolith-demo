@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Shopularity.Catalog.Products;
-using Shopularity.Catalog.Products.Admin;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Identity.Integration;
 using Volo.Abp.Users;
 
 namespace Shopularity.Ordering.Orders.Public;
