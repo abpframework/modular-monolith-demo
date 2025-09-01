@@ -32,12 +32,7 @@ public class ShopularityAppService: ShopularityAppServiceBase, IShopularityAppSe
     
     public async Task CreateOrderAsync(NewOrderInputDto input)
     {
-        if (input.Products.Count == 0)
-        {
-            throw new BusinessException(ShopularityErrorCodes.OrderShouldContainProducts);
-        }
-
-        var order = await _ordersPublicAppService.CreateAsync(new OrderCreatePublicDto
+        await _ordersPublicAppService.CreateAsync(new OrderCreatePublicDto
         {
             ShippingAddress = input.Address,
             Products = input.Products.Select(x=> new ProductIdsWithAmountDto{ProductId = x.ItemId, Amount = x.Amount}).ToList(),

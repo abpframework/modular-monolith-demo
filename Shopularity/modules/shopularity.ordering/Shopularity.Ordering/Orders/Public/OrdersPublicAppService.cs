@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Shopularity.Catalog.Products;
+using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Users;
 
@@ -28,6 +29,11 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
     
     public virtual async Task<OrderDto> CreateAsync(OrderCreatePublicDto input)
     {
+        if (input.Products.Count == 0)
+        {
+            throw new BusinessException(OrderingErrorCodes.OrderShouldContainProducts);
+        }
+        
         // TODO: GetProductsWithAmountControlAsync is unnecessary
         var products = await _productsIntegrationService
             .GetProductsWithAmountControlAsync(input.Products);
