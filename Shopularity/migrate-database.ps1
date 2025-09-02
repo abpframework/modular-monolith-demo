@@ -1,3 +1,3 @@
-dotnet run --project Shopularity --migrate-database
+dotnet run --project Shopularity.Admin --migrate-database
 
 exit $LASTEXITCODE
