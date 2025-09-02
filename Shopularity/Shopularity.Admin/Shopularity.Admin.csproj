@@ -3,10 +3,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Shopularity</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />
-    <ProjectReference Include="..\Shopularity.Client\Shopularity.Client.csproj" />
+    <ProjectReference Include="..\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageReference Include="Blazorise.Bootstrap5" Version="1.7.6" />

@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity", "Shopularity\Shopularity\Shopularity.csproj", "{F7497ED2-0038-4E9C-879C-F6ADE81830C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin", "Shopularity\Shopularity.Admin\Shopularity.Admin.csproj", "{F7497ED2-0038-4E9C-879C-F6ADE81830C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Client", "Shopularity\Shopularity.Client\Shopularity.Client.csproj", "{B5C389F3-1E80-4743-A473-8F3659723E32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin.Client", "Shopularity\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj", "{B5C389F3-1E80-4743-A473-8F3659723E32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Contracts", "Shopularity\Shopularity.Contracts\Shopularity.Contracts.csproj", "{4698CC9A-F7CC-4CB1-9A59-1A1319DAE36E}"
 EndProject
@@ -136,7 +136,6 @@ Global
 		{91073A55-BB24-41A7-A569-800A0B316F6E} = {30DB2DF3-6248-4929-942F-9298807A47CB}
 		{F7497ED2-0038-4E9C-879C-F6ADE81830C3} = {A09E6A47-C502-458C-943B-161FA0009ECF}
 		{B5C389F3-1E80-4743-A473-8F3659723E32} = {A09E6A47-C502-458C-943B-161FA0009ECF}
-		{4698CC9A-F7CC-4CB1-9A59-1A1319DAE36E} = {A09E6A47-C502-458C-943B-161FA0009ECF}
 		{192F3CDE-269C-4DD9-BE38-ABBEE39A18FE} = {047F9B79-AEB3-4DAB-8DD3-7471285DF7D8}
 	EndGlobalSection
 EndGlobal

@@ -55,11 +55,11 @@
     }
   },
   "packages": {
-    "Shopularity": {
-      "path": "Shopularity/Shopularity.abppkg"
+    "Shopularity.Admin": {
+      "path": "Shopularity.Admin/Shopularity.Admin.abppkg"
     },
-    "Shopularity.Client": {
-      "path": "Shopularity.Client/Shopularity.Client.abppkg"
+    "Shopularity.Admin.Client": {
+      "path": "Shopularity.Admin.Client/Shopularity.Admin.Client.abppkg"
     },
     "Shopularity.Contracts": {
       "path": "Shopularity.Contracts/Shopularity.Contracts.abppkg"
