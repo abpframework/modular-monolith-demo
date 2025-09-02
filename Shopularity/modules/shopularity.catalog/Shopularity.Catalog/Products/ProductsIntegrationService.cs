@@ -17,19 +17,9 @@ public class ProductsIntegrationService : CatalogAppService, IProductsIntegratio
         _productRepository = productRepository;
     }
     
-    public async Task<List<ProductDto>> GetProductsWithAmountControlAsync(List<ProductIdsWithAmountDto> productIdsWithAmount)
+    public async Task<List<ProductDto>> GetProductsAsync(List<ProductIdsWithAmountDto> productIdsWithAmount)
     {
         var products = await _productRepository.GetListAsync(productIdsWithAmount.Select(x=> x.ProductId).ToList());
-
-        foreach (var product in products)
-        {
-            var amount = productIdsWithAmount.First(x => x.ProductId == product.Id).Amount;
-
-            if (product.StockCount < amount)
-            {
-                throw new BusinessException(CatalogErrorCodes.NotEnoughStock);
-            }
-        }
         
         return ObjectMapper.Map<List<Product>, List<ProductDto>>(products);
     }

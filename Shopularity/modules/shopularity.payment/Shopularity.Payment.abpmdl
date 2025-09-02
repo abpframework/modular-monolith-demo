@@ -12,5 +12,11 @@
     "Shopularity.Payment.Contracts": {
       "path": "Shopularity.Payment.Contracts/Shopularity.Payment.Contracts.abppkg"
     }
+  },
+  "imports": {
+    "Shopularity.Ordering": {
+      "path": "../shopularity.ordering/Shopularity.Ordering.abpmdl",
+      "isInstalled": true
+    }
   }
 }

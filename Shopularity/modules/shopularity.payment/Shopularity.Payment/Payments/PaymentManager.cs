@@ -12,18 +12,15 @@ namespace Shopularity.Payment.Payments;
 public class PaymentManager : DomainService
 {
     protected IPaymentRepository _paymentRepository;
-    private readonly IUnitOfWorkAccessor _unitOfWorkAccessor;
     private readonly IDistributedEventBus _eventBus;
     private readonly IBackgroundJobManager _backgroundJobManager;
 
     public PaymentManager(
         IPaymentRepository paymentRepository,
-        IUnitOfWorkAccessor unitOfWorkAccessor,
         IDistributedEventBus eventBus,
         IBackgroundJobManager backgroundJobManager)
     {
         _paymentRepository = paymentRepository;
-        _unitOfWorkAccessor = unitOfWorkAccessor;
         _eventBus = eventBus;
         _backgroundJobManager = backgroundJobManager;
     }
@@ -37,7 +34,6 @@ public class PaymentManager : DomainService
         };
 
         payment = await _paymentRepository.InsertAsync(payment, autoSave: true);
-        //await _unitOfWorkAccessor.UnitOfWork!.SaveChangesAsync();
 
         await _eventBus.PublishAsync(new PaymentCreatedEto
         {

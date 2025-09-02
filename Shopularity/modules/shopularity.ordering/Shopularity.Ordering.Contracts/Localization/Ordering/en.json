@@ -5,6 +5,7 @@
     "Ordering:CanOnlyCancelNotShippedOrders": "You can only cancel orders that are not shipped.",
     "Ordering:OrderIsNotAvailableYetForShipping": "The order is not available yet for shipping.",
     "Ordering:OrderShouldContainProducts": "Order should contain at least one product.",
+    "Ordering:NotEnoughStock": "Not enough stock!",
     "MyAccount": "My account",
     "Enum:OrderState.0": "New",
     "Enum:OrderState.1": "Waiting for payment",

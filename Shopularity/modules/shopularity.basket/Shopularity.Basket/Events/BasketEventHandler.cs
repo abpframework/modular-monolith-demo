@@ -31,7 +31,7 @@ public class BasketEventHandler :
     {
         await _basketManager.RemoveItemsFromUserBasketAsync(
             eventData.UserId,
-            eventData.Products.Select(x => new BasketItem { Amount = x.Amount, ItemId = x.Product.Id }).ToList()
+            eventData.ProductsWithAmounts.Select(x => new BasketItem { Amount = x.Value, ItemId = x.Key }).ToList()
         );
     }
 

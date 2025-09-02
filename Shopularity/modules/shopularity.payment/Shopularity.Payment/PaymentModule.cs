@@ -1,3 +1,4 @@
+using Shopularity.Ordering;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
@@ -9,6 +10,7 @@ using Volo.Abp.AspNetCore.Mvc;
 namespace Shopularity.Payment;
 
 [DependsOn(
+    typeof(OrderingContractsModule),
     typeof(PaymentContractsModule),
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule),

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shopularity.Payment.Payments.Events;
+namespace Shopularity.Ordering.Orders.Events;
 
 public class OrderCancelledEto
 {

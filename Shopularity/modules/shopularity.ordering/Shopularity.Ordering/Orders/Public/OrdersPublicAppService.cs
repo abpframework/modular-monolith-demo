@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Shopularity.Catalog.Products;
+using Shopularity.Ordering.Orders.Events;
 using Shopularity.Payment.Payments.Events;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -40,19 +41,33 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
             throw new BusinessException(OrderingErrorCodes.OrderShouldContainProducts);
         }
         
-        // TODO: GetProductsWithAmountControlAsync is unnecessary
         var products = await _productsIntegrationService
-            .GetProductsWithAmountControlAsync(input.Products);
+            .GetProductsAsync(input.Products);
+
+        if (products.Any(product => input.Products.First(y=>  product.Id == y.ProductId).Amount > product.StockCount))
+        {
+            throw new BusinessException(OrderingErrorCodes.NotEnoughStock);
+        }
+
+        var productsWithAmounts = products.Select(x => new ProductWithAmountDto
+        {
+            Product = x,
+            Amount = input.Products.First(y => x.Id == y.ProductId).Amount
+        }).ToList();
         
         var order = await _orderManager.CreateNewAsync(
             CurrentUser.GetId(),
             input.ShippingAddress,
-            products.Select(x=> new ProductWithAmountDto
-            {
-                Product = x,
-                Amount = input.Products.First(y=>  x.Id == y.ProductId).Amount
-            }).ToList()
+            productsWithAmounts
         );
+            
+        await _eventBus.PublishAsync(new OrderCreatedEto
+        {
+            Id = order.Id,
+            UserId = CurrentUser.GetId(),
+            ProductsWithAmounts = productsWithAmounts.ToDictionary(x=> x.Product.Id, x=> x.Amount),
+            TotalPrice = order.TotalPrice
+        });
 
         return ObjectMapper.Map<Order, OrderDto>(order);
     }
@@ -65,15 +80,8 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
         {
             throw new BusinessException(OrderingErrorCodes.CanOnlyCancelOwnedOrders);
         }
-        
-        if (order.State.IsShipped())
-        {
-            throw new BusinessException(OrderingErrorCodes.CanOnlyCancelNotShippedOrders);
-        }
 
-        order.State = OrderState.Cancelled;
-
-        await _orderRepository.UpdateAsync(order);
+        order.Cancel();
 
         await _eventBus.PublishAsync(new OrderCancelledEto
         {
@@ -85,6 +93,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
     {
         var items = await (await _orderRepository.GetQueryableAsync())
             .Where(x=> x.UserId == CurrentUser.GetId())
+            .OrderByDescending(x=> x.CreationTime)
             .Include(x=> x.OrderLines)
             .ToListAsync();
         

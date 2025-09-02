@@ -46,4 +46,19 @@ public class Order : FullAuditedAggregateRoot<Guid>
         OrderLines = new Collection<OrderLine>();
     }
 
+    public void AddOrderLine(OrderLine orderLine)
+    {
+        OrderLines.Add(orderLine);
+    }
+
+    public void Cancel()
+    {
+        if (State.IsShipped())
+        {
+            throw new BusinessException(OrderingErrorCodes.CanOnlyCancelNotShippedOrders);
+        }
+        
+        State = OrderState.Cancelled;
+    }
+
 }

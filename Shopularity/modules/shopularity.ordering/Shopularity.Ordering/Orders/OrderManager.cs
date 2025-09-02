@@ -63,51 +63,10 @@ public class OrderManager : DomainService
                 product.Product.Name
             );
                 
-            await _orderLineRepository.InsertAsync(orderLine);
-            order.OrderLines.Add(orderLine);
-                
-            // TODO: Discard this event and handle OrderCreatedEto in catalog module
-            await _eventBus.PublishAsync(new ProductStockDecreaseEto
-            {
-                ProductId = product.Product.Id,
-                Amount = product.Amount,
-            });
+            order.AddOrderLine(orderLine);
         }
-            
-        await _eventBus.PublishAsync(new OrderCreatedEto
-        {
-            Id = order.Id,
-            UserId = _currentUser.GetId(),
-            Products = productDtos
-        });
-
-        // TODO: Discard this event and use OrderCreatedEto in payment module
-        await _eventBus.PublishAsync(new PaymentOrderCreatedEto
-        {
-            OrderId = order.Id,
-            TotalPrice = order.TotalPrice
-        });
-            
+        
         return order;
-    }
-
-    public virtual async Task CancelAsync(Guid id)
-    {
-        var order = await _orderRepository.GetAsync(id);
-
-        if (order.State is OrderState.Shipped or OrderState.Completed or OrderState.Cancelled)
-        {
-            throw new BusinessException(OrderingErrorCodes.CanOnlyCancelNotShippedOrders);
-        }
-
-        order.State = OrderState.Cancelled;
-
-        await _orderRepository.UpdateAsync(order);
-
-        await _eventBus.PublishAsync(new OrderCancelledEto
-        {
-            OrderId = order.Id
-        });
     }
 
     public virtual async Task<Order> UpdateShippingAddressAsync(

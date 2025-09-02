@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Shopularity.Ordering.Orders.Events;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
 namespace Shopularity.Payment.Payments.Events;
 
 public class PaymentDistributedEventHandler:
-    IDistributedEventHandler<PaymentOrderCreatedEto>,
+    IDistributedEventHandler<OrderCreatedEto>,
     IDistributedEventHandler<OrderCancelledEto>,
     ITransientDependency
 {
@@ -22,8 +23,8 @@ public class PaymentDistributedEventHandler:
         await _paymentManager.CancelAsync(eventData.OrderId);
     }
 
-    public async Task HandleEventAsync(PaymentOrderCreatedEto eventData)
+    public async Task HandleEventAsync(OrderCreatedEto eventData)
     {
-        await _paymentManager.CreateAsync(eventData.OrderId, eventData.TotalPrice);
+        await _paymentManager.CreateAsync(eventData.Id, eventData.TotalPrice);
     }
 }

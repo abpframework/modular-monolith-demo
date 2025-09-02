@@ -9,5 +9,7 @@ public class OrderCreatedEto
     
     public Guid UserId { get; set; }
     
-    public List<ProductWithAmountDto> Products { get; set; }
+    public double TotalPrice { get; set; }
+    
+    public Dictionary<Guid, int> ProductsWithAmounts { get; set; }
 }
