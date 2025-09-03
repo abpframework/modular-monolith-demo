@@ -113,6 +113,7 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
 
         order = await _orderRepository.UpdateAsync(order);
 
+        //TODO: Discard this event and perform the logic here
         await _eventBus.PublishAsync(new OrderShippedEto
         {
             Id = order.Id,

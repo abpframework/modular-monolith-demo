@@ -14,7 +14,7 @@ namespace Shopularity.Catalog.Products.Public;
 [Route("api/catalog/public/products")]
 public class ProductPublicController : AbpController, IProductsPublicAppService
 {
-    protected IProductsPublicAppService ProductsPublicAppService;
+    protected IProductsPublicAppService ProductsPublicAppService; //TODO: private
 
     public ProductPublicController(IProductsPublicAppService productsPublicAppService)
     {

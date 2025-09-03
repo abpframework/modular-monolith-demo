@@ -22,6 +22,8 @@ public class CategoryManager : DomainService
         Check.NotNullOrWhiteSpace(name, nameof(name));
         Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
 
+        //TODO: Check duplicate name!
+        
         var category = new Category(
             GuidGenerator.Create(),
             name
@@ -39,10 +41,12 @@ public class CategoryManager : DomainService
         Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
 
         var category = await _categoryRepository.GetAsync(id);
+        
+        //TODO: Check duplicate name!
 
         category.Name = name;
 
-        category.SetConcurrencyStampIfNotNull(concurrencyStamp);
+        category.SetConcurrencyStampIfNotNull(concurrencyStamp); //TODO: Necessary?
         return await _categoryRepository.UpdateAsync(category);
     }
 }

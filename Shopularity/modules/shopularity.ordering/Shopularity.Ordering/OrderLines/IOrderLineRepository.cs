@@ -6,6 +6,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Shopularity.Ordering.OrderLines;
 
+//TODO: Discard IOrderLineRepository
 public interface IOrderLineRepository : IRepository<OrderLine, Guid>
 {
     Task<List<OrderLine>> GetListByOrderIdAsync(

@@ -2,6 +2,7 @@
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Uow;
 
 namespace Shopularity.Catalog.Products.Events;
 
@@ -16,7 +17,8 @@ public class ProductsEventHandler :
         _productManager = productManager;
     }
     
-    public async Task HandleEventAsync(OrderCreatedEto eventData)
+    [UnitOfWork]
+    public virtual async Task HandleEventAsync(OrderCreatedEto eventData)
     {
         foreach (var product in eventData.ProductsWithAmounts)
         {

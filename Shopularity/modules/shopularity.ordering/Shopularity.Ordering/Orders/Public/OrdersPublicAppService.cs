@@ -36,7 +36,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
     
     public virtual async Task<OrderDto> CreateAsync(OrderCreatePublicDto input)
     {
-        if (input.Products.Count == 0)
+        if (input.Products.IsNullOrEmpty())
         {
             throw new BusinessException(OrderingErrorCodes.OrderShouldContainProducts);
         }
@@ -44,8 +44,9 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
         var products = await _productsIntegrationService
             .GetProductsAsync(input.Products);
 
-        if (products.Any(product => input.Products.First(y=>  product.Id == y.ProductId).Amount > product.StockCount))
+        if (products.Any(product => input.Products.First(y=> product.Id == y.ProductId).Amount > product.StockCount))
         {
+            //TODO: Add product info to the exception
             throw new BusinessException(OrderingErrorCodes.NotEnoughStock);
         }
 
@@ -83,6 +84,8 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
 
         order.Cancel();
 
+        //TODO: update order
+        
         await _eventBus.PublishAsync(new OrderCancelledEto
         {
             OrderId = order.Id

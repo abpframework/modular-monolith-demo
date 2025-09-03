@@ -14,7 +14,7 @@ public static class CatalogDbContextModelCreatingExtensions
     {
         Check.NotNull(builder, nameof(builder));
 
-        if (builder.IsHostDatabase())
+        if (builder.IsHostDatabase()) //TODO: unnecessary check?
         {
             builder.Entity<Category>(b =>
             {

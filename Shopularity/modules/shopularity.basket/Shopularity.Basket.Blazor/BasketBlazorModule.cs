@@ -7,7 +7,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation;
 
 namespace Shopularity.Basket.Blazor;
-
+// TODO: Delete this project: Shopularity.Basket.Blazor
 [DependsOn(
     typeof(BasketContractsModule),
     typeof(AbpAspNetCoreComponentsWebThemingModule),

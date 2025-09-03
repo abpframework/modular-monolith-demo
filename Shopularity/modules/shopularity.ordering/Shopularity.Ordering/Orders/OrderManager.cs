@@ -14,10 +14,11 @@ using Volo.Abp.Users;
 
 namespace Shopularity.Ordering.Orders;
 
+//TODO: Discard this class
 public class OrderManager : DomainService
 {
     protected IOrderRepository _orderRepository;
-    private readonly IOrderLineRepository _orderLineRepository;
+    private readonly IOrderLineRepository _orderLineRepository; //TODO: Remove unused ones
     private readonly IDistributedEventBus _eventBus;
     private readonly ICurrentUser _currentUser;
 
@@ -32,7 +33,7 @@ public class OrderManager : DomainService
         _currentUser = currentUser;
     }
 
-    public virtual async Task<Order> CreateNewAsync(
+    public virtual async Task<Order> CreateNewAsync( //TODO: Discard this method
         Guid userId,
         string shippingAddress,
         List<ProductWithAmountDto> productDtos)
@@ -69,7 +70,7 @@ public class OrderManager : DomainService
         return order;
     }
 
-    public virtual async Task<Order> UpdateShippingAddressAsync(
+    public virtual async Task<Order> UpdateShippingAddressAsync( //TODO: Discard this method
         Guid id,
         string shippingAddress,
         string? concurrencyStamp = null)
@@ -85,7 +86,7 @@ public class OrderManager : DomainService
         return await _orderRepository.UpdateAsync(order);
     }
 
-    public virtual async Task<Order> UpdateStateAsync(
+    public virtual async Task<Order> UpdateStateAsync( //TODO: Discard this method
         Guid id,
         OrderState state)
     {

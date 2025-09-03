@@ -77,13 +77,6 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
             return [];
         }
 
-        return ReadAllBytesFromStream(imageStream);
-    }
-
-    private byte[] ReadAllBytesFromStream(Stream input)
-    {
-        using var memoryStream = new MemoryStream();
-        input.CopyTo(memoryStream);
-        return memoryStream.ToArray();
+        return await imageStream.GetAllBytesAsync();
     }
 }

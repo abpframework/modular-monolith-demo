@@ -15,6 +15,7 @@ using Volo.Abp.Users;
 
 namespace Shopularity.Basket.Services;
 
+//TODO: Use Domain Service and remove duplications
 [Authorize]
 public class BasketAppService : BasketAppServiceBase, IBasketAppService
 {
