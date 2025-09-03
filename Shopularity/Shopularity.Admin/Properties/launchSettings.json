@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Shopularity": {
+    "Shopularity.Admin": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
