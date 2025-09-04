@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Content;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Services.Payments;
 
 public interface IPaymentsAppService : IApplicationService
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Services.Payments;
 
 [Serializable]
 public class PaymentDownloadTokenCacheItem

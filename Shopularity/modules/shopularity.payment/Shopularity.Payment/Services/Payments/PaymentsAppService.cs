@@ -1,18 +1,19 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Distributed;
+using MiniExcelLibs;
+using Shopularity.Payment.Domain.Payments;
+using Shopularity.Payment.Permissions;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
-using Shopularity.Payment.Permissions;
-using MiniExcelLibs;
-using Volo.Abp.Content;
 using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
-using Microsoft.Extensions.Caching.Distributed;
+using Volo.Abp.Content;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Services.Payments;
 
 [RemoteService(IsEnabled = false)]
 [Authorize(PaymentPermissions.Payments.Default)]
@@ -38,13 +39,13 @@ public class PaymentsAppService : PaymentAppService, IPaymentsAppService
         return new PagedResultDto<PaymentDto>
         {
             TotalCount = totalCount,
-            Items = ObjectMapper.Map<List<Payment>, List<PaymentDto>>(items)
+            Items = ObjectMapper.Map<List<Domain.Payments.Payment>, List<PaymentDto>>(items)
         };
     }
 
     public virtual async Task<PaymentDto> GetAsync(Guid id)
     {
-        return ObjectMapper.Map<Payment, PaymentDto>(await _paymentRepository.GetAsync(id));
+        return ObjectMapper.Map<Domain.Payments.Payment, PaymentDto>(await _paymentRepository.GetAsync(id));
     }
 
     [AllowAnonymous]
@@ -59,7 +60,7 @@ public class PaymentsAppService : PaymentAppService, IPaymentsAppService
         var items = await _paymentRepository.GetListAsync(input.OrderId, input.State);
 
         var memoryStream = new MemoryStream();
-        await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Payment>, List<PaymentExcelDto>>(items));
+        await memoryStream.SaveAsAsync(ObjectMapper.Map<List<Domain.Payments.Payment>, List<PaymentExcelDto>>(items));
         memoryStream.Seek(0, SeekOrigin.Begin);
 
         return new RemoteStreamContent(memoryStream, "Payments.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");

@@ -1,23 +1,24 @@
-using Asp.Versioning;
 using System;
 using System.Threading.Tasks;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Shopularity.Payment.Services.Payments;
 using Volo.Abp;
-using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Content;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Controllers.Payments;
 
 [RemoteService(Name = "Payment")]
 [Area("payment")]
 [ControllerName("Payment")]
 [Route("api/payment/payments")]
-public class PaymentController : AbpController, IPaymentsAppService
+public class PaymentsController : AbpController, IPaymentsAppService
 {
-    protected IPaymentsAppService _paymentsAppService;
+    private readonly IPaymentsAppService _paymentsAppService;
 
-    public PaymentController(IPaymentsAppService paymentsAppService)
+    public PaymentsController(IPaymentsAppService paymentsAppService)
     {
         _paymentsAppService = paymentsAppService;
     }

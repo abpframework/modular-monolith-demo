@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shopularity.Payment.Payments.Events;
+namespace Shopularity.Payment.Events.Payments;
 
 public class PaymentCompletedEto
 {

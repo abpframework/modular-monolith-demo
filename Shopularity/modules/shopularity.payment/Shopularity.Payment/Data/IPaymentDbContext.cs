@@ -7,5 +7,5 @@ namespace Shopularity.Payment.Data;
 [ConnectionStringName(PaymentDbProperties.ConnectionStringName)]
 public interface IPaymentDbContext : IEfCoreDbContext
 {
-    DbSet<Payments.Payment> Payments { get; set; }
+    DbSet<Domain.Payments.Payment> Payments { get; set; }
 }

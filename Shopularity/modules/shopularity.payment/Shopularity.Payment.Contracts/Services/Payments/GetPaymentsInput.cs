@@ -1,7 +1,8 @@
 using System;
+using Shopularity.Payment.Domain.Payments;
 using Volo.Abp.Application.Dtos;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Services.Payments;
 
 public class GetPaymentsInput : PagedAndSortedResultRequestDto
 {

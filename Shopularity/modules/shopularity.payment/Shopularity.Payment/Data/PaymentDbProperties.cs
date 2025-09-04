@@ -1,4 +1,4 @@
-﻿namespace Shopularity.Payment;
+﻿namespace Shopularity.Payment.Data;
 
 public static class PaymentDbProperties
 {

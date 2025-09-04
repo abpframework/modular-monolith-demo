@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Shopularity.Ordering.Events.Orders;
+using Shopularity.Payment.Domain.Payments;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
-namespace Shopularity.Payment.Payments.Events;
+namespace Shopularity.Payment.Events.Payments;
 
 public class PaymentDistributedEventHandler:
     IDistributedEventHandler<OrderCreatedEto>,

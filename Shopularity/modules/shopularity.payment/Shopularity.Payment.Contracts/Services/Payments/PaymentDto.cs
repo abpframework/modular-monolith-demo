@@ -1,8 +1,9 @@
 using System;
+using Shopularity.Payment.Domain.Payments;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Entities;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Services.Payments;
 
 public class PaymentDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
 {

@@ -1,6 +1,7 @@
 using System;
+using Shopularity.Payment.Domain.Payments;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Services.Payments;
 
 public class PaymentExcelDownloadDto
 {

@@ -1,10 +1,9 @@
 using System;
-using Volo.Abp.Domain.Entities.Auditing;
 using JetBrains.Annotations;
-
 using Volo.Abp;
+using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Domain.Payments;
 
 public class Payment : FullAuditedAggregateRoot<Guid>
 {

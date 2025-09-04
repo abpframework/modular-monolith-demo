@@ -1,4 +1,6 @@
-namespace Shopularity.Payment.Payments;
+using Shopularity.Payment.Domain.Payments;
+
+namespace Shopularity.Payment.Services.Payments;
 
 public class PaymentExcelDto
 {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Shopularity.Payment.Payments.Events;
+using Shopularity.Payment.Events.Payments;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Domain.Payments;
 
 public class PaymentFakeEventJob : AsyncBackgroundJob<PaymentFakeEventJob.PaymentFakeEventJobArgs>, ITransientDependency
 {

@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Domain.Payments;
 
 public interface IPaymentRepository : IRepository<Payment, Guid>
 {

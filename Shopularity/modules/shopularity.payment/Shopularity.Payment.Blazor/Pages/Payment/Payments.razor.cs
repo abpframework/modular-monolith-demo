@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blazorise;
 using Blazorise.DataGrid;
+using Shopularity.Payment.Domain.Payments;
+using Shopularity.Payment.Services.Payments;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
-using Shopularity.Payment.Payments;
 
 namespace Shopularity.Payment.Blazor.Pages.Payment;
 

@@ -1,12 +1,13 @@
 @page "/Payment/Payments"
 @attribute [Authorize(PaymentPermissions.Payments.Default)]
-@using global::Shopularity.Payment.Payments
 @using global::Shopularity.Payment.Localization
 @using Microsoft.AspNetCore.Authorization
 @using Volo.Abp.BlazoriseUI.Components
 @using Volo.Abp.AspNetCore.Components.Messages
 @using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using global::Shopularity.Payment.Permissions
+@using Shopularity.Payment.Domain.Payments
+@using Shopularity.Payment.Services.Payments
 @using Volo.Abp.AspNetCore.Components
 @using Volo.Abp.Http.Client
 @inherits AbpComponentBase

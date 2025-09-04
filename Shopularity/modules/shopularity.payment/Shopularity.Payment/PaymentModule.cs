@@ -5,6 +5,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 using Volo.Abp.EntityFrameworkCore;
 using Shopularity.Payment.Data;
+using Shopularity.Payment.Domain.Payments;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Shopularity.Payment;
@@ -39,7 +40,7 @@ public class PaymentModule : AbpModule
         {
             options.AddDefaultRepositories<IPaymentDbContext>(includeAllEntities: true);
 
-            options.AddRepository<Payments.Payment, Payments.EfCorePaymentRepository>();
+            options.AddRepository<Domain.Payments.Payment, EfCorePaymentRepository>();
         });
     }
 }

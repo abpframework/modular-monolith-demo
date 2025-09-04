@@ -1,4 +1,4 @@
-namespace Shopularity.Payment.Payments;
+namespace Shopularity.Payment.Domain.Payments;
 
 public static class PaymentConsts
 {
