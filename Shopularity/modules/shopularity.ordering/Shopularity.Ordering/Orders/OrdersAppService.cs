@@ -14,6 +14,7 @@ using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
+using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity.Integration;
@@ -27,6 +28,7 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
 {
     protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
     private readonly IIdentityUserIntegrationService _userIntegrationService;
+    private readonly IBackgroundJobManager _backgroundJobManager;
     private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
 
@@ -34,10 +36,12 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         IOrderRepository orderRepository,
         IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
         IIdentityUserIntegrationService userIntegrationService,
+        IBackgroundJobManager backgroundJobManager,
         IDistributedEventBus eventBus)
     {
         _downloadTokenCache = downloadTokenCache;
         _userIntegrationService = userIntegrationService;
+        _backgroundJobManager = backgroundJobManager;
         _eventBus = eventBus;
         _orderRepository = orderRepository;
     }
@@ -114,14 +118,13 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         order.State = OrderState.Shipped;
 
         order = await _orderRepository.UpdateAsync(order);
-
-        //TODO: Discard this event and perform the logic here
-        await _eventBus.PublishAsync(new OrderShippedEto
-        {
-            Id = order.Id,
-            Address = order.ShippingAddress,
-            CargoNo = order.CargoNo!
-        });
+        
+        await _backgroundJobManager.EnqueueAsync(new OrderFakeStateJob.OrderFakeStateJobArgs
+            {
+                OrderId = order.Id,
+                State = OrderState.Completed
+            },
+            delay: TimeSpan.FromSeconds(60));
             
         return ObjectMapper.Map<Order, OrderDto>(order);
     }

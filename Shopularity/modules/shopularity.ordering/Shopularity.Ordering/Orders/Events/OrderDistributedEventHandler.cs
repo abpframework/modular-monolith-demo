@@ -11,7 +11,6 @@ namespace Shopularity.Ordering.Orders.Events;
 public class OrderDistributedEventHandler :
     IDistributedEventHandler<PaymentCompletedEto>,
     IDistributedEventHandler<PaymentCreatedEto>,
-    IDistributedEventHandler<OrderShippedEto>,
     ITransientDependency
 {
     private readonly IOrderRepository _orderRepository;
@@ -37,16 +36,6 @@ public class OrderDistributedEventHandler :
                 State = OrderState.Processing
             },
             delay: TimeSpan.FromSeconds(30));
-    }
-
-    public async Task HandleEventAsync(OrderShippedEto eventData)
-    {
-        await _backgroundJobManager.EnqueueAsync(new OrderFakeStateJob.OrderFakeStateJobArgs
-            {
-                OrderId = eventData.Id,
-                State = OrderState.Completed
-            },
-            delay: TimeSpan.FromSeconds(60));
     }
 
     public async Task HandleEventAsync(PaymentCreatedEto eventData)
