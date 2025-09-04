@@ -1,5 +1,4 @@
 ﻿using Volo.CmsKit.EntityFrameworkCore;
-using Shopularity.Basket.Data;
 using Shopularity.Catalog.Data;
 using Shopularity.Payment.Data;
 using Shopularity.Ordering.Data;
@@ -40,7 +39,6 @@ public class ShopularityDbContext : AbpDbContext<ShopularityDbContext>
         builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
         builder.ConfigureTenantManagement();
-        builder.ConfigureBasket();
         builder.ConfigureCatalog();
         builder.ConfigurePayment();
         builder.ConfigureOrdering();

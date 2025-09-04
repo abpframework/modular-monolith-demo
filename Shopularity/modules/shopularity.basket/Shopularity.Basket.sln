@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.Contract
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBD}") = "Shopularity.Basket.Tests", "Shopularity.Basket.Tests\Shopularity.Basket.Tests.csproj", "{4E18261C-E70B-4DC8-B0B0-6E380350256C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.Blazor", "Shopularity.Basket.Blazor\Shopularity.Basket.Blazor.csproj", "{827FCC18-A22B-4175-82CD-1233F6DEE8FB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,18 +55,6 @@ Global
 		{4E18261C-E70B-4DC8-B0B0-6E380350256C}.Release|x64.Build.0 = Release|x64
 		{4E18261C-E70B-4DC8-B0B0-6E380350256C}.Release|x86.ActiveCfg = Release|x86
 		{4E18261C-E70B-4DC8-B0B0-6E380350256C}.Release|x86.Build.0 = Release|x86
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|x64.Build.0 = Debug|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Debug|x86.Build.0 = Debug|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|x64.ActiveCfg = Release|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|x64.Build.0 = Release|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|x86.ActiveCfg = Release|Any CPU
-		{827FCC18-A22B-4175-82CD-1233F6DEE8FB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

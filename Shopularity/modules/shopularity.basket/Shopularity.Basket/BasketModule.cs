@@ -3,7 +3,6 @@ using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 using Volo.Abp.EntityFrameworkCore;
-using Shopularity.Basket.Data;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.SignalR;
 
@@ -33,15 +32,6 @@ public class BasketModule : AbpModule
         Configure<AbpAutoMapperOptions>(options =>
         {
             options.AddMaps<BasketModule>(validate: true);
-        });
-        
-        context.Services.AddAbpDbContext<BasketDbContext>(options =>
-        {
-            options.AddDefaultRepositories<IBasketDbContext>(includeAllEntities: true);
-            
-            /* Add custom repositories here. Example:
-             * options.AddRepository<Question, EfCoreQuestionRepository>();
-             */
         });
     }
 }
