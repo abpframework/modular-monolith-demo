@@ -27,17 +27,4 @@ public class OrderLineController : AbpController, IOrderLinesAppService
     {
         return _orderLinesAppService.GetListByOrderIdAsync(input);
     }
-
-    [HttpGet]
-    public virtual Task<PagedResultDto<OrderLineDto>> GetListAsync(GetOrderLinesInput input)
-    {
-        return _orderLinesAppService.GetListAsync(input);
-    }
-
-    [HttpGet]
-    [Route("{id}")]
-    public virtual Task<OrderLineDto> GetAsync(Guid id)
-    {
-        return _orderLinesAppService.GetAsync(id);
-    }
 }

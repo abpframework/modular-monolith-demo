@@ -9,8 +9,4 @@ public interface IOrderLinesAppService : IApplicationService
 {
 
     Task<PagedResultDto<OrderLineDto>> GetListByOrderIdAsync(GetOrderLineListInput input);
-
-    Task<PagedResultDto<OrderLineDto>> GetListAsync(GetOrderLinesInput input); // TODO: Used?
-
-    Task<OrderLineDto> GetAsync(Guid id); // TODO: Used?
 }

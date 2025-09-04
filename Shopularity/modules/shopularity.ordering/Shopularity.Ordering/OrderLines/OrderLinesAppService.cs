@@ -34,21 +34,4 @@ public class OrderLinesAppService : OrderingAppService, IOrderLinesAppService
             Items = ObjectMapper.Map<List<OrderLine>, List<OrderLineDto>>(orderLines)
         };
     }
-
-    public virtual async Task<PagedResultDto<OrderLineDto>> GetListAsync(GetOrderLinesInput input)
-    {
-        var totalCount = await _orderLineRepository.GetCountAsync(input.FilterText, input.ProductId, input.Name, input.AmountMin, input.AmountMax, input.TotalPriceMin, input.TotalPriceMax);
-        var items = await _orderLineRepository.GetListAsync(input.FilterText, input.ProductId, input.Name, input.AmountMin, input.AmountMax, input.TotalPriceMin, input.TotalPriceMax, input.Sorting, input.MaxResultCount, input.SkipCount);
-
-        return new PagedResultDto<OrderLineDto>
-        {
-            TotalCount = totalCount,
-            Items = ObjectMapper.Map<List<OrderLine>, List<OrderLineDto>>(items)
-        };
-    }
-
-    public virtual async Task<OrderLineDto> GetAsync(Guid id)
-    {
-        return ObjectMapper.Map<OrderLine, OrderLineDto>(await _orderLineRepository.GetAsync(id));
-    }
 }
