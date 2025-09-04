@@ -36,6 +36,7 @@ public class PaymentManager : DomainService
 
         await _eventBus.PublishAsync(new PaymentCreatedEto
         {
+            PaymentId = payment.Id,
             OrderId = orderId
         });
 
