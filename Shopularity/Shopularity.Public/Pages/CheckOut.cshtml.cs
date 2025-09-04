@@ -45,7 +45,7 @@ public class CheckOutModel : ShopularityPublicPageModel
 
     public virtual async Task<ActionResult> OnGetAsync()
     {
-        var basket = await BasketAppService.GetBasketItemsAsync();
+        var basket = await BasketAppService.GetItemsAsync();
 
         if (!basket.Items.Any())
         {

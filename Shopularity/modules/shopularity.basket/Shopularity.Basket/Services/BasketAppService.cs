@@ -1,141 +1,40 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Distributed;
-using Shopularity.Basket.Events;
-using Shopularity.Basket.SignalR;
-using Shopularity.Catalog.Products;
-using Volo.Abp;
+using Shopularity.Basket.Domain;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Caching;
-using Volo.Abp.EventBus.Local;
 using Volo.Abp.Users;
 
 namespace Shopularity.Basket.Services;
 
-//TODO: Use Domain Service and remove duplications
 [Authorize]
 public class BasketAppService : BasketAppServiceBase, IBasketAppService
 {
-    private readonly IDistributedCache<BasketCacheItem> _cache;
-    private readonly IProductsIntegrationService _productsService;
-    private readonly ILocalEventBus _eventBus;
+    private readonly BasketManager _basketManager;
 
-    public BasketAppService(
-        IDistributedCache<BasketCacheItem> cache,
-        IProductsIntegrationService productsService,
-        ILocalEventBus eventBus)
+    public BasketAppService(BasketManager basketManager)
     {
-        _cache = cache;
-        _productsService = productsService;
-        _eventBus = eventBus;
+        _basketManager = basketManager;
     }
 
-    public async Task AddItemToBasketAsync(BasketItem input)
+    public async Task AddItemAsync(BasketItem input)
     {
-        var basket = await GetBasketAsync();
-
-        if (basket!.Items.Any(x => x.ItemId == input.ItemId))
-        {
-            basket.Items.First(x => x.ItemId == input.ItemId).Amount += input.Amount;
-        }
-        else
-        {
-            basket.Items.Add(input);
-        }
-
-        await CheckStockAsync(basket.Items.First(x => x.ItemId == input.ItemId));
-
-        await _cache.SetAsync(CurrentUser.GetId().ToString(), basket);
-
-        await PublishBasketUpdatedEventAsync(basket);
+        await _basketManager.AddItemAsync(CurrentUser.GetId(), input);
     }
 
-    public async Task RemoveItemFromBasketAsync(BasketItem input)
+    public async Task RemoveItemAsync(BasketItem input)
     {
-        var basket = await GetBasketAsync();
-
-        if (basket.Items.All(x => x.ItemId != input.ItemId))
-        {
-            return;
-        }
-
-        var item = basket.Items.First(x => x.ItemId == input.ItemId);
-        item.Amount -= input.Amount;
-
-        if (item.Amount <= 0)
-        {
-            basket.Items.Remove(item);
-        }
-
-        if (basket.Items.Any())
-        {
-            await _cache.SetAsync(CurrentUser.GetId().ToString(), basket);
-        }
-        else
-        {
-            await _cache.RemoveAsync(CurrentUser.GetId().ToString());
-        }
-
-        await PublishBasketUpdatedEventAsync(basket);
+        await _basketManager.RemoveItemsAsync(CurrentUser.GetId(), [input]);
     }
 
-    public async Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync()
+    public async Task<ListResultDto<BasketItemDto>> GetItemsAsync()
     {
-        var items = (await GetBasketAsync()).Items;
-
-        var products = await _productsService.GetProductsAsync(items.Select(x => x.ItemId).ToList());
-
-        return new ListResultDto<BasketItemDto>(products.Select(x => new BasketItemDto
-        {
-            Product = x,
-            Amount = items.First(y => y.ItemId == x.Id).Amount
-        }).ToList());
+        return new ListResultDto<BasketItemDto>(
+            await _basketManager.GetItemsAsync(CurrentUser.GetId())
+            );
     }
 
-    public async Task<int> GetCountOfItemsInBasketAsync()
+    public async Task<int> GetCountOfItemsAsync()
     {
-        return (await GetBasketAsync()).Items.Count;
-    }
-
-    private async Task PublishBasketUpdatedEventAsync(BasketCacheItem basket)
-    {
-        try
-        {
-            await _eventBus.PublishAsync(new BasketUpdatedEto
-            {
-                UserId = CurrentUser.GetId(),
-                ItemCountInBasket = basket.Items.Count
-            });
-        }
-        catch
-        {
-            // ignored
-        }
-    }
-
-    private async Task<BasketCacheItem> GetBasketAsync()
-    {
-        var basket = await _cache.GetOrAddAsync(
-            CurrentUser.GetId().ToString(),
-            () => Task.FromResult(new BasketCacheItem()),
-            () => new DistributedCacheEntryOptions
-            {
-                AbsoluteExpiration = DateTimeOffset.Now.AddMonths(1)
-            }
-        );
-        return basket!;
-    }
-
-    private async Task CheckStockAsync(BasketItem item)
-    {
-        var isStockEnough = await _productsService.CheckStockAsync(item.ItemId, item.Amount);
-
-        if (!isStockEnough)
-        {
-            throw new BusinessException(BasketErrorCodes.NotEnoughStock);
-        }
+        return await _basketManager.GetCountOfItemsAsync(CurrentUser.GetId());
     }
 }

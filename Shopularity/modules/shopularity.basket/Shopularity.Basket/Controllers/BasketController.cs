@@ -23,28 +23,28 @@ public class BasketController : AbpController, IBasketAppService
 
     [HttpGet]
     [Route("add")]
-    public async Task AddItemToBasketAsync(BasketItem input)
+    public async Task AddItemAsync(BasketItem input)
     {
-        await BasketAppService.AddItemToBasketAsync(input);
+        await BasketAppService.AddItemAsync(input);
     }
 
     [HttpGet]
     [Route("remove")]
-    public async Task RemoveItemFromBasketAsync(BasketItem input)
+    public async Task RemoveItemAsync(BasketItem input)
     {
-        await BasketAppService.RemoveItemFromBasketAsync(input);
+        await BasketAppService.RemoveItemAsync(input);
     }
 
     [HttpGet]
-    public async Task<ListResultDto<BasketItemDto>> GetBasketItemsAsync()
+    public async Task<ListResultDto<BasketItemDto>> GetItemsAsync()
     {
-        return await BasketAppService.GetBasketItemsAsync();
+        return await BasketAppService.GetItemsAsync();
     }
 
     [HttpGet]
     [Route("count")]
-    public async Task<int> GetCountOfItemsInBasketAsync()
+    public async Task<int> GetCountOfItemsAsync()
     {
-        return await BasketAppService.GetCountOfItemsInBasketAsync();
+        return await BasketAppService.GetCountOfItemsAsync();
     }
 }

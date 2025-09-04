@@ -6,7 +6,7 @@
         var $value = $container.find('.amount-value');
         var amount = parseInt($value.text(), 10) || 0;
 
-        shopularity.public.controllers.basket.removeItemFromBasket({
+        shopularity.public.controllers.basket.removeItem({
             itemId: $container.data('product-id'),
             amount: amount
         })
@@ -18,7 +18,7 @@
     $(document).on('click', '.amount-plus', function () {
         var $container = $(this).closest('.amount-control');
 
-        shopularity.public.controllers.basket.addItemToBasket({
+        shopularity.public.controllers.basket.addItem({
             itemId: $container.data('product-id'),
             amount: 1
         })
@@ -30,7 +30,7 @@
     $(document).on('click', '.amount-minus', function () {
         var $container = $(this).closest('.amount-control');
 
-        shopularity.public.controllers.basket.removeItemFromBasket({
+        shopularity.public.controllers.basket.removeItem({
             itemId: $container.data('product-id'),
             amount: 1
         })
@@ -58,7 +58,7 @@
     }
 
     initBasketCount = function () {
-        shopularity.public.controllers.basket.getCountOfItemsInBasket({}).then(function (result) {
+        shopularity.public.controllers.basket.getCountOfItems({}).then(function (result) {
             updateBasketCount(result);
         });
     }

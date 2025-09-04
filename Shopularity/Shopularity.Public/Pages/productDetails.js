@@ -4,7 +4,7 @@
     var basketAppService = shopularity.public.controllers.basket;
     $(document).on("click", ".addToBasket", function () {
         var id = $(this).data('product-id');
-        basketAppService.addItemToBasket({itemId: id, amount: 1})
+        basketAppService.addItem({itemId: id, amount: 1})
             .then(function (result) {
                 abp.notify.success(l('AddedToBasket'));
             });

@@ -29,7 +29,7 @@ public class BasketEventHandler :
 
     public async Task HandleEventAsync(OrderCreatedEto eventData)
     {
-        await _basketManager.RemoveItemsFromUserBasketAsync(
+        await _basketManager.RemoveItemsAsync(
             eventData.UserId,
             eventData.ProductsWithAmounts.Select(x => new BasketItem { Amount = x.Value, ItemId = x.Key }).ToList()
         );
