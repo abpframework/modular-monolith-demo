@@ -42,7 +42,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
             .GetProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
 
         var productsOutOfStock = products.Where(product => input.Products.First(y => product.Id == y.ProductId).Amount > product.StockCount).ToList();
-        if (productsOutOfStock.Any())
+        if (productsOutOfStock.Count != 0)
         {
             throw new BusinessException(OrderingErrorCodes.NotEnoughStock)
                 .WithData("ProductNames", productsOutOfStock.Select(x=> x.Name).JoinAsString(", "));

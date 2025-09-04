@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Shopularity.Basket.Domain;
 using Shopularity.Basket.Services;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -23,14 +24,14 @@ public class BasketController : AbpController, IBasketAppService
 
     [HttpGet]
     [Route("add")]
-    public async Task AddItemAsync(BasketItem input)
+    public async Task AddItemAsync(AddBasketItemInput input)
     {
         await BasketAppService.AddItemAsync(input);
     }
 
     [HttpGet]
     [Route("remove")]
-    public async Task RemoveItemAsync(BasketItem input)
+    public async Task RemoveItemAsync(RemoveBasketItemInput input)
     {
         await BasketAppService.RemoveItemAsync(input);
     }

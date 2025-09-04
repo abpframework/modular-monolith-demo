@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Shopularity.Basket.Domain;
 using Volo.Abp.Application.Dtos;
@@ -16,20 +18,25 @@ public class BasketAppService : BasketAppServiceBase, IBasketAppService
         _basketManager = basketManager;
     }
 
-    public async Task AddItemAsync(BasketItem input)
+    public async Task AddItemAsync(AddBasketItemInput input)
     {
-        await _basketManager.AddItemAsync(CurrentUser.GetId(), input);
+        await _basketManager.AddItemAsync(CurrentUser.GetId(), input.ItemId, input.Amount);
     }
 
-    public async Task RemoveItemAsync(BasketItem input)
+    public async Task RemoveItemAsync(RemoveBasketItemInput input)
     {
-        await _basketManager.RemoveItemsAsync(CurrentUser.GetId(), [input]);
+        await _basketManager.RemoveItemsAsync(CurrentUser.GetId(), new Dictionary<Guid, int>
+        {
+            { input.ItemId, input.Amount }
+        });
     }
 
     public async Task<ListResultDto<BasketItemDto>> GetItemsAsync()
     {
+        var items = await _basketManager.GetItemsAsync(CurrentUser.GetId());
+        
         return new ListResultDto<BasketItemDto>(
-            await _basketManager.GetItemsAsync(CurrentUser.GetId())
+            ObjectMapper.Map<List<BasketItemWithProductInfo>, List<BasketItemDto>>(items)
             );
     }
 

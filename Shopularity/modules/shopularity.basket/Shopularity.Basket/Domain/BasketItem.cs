@@ -1,6 +1,6 @@
 using System;
 
-namespace Shopularity.Basket.Services;
+namespace Shopularity.Basket.Domain;
 
 public class BasketItem
 {

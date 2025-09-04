@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Shopularity.Basket.Domain;
@@ -31,7 +32,7 @@ public class BasketEventHandler :
     {
         await _basketManager.RemoveItemsAsync(
             eventData.UserId,
-            eventData.ProductsWithAmounts.Select(x => new BasketItem { Amount = x.Value, ItemId = x.Key }).ToList()
+            eventData.ProductsWithAmounts
         );
     }
 

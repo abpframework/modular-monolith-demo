@@ -29,39 +29,51 @@ public class BasketManager: DomainService
         _productsIntegrationService = productsIntegrationService;
     }
 
-    public async Task AddItemAsync(Guid userId, BasketItem input)
+    public async Task AddItemAsync(Guid userId, Guid itemId, int amount = 1)
     {
         var basket = await GetBasketAsync(userId);
 
-        if (basket!.Items.Any(x => x.ItemId == input.ItemId))
+        if (basket!.Items.Any(x => x.ItemId == itemId))
         {
-            basket.Items.First(x => x.ItemId == input.ItemId).Amount += input.Amount;
+            basket.Items.First(x => x.ItemId == itemId).Amount += amount;
         }
         else
         {
-            basket.Items.Add(input);
+            basket.Items.Add(new BasketItem
+            {
+                Amount = amount,
+                ItemId = itemId
+            });
         }
 
-        await CheckStockAsync(basket.Items.First(x => x.ItemId == input.ItemId));
+        await CheckStockAsync(basket.Items.First(x => x.ItemId == itemId));
 
         await _cache.SetAsync(userId.ToString(), basket);
 
         await PublishBasketUpdatedEventAsync(userId, basket);
     }
 
-    public async Task RemoveItemsAsync(Guid userId, List<BasketItem> items)
+    public async Task RemoveItemsAsync(Guid userId, Dictionary<Guid, int> items)
     {
+        if (items.Count == 0)
+        {
+            return;
+        }
+        
         var basket = await GetBasketAsync(userId);
         
         foreach (var item in items)
         {
-            if (basket.Items.All(x => x.ItemId != item.ItemId))
+            var id = item.Key;
+            var amount = item.Value;
+            
+            if (basket.Items.All(x => x.ItemId != id))
             {
                 continue;
             }
 
-            var itemInCache = basket.Items.First(x => x.ItemId == item.ItemId);
-            itemInCache.Amount -= item.Amount;
+            var itemInCache = basket.Items.First(x => x.ItemId == id);
+            itemInCache.Amount -= amount;
 
             if (itemInCache.Amount <= 0)
             {
@@ -81,13 +93,13 @@ public class BasketManager: DomainService
         await PublishBasketUpdatedEventAsync(userId, basket);
     }
     
-    public async Task<List<BasketItemDto>> GetItemsAsync(Guid userId)
+    public async Task<List<BasketItemWithProductInfo>> GetItemsAsync(Guid userId)
     {
         var items = (await GetBasketAsync(userId)).Items;
 
         var products = await _productsIntegrationService.GetPublicProductsAsync(items.Select(x => x.ItemId).ToList());
 
-        return products.Select(x => new BasketItemDto
+        return products.Select(x => new BasketItemWithProductInfo
         {
             Product = x,
             Amount = items.First(y => y.ItemId == x.Id).Amount

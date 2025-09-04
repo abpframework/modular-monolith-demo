@@ -7,9 +7,9 @@ namespace Shopularity.Basket.Services;
 public interface IBasketAppService: IApplicationService
 {
     //TODO: Remove "Basket" from method names
-    Task AddItemAsync(BasketItem input); //TODO: Create specific DTO for this method
+    Task AddItemAsync(AddBasketItemInput input); //TODO: Create specific DTO for this method
 
-    Task RemoveItemAsync(BasketItem input); //TODO: Create specific DTO for this method
+    Task RemoveItemAsync(RemoveBasketItemInput input); //TODO: Create specific DTO for this method
     
     Task<ListResultDto<BasketItemDto>> GetItemsAsync();
     

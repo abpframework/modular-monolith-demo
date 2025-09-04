@@ -27,14 +27,14 @@ public class BasketController : AbpController, IBasketAppService
 
     [HttpGet]
     [Route("add")]
-    public async Task AddItemAsync(BasketItem input)
+    public async Task AddItemAsync(AddBasketItemInput input)
     {
         await BasketAppService.AddItemAsync(input);
     }
 
     [HttpGet]
     [Route("remove")]
-    public async Task RemoveItemAsync(BasketItem input)
+    public async Task RemoveItemAsync(RemoveBasketItemInput input)
     {
         await BasketAppService.RemoveItemAsync(input);
     }
