@@ -59,7 +59,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
         {
             var imageStream = await _blobContainer.GetOrNullAsync(product.Product.Id.ToString());
             
-            product.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
+            product.Product.Image = imageStream != null ? await imageStream.GetAllBytesAsync() : null;
         }
         
         return result;
@@ -72,7 +72,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
             
         var imageStream = await _blobContainer.GetOrNullAsync(id.ToString());
             
-        productWithNavigationProperties.Product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
+        productWithNavigationProperties.Product.Image = imageStream != null ? await imageStream.GetAllBytesAsync() : null;
 
         return productWithNavigationProperties;
     }
@@ -83,7 +83,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
 
         var imageStream = await _blobContainer.GetOrNullAsync(id.ToString());
             
-        product.Image = imageStream != null ? ReadAllBytesFromStream(imageStream) : null;
+        product.Image = imageStream != null ? await imageStream.GetAllBytesAsync() : null;
             
         return product;
     }
@@ -199,12 +199,5 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
         {
             Token = token
         };
-    }
-
-    private byte[] ReadAllBytesFromStream(Stream input)
-    {
-        using var memoryStream = new MemoryStream();
-        input.CopyTo(memoryStream);
-        return memoryStream.ToArray();
     }
 }
