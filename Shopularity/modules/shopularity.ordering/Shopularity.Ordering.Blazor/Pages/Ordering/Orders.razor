@@ -312,7 +312,7 @@
                     <Field>
                         <FieldLabel>@L["TotalPrice"]</FieldLabel>
                         <span class="form-control-plaintext">
-                            $@EditingOrder.TotalPrice.ToString("F2")
+                            $@EditingOrder.TotalPrice.ToString("#,0.00", CultureInfo.InvariantCulture)
                         </span>
                     </Field>
 

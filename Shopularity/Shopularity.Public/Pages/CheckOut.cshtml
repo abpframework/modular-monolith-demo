@@ -1,4 +1,5 @@
 @page "/check-out"
+@using System.Globalization
 @using Shopularity.Public.Pages
 @using Shopularity.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -20,7 +21,7 @@
                         <abp-column class="align-content-center">
                             <div class="d-flex justify-content-between">
                                 <span class="fw-light">@item.Name</span>
-                                <span class="fw-semibold">$@item.Price</span>
+                                <span class="fw-semibold">$@item.Price.ToString("#,0.00", CultureInfo.InvariantCulture)</span>
                             </div>
                             <span class="fw-lighter">@L["Amount"]: @item.Amount</span>
                         </abp-column>
@@ -34,7 +35,7 @@
             <abp-card-body class="p-4">
                 <div class="d-flex justify-content-between">
                     <span class="h4 fw-light">@L["TotalPrice"]</span>
-                    <span class="h4 fw-semibold text-primary">$@Model.TotalPrice.ToString("F2")</span>
+                    <span class="h4 fw-semibold text-primary">$@Model.TotalPrice.ToString("#,0.00", CultureInfo.InvariantCulture)</span>
                 </div>
                 <form method="post">
                     <abp-input asp-for="CacheId"/>

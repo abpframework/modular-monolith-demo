@@ -20,7 +20,7 @@ public class IndexModel : ShopularityPublicPageModel
     public virtual async Task<ActionResult> OnGetAsync()
     {
         var result = await CategoriesAppService.GetListAsync();
-        Categories = result.Items.ToList();
+        Categories = result.Items.OrderBy(x=> x.Name).ToList();
 
         return Page();
     }
