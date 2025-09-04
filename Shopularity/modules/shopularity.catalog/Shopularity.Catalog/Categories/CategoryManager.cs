@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.Data;
+using Volo.Abp.Domain.Repositories;
 
 namespace Shopularity.Catalog.Categories;
 
@@ -20,9 +21,9 @@ public class CategoryManager : DomainService
         string name)
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));
-        Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
+        Check.Length(name, nameof(name), CategoryConsts.NameMaxLength);
 
-        //TODO: Check duplicate name!
+        await CheckDuplicateNameAsync(name);
         
         var category = new Category(
             GuidGenerator.Create(),
@@ -38,15 +39,33 @@ public class CategoryManager : DomainService
     )
     {
         Check.NotNullOrWhiteSpace(name, nameof(name));
-        Check.Length(name, nameof(name), CategoryConsts.NameMaxLength, CategoryConsts.NameMinLength);
+        Check.Length(name, nameof(name), CategoryConsts.NameMaxLength);
+
+        await CheckDuplicateNameAsync(name, id);
 
         var category = await _categoryRepository.GetAsync(id);
-        
-        //TODO: Check duplicate name!
 
         category.Name = name;
 
         category.SetConcurrencyStampIfNotNull(concurrencyStamp); //TODO: Necessary?
         return await _categoryRepository.UpdateAsync(category);
+    }
+
+    private async Task CheckDuplicateNameAsync(string name, Guid? id = null)
+    {
+        var existingCategory = await _categoryRepository.FirstOrDefaultAsync(x=> x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+
+        if (existingCategory == null)
+        {
+            return;
+        }
+
+        if (existingCategory.Id == id)
+        {
+            return;
+        }
+        
+        throw new BusinessException(CatalogErrorCodes.CategoryNameAlreadyExists)
+            .WithData("Name", name);
     }
 }

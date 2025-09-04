@@ -1,7 +1,7 @@
 {
   "Culture": "en",
   "Texts": {
-    "Catalog:NotEnoughStock": "Not enough stock!",
+    "Catalog:Catalog:CategoryNameAlreadyExists": "Category name already exists: {Name}",
     "MyAccount": "My account",
     "SamplePageMessage": "A sample page for the Catalog module",
     "Permission:Categories": "Categories",
