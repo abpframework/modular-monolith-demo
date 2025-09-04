@@ -8,12 +8,13 @@ using Blazorise;
 using Blazorise.DataGrid;
 using Volo.Abp.BlazoriseUI.Components;
 using Microsoft.AspNetCore.Authorization;
+using Shopularity.Ordering.Domain.Orders;
 using Shopularity.Ordering.Localization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
-using Shopularity.Ordering.Orders;
 using Shopularity.Ordering.Permissions;
-using Shopularity.Ordering.OrderLines; 
+using Shopularity.Ordering.Services.Orders.Admin;
+using Shopularity.Ordering.Services.Orders.OrderLines;
 
 namespace Shopularity.Ordering.Blazor.Pages.Ordering;
 
@@ -118,7 +119,7 @@ public partial class Orders
         Filter.SkipCount = (CurrentPage - 1) * PageSize;
         Filter.Sorting = CurrentSorting;
 
-        var result = await OrdersAppService.GetListAsync(Filter);
+        var result = await OrdersAdminAppService.GetListAsync(Filter);
         OrderList = result.Items;
 
         foreach (var orderDto in OrderList)
@@ -141,7 +142,7 @@ public partial class Orders
 
     private async Task DownloadAsExcelAsync()
     {
-        var token = (await OrdersAppService.GetDownloadTokenAsync()).Token;
+        var token = (await OrdersAdminAppService.GetDownloadTokenAsync()).Token;
         var remoteService = await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Ordering") ?? await RemoteServiceConfigurationProvider.GetConfigurationOrDefaultOrNullAsync("Default");
         var culture = CultureInfo.CurrentUICulture.Name ?? CultureInfo.CurrentCulture.Name;
         if(!culture.IsNullOrEmpty())
@@ -165,7 +166,7 @@ public partial class Orders
 
     private async Task OpenEditOrderModalAsync(OrderDto input)
     {
-        var order = await OrdersAppService.GetAsync(input.Id);
+        var order = await OrdersAdminAppService.GetAsync(input.Id);
             
         EditingOrderId = order.Id;
         EditingOrder = order;
@@ -176,7 +177,7 @@ public partial class Orders
 
     private async Task OpenShipmentModalAsync(OrderDto input)
     {
-        var order = await OrdersAppService.GetAsync(input.Id);
+        var order = await OrdersAdminAppService.GetAsync(input.Id);
             
         ShippingOrderId = order.Id;
         Shipment = ObjectMapper.Map<OrderDto, SetShippingInfoInput>(order);
@@ -204,7 +205,7 @@ public partial class Orders
                 return;
             }
 
-            await OrdersAppService.UpdateAsync(EditingOrderId, new OrderUpdateDto
+            await OrdersAdminAppService.UpdateAsync(EditingOrderId, new OrderUpdateDto
             {
                 ShippingAddress = EditingOrder.ShippingAddress,
                 ConcurrencyStamp = EditingOrder.ConcurrencyStamp
@@ -227,7 +228,7 @@ public partial class Orders
                 return;
             }
 
-            await OrdersAppService.SetShippingInfoAsync(ShippingOrderId, Shipment);
+            await OrdersAdminAppService.SetShippingInfoAsync(ShippingOrderId, Shipment);
             await GetOrdersAsync();
             await ShippingModal.Hide();                
         }
@@ -307,7 +308,7 @@ public partial class Orders
             return;
         }
 
-        var orderLines = await OrdersAppService.GetOrderLineListAsync(new GetOrderLineListInput 
+        var orderLines = await OrdersAdminAppService.GetOrderLineListAsync(new GetOrderLineListInput 
         {
             OrderId = orderId,
             MaxResultCount = OrderLinePageSize,

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shopularity.Basket.Services;
 using Shopularity.Catalog.Services.Products;
 using Shopularity.Catalog.Services.Products.Public;
-using Shopularity.Ordering.Orders.Public;
+using Shopularity.Ordering.Services.Orders.Public;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 using Volo.Abp.Caching;

@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Shopularity.Catalog.Domain.Products;
 
 namespace Shopularity.Catalog.Services.Products.Admin;
 

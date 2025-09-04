@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Shopularity.Catalog.Domain.Products;
 using Volo.Abp.Domain.Entities;
 
 namespace Shopularity.Catalog.Services.Products.Admin;

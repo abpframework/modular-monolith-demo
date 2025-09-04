@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Ordering.Orders.Public;
+using Shopularity.Ordering.Services.Orders.Public;
 using Volo.Abp.Application.Dtos;
 
 namespace Shopularity.Public.Pages;

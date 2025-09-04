@@ -1,6 +1,5 @@
-using Shopularity.Ordering.OrderLines;
-using Shopularity.Ordering.Orders;
 using AutoMapper;
+using Shopularity.Ordering.Services.Orders.Admin;
 
 namespace Shopularity.Ordering.Blazor;
 
@@ -11,7 +10,5 @@ public class OrderingBlazorAutoMapperProfile : Profile
         CreateMap<OrderDto, OrderUpdateDto>();
 
         CreateMap<OrderDto, SetShippingInfoInput>();
-
-        CreateMap<OrderLineDto, OrderLineUpdateDto>();
     }
 }

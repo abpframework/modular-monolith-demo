@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Shopularity.Ordering.Orders.Events;
+using Shopularity.Ordering.Events.Orders;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 

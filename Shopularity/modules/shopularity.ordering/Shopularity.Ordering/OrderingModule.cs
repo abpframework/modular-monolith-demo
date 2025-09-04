@@ -1,10 +1,10 @@
-using Shopularity.Ordering.Orders;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 using Volo.Abp.EntityFrameworkCore;
 using Shopularity.Ordering.Data;
+using Shopularity.Ordering.Domain.Orders;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Shopularity.Ordering;

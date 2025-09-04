@@ -1,7 +1,7 @@
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using Microsoft.EntityFrameworkCore;
-using Shopularity.Ordering.OrderLines;
-using Shopularity.Ordering.Orders;
+using Shopularity.Ordering.Domain.Orders;
+using Shopularity.Ordering.Domain.Orders.OrderLines;
 using Volo.Abp;
 
 namespace Shopularity.Ordering.Data;
