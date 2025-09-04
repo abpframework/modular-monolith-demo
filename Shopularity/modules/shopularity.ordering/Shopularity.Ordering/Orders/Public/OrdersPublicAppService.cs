@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Shopularity.Catalog.Products;
+using Shopularity.Catalog.Services.Products.Integration;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp;

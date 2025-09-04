@@ -8,9 +8,9 @@ using Volo.Abp.BlazoriseUI.Components;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
-using Shopularity.Catalog.Categories;
 using Shopularity.Catalog.Permissions;
 using Shopularity.Catalog.Localization;
+using Shopularity.Catalog.Services.Categories.Admin;
 
 namespace Shopularity.Catalog.Blazor.Pages.Catalog;
 
@@ -100,7 +100,7 @@ public partial class Categories
         Filter.SkipCount = (CurrentPage - 1) * PageSize;
         Filter.Sorting = CurrentSorting;
 
-        var result = await CategoriesAppService.GetListAsync(Filter);
+        var result = await CategoriesAdminAppService.GetListAsync(Filter);
         CategoryList = result.Items;
         TotalCount = (int)result.TotalCount;
     }
@@ -132,7 +132,7 @@ public partial class Categories
 
     private async Task OpenEditCategoryModalAsync(CategoryDto input)
     {
-        var category = await CategoriesAppService.GetAsync(input.Id);
+        var category = await CategoriesAdminAppService.GetAsync(input.Id);
             
         EditingCategoryId = category.Id;
         EditingCategory = ObjectMapper.Map<CategoryDto, CategoryUpdateDto>(category);
@@ -143,7 +143,7 @@ public partial class Categories
 
     private async Task DeleteCategoryAsync(CategoryDto input)
     {
-        await CategoriesAppService.DeleteAsync(input.Id);
+        await CategoriesAdminAppService.DeleteAsync(input.Id);
         await GetCategoriesAsync();
     }
 
@@ -156,7 +156,7 @@ public partial class Categories
                 return;
             }
 
-            await CategoriesAppService.CreateAsync(NewCategory);
+            await CategoriesAdminAppService.CreateAsync(NewCategory);
             await GetCategoriesAsync();
             await CloseCreateCategoryModalAsync();
         }
@@ -180,7 +180,7 @@ public partial class Categories
                 return;
             }
 
-            await CategoriesAppService.UpdateAsync(EditingCategoryId, EditingCategory);
+            await CategoriesAdminAppService.UpdateAsync(EditingCategoryId, EditingCategory);
             await GetCategoriesAsync();
             await EditCategoryModal.Hide();                
         }

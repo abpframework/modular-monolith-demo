@@ -11,11 +11,10 @@ using Volo.Abp.BlazoriseUI.Components;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
-using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Permissions;
 using Shopularity.Catalog.Shared;
 using Shopularity.Catalog.Localization;
-using Shopularity.Catalog.Products.Admin;
+using Shopularity.Catalog.Services.Products.Admin;
 
 namespace Shopularity.Catalog.Blazor.Pages.Catalog;
 

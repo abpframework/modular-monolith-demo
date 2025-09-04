@@ -1,6 +1,6 @@
-using Shopularity.Catalog.Products;
-using Shopularity.Catalog.Categories;
 using Microsoft.EntityFrameworkCore;
+using Shopularity.Catalog.Domain.Categories;
+using Shopularity.Catalog.Domain.Products;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 

@@ -1,6 +1,6 @@
-﻿using Shopularity.Catalog.Categories;
-using AutoMapper;
-using Shopularity.Catalog.Products.Admin;
+﻿using AutoMapper;
+using Shopularity.Catalog.Services.Categories.Admin;
+using Shopularity.Catalog.Services.Products.Admin;
 
 namespace Shopularity.Catalog.Blazor;
 

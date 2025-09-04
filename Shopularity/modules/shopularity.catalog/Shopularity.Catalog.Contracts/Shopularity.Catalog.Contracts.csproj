@@ -25,4 +25,8 @@
       <Content Remove="Localization\Catalog\*.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

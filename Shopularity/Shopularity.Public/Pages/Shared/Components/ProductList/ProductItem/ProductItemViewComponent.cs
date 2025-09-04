@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Catalog.Products.Public;
+using Shopularity.Catalog.Services.Products.Public;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Shopularity.Public.Pages.Shared.Components.ProductList.ProductItem;

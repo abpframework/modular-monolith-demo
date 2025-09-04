@@ -1,4 +1,4 @@
-﻿using Shopularity.Catalog.Products.Public;
+﻿using Shopularity.Catalog.Services.Products.Public;
 
 namespace Shopularity.Basket.Services;
 

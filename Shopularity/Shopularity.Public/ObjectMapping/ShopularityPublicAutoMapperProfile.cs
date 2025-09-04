@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Shopularity.Catalog.Products.Public;
+using Shopularity.Catalog.Services.Products.Public;
 using Shopularity.Public.Components.Basket;
 using Shopularity.Public.Pages;
 using Volo.Abp.AutoMapper;

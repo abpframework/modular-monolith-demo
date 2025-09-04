@@ -1,4 +1,4 @@
-﻿using Shopularity.Catalog.Products.Admin;
+﻿using Shopularity.Catalog.Services.Products.Admin;
 
 namespace Shopularity.Ordering.Orders;
 

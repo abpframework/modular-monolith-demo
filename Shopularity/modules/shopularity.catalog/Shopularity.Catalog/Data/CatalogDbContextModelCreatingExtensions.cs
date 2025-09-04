@@ -1,8 +1,9 @@
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using Microsoft.EntityFrameworkCore;
-using Shopularity.Catalog.Categories;
-using Shopularity.Catalog.Products;
-using Shopularity.Catalog.Products.Admin;
+using Shopularity.Catalog.Domain.Categories;
+using Shopularity.Catalog.Domain.Products;
+using Shopularity.Catalog.Services.Categories.Admin;
+using Shopularity.Catalog.Services.Products.Admin;
 using Volo.Abp;
 
 namespace Shopularity.Catalog.Data;

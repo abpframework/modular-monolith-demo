@@ -1,13 +1,13 @@
 using Shopularity.Ordering;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
-using Shopularity.Catalog.Products;
-using Shopularity.Catalog.Categories;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 using Volo.Abp.Application;
 using Volo.Abp.EntityFrameworkCore;
 using Shopularity.Catalog.Data;
+using Shopularity.Catalog.Domain.Categories;
+using Shopularity.Catalog.Domain.Products;
 using Volo.Abp.AspNetCore.Mvc;
 
 namespace Shopularity.Catalog;

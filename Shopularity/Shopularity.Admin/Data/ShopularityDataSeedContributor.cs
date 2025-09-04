@@ -1,5 +1,5 @@
-﻿using Shopularity.Catalog.Categories;
-using Shopularity.Catalog.Products;
+﻿using Shopularity.Catalog.Domain.Categories;
+using Shopularity.Catalog.Domain.Products;
 using SixLabors.ImageSharp;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;

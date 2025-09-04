@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Catalog.Products.Public;
+using Shopularity.Catalog.Services.Products.Public;
 
 namespace Shopularity.Public.Components.ProductList;
 

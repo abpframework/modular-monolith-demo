@@ -1,15 +1,15 @@
 @page "/Catalog/Categories"
 @attribute [Authorize(CatalogPermissions.Categories.Default)]
-@using global::Shopularity.Catalog.Categories
 @using global::Shopularity.Catalog.Localization
 @using Microsoft.AspNetCore.Authorization
 @using Volo.Abp.BlazoriseUI.Components
 @using Volo.Abp.AspNetCore.Components.Messages
 @using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using global::Shopularity.Catalog.Permissions
+@using Shopularity.Catalog.Services.Categories.Admin
 @using Volo.Abp.AspNetCore.Components
 @inherits AbpComponentBase
-@inject ICategoriesAppService CategoriesAppService
+@inject ICategoriesAdminAppService CategoriesAdminAppService
 @inject IUiMessageService UiMessageService
 @inject AbpBlazorMessageLocalizerHelper<CatalogResource> LH
 

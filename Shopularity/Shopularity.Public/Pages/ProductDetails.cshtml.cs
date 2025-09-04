@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Catalog.Products.Public;
+using Shopularity.Catalog.Services.Products.Public;
 
 namespace Shopularity.Public.Pages;
 
