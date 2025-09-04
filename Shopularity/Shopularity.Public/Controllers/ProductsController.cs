@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Catalog.Products;
 using Shopularity.Catalog.Products.Public;
 using Shopularity.Public.Components.ProductList;
 using Volo.Abp;

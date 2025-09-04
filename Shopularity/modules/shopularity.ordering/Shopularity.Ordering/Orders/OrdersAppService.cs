@@ -16,7 +16,6 @@ using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Data;
-using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity.Integration;
 using Volo.Abp.Users;
 
@@ -29,20 +28,17 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
     protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
     private readonly IIdentityUserIntegrationService _userIntegrationService;
     private readonly IBackgroundJobManager _backgroundJobManager;
-    private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
 
     public OrdersAppService(
         IOrderRepository orderRepository,
         IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
         IIdentityUserIntegrationService userIntegrationService,
-        IBackgroundJobManager backgroundJobManager,
-        IDistributedEventBus eventBus)
+        IBackgroundJobManager backgroundJobManager)
     {
         _downloadTokenCache = downloadTokenCache;
         _userIntegrationService = userIntegrationService;
         _backgroundJobManager = backgroundJobManager;
-        _eventBus = eventBus;
         _orderRepository = orderRepository;
     }
 

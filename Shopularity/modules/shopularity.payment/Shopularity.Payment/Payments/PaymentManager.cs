@@ -5,7 +5,6 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Uow;
 
 namespace Shopularity.Payment.Payments;
 

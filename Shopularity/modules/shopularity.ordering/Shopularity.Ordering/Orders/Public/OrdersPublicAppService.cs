@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Shopularity.Catalog.Products;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
-using Shopularity.Payment.Payments.Events;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.EventBus.Distributed;

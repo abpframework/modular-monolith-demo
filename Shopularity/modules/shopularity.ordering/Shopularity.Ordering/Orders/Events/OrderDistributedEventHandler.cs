@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Shopularity.Payment.Payments.Events;
-using Volo.Abp;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;

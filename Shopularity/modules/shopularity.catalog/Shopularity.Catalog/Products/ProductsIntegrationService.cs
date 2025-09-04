@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Shopularity.Catalog.Products.Admin;
 using Shopularity.Catalog.Products.Public;
-using Volo.Abp;
 
 namespace Shopularity.Catalog.Products;
 
