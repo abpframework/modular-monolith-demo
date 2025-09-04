@@ -85,7 +85,7 @@ public class BasketManager: DomainService
     {
         var items = (await GetBasketAsync(userId)).Items;
 
-        var products = await _productsIntegrationService.GetProductsAsync(items.Select(x => x.ItemId).ToList());
+        var products = await _productsIntegrationService.GetPublicProductsAsync(items.Select(x => x.ItemId).ToList());
 
         return products.Select(x => new BasketItemDto
         {

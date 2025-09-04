@@ -42,7 +42,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
         }
         
         var products = await _productsIntegrationService
-            .GetProductsAsync(input.Products);
+            .GetProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
 
         if (products.Any(product => input.Products.First(y=> product.Id == y.ProductId).Amount > product.StockCount))
         {

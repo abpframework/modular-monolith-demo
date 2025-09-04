@@ -17,14 +17,14 @@ public class ProductsIntegrationService : CatalogAppService, IProductsIntegratio
         _productRepository = productRepository;
     }
     
-    public async Task<List<ProductDto>> GetProductsAsync(List<ProductIdsWithAmountDto> productIdsWithAmount)
+    public async Task<List<ProductDto>> GetProductsAsync(List<Guid> ids)
     {
-        var products = await _productRepository.GetListAsync(productIdsWithAmount.Select(x=> x.ProductId).ToList());
+        var products = await _productRepository.GetListAsync(ids);
         
         return ObjectMapper.Map<List<Product>, List<ProductDto>>(products);
     }
     
-    public async Task<List<ProductPublicDto>> GetProductsAsync(List<Guid> ids)
+    public async Task<List<ProductPublicDto>> GetPublicProductsAsync(List<Guid> ids)
     {
         var products = await _productRepository.GetListAsync(ids);
 

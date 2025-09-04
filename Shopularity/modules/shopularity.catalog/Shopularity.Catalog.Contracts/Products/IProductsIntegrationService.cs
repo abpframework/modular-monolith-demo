@@ -11,9 +11,9 @@ namespace Shopularity.Catalog.Products;
 [IntegrationService]
 public interface IProductsIntegrationService: IApplicationService
 {
-    Task<List<ProductDto>> GetProductsAsync(List<ProductIdsWithAmountDto> productIdsWithAmount); //TODO: List<ProductIdsWithAmountDto> to List<Guid> ?
+    Task<List<ProductDto>> GetProductsAsync(List<Guid> ids);
 
-    Task<List<ProductPublicDto>> GetProductsAsync(List<Guid> ids);
+    Task<List<ProductPublicDto>> GetPublicProductsAsync(List<Guid> ids);
     
     Task<bool> CheckStockAsync(Guid id, int amount);
 }
