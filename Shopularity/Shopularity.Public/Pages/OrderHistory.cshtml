@@ -1,4 +1,5 @@
 @page "/order-history"
+@using System.Globalization
 @using Shopularity.Public.Pages
 @using Shopularity.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
@@ -33,7 +34,7 @@
 
                         <abp-column size-md="_2" class="mb-2">
                             <span class="text-muted fw-lighter">@L["Total"]</span>
-                            <div class="text-primary fw-bold">$@item.TotalPrice.ToString("F2")</div>
+                            <div class="text-primary fw-bold">$@item.TotalPrice.ToString("#,0.00", CultureInfo.InvariantCulture)</div>
                         </abp-column>
 
                         <abp-column size-md="_2" class="mb-2 order-state">

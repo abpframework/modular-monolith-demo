@@ -1,3 +1,4 @@
+@using System.Globalization
 @using Microsoft.Extensions.Localization
 @using Shopularity.Localization
 @using Volo.Abp.Users
@@ -18,7 +19,7 @@
         <div class="d-flex flex-column ">
             <div class="d-flex flex-row justify-content-between mb-2 px-1">
                 <span class="product-name h6 fw-light">@Model.Item.Product.Name</span>
-                <span class="product-price h6 fw-semibold ">$@Model.Item.Product.Price</span>
+                <span class="product-price h6 fw-semibold ">$@Model.Item.Product.Price.ToString("#,0.00", CultureInfo.InvariantCulture)</span>
             </div>
             @if (CurrentUser.IsAuthenticated)
             {
