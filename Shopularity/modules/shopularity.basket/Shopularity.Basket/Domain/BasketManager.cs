@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Shopularity.Basket.Events;
-using Shopularity.Basket.Services;
 using Shopularity.Catalog.Products;
 using Volo.Abp;
 using Volo.Abp.Caching;

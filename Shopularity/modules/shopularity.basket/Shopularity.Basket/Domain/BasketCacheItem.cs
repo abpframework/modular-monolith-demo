@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Shopularity.Basket.Services;
 
 namespace Shopularity.Basket.Domain;
 

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
-using Shopularity.Basket.Domain;
 using Shopularity.Basket.Services;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;

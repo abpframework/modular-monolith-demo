@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Shopularity.Basket.Domain;
-using Shopularity.Basket.Services;
 using Shopularity.Basket.SignalR;
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp.DependencyInjection;
