@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
@@ -27,12 +28,10 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
     private readonly IIdentityUserIntegrationService _userIntegrationService;
     private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
-    private readonly IOrderLineRepository _orderLineRepository;
     protected OrderManager _orderManager;
 
     public OrdersAppService(
         IOrderRepository orderRepository,
-        IOrderLineRepository orderLineRepository,
         OrderManager orderManager,
         IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
         IIdentityUserIntegrationService userIntegrationService,
@@ -42,7 +41,6 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         _userIntegrationService = userIntegrationService;
         _eventBus = eventBus;
         _orderRepository = orderRepository;
-        _orderLineRepository = orderLineRepository;
         _orderManager = orderManager;
     }
 
@@ -180,15 +178,16 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
 
     public virtual async Task<PagedResultDto<OrderLineDto>> GetOrderLineListAsync(GetOrderLineListInput input)
     {
-        var orderLines = await _orderLineRepository.GetListByOrderIdAsync(
-            input.OrderId,
-            input.Sorting,
-            input.MaxResultCount,
-            input.SkipCount);
+        var order= await _orderRepository.GetAsync(input.OrderId, includeDetails: true);
 
+        var orderLines = order.OrderLines
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount)
+            .ToList();
+        
         return new PagedResultDto<OrderLineDto>
         {
-            TotalCount = await _orderLineRepository.GetCountByOrderIdAsync(input.OrderId),
+            TotalCount = order.OrderLines.Count,
             Items = ObjectMapper.Map<List<OrderLine>, List<OrderLineDto>>(orderLines)
         };
     }

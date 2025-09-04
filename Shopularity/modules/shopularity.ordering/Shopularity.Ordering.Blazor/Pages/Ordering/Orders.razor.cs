@@ -311,8 +311,7 @@ public partial class Orders
         {
             OrderId = orderId,
             MaxResultCount = OrderLinePageSize,
-            SkipCount = (currentPage - 1) * OrderLinePageSize,
-            Sorting = sorting
+            SkipCount = (currentPage - 1) * OrderLinePageSize
         });
 
         order.OrderLines = orderLines.Items.ToList();

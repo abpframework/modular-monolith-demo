@@ -18,19 +18,10 @@ namespace Shopularity.Ordering.Orders;
 public class OrderManager : DomainService
 {
     protected IOrderRepository _orderRepository;
-    private readonly IOrderLineRepository _orderLineRepository; //TODO: Remove unused ones
-    private readonly IDistributedEventBus _eventBus;
-    private readonly ICurrentUser _currentUser;
 
-    public OrderManager(IOrderRepository orderRepository,
-        IOrderLineRepository orderLineRepository,
-        IDistributedEventBus eventBus,
-        ICurrentUser currentUser)
+    public OrderManager(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
-        _orderLineRepository = orderLineRepository;
-        _eventBus = eventBus;
-        _currentUser = currentUser;
     }
 
     public virtual async Task<Order> CreateNewAsync( //TODO: Discard this method

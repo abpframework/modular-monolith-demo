@@ -43,9 +43,6 @@ public class OrderingModule : AbpModule
              * options.AddRepository<Question, EfCoreQuestionRepository>();
              */
             options.AddRepository<Order, EfCoreOrderRepository>();
-
-            options.AddRepository<OrderLine, EfCoreOrderLineRepository>();
-
         });
     }
 }

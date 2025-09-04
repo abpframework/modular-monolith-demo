@@ -3,7 +3,7 @@ using System;
 
 namespace Shopularity.Ordering.OrderLines;
 
-public class GetOrderLineListInput : PagedAndSortedResultRequestDto
+public class GetOrderLineListInput : PagedResultRequestDto
 {
     public Guid OrderId { get; set; }
 }
