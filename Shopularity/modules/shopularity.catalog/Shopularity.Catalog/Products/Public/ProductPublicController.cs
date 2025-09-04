@@ -14,30 +14,30 @@ namespace Shopularity.Catalog.Products.Public;
 [Route("api/catalog/public/products")]
 public class ProductPublicController : AbpController, IProductsPublicAppService
 {
-    protected IProductsPublicAppService ProductsPublicAppService; //TODO: private
+    private readonly IProductsPublicAppService _productsPublicAppService; //TODO: private
 
     public ProductPublicController(IProductsPublicAppService productsPublicAppService)
     {
-        ProductsPublicAppService = productsPublicAppService;
+        _productsPublicAppService = productsPublicAppService;
     }
 
     [HttpGet]
     public virtual Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input)
     {
-        return ProductsPublicAppService.GetListAsync(input);
+        return _productsPublicAppService.GetListAsync(input);
     }
 
     [HttpGet]
     [Route("{id}")]
     public virtual Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)
     {
-        return ProductsPublicAppService.GetAsync(id);
+        return _productsPublicAppService.GetAsync(id);
     }
 
     [HttpGet]
     [Route("image-as-bytes/{id}")]
     public Task<byte[]> GetImageAsByteArrayAsync(Guid id)
     {
-        return ProductsPublicAppService.GetImageAsByteArrayAsync(id);
+        return _productsPublicAppService.GetImageAsByteArrayAsync(id);
     }
 }
