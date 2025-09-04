@@ -11,17 +11,14 @@ public static class PaymentDbContextModelCreatingExtensions
     {
         Check.NotNull(builder, nameof(builder));
 
-        if (builder.IsHostDatabase())
+        builder.Entity<Payments.Payment>(b =>
         {
-            builder.Entity<Payments.Payment>(b =>
-            {
-                b.ToTable(PaymentDbProperties.DbTablePrefix + "Payments", PaymentDbProperties.DbSchema);
-                b.ConfigureByConvention();
-                b.Property(x => x.OrderId).HasColumnName(nameof(Payments.Payment.OrderId)).IsRequired();
-                b.Property(x => x.TotalPrice).HasColumnName(nameof(Payments.Payment.TotalPrice));
-                b.Property(x => x.State).HasColumnName(nameof(Payments.Payment.State));
-            });
+            b.ToTable(PaymentDbProperties.DbTablePrefix + "Payments", PaymentDbProperties.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.OrderId).HasColumnName(nameof(Payments.Payment.OrderId)).IsRequired();
+            b.Property(x => x.TotalPrice).HasColumnName(nameof(Payments.Payment.TotalPrice));
+            b.Property(x => x.State).HasColumnName(nameof(Payments.Payment.State));
+        });
 
-        }
     }
 }
