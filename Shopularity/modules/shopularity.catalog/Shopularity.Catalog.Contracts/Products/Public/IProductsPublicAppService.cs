@@ -9,9 +9,6 @@ public interface IProductsPublicAppService : IApplicationService
 {
     Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input);
 
-    //TODO: Is used?
-    Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input);
-
     Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id);
 
     Task<Byte[]> GetImageAsByteArrayAsync(Guid id);

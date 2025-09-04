@@ -49,17 +49,6 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
         return result;
     }
 
-    public virtual async Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input)
-    {
-        var items = await _productRepository.GetListWithNavigationPropertiesAsync(input.Ids);
-        var result = new ListResultDto<ProductWithNavigationPropertiesPublicDto>
-        {
-            Items = ObjectMapper.Map<List<ProductWithNavigationProperties>, List<ProductWithNavigationPropertiesPublicDto>>(items)
-        };
-        
-        return result;
-    }    
-
     public virtual async Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)
     {
         var productWithNavigationProperties = ObjectMapper.Map<ProductWithNavigationProperties, ProductWithNavigationPropertiesPublicDto>

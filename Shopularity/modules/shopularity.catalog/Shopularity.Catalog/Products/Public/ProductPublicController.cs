@@ -28,13 +28,6 @@ public class ProductPublicController : AbpController, IProductsPublicAppService
     }
 
     [HttpGet]
-    [Route("ids")]
-    public Task<ListResultDto<ProductWithNavigationPropertiesPublicDto>> GetListByIdsAsync(GetListByIdsInput input)
-    {
-        return ProductsPublicAppService.GetListByIdsAsync(input);
-    }
-
-    [HttpGet]
     [Route("{id}")]
     public virtual Task<ProductWithNavigationPropertiesPublicDto> GetAsync(Guid id)
     {
