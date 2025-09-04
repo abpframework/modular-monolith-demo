@@ -41,10 +41,11 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
         var products = await _productsIntegrationService
             .GetProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
 
-        if (products.Any(product => input.Products.First(y=> product.Id == y.ProductId).Amount > product.StockCount))
+        var productsOutOfStock = products.Where(product => input.Products.First(y => product.Id == y.ProductId).Amount > product.StockCount).ToList();
+        if (productsOutOfStock.Any())
         {
-            //TODO: Add product info to the exception
-            throw new BusinessException(OrderingErrorCodes.NotEnoughStock);
+            throw new BusinessException(OrderingErrorCodes.NotEnoughStock)
+                .WithData("ProductNames", productsOutOfStock.Select(x=> x.Name).JoinAsString(", "));
         }
 
         var productsWithAmounts = products.Select(x => new ProductWithAmountDto
