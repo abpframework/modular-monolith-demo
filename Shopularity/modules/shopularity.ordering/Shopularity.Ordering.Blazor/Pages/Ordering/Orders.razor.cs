@@ -307,7 +307,7 @@ public partial class Orders
             return;
         }
 
-        var orderLines = await OrderLinesAppService.GetListByOrderIdAsync(new GetOrderLineListInput 
+        var orderLines = await OrdersAppService.GetOrderLineListAsync(new GetOrderLineListInput 
         {
             OrderId = orderId,
             MaxResultCount = OrderLinePageSize,

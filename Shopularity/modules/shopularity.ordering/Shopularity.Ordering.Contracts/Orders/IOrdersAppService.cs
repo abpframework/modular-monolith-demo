@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Shopularity.Ordering.OrderLines;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Content;
@@ -20,5 +21,6 @@ public interface IOrdersAppService : IApplicationService
     Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input);
 
     Task<DownloadTokenResultDto> GetDownloadTokenAsync();
-
+    
+    Task<PagedResultDto<OrderLineDto>> GetOrderLineListAsync(GetOrderLineListInput input);
 }

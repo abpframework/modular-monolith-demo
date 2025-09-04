@@ -2,6 +2,7 @@ using Asp.Versioning;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Shopularity.Ordering.OrderLines;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
@@ -62,6 +63,13 @@ public class OrderController : AbpController, IOrdersAppService
     public virtual Task<DownloadTokenResultDto> GetDownloadTokenAsync()
     {
         return _ordersAppService.GetDownloadTokenAsync();
+    }
+
+    [HttpGet]
+    [Route("lines")]
+    public virtual Task<PagedResultDto<OrderLineDto>> GetOrderLineListAsync(GetOrderLineListInput input)
+    {
+        return _ordersAppService.GetOrderLineListAsync(input);
     }
 
 }

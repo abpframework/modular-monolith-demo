@@ -11,6 +11,7 @@ using Volo.Abp.Content;
 using Volo.Abp.Authorization;
 using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
+using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity.Integration;
@@ -26,10 +27,12 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
     private readonly IIdentityUserIntegrationService _userIntegrationService;
     private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
+    private readonly IOrderLineRepository _orderLineRepository;
     protected OrderManager _orderManager;
 
     public OrdersAppService(
         IOrderRepository orderRepository,
+        IOrderLineRepository orderLineRepository,
         OrderManager orderManager,
         IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
         IIdentityUserIntegrationService userIntegrationService,
@@ -39,6 +42,7 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         _userIntegrationService = userIntegrationService;
         _eventBus = eventBus;
         _orderRepository = orderRepository;
+        _orderLineRepository = orderLineRepository;
         _orderManager = orderManager;
     }
 
@@ -171,6 +175,21 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         return new Shared.DownloadTokenResultDto
         {
             Token = token
+        };
+    }
+
+    public virtual async Task<PagedResultDto<OrderLineDto>> GetOrderLineListAsync(GetOrderLineListInput input)
+    {
+        var orderLines = await _orderLineRepository.GetListByOrderIdAsync(
+            input.OrderId,
+            input.Sorting,
+            input.MaxResultCount,
+            input.SkipCount);
+
+        return new PagedResultDto<OrderLineDto>
+        {
+            TotalCount = await _orderLineRepository.GetCountByOrderIdAsync(input.OrderId),
+            Items = ObjectMapper.Map<List<OrderLine>, List<OrderLineDto>>(orderLines)
         };
     }
 }
