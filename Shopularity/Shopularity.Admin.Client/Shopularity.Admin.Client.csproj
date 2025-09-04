@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -10,15 +10,15 @@
 
 	<ItemGroup>
     <ProjectReference Include="..\Shopularity.Contracts\Shopularity.Contracts.csproj" />
-    <PackageReference Include="Blazorise.Bootstrap5" Version="1.7.6" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.7.6" />
-    <PackageReference Include="Blazorise.Components" Version="1.7.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4" />
+    <PackageReference Include="Blazorise.Bootstrap5" Version="1.8.1" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.8.1" />
+    <PackageReference Include="Blazorise.Components" Version="1.8.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.5" />
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Autofac.WebAssembly" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.Autofac.WebAssembly" Version="9.3.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,40 +33,40 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme" Version="4.2.3" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Identity.Blazor.WebAssembly" Version="9.2.3" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.Identity.Blazor.WebAssembly" Version="9.3.2" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="9.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.TenantManagement.Blazor.WebAssembly" Version="9.2.3" />
-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Blazor.WebAssembly" Version="9.3.2" />
+    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="9.3.2" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="9.3.2" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="9.3.2" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.SettingManagement.Blazor.WebAssembly" Version="9.2.3" />
-    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi.Client" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Blazor.WebAssembly" Version="9.3.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi.Client" Version="9.3.2" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.PermissionManagement.Blazor.WebAssembly" Version="9.2.3" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Blazor.WebAssembly" Version="9.3.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="9.3.2" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.FeatureManagement.Blazor.WebAssembly" Version="9.2.3" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="9.2.3" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Blazor.WebAssembly" Version="9.3.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="9.3.2" />
   </ItemGroup>
 
   <ItemGroup>

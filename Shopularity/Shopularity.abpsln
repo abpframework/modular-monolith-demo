@@ -2,9 +2,11 @@
   "id": "b3f11893-ff84-48b1-b4de-3e8a401024ee",
   "template": "app-nolayers",
   "versions": {
-    "AbpFramework": "9.2.3",
-    "AbpStudio": "1.1.2",
-    "TargetDotnetFramework": "net9.0"
+    "AbpFramework": "9.3.2",
+    "AbpStudio": "1.2.2",
+    "TargetDotnetFramework": "net9.0",
+    "AbpCommercial": "9.3.2",
+    "LeptonX": "4.3.2"
   },
   "modules": {
     "Shopularity": {
