@@ -14,6 +14,7 @@ using Volo.Abp.Caching;
 using Microsoft.Extensions.Caching.Distributed;
 using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
+using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity.Integration;
 using Volo.Abp.Users;
@@ -28,11 +29,9 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
     private readonly IIdentityUserIntegrationService _userIntegrationService;
     private readonly IDistributedEventBus _eventBus;
     protected IOrderRepository _orderRepository;
-    protected OrderManager _orderManager;
 
     public OrdersAppService(
         IOrderRepository orderRepository,
-        OrderManager orderManager,
         IDistributedCache<OrderDownloadTokenCacheItem, string> downloadTokenCache,
         IIdentityUserIntegrationService userIntegrationService,
         IDistributedEventBus eventBus)
@@ -41,7 +40,6 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
         _userIntegrationService = userIntegrationService;
         _eventBus = eventBus;
         _orderRepository = orderRepository;
-        _orderManager = orderManager;
     }
 
     public virtual async Task<PagedResultDto<OrderDto>> GetListAsync(GetOrdersInput input)
@@ -93,9 +91,11 @@ public class OrdersAppService : OrderingAppService, IOrdersAppService
     [Authorize(OrderingPermissions.Orders.Edit)]
     public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
     {
-        var order = await _orderManager.UpdateShippingAddressAsync(
-            id, input.ShippingAddress,input.ConcurrencyStamp
-        );
+        var order = await _orderRepository.GetAsync(id);
+
+        order.ShippingAddress = input.ShippingAddress;
+
+        order.SetConcurrencyStampIfNotNull(input.ConcurrencyStamp);
 
         return ObjectMapper.Map<Order, OrderDto>(order);
     }

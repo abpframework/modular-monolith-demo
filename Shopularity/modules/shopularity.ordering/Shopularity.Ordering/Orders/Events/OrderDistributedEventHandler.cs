@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Shopularity.Payment.Payments.Events;
+using Volo.Abp;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
@@ -13,18 +14,22 @@ public class OrderDistributedEventHandler :
     IDistributedEventHandler<OrderShippedEto>,
     ITransientDependency
 {
-    private readonly OrderManager _orderManager;
+    private readonly IOrderRepository _orderRepository;
     private readonly IBackgroundJobManager _backgroundJobManager;
 
-    public OrderDistributedEventHandler(OrderManager orderManager, IBackgroundJobManager backgroundJobManager)
+    public OrderDistributedEventHandler(
+        IOrderRepository orderRepository,
+        IBackgroundJobManager backgroundJobManager)
     {
-        _orderManager = orderManager;
+        _orderRepository = orderRepository;
         _backgroundJobManager = backgroundJobManager;
     }
 
     public async Task HandleEventAsync(PaymentCompletedEto eventData)
     {
-        await _orderManager.UpdateStateAsync(eventData.OrderId, OrderState.Paid);
+        var order = await _orderRepository.GetAsync(eventData.OrderId);
+        order.State = OrderState.Paid;
+        await _orderRepository.UpdateAsync(order);
 
         await _backgroundJobManager.EnqueueAsync(new OrderFakeStateJob.OrderFakeStateJobArgs
             {
@@ -46,6 +51,8 @@ public class OrderDistributedEventHandler :
 
     public async Task HandleEventAsync(PaymentCreatedEto eventData)
     {
-        await _orderManager.UpdateStateAsync(eventData.OrderId, OrderState.WaitingForPayment);
+        var order = await _orderRepository.GetAsync(eventData.OrderId);
+        order.State = OrderState.WaitingForPayment;
+        await _orderRepository.UpdateAsync(order);
     }
 }

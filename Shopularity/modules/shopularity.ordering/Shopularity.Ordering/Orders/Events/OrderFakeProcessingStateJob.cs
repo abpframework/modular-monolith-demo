@@ -7,16 +7,18 @@ namespace Shopularity.Ordering.Orders.Events;
 
 public class OrderFakeStateJob : AsyncBackgroundJob<OrderFakeStateJob.OrderFakeStateJobArgs>, ITransientDependency
 {
-    private readonly OrderManager _orderManager;
+    private readonly IOrderRepository _orderRepository;
 
-    public OrderFakeStateJob(OrderManager orderManager)
+    public OrderFakeStateJob(IOrderRepository orderRepository)
     {
-        _orderManager = orderManager;
+        _orderRepository = orderRepository;
     }
 
     public override async Task ExecuteAsync(OrderFakeStateJobArgs args)
     {
-        await _orderManager.UpdateStateAsync(args.OrderId, args.State);
+        var order = await _orderRepository.GetAsync(args.OrderId);
+        order.State = args.State;
+        await _orderRepository.UpdateAsync(order);
     }
 
     public class OrderFakeStateJobArgs

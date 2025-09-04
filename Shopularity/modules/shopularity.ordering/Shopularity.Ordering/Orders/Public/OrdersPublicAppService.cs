@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Shopularity.Catalog.Products;
+using Shopularity.Ordering.OrderLines;
 using Shopularity.Ordering.Orders.Events;
 using Shopularity.Payment.Payments.Events;
 using Volo.Abp;
@@ -17,18 +18,15 @@ namespace Shopularity.Ordering.Orders.Public;
 [Authorize]
 public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
 {
-    private readonly OrderManager _orderManager;
     private readonly IProductsIntegrationService _productsIntegrationService;
     private readonly IDistributedEventBus _eventBus;
     private readonly IOrderRepository _orderRepository;
 
     public OrdersPublicAppService(
-        OrderManager orderManager,
         IProductsIntegrationService productsIntegrationService,
         IDistributedEventBus eventBus,
         IOrderRepository orderRepository)
     {
-        _orderManager = orderManager;
         _productsIntegrationService = productsIntegrationService;
         _eventBus = eventBus;
         _orderRepository = orderRepository;
@@ -56,12 +54,29 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
             Amount = input.Products.First(y => x.Id == y.ProductId).Amount
         }).ToList();
         
-        var order = await _orderManager.CreateNewAsync(
+        var order = await _orderRepository.InsertAsync(new Order(
+            GuidGenerator.Create(),
             CurrentUser.GetId(),
-            input.ShippingAddress,
-            productsWithAmounts
-        );
+            OrderState.New,
+            productsWithAmounts.Select(x=> x.Product.Price * x.Amount).Sum(),
+            input.ShippingAddress
+        ));
             
+        foreach (var product in productsWithAmounts)
+        {
+            var orderLine = new OrderLine(
+                GuidGenerator.Create(),
+                order.Id,
+                product.Product.Id.ToString(),
+                product.Product.Price,
+                product.Amount,
+                product.Amount *  product.Product.Price,
+                product.Product.Name
+            );
+                
+            order.AddOrderLine(orderLine);
+        }
+        
         await _eventBus.PublishAsync(new OrderCreatedEto
         {
             Id = order.Id,
@@ -84,7 +99,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
 
         order.Cancel();
 
-        //TODO: update order
+        await _orderRepository.UpdateAsync(order);
         
         await _eventBus.PublishAsync(new OrderCancelledEto
         {
