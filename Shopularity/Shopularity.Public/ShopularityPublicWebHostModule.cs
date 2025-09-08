@@ -1,5 +1,6 @@
 using Volo.CmsKit.Public.Web;
 using System;
+using System.Collections.Generic;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +22,7 @@ using Shopularity.Ordering;
 using Shopularity.Payment;
 using Shopularity.Public.Bundling;
 using Shopularity.Public.Menus;
+using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
@@ -65,6 +67,15 @@ public class ShopularityPublicWebHostModule : AbpModule
         ConfigureAutoMapper(context);
         ConfigureBundling();
         ConfigurePages();
+        ConfigureApplicationConfiguration(configuration);
+    }
+
+    private void ConfigureApplicationConfiguration(IConfiguration configuration)
+    {
+        Configure<AbpApplicationConfigurationOptions>(options => 
+        {
+            options.Contributors.AddIfNotContains(new ShopularityPublicApplicationConfigurationContributor(configuration));
+        });
     }
 
     private void ConfigurePages()
