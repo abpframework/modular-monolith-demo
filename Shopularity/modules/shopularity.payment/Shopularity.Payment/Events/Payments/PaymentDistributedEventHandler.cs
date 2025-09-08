@@ -18,7 +18,6 @@ public class PaymentDistributedEventHandler:
         _paymentManager = paymentManager;
     }
 
-
     public async Task HandleEventAsync(OrderCancelledEto eventData)
     {
         await _paymentManager.CancelAsync(eventData.OrderId);

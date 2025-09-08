@@ -25,25 +25,23 @@ namespace Shopularity.Catalog.Services.Products.Admin;
 [Authorize(CatalogPermissions.Products.Default)]
 public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppService
 {
-    protected IDistributedCache<ProductDownloadTokenCacheItem, string> _downloadTokenCache;
+    private readonly IDistributedCache<ProductDownloadTokenCacheItem, string> _downloadTokenCache;
     private readonly IBlobContainer _blobContainer;
-    protected IProductRepository _productRepository;
-    protected ProductManager _productManager;
-
-    protected IRepository<Category, Guid> _categoryRepository;
+    private readonly IProductRepository _productRepository;
+    private readonly ProductManager _productManager;
+    private readonly ICategoryRepository _categoryRepository;
 
     public ProductsAdminAppService(
         IProductRepository productRepository,
         ProductManager productManager,
         IDistributedCache<ProductDownloadTokenCacheItem, string> downloadTokenCache,
         IBlobContainer blobContainer,
-        IRepository<Category, Guid> categoryRepository)
+        ICategoryRepository categoryRepository)
     {
         _downloadTokenCache = downloadTokenCache;
         _blobContainer = blobContainer;
         _productRepository = productRepository;
         _productManager = productManager; _categoryRepository = categoryRepository;
-
     }
 
     public virtual async Task<PagedResultDto<ProductWithNavigationPropertiesDto>> GetListAsync(GetProductsInput input)
@@ -98,6 +96,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
 
         var lookupData = await query.PageBy(input.SkipCount, input.MaxResultCount).ToDynamicListAsync<Category>();
         var totalCount = query.Count();
+        
         return new PagedResultDto<LookupDto<Guid>>
         {
             TotalCount = totalCount,
@@ -129,7 +128,6 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
     [Authorize(CatalogPermissions.Products.Edit)]
     public virtual async Task<ProductDto> UpdateAsync(Guid id, ProductUpdateDto input)
     {
-
         var product = await _productManager.UpdateAsync(
             id,
             input.CategoryId,
@@ -160,9 +158,7 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
             Description = item.Product.Description,
             Price = item.Product.Price,
             StockCount = item.Product.StockCount,
-
             Category = item.Category?.Name,
-
         });
 
         var memoryStream = new MemoryStream();

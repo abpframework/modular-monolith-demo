@@ -19,6 +19,5 @@ public static class PaymentDbContextModelCreatingExtensions
             b.Property(x => x.TotalPrice).HasColumnName(nameof(Domain.Payments.Payment.TotalPrice));
             b.Property(x => x.State).HasColumnName(nameof(Domain.Payments.Payment.State));
         });
-
     }
 }

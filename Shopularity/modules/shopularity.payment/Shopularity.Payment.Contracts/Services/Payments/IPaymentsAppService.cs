@@ -8,7 +8,6 @@ namespace Shopularity.Payment.Services.Payments;
 
 public interface IPaymentsAppService : IApplicationService
 {
-
     Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input);
 
     Task<PaymentDto> GetAsync(Guid id);
@@ -16,5 +15,4 @@ public interface IPaymentsAppService : IApplicationService
     Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input);
 
     Task<Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
-
 }

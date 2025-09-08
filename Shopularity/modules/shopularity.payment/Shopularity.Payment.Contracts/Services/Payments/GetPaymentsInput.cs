@@ -8,9 +8,4 @@ public class GetPaymentsInput : PagedAndSortedResultRequestDto
 {
     public Guid? OrderId { get; set; }
     public PaymentState? State { get; set; }
-
-    public GetPaymentsInput()
-    {
-
-    }
 }

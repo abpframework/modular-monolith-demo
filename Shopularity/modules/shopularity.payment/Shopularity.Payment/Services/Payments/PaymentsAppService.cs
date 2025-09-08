@@ -21,14 +21,13 @@ public class PaymentsAppService : PaymentAppService, IPaymentsAppService
 {
     protected IDistributedCache<PaymentDownloadTokenCacheItem, string> _downloadTokenCache;
     protected IPaymentRepository _paymentRepository;
-    protected PaymentManager _paymentManager;
 
-    public PaymentsAppService(IPaymentRepository paymentRepository, PaymentManager paymentManager, IDistributedCache<PaymentDownloadTokenCacheItem, string> downloadTokenCache)
+    public PaymentsAppService(
+        IPaymentRepository paymentRepository,
+        IDistributedCache<PaymentDownloadTokenCacheItem, string> downloadTokenCache)
     {
         _downloadTokenCache = downloadTokenCache;
         _paymentRepository = paymentRepository;
-        _paymentManager = paymentManager;
-
     }
 
     public virtual async Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input)

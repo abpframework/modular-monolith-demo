@@ -8,14 +8,14 @@ public class CatalogPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(CatalogPermissions.GroupName, L("Permission:Catalog"));
+        var catalogGroup = context.AddGroup(CatalogPermissions.GroupName, L("Permission:Catalog"));
 
-        var categoryPermission = myGroup.AddPermission(CatalogPermissions.Categories.Default, L("Permission:Categories"));
+        var categoryPermission = catalogGroup.AddPermission(CatalogPermissions.Categories.Default, L("Permission:Categories"));
         categoryPermission.AddChild(CatalogPermissions.Categories.Create, L("Permission:Create"));
         categoryPermission.AddChild(CatalogPermissions.Categories.Edit, L("Permission:Edit"));
         categoryPermission.AddChild(CatalogPermissions.Categories.Delete, L("Permission:Delete"));
 
-        var productPermission = myGroup.AddPermission(CatalogPermissions.Products.Default, L("Permission:Products"));
+        var productPermission = catalogGroup.AddPermission(CatalogPermissions.Products.Default, L("Permission:Products"));
         productPermission.AddChild(CatalogPermissions.Products.Create, L("Permission:Create"));
         productPermission.AddChild(CatalogPermissions.Products.Edit, L("Permission:Edit"));
         productPermission.AddChild(CatalogPermissions.Products.Delete, L("Permission:Delete"));

@@ -9,5 +9,4 @@ public class CategoryDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
     public string Name { get; set; } = null!;
 
     public string ConcurrencyStamp { get; set; } = null!;
-
 }

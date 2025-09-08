@@ -8,9 +8,9 @@ public class PaymentPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(PaymentPermissions.GroupName, L("Permission:Payment"));
+        var permissionGroup = context.AddGroup(PaymentPermissions.GroupName, L("Permission:Payment"));
 
-        var paymentPermission = myGroup.AddPermission(PaymentPermissions.Payments.Default, L("Permission:Payments"));
+        permissionGroup.AddPermission(PaymentPermissions.Payments.Default, L("Permission:Payments"));
     }
 
     private static LocalizableString L(string name)

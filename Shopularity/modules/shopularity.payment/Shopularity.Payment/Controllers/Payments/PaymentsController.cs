@@ -49,5 +49,4 @@ public class PaymentsController : AbpController, IPaymentsAppService
     {
         return _paymentsAppService.GetDownloadTokenAsync();
     }
-
 }

@@ -8,9 +8,6 @@ namespace Shopularity.Payment.Data;
 public class PaymentDbContext : AbpDbContext<PaymentDbContext>, IPaymentDbContext
 {
     public DbSet<Domain.Payments.Payment> Payments { get; set; } = null!;
-    /* Add DbSet for each Aggregate Root here. Example:
-     * public DbSet<Question> Questions { get; set; }
-     */
 
     public PaymentDbContext(DbContextOptions<PaymentDbContext> options)
         : base(options)

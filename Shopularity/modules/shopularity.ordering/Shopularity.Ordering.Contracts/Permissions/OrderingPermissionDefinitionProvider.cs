@@ -8,13 +8,13 @@ public class OrderingPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(OrderingPermissions.GroupName, L("Permission:Ordering"));
+        var orderingGroup = context.AddGroup(OrderingPermissions.GroupName, L("Permission:Ordering"));
 
-        var orderPermission = myGroup.AddPermission(OrderingPermissions.Orders.Default, L("Permission:Orders"));
+        var orderPermission = orderingGroup.AddPermission(OrderingPermissions.Orders.Default, L("Permission:Orders"));
         orderPermission.AddChild(OrderingPermissions.Orders.Edit, L("Permission:Edit"));
         orderPermission.AddChild(OrderingPermissions.Orders.SetShippingInfo, L("Permission:SetShippingInfo"));
 
-        myGroup.AddPermission(OrderingPermissions.OrderLines.Default, L("Permission:OrderLines"));
+        orderingGroup.AddPermission(OrderingPermissions.OrderLines.Default, L("Permission:OrderLines"));
     }
 
     private static LocalizableString L(string name)

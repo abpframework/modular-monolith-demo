@@ -13,8 +13,8 @@ namespace Shopularity.Catalog.Services.Categories.Admin;
 [Authorize(CatalogPermissions.Categories.Default)]
 public class CategoriesAdminAppService : CatalogAppService, ICategoriesAdminAppService
 {
-    protected ICategoryRepository _categoryRepository;
-    protected CategoryManager _categoryManager;
+    private readonly ICategoryRepository _categoryRepository;
+    private readonly CategoryManager _categoryManager;
 
     public CategoriesAdminAppService(ICategoryRepository categoryRepository, CategoryManager categoryManager)
     {

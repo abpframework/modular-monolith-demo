@@ -14,5 +14,4 @@ public class PaymentDto : FullAuditedEntityDto<Guid>, IHasConcurrencyStamp
     public PaymentState State { get; set; }
 
     public string ConcurrencyStamp { get; set; } = null!;
-
 }

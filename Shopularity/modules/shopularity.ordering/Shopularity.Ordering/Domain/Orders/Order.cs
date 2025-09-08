@@ -58,5 +58,4 @@ public class Order : FullAuditedAggregateRoot<Guid>
         
         State = OrderState.Cancelled;
     }
-
 }

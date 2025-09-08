@@ -9,7 +9,7 @@ namespace Shopularity.Catalog.Services.Categories.Public;
 [RemoteService(IsEnabled = false)]
 public class CategoriesPublicAppService : CatalogAppService, ICategoriesPublicAppService
 {
-    protected ICategoryRepository _categoryRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
     public CategoriesPublicAppService(ICategoryRepository categoryRepository)
     {

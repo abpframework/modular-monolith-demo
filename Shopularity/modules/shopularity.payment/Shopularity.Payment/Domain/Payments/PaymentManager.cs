@@ -10,7 +10,7 @@ namespace Shopularity.Payment.Domain.Payments;
 
 public class PaymentManager : DomainService
 {
-    protected IPaymentRepository _paymentRepository;
+    private readonly IPaymentRepository _paymentRepository;
     private readonly IDistributedEventBus _eventBus;
     private readonly IBackgroundJobManager _backgroundJobManager;
 

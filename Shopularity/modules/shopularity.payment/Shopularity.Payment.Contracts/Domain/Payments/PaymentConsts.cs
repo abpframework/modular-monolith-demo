@@ -8,5 +8,4 @@ public static class PaymentConsts
     {
         return string.Format(DefaultSorting, withEntityName ? "Payment." : string.Empty);
     }
-
 }

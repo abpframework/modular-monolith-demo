@@ -27,10 +27,10 @@ namespace Shopularity.Ordering.Services.Orders.Admin;
 [Authorize(OrderingPermissions.Orders.Default)]
 public class OrdersAdminAppService : OrderingAppService, IOrdersAdminAppService
 {
-    protected IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
+    private readonly IDistributedCache<OrderDownloadTokenCacheItem, string> _downloadTokenCache;
     private readonly IIdentityUserIntegrationService _userIntegrationService;
     private readonly IBackgroundJobManager _backgroundJobManager;
-    protected IOrderRepository _orderRepository;
+    private readonly IOrderRepository _orderRepository;
 
     public OrdersAdminAppService(
         IOrderRepository orderRepository,

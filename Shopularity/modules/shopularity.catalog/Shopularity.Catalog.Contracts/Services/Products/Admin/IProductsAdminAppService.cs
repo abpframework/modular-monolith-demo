@@ -26,9 +26,11 @@ public interface IProductsAdminAppService : IApplicationService
     Task<ProductDto> UpdateAsync(Guid id, ProductUpdateDto input);
 
     Task<IRemoteStreamContent> GetListAsExcelFileAsync(ProductExcelDownloadDto input);
+    
     Task DeleteByIdsAsync(List<Guid> productIds);
 
     Task DeleteAllAsync(GetProductsInput input);
+    
     Task<DownloadTokenResultDto> GetDownloadTokenAsync();
 
 }
