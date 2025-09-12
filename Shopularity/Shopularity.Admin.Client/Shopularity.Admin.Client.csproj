@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Blazor/Shopularity.Basket.Blazor.csproj" />
     <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket.Contracts/Shopularity.Basket.Contracts.csproj" />
     <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Blazor/Shopularity.Catalog.Blazor.csproj" />
     <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Contracts/Shopularity.Catalog.Contracts.csproj" />
