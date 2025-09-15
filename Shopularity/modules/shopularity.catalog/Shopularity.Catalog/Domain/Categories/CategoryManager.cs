@@ -54,7 +54,7 @@ public class CategoryManager : DomainService
 
     private async Task CheckDuplicateNameAsync(string name, Guid? id = null)
     {
-        var existingCategory = await _categoryRepository.FirstOrDefaultAsync(x=> x.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+        var existingCategory = await _categoryRepository.FirstOrDefaultAsync(x=> x.Name == name);
 
         if (existingCategory == null)
         {
