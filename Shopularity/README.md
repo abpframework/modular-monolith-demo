@@ -60,7 +60,14 @@ The admin user credentials are:
 * USERNAME: `admin`
 * PASSWORD:  `1q2w3E*`
 
+### How to Run?
 
+There are 2 projects to run:
+
+* **Shopularity.Admin**: Firstly run this project because `Shopularity.Public` project depends on this project.
+* **Shopularity.Public**: Secondly run this project. It's the public facing website.
+
+`run-apps.ps1` in the root directory helps you to run both projects. 
 
 ## Deploying the Application
 
