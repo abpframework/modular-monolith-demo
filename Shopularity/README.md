@@ -11,7 +11,11 @@ This is a minimalist, non-layered startup solution with the ABP Framework. All t
 
 ## Before Running the Application
 
-### Generating a Signing Certificate
+### Initializing the Application
+
+You can run the `initialize-project.ps1` in the root directory which runs all the necessary steps before running the application. These steps are migrating the database, installing client-side libraries and generating a signing certificate. You can also do these steps manually with the below sections.
+
+#### Generating a Signing Certificate
 
 In the production environment, you need to use a production signing certificate. ABP Framework sets up signing and encryption certificates in your application and expects an `openiddict.pfx` file in your application.
 
@@ -29,9 +33,9 @@ For more information, please refer to: [OpenIddict Certificate Configuration](ht
 
 > Also, see the [Configuring OpenIddict](https://abp.io/docs/latest/Deployment/Configuring-OpenIddict#production-environment) documentation for more information.
 
-### Install Client-Side libraries
+#### Install Client-Side libraries
 
-Run the following command in your solution directory. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution. You can also run the `restore-client-packages.ps1` in the root directory which does the same.
+Run the following command in your solution directory. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution. 
 
 ```bash
 abp install-libs
@@ -39,9 +43,9 @@ abp install-libs
 
 > This command installs all NPM packages for MVC/Razor Pages and Blazor Server UIs and this command is already run by the ABP CLI, so most of the time you don't need to run this command manually.
 
-## How to Run?
+#### Migrating the Database
 
-The application needs a database. Run the following command in the [Shopularity](./Shopularity) project directory to migrate the database and seed the initial data. This step is automatically done when you create a new solution, if you didn't especially disable it.  You can also run the `migrate-database.ps1` in the root directory which does the same.
+The application needs a database. Run the following command in the [Shopularity](./Shopularity) project directory to migrate the database and seed the initial data. This step is automatically done when you create a new solution, if you didn't especially disable it. 
 
 ````bash
 dotnet run --migrate-database
