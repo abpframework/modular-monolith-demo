@@ -1,6 +1,6 @@
 # Shopularity
 
-## About this solution
+## About This Solution
 
 This is a minimalist, non-layered startup solution with the ABP Framework. All the fundamental ABP modules are already installed.
 
@@ -9,7 +9,7 @@ This is a minimalist, non-layered startup solution with the ABP Framework. All t
 * [.NET9.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
 * [Node v18 or 20](https://nodejs.org/en)
 
-## Before running the application
+## Before Running the Application
 
 ### Generating a Signing Certificate
 
@@ -31,7 +31,7 @@ For more information, please refer to: [OpenIddict Certificate Configuration](ht
 
 ### Install Client-Side libraries
 
-Run the following command in your solution directory. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution.
+Run the following command in your solution directory. This step is automatically done when you create a new solution, if you didn't especially disabled it. However, you should run it yourself if you have first cloned this solution from your source control, or added a new client-side package dependency to your solution. You can also run the `restore-client-packages.ps1` in the root directory which does the same.
 
 ```bash
 abp install-libs
@@ -39,9 +39,9 @@ abp install-libs
 
 > This command installs all NPM packages for MVC/Razor Pages and Blazor Server UIs and this command is already run by the ABP CLI, so most of the time you don't need to run this command manually.
 
-## How to run
+## How to Run?
 
-The application needs a database. Run the following command in the [Shopularity](./Shopularity) project directory to migrate the database and seed the initial data. This step is automatically done when you create a new solution, if you didn't especially disable it.
+The application needs a database. Run the following command in the [Shopularity](./Shopularity) project directory to migrate the database and seed the initial data. This step is automatically done when you create a new solution, if you didn't especially disable it.  You can also run the `migrate-database.ps1` in the root directory which does the same.
 
 ````bash
 dotnet run --migrate-database
@@ -49,15 +49,20 @@ dotnet run --migrate-database
 
 This command will create and seed the initial database. Then you can run the application with any IDE that supports .NET.
 
-## Default credicredentials
+## Default Credentials
 
-Default password for the user `admin` is `1q2w3E*`.
+The admin user credentials are:
 
-## Deploying the application
+* USERNAME: `admin`
+* PASSWORD:  `1q2w3E*`
+
+
+
+## Deploying the Application
 
 Deploying an ABP application follows the same process as deploying any .NET or ASP.NET Core application. However, there are important considerations to keep in mind. For detailed guidance, refer to ABP's [deployment documentation](https://abp.io/docs/latest/Deployment/Index).
 
-### How to deploy on Docker
+### How to Deploy on Docker?
 
 The application provides the related `Dockerfiles` and `docker-compose` file with scripts. You can build the docker images and run them using docker-compose. The necessary database, DbMigrator, and the application will be running on docker with health checks in an isolated docker network.
 
@@ -65,13 +70,13 @@ The application provides the related `Dockerfiles` and `docker-compose` file wit
 
 Navigate to [etc/build](./etc/build) folder and run the `build-images-locally.ps1` script. You can examine the script to set **image tag** for your images. It is `latest` by default.
 
-#### Running the Docker images using Docker-Compose
+#### Running the Docker Images using Docker-Compose
 
 Navigate to [etc/docker](./etc/docker) folder and run the `run-docker.ps1` script. The script will generate developer certificates (if it doesn't exist already) with `dotnet dev-certs` command to use HTTPS. Then, the script runs the provided docker-compose file on detached mode.
 
 > Not: Developer certificate is only valid for **localhost** domain. If you want to deploy to a real DNS in a production environment, use LetsEncrypt or similar tools.
 
-#### Stopping the Docker containers
+#### Stopping the Docker Containers
 
 Navigate to [etc/docker](./etc/docker) folder and run the `stop-docker.ps1` script. The script stops and removes the running containers.
 
