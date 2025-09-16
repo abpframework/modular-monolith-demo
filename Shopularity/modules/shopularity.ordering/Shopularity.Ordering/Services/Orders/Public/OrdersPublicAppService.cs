@@ -55,14 +55,14 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
             Product = x,
             Amount = input.Products.First(y => x.Id == y.ProductId).Amount
         }).ToList();
-        
-        var order = await _orderRepository.InsertAsync(new Order(
+
+        var order = new Order(
             GuidGenerator.Create(),
             CurrentUser.GetId(),
             OrderState.New,
-            productsWithAmounts.Select(x=> x.Product.Price * x.Amount).Sum(),
+            productsWithAmounts.Select(x => x.Product.Price * x.Amount).Sum(),
             input.ShippingAddress
-        ));
+        );
             
         foreach (var product in productsWithAmounts)
         {
@@ -87,7 +87,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
             TotalPrice = order.TotalPrice
         });
 
-        return ObjectMapper.Map<Order, OrderDto>(order);
+        return ObjectMapper.Map<Order, OrderDto>(await _orderRepository.InsertAsync(order));
     }
     
     public async Task CancelAsync(Guid id)
