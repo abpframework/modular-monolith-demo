@@ -32,7 +32,6 @@ public class Order : FullAuditedAggregateRoot<Guid>
 
     public Order(Guid id, Guid userId, OrderState state, double totalPrice, string shippingAddress)
     {
-
         Id = id;
         Check.NotNull(userId, nameof(userId));
         Check.NotNull(shippingAddress, nameof(shippingAddress));

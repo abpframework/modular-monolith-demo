@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using MiniExcelLibs;
 using Shopularity.Ordering.Domain.Orders;
@@ -18,6 +19,7 @@ using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Caching;
 using Volo.Abp.Content;
 using Volo.Abp.Data;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity.Integration;
 using Volo.Abp.Users;
 
@@ -179,7 +181,7 @@ public class OrdersAdminAppService : OrderingAppService, IOrdersAdminAppService
 
     public virtual async Task<PagedResultDto<OrderLineDto>> GetOrderLineListAsync(GetOrderLineListInput input)
     {
-        var order= await _orderRepository.GetAsync(input.OrderId, includeDetails: true);
+        var order = await (await _orderRepository.WithDetailsAsync(x => x.OrderLines)).FirstAsync(x=> x.Id == input.OrderId);
 
         var orderLines = order.OrderLines
             .Skip(input.SkipCount)
