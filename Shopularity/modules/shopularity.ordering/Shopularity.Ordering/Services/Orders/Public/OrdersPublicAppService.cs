@@ -72,22 +72,29 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
                 product.Product.Id.ToString(),
                 product.Product.Price,
                 product.Amount,
-                product.Amount *  product.Product.Price,
+                product.Amount * product.Product.Price,
                 product.Product.Name
             );
                 
             order.AddOrderLine(orderLine);
         }
         
-        await _eventBus.PublishAsync(new OrderCreatedEto
-        {
-            Id = order.Id,
-            UserId = CurrentUser.GetId(),
-            ProductsWithAmounts = productsWithAmounts.ToDictionary(x=> x.Product.Id, x=> x.Amount),
-            TotalPrice = order.TotalPrice
-        });
+        await _orderRepository.InsertAsync(order);
 
-        return ObjectMapper.Map<Order, OrderDto>(await _orderRepository.InsertAsync(order));
+        await _eventBus.PublishAsync(
+            new OrderCreatedEto
+            {
+                Id = order.Id,
+                UserId = CurrentUser.GetId(),
+                ProductsWithAmounts = productsWithAmounts.ToDictionary(
+                    x => x.Product.Id, 
+                    x => x.Amount
+                ),
+                TotalPrice = order.TotalPrice
+            }
+        );
+        
+        return ObjectMapper.Map<Order, OrderDto>(order);
     }
     
     public async Task CancelAsync(Guid id)
