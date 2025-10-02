@@ -1,33 +1,24 @@
-# AbpSolution20
+# Angular Shopularity Public Site
 
-This is a startup project based on the ABP framework. For more information, visit <a href="https://abp.io/" target="_blank">abp.io</a>
+### Introduction
 
-## Development server
+This is the example site for the Shopularity application built with Angular SSR and ABP Framework.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### How to run
 
-## Code scaffolding
+1. Navigate to the `Shopularity` directory and run these commands one by one:
+  - `initialize-project.ps1`
+  - `run-apps.ps1`
+  after that, the application will be available at `https://localhost:44321/`.
+2. Navigate to the `Shopularity/angular/public-site` directory and run:
+  - `yarn`
+  - `yarn start`
+  after that, the application will be available at `http://localhost:4200/`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Note
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
-
-## Remote Environment
-
-The application provides a remote environment for production. we use `dynamic-env.json` file to set the environment variables and configured web server's `getEnvConfig` endpoint by default.
-
-See [Environment](https://abp.io/docs/latest/framework/ui/angular/environment) for more information.
+- Admin application is located at `https://localhost:44321/`.
+- Public site application is located at `http://localhost:4200/`.
+- You can login to the admin application with the following credentials:
+  - USERNAME: `admin`
+  - PASSWORD: `1q2w3E*`
