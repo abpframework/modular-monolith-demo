@@ -1,0 +1,33 @@
+
+<div class="row mb-3">
+  <div class="col-12 d-flex">
+    <div class="card h-lg-100 w-100 overflow-hidden rounded-4 shadow-sm border-0">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="product-image-container">
+              @if(productImage()) {
+                <img
+                  class="card-img-top"
+                  [src]="productImage()"
+                  loading="lazy"
+                  [alt]="productDetail?.product?.name"
+                />
+              }
+            </div>
+          </div>
+          <div class="col-12 col-md-6 d-flex flex-column">
+            <span class="h4 fw-light mb-3">{{productDetail?.product?.name}}</span>
+            <div class="d-flex flex-column row-gap-4">
+              <span>{{productDetail?.product?.description}}</span>
+              <b>{{productDetail?.product?.price | currency}}</b>
+              <button class="btn btn-primary btn-lg" (click)="addToBasket(productDetail?.product.id)"><i class="fa-solid fa-cart-plus me-3"></i> Add to Basket</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-login-required-modal [(visible)]="isLoginRequiredModalVisible"></app-login-required-modal>
