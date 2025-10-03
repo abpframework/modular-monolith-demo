@@ -34,6 +34,10 @@
           </div>
         </div>
       </abp-card>
+    } @empty {
+      <div class="alert alert-info" role="alert">
+        You have no orders yet. <a href="/" class="alert-link">Go to products page</a> to place an order.
+      </div>
     }
   </div>
 </abp-page>

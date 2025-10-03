@@ -1,6 +1,6 @@
 
-  <abp-card role="button" (click)="showProductDetail()">
-    <div class="d-flex justify-content-center align-items-center">
+  <abp-card>
+    <div class="d-flex justify-content-center align-items-center" (click)="showProductDetail()" role="button" >
       <div class="product-image-container">
         <img
           class="card-img-top"
@@ -16,13 +16,19 @@
         <b>{{ product().price | currency }}</b>
       </div>
       <div class="mt-auto">
-        <a
+        <button
           class="btn list-btn w-100"
+          [disabled]="product().stockCount === 0"
           (click)="addToBasket($event, product().id)"
         >
-          <i class="fa-solid fa-cart-plus me-2"></i>
-          {{'::AddToBasket' | abpLocalization}}
-        </a>
+          @if (product().stockCount === 0) {
+            <i class="fa-solid fa-ban me-2"></i>
+            {{'::NotInStock' | abpLocalization}}
+          } @else {
+            <i class="fa-solid fa-cart-plus me-2"></i>
+            {{'::AddToBasket' | abpLocalization}}
+          }
+        </button>
       </div>
     </div>
   </abp-card>
