@@ -1,6 +1,5 @@
 import {inject, Injectable} from '@angular/core';
 import {RestService} from "@abp/ng.core";
-import {CategoryList} from "../models";
 import {CreateOrder, OrderList} from "../models/order.model";
 import {ToasterService} from "@abp/ng.theme.shared";
 import {tap} from "rxjs";
