@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin", "Shopularity\Shopularity.Admin\Shopularity.Admin.csproj", "{F7497ED2-0038-4E9C-879C-F6ADE81830C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin", "Shopularity\app\Shopularity.Admin\Shopularity.Admin.csproj", "{F7497ED2-0038-4E9C-879C-F6ADE81830C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin.Client", "Shopularity\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj", "{B5C389F3-1E80-4743-A473-8F3659723E32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin.Client", "Shopularity\app\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj", "{B5C389F3-1E80-4743-A473-8F3659723E32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Contracts", "Shopularity\Shopularity.Contracts\Shopularity.Contracts.csproj", "{4698CC9A-F7CC-4CB1-9A59-1A1319DAE36E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Contracts", "Shopularity\app\Shopularity.Contracts\Shopularity.Contracts.csproj", "{4698CC9A-F7CC-4CB1-9A59-1A1319DAE36E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Public", "Shopularity\Shopularity.Public\Shopularity.Public.csproj", "{192F3CDE-269C-4DD9-BE38-ABBEE39A18FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Public", "Shopularity\app\Shopularity.Public\Shopularity.Public.csproj", "{192F3CDE-269C-4DD9-BE38-ABBEE39A18FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{47AC955F-39DC-4215-9F3B-DCC9EAAD4E2C}"
 EndProject

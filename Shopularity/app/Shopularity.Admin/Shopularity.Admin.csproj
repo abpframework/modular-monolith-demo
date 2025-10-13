@@ -61,13 +61,13 @@
     <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXLiteTheme.Bundling" Version="4.3.2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="../modules/shopularity.ordering/Shopularity.Ordering/Shopularity.Ordering.csproj" />
-    <ProjectReference Include="../modules/shopularity.ordering/Shopularity.Ordering.Blazor/Shopularity.Ordering.Blazor.csproj" />
-    <ProjectReference Include="../modules/shopularity.payment/Shopularity.Payment/Shopularity.Payment.csproj" />
-    <ProjectReference Include="../modules/shopularity.payment/Shopularity.Payment.Blazor/Shopularity.Payment.Blazor.csproj" />
-    <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog/Shopularity.Catalog.csproj" />
-    <ProjectReference Include="../modules/shopularity.catalog/Shopularity.Catalog.Blazor/Shopularity.Catalog.Blazor.csproj" />
-    <ProjectReference Include="../modules/shopularity.basket/Shopularity.Basket/Shopularity.Basket.csproj" />
+    <ProjectReference Include="../../modules/shopularity.ordering/Shopularity.Ordering/Shopularity.Ordering.csproj" />
+    <ProjectReference Include="../../modules/shopularity.ordering/Shopularity.Ordering.Blazor/Shopularity.Ordering.Blazor.csproj" />
+    <ProjectReference Include="../../modules/shopularity.payment/Shopularity.Payment/Shopularity.Payment.csproj" />
+    <ProjectReference Include="../../modules/shopularity.payment/Shopularity.Payment.Blazor/Shopularity.Payment.Blazor.csproj" />
+    <ProjectReference Include="../../modules/shopularity.catalog/Shopularity.Catalog/Shopularity.Catalog.csproj" />
+    <ProjectReference Include="../../modules/shopularity.catalog/Shopularity.Catalog.Blazor/Shopularity.Catalog.Blazor.csproj" />
+    <ProjectReference Include="../../modules/shopularity.basket/Shopularity.Basket/Shopularity.Basket.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="9.3.2" />

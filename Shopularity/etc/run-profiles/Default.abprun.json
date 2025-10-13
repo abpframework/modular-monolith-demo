@@ -4,7 +4,7 @@
       "type": "dotnet-project",
       "launchUrl": "https://localhost:44365",
       "healthCheckEndpoint": "/",
-      "path": "../../Shopularity.Admin/Shopularity.Admin.csproj",
+      "path": "../../app/Shopularity.Admin/Shopularity.Admin.csproj",
       "execution": {
         "order": 0
       },
@@ -12,7 +12,7 @@
     },
     "Shopularity.Public": {
       "type": "dotnet-project",
-      "path": "../../Shopularity.Public/Shopularity.Public.csproj",
+      "path": "../../app/Shopularity.Public/Shopularity.Public.csproj",
       "launchUrl": "https://localhost:53585",
       "folder": "Apps"
     }
