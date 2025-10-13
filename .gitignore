@@ -420,3 +420,16 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# ABP Studio
+**/.abpstudio/
+
+# Shopularity
+Shopularity/Logs/*
+
+*.db
+*.db-shm
+*.db-wal
+
+# Use abp install-libs to restore.
+**/wwwroot/libs/*
