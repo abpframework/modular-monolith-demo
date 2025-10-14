@@ -1,8 +1,7 @@
 import {inject, Injectable} from "@angular/core";
-import {Rest, RestService} from "@abp/ng.core";
-import {PagedProducts, ProductWithCategory} from "../models";
-import ResponseType = Rest.ResponseType;
 import {map} from "rxjs";
+import {RestService} from "@abp/ng.core";
+import {PagedProducts, ProductWithCategory} from "../models";
 
 @Injectable({
   providedIn: 'root'
