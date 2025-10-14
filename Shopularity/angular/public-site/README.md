@@ -6,7 +6,7 @@ This is the example site for the Shopularity application built with Angular SSR 
 
 ### How to run
 
-1. Navigate to the `Shopularity` directory and run these commands one by one:
+1. Navigate to the repository main directory and run these commands one by one:
   - `initialize-project.ps1`
   - `run-apps.ps1`
   after that, the application will be available at `https://localhost:44321/`.

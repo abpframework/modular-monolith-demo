@@ -1,6 +1,6 @@
 import {Component, inject, input, OnInit, PLATFORM_ID, signal} from "@angular/core";
 import {CurrencyPipe, isPlatformBrowser} from "@angular/common";
-import {Router, RouterModule} from "@angular/router";
+import {Router} from "@angular/router";
 
 import {Product} from "../../../models";
 import {BasketService} from "../../../services/basket.service";
@@ -13,7 +13,7 @@ import {LoginRequiredModalComponent} from "../../../components/login-required-mo
   selector: 'app-product-list-item',
   templateUrl: './product-list-item.component.html',
   styleUrls: ['product-list-item.component.scss'],
-  imports: [RouterModule, CurrencyPipe, CardComponent, LoginRequiredModalComponent, LocalizationPipe],
+  imports: [CurrencyPipe, CardComponent, LoginRequiredModalComponent, LocalizationPipe],
   providers: [
   ]
 })

@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
-import {filter, skip} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
+import {filter} from "rxjs";
 
 import { AuthService } from '@abp/ng.core';
 import {ProductService} from "../../services/product.service";
@@ -12,7 +12,7 @@ import {ProductListItemComponent} from "./product-list-item/product-list-item.co
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
-  imports: [CategoryListComponent, ProductListItemComponent, RouterModule],
+  imports: [CategoryListComponent, ProductListItemComponent],
 })
 export class ProductListComponent implements OnInit {
   private authService = inject(AuthService);
