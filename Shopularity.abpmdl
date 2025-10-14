@@ -56,16 +56,16 @@
   },
   "packages": {
     "Shopularity.Admin": {
-      "path": "Shopularity.Admin/Shopularity.Admin.abppkg"
+      "path": "app/Shopularity.Admin/Shopularity.Admin.abppkg"
     },
     "Shopularity.Admin.Client": {
-      "path": "Shopularity.Admin.Client/Shopularity.Admin.Client.abppkg"
+      "path": "app/Shopularity.Admin.Client/Shopularity.Admin.Client.abppkg"
     },
     "Shopularity.Contracts": {
-      "path": "Shopularity.Contracts/Shopularity.Contracts.abppkg"
+      "path": "app/Shopularity.Contracts/Shopularity.Contracts.abppkg"
     },
     "Shopularity.Public": {
-      "path": "Shopularity.Public/Shopularity.Public.abppkg"
+      "path": "app/Shopularity.Public/Shopularity.Public.abppkg"
     }
   }
 }

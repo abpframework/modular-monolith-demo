@@ -1,5 +1,5 @@
 # Updates database
-dotnet run --project Shopularity.Admin --migrate-database
+dotnet run --project app/Shopularity.Admin --migrate-database
 
 # Install client-side libraries
 abp install-libs

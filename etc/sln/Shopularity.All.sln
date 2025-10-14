@@ -1,44 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin", "Shopularity\Shopularity.Admin\Shopularity.Admin.csproj", "{F7497ED2-0038-4E9C-879C-F6ADE81830C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin", "..\..\app\Shopularity.Admin\Shopularity.Admin.csproj", "{F7497ED2-0038-4E9C-879C-F6ADE81830C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin.Client", "Shopularity\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj", "{B5C389F3-1E80-4743-A473-8F3659723E32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin.Client", "..\..\app\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj", "{B5C389F3-1E80-4743-A473-8F3659723E32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Contracts", "Shopularity\Shopularity.Contracts\Shopularity.Contracts.csproj", "{4698CC9A-F7CC-4CB1-9A59-1A1319DAE36E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Contracts", "..\..\app\Shopularity.Contracts\Shopularity.Contracts.csproj", "{4698CC9A-F7CC-4CB1-9A59-1A1319DAE36E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Public", "Shopularity\Shopularity.Public\Shopularity.Public.csproj", "{192F3CDE-269C-4DD9-BE38-ABBEE39A18FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Public", "..\..\app\Shopularity.Public\Shopularity.Public.csproj", "{192F3CDE-269C-4DD9-BE38-ABBEE39A18FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{47AC955F-39DC-4215-9F3B-DCC9EAAD4E2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Ordering", "Shopularity\modules\shopularity.ordering\Shopularity.Ordering\Shopularity.Ordering.csproj", "{BD7CF30C-3195-42FD-9BC2-195DD5BC61B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Ordering", "..\..\modules\shopularity.ordering\Shopularity.Ordering\Shopularity.Ordering.csproj", "{BD7CF30C-3195-42FD-9BC2-195DD5BC61B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{B3D40F08-7D84-499F-8555-9ED96D8C2893}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Ordering.Blazor", "Shopularity\modules\shopularity.ordering\Shopularity.Ordering.Blazor\Shopularity.Ordering.Blazor.csproj", "{83EBA088-743A-4EF7-9136-6E602CD9DE0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Ordering.Blazor", "..\..\modules\shopularity.ordering\Shopularity.Ordering.Blazor\Shopularity.Ordering.Blazor.csproj", "{83EBA088-743A-4EF7-9136-6E602CD9DE0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Ordering.Contracts", "Shopularity\modules\shopularity.ordering\Shopularity.Ordering.Contracts\Shopularity.Ordering.Contracts.csproj", "{54DE4041-98E4-49D9-AB75-4FE9BBB45DA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Ordering.Contracts", "..\..\modules\shopularity.ordering\Shopularity.Ordering.Contracts\Shopularity.Ordering.Contracts.csproj", "{54DE4041-98E4-49D9-AB75-4FE9BBB45DA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{ADF37689-1EEF-43E4-AC1B-059952372600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket", "Shopularity\modules\shopularity.basket\Shopularity.Basket\Shopularity.Basket.csproj", "{C46F946C-A39B-460B-A276-BAA5D5927DE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket", "..\..\modules\shopularity.basket\Shopularity.Basket\Shopularity.Basket.csproj", "{C46F946C-A39B-460B-A276-BAA5D5927DE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.Contracts", "Shopularity\modules\shopularity.basket\Shopularity.Basket.Contracts\Shopularity.Basket.Contracts.csproj", "{BE72557B-A005-49C3-8573-4BF2D4300800}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Basket.Contracts", "..\..\modules\shopularity.basket\Shopularity.Basket.Contracts\Shopularity.Basket.Contracts.csproj", "{BE72557B-A005-49C3-8573-4BF2D4300800}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{37687C7F-E34C-4719-A8E9-E43E600E3EAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog", "Shopularity\modules\shopularity.catalog\Shopularity.Catalog\Shopularity.Catalog.csproj", "{C69D4838-F204-4930-A36C-A8AAC39A093D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog", "..\..\modules\shopularity.catalog\Shopularity.Catalog\Shopularity.Catalog.csproj", "{C69D4838-F204-4930-A36C-A8AAC39A093D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.Blazor", "Shopularity\modules\shopularity.catalog\Shopularity.Catalog.Blazor\Shopularity.Catalog.Blazor.csproj", "{87C0E6F3-DAEC-4E9B-A863-A9DD23C37AE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.Blazor", "..\..\modules\shopularity.catalog\Shopularity.Catalog.Blazor\Shopularity.Catalog.Blazor.csproj", "{87C0E6F3-DAEC-4E9B-A863-A9DD23C37AE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.Contracts", "Shopularity\modules\shopularity.catalog\Shopularity.Catalog.Contracts\Shopularity.Catalog.Contracts.csproj", "{57131EEB-5082-4B0E-B6B6-4BCE08B4EE73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Catalog.Contracts", "..\..\modules\shopularity.catalog\Shopularity.Catalog.Contracts\Shopularity.Catalog.Contracts.csproj", "{57131EEB-5082-4B0E-B6B6-4BCE08B4EE73}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{30DB2DF3-6248-4929-942F-9298807A47CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment", "Shopularity\modules\shopularity.payment\Shopularity.Payment\Shopularity.Payment.csproj", "{0DA88839-F452-4F04-A161-271F82FBBD86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment", "..\..\modules\shopularity.payment\Shopularity.Payment\Shopularity.Payment.csproj", "{0DA88839-F452-4F04-A161-271F82FBBD86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment.Blazor", "Shopularity\modules\shopularity.payment\Shopularity.Payment.Blazor\Shopularity.Payment.Blazor.csproj", "{13F3332E-1B69-48CA-BB63-9DF1DCDEA6C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment.Blazor", "..\..\modules\shopularity.payment\Shopularity.Payment.Blazor\Shopularity.Payment.Blazor.csproj", "{13F3332E-1B69-48CA-BB63-9DF1DCDEA6C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment.Contracts", "Shopularity\modules\shopularity.payment\Shopularity.Payment.Contracts\Shopularity.Payment.Contracts.csproj", "{91073A55-BB24-41A7-A569-800A0B316F6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Payment.Contracts", "..\..\modules\shopularity.payment\Shopularity.Payment.Contracts\Shopularity.Payment.Contracts.csproj", "{91073A55-BB24-41A7-A569-800A0B316F6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdminAppBlazor", "AdminAppBlazor", "{A09E6A47-C502-458C-943B-161FA0009ECF}"
 EndProject

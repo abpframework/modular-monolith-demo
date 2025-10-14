@@ -2,7 +2,7 @@ param ($version='latest')
 
 $currentFolder = $PSScriptRoot
 $slnFolder = Join-Path $currentFolder "../../"
-$appFolder = Join-Path $slnFolder "Shopularity"
+$appFolder = Join-Path $slnFolder "app/Shopularity.Admin"
 
 
 Write-Host "********* BUILDING Application *********" -ForegroundColor Green

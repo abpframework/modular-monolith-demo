@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Contracts", "Shopularity.Contracts\Shopularity.Contracts.csproj", "{613A8559-8E83-457F-9360-FC6A2FB06F95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Contracts", "app\Shopularity.Contracts\Shopularity.Contracts.csproj", "{613A8559-8E83-457F-9360-FC6A2FB06F95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Public", "Shopularity.Public\Shopularity.Public.csproj", "{21973EBE-6B68-4AEC-905A-7D98ADEEE6EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Public", "app\Shopularity.Public\Shopularity.Public.csproj", "{21973EBE-6B68-4AEC-905A-7D98ADEEE6EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin", "Shopularity.Admin\Shopularity.Admin.csproj", "{88504AF0-DE4D-4662-8AE3-E3032E3838AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin", "app\Shopularity.Admin\Shopularity.Admin.csproj", "{88504AF0-DE4D-4662-8AE3-E3032E3838AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin.Client", "Shopularity.Admin.Client\Shopularity.Admin.Client.csproj", "{2EDDDC2D-A195-473D-8856-26E63710E0BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopularity.Admin.Client", "app\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj", "{2EDDDC2D-A195-473D-8856-26E63710E0BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
