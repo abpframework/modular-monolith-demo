@@ -5,7 +5,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Uow;
 
-namespace Shopularity.Catalog.Events.Products.Events;
+namespace Shopularity.Catalog.Events.Products;
 
 public class ProductsEventHandler : 
     IDistributedEventHandler<OrderCreatedEto>,

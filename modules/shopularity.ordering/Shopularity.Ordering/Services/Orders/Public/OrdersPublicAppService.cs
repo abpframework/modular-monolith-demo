@@ -118,8 +118,9 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
 
     public async Task<ListResultDto<OrderPublicDto>> GetListAsync()
     {
+        var currentUserId = CurrentUser.GetId();
         var items = await (await _orderRepository.GetQueryableAsync())
-            .Where(x=> x.UserId == CurrentUser.GetId())
+            .Where(x=> x.UserId == currentUserId)
             .OrderByDescending(x=> x.CreationTime)
             .Include(x=> x.OrderLines)
             .ToListAsync();
