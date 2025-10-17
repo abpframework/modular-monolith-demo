@@ -115,6 +115,31 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 logoUri: "/images/clients/aspnetcore.svg"
             );
         }
+
+                // Angular Public
+                var angularPublicClientId = configurationSection["Shopularity_Angular_Public:ClientId"];
+                if (!publicClientId.IsNullOrWhiteSpace())
+                {
+                    var webPublicRootUrl = configurationSection["Shopularity_Angular_Public:RootUrl"];
+
+                    await CreateApplicationAsync(
+                        applicationType: OpenIddictConstants.ApplicationTypes.Web,
+                        name: angularPublicClientId!,
+                        type: OpenIddictConstants.ClientTypes.Confidential,
+                        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+                        displayName: "Angular Web Public Application",
+                        secret: configurationSection["Shopularity_Angular_Public:ClientSecret"] ?? "1q2w3e*",
+                        grantTypes: new List<string> //Hybrid flow
+                        {
+                            OpenIddictConstants.GrantTypes.AuthorizationCode, OpenIddictConstants.GrantTypes.Implicit
+                        },
+                        scopes: commonScopes,
+                        redirectUris: new List<string> { $"{webPublicRootUrl}" },
+                        postLogoutRedirectUris: new List<string> { $"{webPublicRootUrl}" },
+                        clientUri: webPublicRootUrl,
+                        logoUri: "/images/clients/aspnetcore.svg"
+                    );
+                }
     }
 
     private async Task CreateApplicationAsync(

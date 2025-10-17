@@ -1,0 +1,61 @@
+<abp-page title="Products">
+  <div class="row d-flex row-gap-2">
+    @if (basketService.basketItems()?.length > 0) {
+      <div class="col-12 col-md-8 d-flex flex-column gap-2">
+        @for ( item of basketService.basketItems(); track item.product.id) {
+          <abp-card>
+            <app-checkout-item [product]="item.product" [amount]="item.amount" />
+          </abp-card>
+        }
+      </div>
+      <abp-card class="col-12 col-md-4">
+        <div class="p-4 d-flex flex-column row-gap-2">
+          <div class="d-flex justify-content-between">
+            <span class="h4 fw-light">Total Price</span>
+            <span class="h4 fw-semibold text-primary">{{ basketService.basketItems() | getTotalPrice | currency }}</span>
+          </div>
+          <form [formGroup]="paymentForm">
+            <div class="mb-2">
+              <label for="cardNumber" class="form-label">Credit Card Number</label>
+              <input
+                type="text"
+                id="creditCardNumber"
+                class="form-control"
+                formControlName="creditCardNumber"
+                placeholder="Card Number"
+                [class.is-invalid]="creditCardNumber.touched && creditCardNumber.invalid"
+              />
+              <small id="creditCardNumber" class="form-text text-muted">Please do not use a real credit card number. This is a demo app.</small>
+              @if (creditCardNumber.touched && creditCardNumber.invalid){
+                @if (creditCardNumber.errors?.required) {
+                  <div class="invalid-feedback">
+                    This field is required.
+                  </div>
+                }
+              }
+            </div>
+            <div class="mb-4">
+              <label for="address" class="form-label">Address</label>
+              <textarea
+                type="text"
+                id="address"
+                class="form-control"
+                formControlName="address"
+                placeholder="Address"
+                [class.is-invalid]="address.touched && address.invalid"
+              ></textarea>
+              @if (address.touched && address.invalid){
+                @if (address.errors?.required) {
+                  <div class="invalid-feedback">
+                    This field is required.
+                  </div>
+                }
+              }
+            </div>
+          <button class="btn btn-success w-100" (click)="createOrder()">Complete Order</button>
+          </form>
+        </div>
+      </abp-card>
+    }
+  </div>
+</abp-page>

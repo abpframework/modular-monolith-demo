@@ -1,0 +1,12 @@
+<div class="position-sticky">
+  <h5>Categories</h5>
+  <div class="category-list-container">
+    <ul class="list-group">
+      @for (category of categories; track category.id) {
+        <a class="list-group-item category-item" [href]="'?category=' + category.name">
+          <span class="category-item-text">{{category.name}}</span>
+        </a>
+      }
+    </ul>
+  </div>
+</div>
