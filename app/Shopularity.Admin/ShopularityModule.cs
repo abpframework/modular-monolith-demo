@@ -378,17 +378,17 @@ public class ShopularityModule : AbpModule
             if (hostingEnvironment.IsDevelopment())
             {
                 /* Using physical files in development, so we don't need to recompile on changes */
-                options.FileSets.ReplaceEmbeddedByPhysical<BasketContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<BasketModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.basket{0}Shopularity.Basket", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<CatalogContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<CatalogBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.UI", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<CatalogModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<PaymentBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.payment{0}Shopularity.Payment.Blazor", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<PaymentContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.payment{0}Shopularity.Payment.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<PaymentModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.payment{0}Shopularity.Payment", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<OrderingBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering.Blazor", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<OrderingContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering.Contracts", Path.DirectorySeparatorChar)));
-                options.FileSets.ReplaceEmbeddedByPhysical<OrderingModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<BasketContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.basket{0}Shopularity.Basket.Contracts", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<BasketModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.basket{0}Shopularity.Basket", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<CatalogContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.Contracts", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<CatalogBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog.UI", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<CatalogModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.catalog{0}Shopularity.Catalog", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<PaymentBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.payment{0}Shopularity.Payment.Blazor", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<PaymentContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.payment{0}Shopularity.Payment.Contracts", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<PaymentModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.payment{0}Shopularity.Payment", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<OrderingBlazorModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering.Blazor", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<OrderingContractsModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering.Contracts", Path.DirectorySeparatorChar)));
+                options.FileSets.ReplaceEmbeddedByPhysical<OrderingModule>(Path.Combine(hostingEnvironment.ContentRootPath, string.Format("..{0}..{0}modules{0}shopularity.ordering{0}Shopularity.Ordering", Path.DirectorySeparatorChar)));
                 options.FileSets.ReplaceEmbeddedByPhysical<ShopularityModule>(hostingEnvironment.ContentRootPath);
             }
         });
