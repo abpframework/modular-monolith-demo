@@ -75,18 +75,6 @@ public class ProductsAdminAppService : CatalogAppService, IProductsAdminAppServi
 
         return productWithNavigationProperties;
     }
-
-    public virtual async Task<ProductDto> GetAsync(Guid id)
-    {
-        var product = ObjectMapper.Map<Product, ProductDto>(await _productRepository.GetAsync(id));
-
-        var imageStream = await _blobContainer.GetOrNullAsync(id.ToString());
-            
-        product.Image = imageStream != null ? await imageStream.GetAllBytesAsync() : null;
-            
-        return product;
-    }
-        
     public virtual async Task<PagedResultDto<LookupDto<Guid>>> GetCategoryLookupAsync(LookupRequestDto input)
     {
         var query = (await _categoryRepository.GetQueryableAsync())

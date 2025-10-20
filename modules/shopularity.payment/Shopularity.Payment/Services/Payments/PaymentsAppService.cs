@@ -42,11 +42,6 @@ public class PaymentsAppService : PaymentAppService, IPaymentsAppService
         };
     }
 
-    public virtual async Task<PaymentDto> GetAsync(Guid id)
-    {
-        return ObjectMapper.Map<Domain.Payments.Payment, PaymentDto>(await _paymentRepository.GetAsync(id));
-    }
-
     [AllowAnonymous]
     public virtual async Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input)
     {

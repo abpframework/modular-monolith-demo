@@ -30,13 +30,6 @@ public class PaymentsController : AbpController, IPaymentsAppService
     }
 
     [HttpGet]
-    [Route("{id}")]
-    public virtual Task<PaymentDto> GetAsync(Guid id)
-    {
-        return _paymentsAppService.GetAsync(id);
-    }
-
-    [HttpGet]
     [Route("as-excel-file")]
     public virtual Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input)
     {

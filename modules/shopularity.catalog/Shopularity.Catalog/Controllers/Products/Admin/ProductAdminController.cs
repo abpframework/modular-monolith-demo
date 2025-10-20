@@ -39,13 +39,6 @@ public class ProductAdminController : AbpController, IProductsAdminAppService
     }
 
     [HttpGet]
-    [Route("{id}")]
-    public virtual Task<ProductDto> GetAsync(Guid id)
-    {
-        return ProductsAdminAppService.GetAsync(id);
-    }
-
-    [HttpGet]
     [Route("category-lookup")]
     public virtual Task<PagedResultDto<LookupDto<Guid>>> GetCategoryLookupAsync(LookupRequestDto input)
     {

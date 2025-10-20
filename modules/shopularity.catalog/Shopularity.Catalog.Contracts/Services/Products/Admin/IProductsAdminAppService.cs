@@ -15,8 +15,6 @@ public interface IProductsAdminAppService : IApplicationService
 
     Task<ProductWithNavigationPropertiesDto> GetWithNavigationPropertiesAsync(Guid id);
 
-    Task<ProductDto> GetAsync(Guid id);
-
     Task<PagedResultDto<LookupDto<Guid>>> GetCategoryLookupAsync(LookupRequestDto input);
 
     Task DeleteAsync(Guid id);

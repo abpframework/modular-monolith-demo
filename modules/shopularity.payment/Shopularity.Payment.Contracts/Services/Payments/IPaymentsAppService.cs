@@ -10,8 +10,6 @@ public interface IPaymentsAppService : IApplicationService
 {
     Task<PagedResultDto<PaymentDto>> GetListAsync(GetPaymentsInput input);
 
-    Task<PaymentDto> GetAsync(Guid id);
-
     Task<IRemoteStreamContent> GetListAsExcelFileAsync(PaymentExcelDownloadDto input);
 
     Task<Shared.DownloadTokenResultDto> GetDownloadTokenAsync();
