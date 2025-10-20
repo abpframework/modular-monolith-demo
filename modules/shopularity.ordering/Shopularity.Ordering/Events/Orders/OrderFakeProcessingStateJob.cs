@@ -18,7 +18,7 @@ public class OrderFakeStateJob : AsyncBackgroundJob<OrderFakeStateJob.OrderFakeS
     public override async Task ExecuteAsync(OrderFakeStateJobArgs args)
     {
         var order = await _orderRepository.GetAsync(args.OrderId);
-        order.State = args.State;
+        order.SetState(args.State);
         await _orderRepository.UpdateAsync(order);
     }
 

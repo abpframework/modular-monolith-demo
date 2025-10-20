@@ -188,7 +188,7 @@
                             <EntityAction TItem="OrderDto"
                                           Visible="@CanEditOrder"
                                           Clicked="async () => await OpenEditOrderModalAsync(context)"
-                                          Text="@(context.State.IsShipped() ? L["Details"] : L["Edit"])">
+                                          Text="@(context.State.IsPostShippingState() ? L["Details"] : L["Edit"])">
                             </EntityAction>
                         </EntityActions>
                     </DisplayTemplate>
@@ -289,7 +289,7 @@
 
         <Form id="EditOrderForm">
             <ModalHeader>
-                <ModalTitle>@(EditingOrder.State.IsShipped() ? L["Details"] : L["Update"])</ModalTitle>
+                <ModalTitle>@(EditingOrder.State.IsPostShippingState() ? L["Details"] : L["Update"])</ModalTitle>
                 <CloseButton Clicked="CloseEditOrderModalAsync"/>
             </ModalHeader>
             <ModalBody>
@@ -352,9 +352,9 @@
             <ModalFooter>
                 <Button Color="Color.Secondary"
                         Clicked="CloseEditOrderModalAsync">
-                    @(EditingOrder.State.IsShipped() ? L["Ok"] : L["Cancel"])
+                    @(EditingOrder.State.IsPostShippingState() ? L["Ok"] : L["Cancel"])
                 </Button>
-                @if (!EditingOrder.State.IsShipped())
+                @if (!EditingOrder.State.IsPostShippingState())
                 {
                     <SubmitButton Form="EditOrderForm" Clicked="UpdateOrderAsync"/>
                 }

@@ -13,7 +13,7 @@ public class Order : FullAuditedAggregateRoot<Guid>
     [NotNull]
     public virtual Guid UserId { get; set; }
 
-    public virtual OrderState State { get; set; }
+    public virtual OrderState State { get; private set; }
 
     public virtual double TotalPrice { get; set; }
 
@@ -48,9 +48,9 @@ public class Order : FullAuditedAggregateRoot<Guid>
         OrderLines.Add(orderLine);
     }
 
-    public void Cancel()
+    public void SetState(OrderState newState)
     {
-        if (State.IsShipped())
+        if (newState == OrderState.Cancelled && State.IsPostShippingState())
         {
             throw new BusinessException(OrderingErrorCodes.CanOnlyCancelNotShippedOrders);
         }

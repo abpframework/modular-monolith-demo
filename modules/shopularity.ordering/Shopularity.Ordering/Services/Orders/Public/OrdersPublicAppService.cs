@@ -106,7 +106,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
             throw new BusinessException(OrderingErrorCodes.CanOnlyCancelOwnedOrders);
         }
 
-        order.Cancel();
+        order.SetState(OrderState.Cancelled);
 
         await _orderRepository.UpdateAsync(order);
         

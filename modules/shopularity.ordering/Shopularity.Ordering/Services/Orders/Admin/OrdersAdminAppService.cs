@@ -115,7 +115,7 @@ public class OrdersAdminAppService : OrderingAppService, IOrdersAdminAppService
         }
             
         order.CargoNo = input.CargoNo;
-        order.State = OrderState.Shipped;
+        order.SetState(OrderState.Shipped);
 
         order = await _orderRepository.UpdateAsync(order);
         

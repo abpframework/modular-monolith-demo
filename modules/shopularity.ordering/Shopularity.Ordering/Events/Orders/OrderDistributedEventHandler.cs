@@ -27,7 +27,7 @@ public class OrderDistributedEventHandler :
     public async Task HandleEventAsync(PaymentCompletedEto eventData)
     {
         var order = await _orderRepository.GetAsync(eventData.OrderId);
-        order.State = OrderState.Paid;
+        order.SetState(OrderState.Paid);
         await _orderRepository.UpdateAsync(order);
 
         await _backgroundJobManager.EnqueueAsync(new OrderFakeStateJob.OrderFakeStateJobArgs
@@ -41,7 +41,7 @@ public class OrderDistributedEventHandler :
     public async Task HandleEventAsync(PaymentCreatedEto eventData)
     {
         var order = await _orderRepository.GetAsync(eventData.OrderId);
-        order.State = OrderState.WaitingForPayment;
+        order.SetState(OrderState.WaitingForPayment);
         await _orderRepository.UpdateAsync(order);
     }
 }
