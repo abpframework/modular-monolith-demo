@@ -59,7 +59,6 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
         var order = new Order(
             GuidGenerator.Create(),
             CurrentUser.GetId(),
-            OrderState.New,
             productsWithAmounts.Select(x => x.Product.Price * x.Amount).Sum(),
             input.ShippingAddress
         );
