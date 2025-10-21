@@ -1,0 +1,43 @@
+<abp-page title="Order History">
+  <div class="d-flex flex-column gap-2">
+    @for(order of orders; track order.id) {
+      <abp-card>
+        <div class="d-flex justify-content-between align-items-center p-4">
+          <div class="d-flex flex-column gap-1 col-3">
+            <span class="text-muted fw-lighter">Items</span>
+            @for (item of order.orderLines; track item.id) {
+              <div>
+                <a href="/product/{{item.productId}}" target="_blank">{{item.name}}({{item.amount}})</a>
+              </div>
+            }
+          </div>
+          <div class="d-flex flex-column gap-1 flex-grow-1">
+            <span class="text-muted fw-lighter">Total</span>
+            <div class="text-primary fw-bold">{{ order.totalPrice | currency }}</div>
+          </div>
+          <div class="d-flex flex-column gap-1 flex-grow-1">
+            <span class="text-muted fw-lighter">State</span>
+            <div class="fw-bold">{{ `::Enum:OrderState.${order.state}` | abpLocalization }}</div>
+          </div>
+          <div class="d-flex flex-column gap-1 flex-grow-1">
+            <span class="text-muted fw-lighter">Address</span>
+            <div class="fw-bold">{{ order.shippingAddress }}</div>
+          </div>
+          <div class="d-flex flex-column gap-1 flex-grow-1">
+            <span class="text-muted fw-lighter">Date</span>
+            <div class="fw-bold">{{ order.creationTime | date:'medium' }}</div>
+          </div>
+          <div class="d-flex align-items-center flex-grow-1">
+            @if (order.state !== 6) {
+              <button class="btn btn-danger" (click)="cancelOrder(order)">Cancel</button>
+            }
+          </div>
+        </div>
+      </abp-card>
+    } @empty {
+      <div class="alert alert-info" role="alert">
+        You have no orders yet. <a href="/" class="alert-link">Go to products page</a> to place an order.
+      </div>
+    }
+  </div>
+</abp-page>

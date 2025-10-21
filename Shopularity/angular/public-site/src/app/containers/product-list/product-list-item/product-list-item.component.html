@@ -1,0 +1,36 @@
+
+  <abp-card>
+    <div class="d-flex justify-content-center align-items-center" (click)="showProductDetail()" role="button" >
+      <div class="product-image-container">
+        <img
+          class="card-img-top"
+          [src]="imageUrl()"
+          [alt]="product().name"
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <div class="card-body d-flex flex-column row-gap-2 px-8 py-4">
+      <div class="d-flex align-items-center justify-content-between">
+        <span class="text-muted">{{ product().name }}</span>
+        <b>{{ product().price | currency }}</b>
+      </div>
+      <div class="mt-auto">
+        <button
+          class="btn list-btn w-100"
+          [disabled]="product().stockCount === 0"
+          (click)="addToBasket($event, product().id)"
+        >
+          @if (product().stockCount === 0) {
+            <i class="fa-solid fa-ban me-2"></i>
+            {{'::NotInStock' | abpLocalization}}
+          } @else {
+            <i class="fa-solid fa-cart-plus me-2"></i>
+            {{'::AddToBasket' | abpLocalization}}
+          }
+        </button>
+      </div>
+    </div>
+  </abp-card>
+
+<app-login-required-modal [(visible)]="isLoginRequiredModalVisible" />

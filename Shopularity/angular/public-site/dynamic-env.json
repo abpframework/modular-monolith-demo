@@ -1,0 +1,21 @@
+{
+  "production": true,
+  "application": {
+    "baseUrl":"https://abpsolution20-web",
+    "name": "AbpSolution20",
+    "logoUrl": ""
+  },
+  "oAuthConfig": {
+    "issuer": "https://abpsolution20-api/",
+    "redirectUri": "https://abpsolution20",
+    "clientId": "AbpSolution20_App",
+    "responseType": "code",
+    "scope": "offline_access openid profile email phone"
+  },
+  "apis": {
+    "default": {
+      "url": "https://abpsolution20-api",
+      "rootNamespace": "AbpSolution20"
+    }
+  }
+}
