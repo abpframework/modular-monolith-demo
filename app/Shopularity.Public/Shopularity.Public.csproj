@@ -38,4 +38,13 @@
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
   </ItemGroup>
+
+  <ItemGroup>
+  <Content Include="Pages\**\*.js">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+  <Content Include="Pages\**\*.css">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </Content>
+  </ItemGroup>
 </Project>
