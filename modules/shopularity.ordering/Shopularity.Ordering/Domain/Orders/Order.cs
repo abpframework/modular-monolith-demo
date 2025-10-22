@@ -55,6 +55,6 @@ public class Order : FullAuditedAggregateRoot<Guid>
             throw new BusinessException(OrderingErrorCodes.CanOnlyCancelNotShippedOrders);
         }
         
-        State = OrderState.Cancelled;
+        State = newState;
     }
 }
