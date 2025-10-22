@@ -30,17 +30,8 @@ public class ProductsPublicAppService : CatalogAppService, IProductsPublicAppSer
 
     public virtual async Task<PagedResultDto<ProductWithNavigationPropertiesPublicDto>> GetListAsync(GetProductsPublicInput input)
     {
-        Guid? categoryId = null;
-
-        if (!input.CategoryName.IsNullOrWhiteSpace())
-        {
-            var category = await _categoryRepository.FirstOrDefaultAsync(x =>
-                x.Name.Equals(input.CategoryName));
-            categoryId = category?.Id;
-        }
-        
-        var totalCount = await _productRepository.GetCountAsync(categoryId: categoryId);
-        var items = await _productRepository.GetListWithNavigationPropertiesAsync(categoryId: categoryId, sorting: input.Sorting, maxResultCount: input.MaxResultCount, skipCount: input.SkipCount);
+        var totalCount = await _productRepository.GetCountAsync(categoryId: input.CategoryId);
+        var items = await _productRepository.GetListWithNavigationPropertiesAsync(categoryId: input.CategoryId, sorting: input.Sorting, maxResultCount: input.MaxResultCount, skipCount: input.SkipCount);
         var result = new PagedResultDto<ProductWithNavigationPropertiesPublicDto>
         {
             TotalCount = totalCount,

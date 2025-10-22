@@ -4,12 +4,21 @@
     const renderApi = '/api/catalog/public/products/render';
     var $shopularityProductList = $("#ShopularityProductList");
     let selectedCategory = '';
+    let selectedCategoryId = '';
     if (params.get("category") != null){
         selectedCategory = params.get("category");
-        $(".category-item[data-category-name='"+selectedCategory+"']").find('.category-item-text').addClass("selected-category");
+        let $relatedItem = $(".category-item[data-category-name='"+selectedCategory+"']");
+        if ($relatedItem != null && $relatedItem.length > 0){
+            $relatedItem.find('.category-item-text').addClass("selected-category");
+            selectedCategoryId = $relatedItem.data('category-id');
+        }
+        else{
+            selectedCategory = '';
+            window.history.replaceState({}, "", window.location.pathname);
+        }
     }
     
-    $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9&categoryName=" + encodeURIComponent(selectedCategory));
+    $shopularityProductList.load(renderApi + "?skip=0&maxResultCount=9&categoryId=" + encodeURIComponent(selectedCategoryId));
 
     let skip = 9;
     let loading = false;
@@ -23,7 +32,7 @@
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
             loading = true;
 
-            $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryName: selectedCategory}, function(html) {
+            $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryId: selectedCategoryId}, function(html) {
                 if ($.trim(html).length === 0) {
                     done = true;
                     loading = false;
@@ -42,9 +51,10 @@
         $('.category-item-text').removeClass("selected-category");
         $this.find('.category-item-text').addClass("selected-category");
         selectedCategory = $this.data('category-name');
+        selectedCategoryId = $this.data('category-id');
         skip = 0;
         done = false;
-        $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryName: selectedCategory}, function(html) {
+        $.get(renderApi, {skipCount: skip, maxResultCount: 6, categoryId: selectedCategoryId}, function(html) {
             if ($.trim(html).length === 0) {
                 done = true;
                 loading = false;
