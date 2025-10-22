@@ -14,9 +14,9 @@ public interface IOrdersAdminAppService : IApplicationService
 
     Task<OrderDto> GetAsync(Guid id);
 
-    Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input);
+    Task<OrderDto> SetShipmentAddressInfoAsync(Guid id, OrderUpdateDto input);
 
-    Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input);
+    Task<OrderDto> SetShipmentCargoNoAsync(Guid id, SetShipmentCargoNoInput input);
 
     Task<IRemoteStreamContent> GetListAsExcelFileAsync(OrderExcelDownloadDto input);
 

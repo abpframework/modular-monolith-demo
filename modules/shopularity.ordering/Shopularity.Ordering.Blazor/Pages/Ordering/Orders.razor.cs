@@ -32,7 +32,7 @@ public partial class Orders
     private bool CanEditOrder { get; set; }
     private bool CanSetShipment { get; set; }
     private OrderDto EditingOrder { get; set; }
-    private SetShippingInfoInput Shipment { get; set; }
+    private SetShipmentCargoNoInput Shipment { get; set; }
     private Validations EditingOrderValidations { get; set; } = new();
     private Validations ShipmentValidations { get; set; } = new();
     private Guid EditingOrderId { get; set; }
@@ -52,7 +52,7 @@ public partial class Orders
         LocalizationResource = typeof(OrderingResource);
             
         EditingOrder = new OrderDto();
-        Shipment = new SetShippingInfoInput();
+        Shipment = new SetShipmentCargoNoInput();
         Filter = new GetOrdersInput
         {
             MaxResultCount = PageSize,
@@ -107,7 +107,7 @@ public partial class Orders
         CanEditOrder = await AuthorizationService
             .IsGrantedAsync(OrderingPermissions.Orders.Edit);
         CanSetShipment = await AuthorizationService
-            .IsGrantedAsync(OrderingPermissions.Orders.SetShippingInfo);
+            .IsGrantedAsync(OrderingPermissions.Orders.SetShipmentCargoNo);
             
         CanListOrderLine = await AuthorizationService
             .IsGrantedAsync(OrderingPermissions.OrderLines.Default);   
@@ -180,7 +180,7 @@ public partial class Orders
         var order = await OrdersAdminAppService.GetAsync(input.Id);
             
         ShippingOrderId = order.Id;
-        Shipment = ObjectMapper.Map<OrderDto, SetShippingInfoInput>(order);
+        Shipment = ObjectMapper.Map<OrderDto, SetShipmentCargoNoInput>(order);
             
         await ShipmentValidations.ClearAll();
         await ShippingModal.Show();
@@ -205,7 +205,7 @@ public partial class Orders
                 return;
             }
 
-            await OrdersAdminAppService.UpdateAsync(EditingOrderId, new OrderUpdateDto
+            await OrdersAdminAppService.SetShipmentAddressInfoAsync(EditingOrderId, new OrderUpdateDto
             {
                 ShippingAddress = EditingOrder.ShippingAddress,
                 ConcurrencyStamp = EditingOrder.ConcurrencyStamp
@@ -228,7 +228,7 @@ public partial class Orders
                 return;
             }
 
-            await OrdersAdminAppService.SetShippingInfoAsync(ShippingOrderId, Shipment);
+            await OrdersAdminAppService.SetShipmentCargoNoAsync(ShippingOrderId, Shipment);
             await GetOrdersAsync();
             await ShippingModal.Hide();                
         }

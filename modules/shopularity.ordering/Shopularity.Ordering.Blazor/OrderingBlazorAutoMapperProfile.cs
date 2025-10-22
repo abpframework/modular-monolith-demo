@@ -9,6 +9,6 @@ public class OrderingBlazorAutoMapperProfile : Profile
     {
         CreateMap<OrderDto, OrderUpdateDto>();
 
-        CreateMap<OrderDto, SetShippingInfoInput>();
+        CreateMap<OrderDto, SetShipmentCargoNoInput>();
     }
 }

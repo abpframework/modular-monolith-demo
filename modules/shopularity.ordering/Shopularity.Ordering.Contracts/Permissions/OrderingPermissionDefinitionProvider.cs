@@ -12,7 +12,7 @@ public class OrderingPermissionDefinitionProvider : PermissionDefinitionProvider
 
         var orderPermission = orderingGroup.AddPermission(OrderingPermissions.Orders.Default, L("Permission:Orders"));
         orderPermission.AddChild(OrderingPermissions.Orders.Edit, L("Permission:Edit"));
-        orderPermission.AddChild(OrderingPermissions.Orders.SetShippingInfo, L("Permission:SetShippingInfo"));
+        orderPermission.AddChild(OrderingPermissions.Orders.SetShipmentCargoNo, L("Permission:SetShippingInfo"));
 
         orderingGroup.AddPermission(OrderingPermissions.OrderLines.Default, L("Permission:OrderLines"));
     }

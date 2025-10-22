@@ -40,16 +40,16 @@ public class OrdersAdminController : AbpController, IOrdersAdminAppService
 
     [HttpPut]
     [Route("{id}")]
-    public virtual Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
+    public virtual Task<OrderDto> SetShipmentAddressInfoAsync(Guid id, OrderUpdateDto input)
     {
-        return _ordersAdminAppService.UpdateAsync(id, input);
+        return _ordersAdminAppService.SetShipmentAddressInfoAsync(id, input);
     }
 
     [HttpPut]
     [Route("shipped/{id}")]
-    public virtual Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input)
+    public virtual Task<OrderDto> SetShipmentCargoNoAsync(Guid id, SetShipmentCargoNoInput input)
     {
-        return _ordersAdminAppService.SetShippingInfoAsync(id, input);
+        return _ordersAdminAppService.SetShipmentCargoNoAsync(id, input);
     }
 
     [HttpGet]

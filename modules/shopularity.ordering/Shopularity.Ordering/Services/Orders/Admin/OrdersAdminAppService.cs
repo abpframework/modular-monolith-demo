@@ -93,7 +93,7 @@ public class OrdersAdminAppService : OrderingAppService, IOrdersAdminAppService
     }
 
     [Authorize(OrderingPermissions.Orders.Edit)]
-    public virtual async Task<OrderDto> UpdateAsync(Guid id, OrderUpdateDto input)
+    public virtual async Task<OrderDto> SetShipmentAddressInfoAsync(Guid id, OrderUpdateDto input)
     {
         var order = await _orderRepository.GetAsync(id);
 
@@ -104,8 +104,8 @@ public class OrdersAdminAppService : OrderingAppService, IOrdersAdminAppService
         return ObjectMapper.Map<Order, OrderDto>(order);
     }
 
-    [Authorize(OrderingPermissions.Orders.SetShippingInfo)]
-    public virtual async Task<OrderDto> SetShippingInfoAsync(Guid id, SetShippingInfoInput input)
+    [Authorize(OrderingPermissions.Orders.SetShipmentCargoNo)]
+    public virtual async Task<OrderDto> SetShipmentCargoNoAsync(Guid id, SetShipmentCargoNoInput input)
     {
         var order = await _orderRepository.GetAsync(id);
 
