@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Shopularity.Catalog.Services.Products.Integration;
+using Shopularity.Catalog.Services.Products.Public;
 using Shopularity.Ordering.Domain.Orders;
 using Shopularity.Ordering.Domain.Orders.OrderLines;
 using Shopularity.Ordering.Events.Orders;
@@ -50,10 +51,9 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
                 .WithData("ProductNames", productsOutOfStock.Select(x=> x.Name).JoinAsString(", "));
         }
 
-        var productsWithAmounts = products.Select(x => new ProductWithAmountDto
+        var productsWithAmounts = products.Select(x =>
         {
-            Product = x,
-            Amount = input.Products.First(y => x.Id == y.ProductId).Amount
+            return (Product: x, Amount: input.Products.First(y => x.Id == y.ProductId).Amount);
         }).ToList();
 
         var order = new Order(
