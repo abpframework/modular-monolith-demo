@@ -41,7 +41,7 @@ public class OrdersPublicAppService: OrderingAppService, IOrdersPublicAppService
         }
         
         var products = await _productsIntegrationService
-            .GetProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
+            .GetPublicProductsAsync(input.Products.Select(x=> x.ProductId).ToList());
 
         var productsOutOfStock = products.Where(product => input.Products.First(y => product.Id == y.ProductId).Amount > product.StockCount).ToList();
         if (productsOutOfStock.Count != 0)
