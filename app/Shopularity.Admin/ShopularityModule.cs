@@ -447,6 +447,11 @@ public class ShopularityModule : AbpModule
         {
             app.UseDeveloperExceptionPage();
         }
+        app.Use((context, next) =>
+        {
+            context.Request.Scheme = "https";
+            return next(context);
+        });
 
         app.UseAbpRequestLocalization();
 
