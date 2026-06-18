@@ -8,8 +8,9 @@ This is an example modular monolith application built with ABP Framework and .NE
 
 ### Pre-requirements
 
-* [.NET9.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
-* [Node v18 or 20](https://nodejs.org/en)
+* [.NET 10.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
+* [Node.js 22 LTS](https://nodejs.org/en) (Node.js 20.19+ is also supported by Angular 21)
+* [ABP CLI](https://abp.io/docs/latest/cli) for `abp install-libs`
 
 ## Before Running the Application
 

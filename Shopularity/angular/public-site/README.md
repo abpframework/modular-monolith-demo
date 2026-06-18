@@ -4,6 +4,12 @@
 
 This is the example site for the Shopularity application built with Angular SSR and ABP Framework.
 
+### Pre-requirements
+
+- [Node.js 22 LTS](https://nodejs.org/en) (Node.js 20.19+ is also supported by Angular 21)
+- [Yarn](https://classic.yarnpkg.com/)
+- Running Shopularity backend services for local API calls
+
 ### How to run
 
 1. Navigate to the repository main directory and run these commands one by one:
