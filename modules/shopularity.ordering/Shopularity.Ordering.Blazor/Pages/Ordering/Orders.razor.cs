@@ -319,7 +319,7 @@ public partial class Orders
 
         var orderLineDataGrid = OrderLineDataGrids[orderId];
             
-        orderLineDataGrid.CurrentPage = currentPage;
+        orderLineDataGrid.Page = currentPage;
         orderLineDataGrid.TotalItems = (int)orderLines.TotalCount;
     }
 }

@@ -38,10 +38,10 @@
                     <Form id="ProductSearchForm">
                         <Addons>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit @bind-Text="@Filter.FilterText"
+                                <TextInput @bind-Value="@Filter.FilterText"
                                         Autofocus="true"
                                         Placeholder="@L["Search"]">
-                                </TextEdit>
+                                </TextInput>
                             </Addon>
                             <Addon AddonType="AddonType.End">
                                 <SubmitButton Form="ProductSearchForm" Clicked="GetProductsAsync">
@@ -67,13 +67,13 @@
                 <Column ColumnSize="ColumnSize.Is3">
                     <Field>
                         <FieldLabel>@L["Name"]</FieldLabel>
-                        <TextEdit Text="@Filter.Name" TextChanged="@OnNameChangedAsync" />                       
+                        <TextInput Value="@Filter.Name" ValueChanged="@OnNameChangedAsync" />
                     </Field>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is3">
                     <Field>
                         <FieldLabel>@L["Description"]</FieldLabel>
-                        <TextEdit Text="@Filter.Description" TextChanged="@OnDescriptionChangedAsync" />                       
+                        <TextInput Value="@Filter.Description" ValueChanged="@OnDescriptionChangedAsync" />
                     </Field>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is3">
@@ -112,10 +112,10 @@
                     <Field>
                         <FieldLabel>@L["Category"]</FieldLabel>
                         <Select TValue="Guid?"
-		SelectedValue="@Filter.CategoryId"
-		SelectedValueChanged="@OnCategoryIdChangedAsync">
+		Value="@Filter.CategoryId"
+		ValueChanged="@OnCategoryIdChangedAsync">
 
-<SelectItem></SelectItem>
+<SelectItem TValue="Guid?" Value="@((Guid?)null)"></SelectItem>
 
 @foreach(var item in CategoriesCollection)
 {
@@ -211,7 +211,7 @@
                 
                 @if (CanDeleteProduct && ProductList.Any())
                 {
-                    <DataGridMultiSelectColumn TItem="ProductWithNavigationPropertiesDto" DisplayOrder="-1" Width="30px"></DataGridMultiSelectColumn>
+                    <DataGridMultiSelectColumn TItem="ProductWithNavigationPropertiesDto" DisplayOrder="@(-1)" />
                 }
                 
                 <DataGridEntityActionsColumn TItem="ProductWithNavigationPropertiesDto" @ref="@EntityActionsColumn">
@@ -219,11 +219,11 @@
                         <EntityActions TItem="ProductWithNavigationPropertiesDto" EntityActionsColumn="@EntityActionsColumn">
                             <EntityAction TItem="ProductWithNavigationPropertiesDto"
                                           Visible="@CanEditProduct"
-                                          Clicked="async () => await OpenEditProductModalAsync(context)"
+                                          Clicked="async () => await OpenEditProductModalAsync(context.Item)"
                                           Text="@L["Edit"]"></EntityAction>
                             <EntityAction TItem="ProductWithNavigationPropertiesDto"
                                           Visible="@CanDeleteProduct"
-                                          Clicked="() => DeleteProductAsync(context)"
+                                          Clicked="() => DeleteProductAsync(context.Item)"
                                           ConfirmationMessage="@(()=> L["DeleteConfirmationMessage"])"
                                           Text="@L["Delete"]"></EntityAction>
                         </EntityActions>
@@ -271,21 +271,21 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"] *</FieldLabel>
-                            <TextEdit @bind-Text="@NewProduct.Name" MaxLength="ProductConsts.NameMaxLength" >
+                            <TextInput @bind-Value="@NewProduct.Name" MaxLength="ProductConsts.NameMaxLength" >
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
-                            </TextEdit>
+                            </TextInput>
                         </Field>
                     </Validation>
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Description"]</FieldLabel>
-                            <MemoEdit @bind-Text="@NewProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength" >
+                            <MemoInput @bind-Value="@NewProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength" >
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
-                            </MemoEdit>
+                            </MemoInput>
                         </Field>
                     </Validation>
                     <Validation MessageLocalizer="@LH.Localize">
@@ -310,8 +310,8 @@
                      </Validation>
                     <Field>
                         <FieldLabel>@L["Category"]</FieldLabel>
-                        <Select TValue="Guid?" @bind-SelectedValue="@NewProduct.CategoryId">
-                            <SelectItem TValue="Guid?" Value="null"></SelectItem>
+                        <Select TValue="Guid?" @bind-Value="@NewProduct.CategoryId">
+                            <SelectItem TValue="Guid?" Value="@((Guid?)null)"></SelectItem>
                             @foreach (var category in CategoriesCollection)
                             {
                                 <SelectItem TValue="Guid?" Value="@(category.Id)">
@@ -371,11 +371,11 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingProduct.Name" MaxLength="ProductConsts.NameMaxLength">
+                            <TextInput @bind-Value="@EditingProduct.Name" MaxLength="ProductConsts.NameMaxLength">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
-                            </TextEdit>
+                            </TextInput>
                         </Field>
                     </Validation>
 
@@ -383,11 +383,11 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Description"]</FieldLabel>
-                            <MemoEdit @bind-Text="@EditingProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength">
+                            <MemoInput @bind-Value="@EditingProduct.Description" MaxLength="ProductConsts.DescriptionMaxLength">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
-                            </MemoEdit>
+                            </MemoInput>
                         </Field>
                     </Validation>
 
@@ -418,8 +418,8 @@
 
                     <Field>
                         <FieldLabel>@L["Category"]</FieldLabel>
-                        <Select TValue="Guid?" @bind-SelectedValue="@EditingProduct.CategoryId">
-                            <SelectItem TValue="Guid?" Value="null"></SelectItem>
+                        <Select TValue="Guid?" @bind-Value="@EditingProduct.CategoryId">
+                            <SelectItem TValue="Guid?" Value="@((Guid?)null)"></SelectItem>
                             @foreach (var category in CategoriesCollection)
                             {
                                 <SelectItem TValue="Guid?" Value="@(category.Id)">

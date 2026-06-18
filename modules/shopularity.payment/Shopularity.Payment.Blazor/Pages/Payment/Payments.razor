@@ -39,13 +39,13 @@
                         <Field>
                             <FieldLabel>@L["State"]</FieldLabel>
                             <Select TValue="PaymentState?"
-                                    SelectedValue="@Filter.State"
-                                    SelectedValueChanged="@OnStateChangedAsync">
-                                <SelectItem></SelectItem>
+                                    Value="@Filter.State"
+                                    ValueChanged="@OnStateChangedAsync">
+                                <SelectItem TValue="PaymentState?" Value="@((PaymentState?)null)"></SelectItem>
 
                                 @foreach (PaymentState value in Enum.GetValues(typeof(PaymentState)))
                                 {
-                                    <SelectItem Value="value">
+                                    <SelectItem TValue="PaymentState?" Value="@value">
                                         @value
                                     </SelectItem>
                                 }
@@ -97,7 +97,7 @@
                                 Field="State"
                                 Caption="@L["State"]">
                     <DisplayTemplate>
-                        @L[$"Enum:PaymentState.{(int) context.State}"]
+                        @L[$"Enum:PaymentState.{(int) context.Item.State}"]
                     </DisplayTemplate>
                 </DataGridColumn>
             </DataGridColumns>

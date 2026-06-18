@@ -10,9 +10,9 @@
 
 	<ItemGroup>
     <ProjectReference Include="..\Shopularity.Contracts\Shopularity.Contracts.csproj" />
-    <PackageReference Include="Blazorise.Bootstrap5" Version="1.8.1" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.8.1" />
-    <PackageReference Include="Blazorise.Components" Version="1.8.1" />
+    <PackageReference Include="Blazorise.Bootstrap5" Version="2.0.4" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="2.0.4" />
+    <PackageReference Include="Blazorise.Components" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.7" />
 	</ItemGroup>

@@ -10,8 +10,8 @@
     <ProjectReference Include="..\Shopularity.Admin.Client\Shopularity.Admin.Client.csproj" />
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
-    <PackageReference Include="Blazorise.Bootstrap5" Version="1.8.1" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.8.1" />
+    <PackageReference Include="Blazorise.Bootstrap5" Version="2.0.4" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="2.0.4" />
     <PackageReference Include="Volo.CmsKit.Application" Version="10.4.1" />
     <PackageReference Include="Volo.CmsKit.EntityFrameworkCore" Version="10.4.1" />
     <PackageReference Include="Volo.CmsKit.HttpApi" Version="10.4.1" />

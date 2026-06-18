@@ -35,10 +35,10 @@
                     <Form id="CategorySearchForm">
                         <Addons>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit @bind-Text="@Filter.FilterText"
+                                <TextInput @bind-Value="@Filter.FilterText"
                                           Autofocus="true"
                                           Placeholder="@L["Search"]">
-                                </TextEdit>
+                                </TextInput>
                             </Addon>
                             <Addon AddonType="AddonType.End">
                                 <SubmitButton Form="CategorySearchForm" Clicked="GetCategoriesAsync">
@@ -85,12 +85,12 @@
                         <EntityActions TItem="CategoryDto" EntityActionsColumn="@EntityActionsColumn">
                             <EntityAction TItem="CategoryDto"
                                           Visible="@CanEditCategory"
-                                          Clicked="async () => await OpenEditCategoryModalAsync(context)"
+                                          Clicked="async () => await OpenEditCategoryModalAsync(context.Item)"
                                           Text="@L["Edit"]">
                             </EntityAction>
                             <EntityAction TItem="CategoryDto"
                                           Visible="@CanDeleteCategory"
-                                          Clicked="() => DeleteCategoryAsync(context)"
+                                          Clicked="() => DeleteCategoryAsync(context.Item)"
                                           ConfirmationMessage="@(() => L["DeleteConfirmationMessage"])"
                                           Text="@L["Delete"]">
                             </EntityAction>
@@ -125,11 +125,11 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"] *</FieldLabel>
-                            <TextEdit @bind-Text="@NewCategory.Name" MaxLength="CategoryConsts.NameMaxLength">
+                            <TextInput @bind-Value="@NewCategory.Name" MaxLength="CategoryConsts.NameMaxLength">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
-                            </TextEdit>
+                            </TextInput>
                         </Field>
                     </Validation>
                 </Validations>
@@ -162,11 +162,11 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Name"] *</FieldLabel>
-                            <TextEdit @bind-Text="@EditingCategory.Name" MaxLength="CategoryConsts.NameMaxLength">
+                            <TextInput @bind-Value="@EditingCategory.Name" MaxLength="CategoryConsts.NameMaxLength">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
-                            </TextEdit>
+                            </TextInput>
                         </Field>
                     </Validation>
                 </Validations>

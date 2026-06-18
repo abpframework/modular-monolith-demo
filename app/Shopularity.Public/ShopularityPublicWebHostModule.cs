@@ -15,7 +15,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 using Volo.Abp.AspNetCore.Serilog;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Shopularity.Basket;
 using Shopularity.Catalog;
 using Shopularity.Ordering;
