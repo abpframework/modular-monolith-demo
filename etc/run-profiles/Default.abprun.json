@@ -17,6 +17,32 @@
       "folder": "Apps"
     }
   },
+  "tasks": {
+    "Initialize Solution": {
+      "behaviour": 2,
+      "startCommand": "./initialize-solution.ps1",
+      "workingDirectory": "../../etc/initial-tasks",
+      "shortDescription": "Migrates the database, installs client-side libraries, and generates the OpenIddict signing certificate."
+    },
+    "Migrate Database": {
+      "behaviour": 0,
+      "startCommand": "./migrate-database.ps1",
+      "workingDirectory": "../../etc/initial-tasks",
+      "shortDescription": "Migrates the Shopularity database and seeds initial data."
+    },
+    "Install Client-Side Libraries": {
+      "behaviour": 0,
+      "startCommand": "./install-libs.ps1",
+      "workingDirectory": "../../etc/initial-tasks",
+      "shortDescription": "Runs abp install-libs for the solution."
+    },
+    "Generate Signing Certificate": {
+      "behaviour": 0,
+      "startCommand": "./generate-certificate.ps1",
+      "workingDirectory": "../../etc/initial-tasks",
+      "shortDescription": "Generates the OpenIddict development signing certificate."
+    }
+  },
   "containers": {
     "files": {},
     "serviceName": "Shopularity-containers"
