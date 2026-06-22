@@ -2,7 +2,14 @@
 
 ## About This Solution
 
-This is an example modular monolith application built with ABP Framework and .NET.
+Shopularity is an example modular monolith application built with ABP Framework and .NET. It follows the ABP modular monolith approach: a single deployable host application composes multiple business modules while keeping module boundaries clear.
+
+The solution contains:
+
+* **Shopularity.Admin**: Back-office application, identity/authentication host, database migrator entry point, and administration UI.
+* **Shopularity.Public**: MVC/Razor public website that depends on the admin/backend application.
+* **Shopularity Angular Public Site**: Optional Angular SSR public storefront under [Shopularity/angular/public-site](./Shopularity/angular/public-site).
+* **Modules**: Catalog, Ordering, Payment, and Basket modules under [modules](./modules).
 
 > This project is in progress and not ready yet. Once it is ready, it will be announced.
 
@@ -14,7 +21,18 @@ This is an example modular monolith application built with ABP Framework and .NE
 
 ## Before Running the Application
 
-### Initializing the Application
+### Initializing the Application with ABP Studio
+
+ABP Studio can run solution initialization tasks from **Solution Runner > Tasks**. This solution defines these tasks in [etc/run-profiles/Default.abprun.json](./etc/run-profiles/Default.abprun.json):
+
+* **Initialize Solution**: Runs database migration, installs client-side libraries, and generates the OpenIddict development signing certificate. It is configured as an initial task and is intended to run once per computer after cloning/opening the solution.
+* **Migrate Database**: Runs the Shopularity admin host with `--migrate-database` to apply EF Core migrations and seed initial data.
+* **Install Client-Side Libraries**: Runs `abp install-libs` for MVC/Razor Pages, Blazor, and Angular client-side package restoration.
+* **Generate Signing Certificate**: Generates the local `openiddict.pfx` development certificate.
+
+See the [ABP Studio Solution Runner documentation](https://abp.io/docs/latest/studio/running-applications) for details about applications and tasks.
+
+### Initializing Manually
 
 You can run the `initialize-project.ps1` in the root directory which runs all the necessary steps before running the application. These steps are migrating the database, installing client-side libraries and generating a signing certificate. You can also do these steps manually with the below sections.
 
@@ -63,14 +81,26 @@ The admin user credentials are:
 * USERNAME: `admin`
 * PASSWORD:  `1q2w3E*`
 
-### How to Run?
+## How to Run
 
-There are 2 projects to run:
+### Using ABP Studio
+
+Open the solution in ABP Studio and use **Solution Runner**:
+
+1. Run the **Initialize Solution** task from the **Tasks** tab if it has not already run.
+2. Start **Shopularity.Admin** from the **Applications** tab.
+3. Start **Shopularity.Public** after the admin application is running.
+
+### Using the Terminal
+
+There are 2 .NET projects to run:
 
 * **Shopularity.Admin**: Firstly run this project because `Shopularity.Public` project depends on this project.
 * **Shopularity.Public**: Secondly run this project. It's the public facing website.
 
 `run-apps.ps1` in the root directory helps you to run both projects. 
+
+The optional Angular SSR public site can be run from [Shopularity/angular/public-site](./Shopularity/angular/public-site) after the backend applications are running.
 
 ## Deploying the Application
 
@@ -98,4 +128,9 @@ Navigate to [etc/docker](./etc/docker) folder and run the `stop-docker.ps1` scri
 
 You can see the following resources to learn more about your solution and the ABP Framework:
 
+* [Modular Monolith Solution Template](https://abp.io/docs/latest/solution-templates/modular-monolith)
+* [ABP Studio Solution Runner](https://abp.io/docs/latest/studio/running-applications)
 * [Application (Single Layer) Startup Template](https://abp.io/docs/latest/startup-templates/application-single-layer/index)
+* [ABP CLI](https://abp.io/docs/latest/cli)
+* [ABP Angular UI](https://abp.io/docs/latest/framework/ui/angular)
+* [Modular Monolith Demo repository](https://github.com/abpframework/modular-monolith-demo)
