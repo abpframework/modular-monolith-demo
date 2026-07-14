@@ -30,15 +30,21 @@ const SCOPE = environment.oAuthConfig.scope;
 // @ts-ignore
 const CLIENT_SECRET = environment.oAuthConfig.clientSecret || undefined;
 
-const config = await oidc.discovery(ISSUER, CLIENT_ID, CLIENT_SECRET);
 const secureCookie = { httpOnly: true, sameSite: 'lax' as const, secure: environment.production, path: '/' };
 const tokenCookie = { ...secureCookie, httpOnly: false };
+let oidcConfigPromise: ReturnType<typeof oidc.discovery> | undefined;
+
+function getOidcConfig() {
+  oidcConfigPromise ??= oidc.discovery(ISSUER, CLIENT_ID, CLIENT_SECRET);
+  return oidcConfigPromise;
+}
 
 app.use(ServerCookieParser.middleware());
 
 const sessions = new Map<string, { pkce?: string; state?: string; refresh?: string; at?: string, returnUrl?: string }>();
 
 app.get('/authorize', async (_req, res) => {
+  const config = await getOidcConfig();
   const code_verifier  = oidc.randomPKCECodeVerifier();
   const code_challenge = await oidc.calculatePKCECodeChallenge(code_verifier);
   const state = oidc.randomState();
@@ -64,6 +70,7 @@ app.get('/authorize', async (_req, res) => {
 
 app.get('/logout', async (req, res) => {
   try {
+    const config = await getOidcConfig();
     const sid = req.cookies.sid;
 
     if (sid && sessions.has(sid)) {
@@ -94,6 +101,7 @@ app.get('/logout', async (req, res) => {
 
 app.get('/', async (req, res, next) => {
   try {
+    const config = await getOidcConfig();
     const { code, state } = req.query as any;
     if (!code || !state) return next();
 

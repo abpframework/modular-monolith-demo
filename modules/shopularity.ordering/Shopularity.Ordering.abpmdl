@@ -23,7 +23,7 @@
       "isInstalled": true
     },
     "Volo.Abp.Identity": {
-      "version": "9.3.2",
+      "version": "10.4.1",
       "isInstalled": true
     }
   }

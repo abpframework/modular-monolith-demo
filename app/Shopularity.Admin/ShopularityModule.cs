@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Shopularity.Components;
 using Shopularity.Data;
 using Shopularity.Localization;

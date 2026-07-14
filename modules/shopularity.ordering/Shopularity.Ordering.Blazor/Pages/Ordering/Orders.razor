@@ -41,10 +41,10 @@
                     <Form id="OrderSearchForm">
                         <Addons>
                             <Addon AddonType="AddonType.Body">
-                                <TextEdit @bind-Text="@Filter.Username"
+                                <TextInput @bind-Value="@Filter.Username"
                                           Autofocus="true"
                                           Placeholder="@L["Username"]">
-                                </TextEdit>
+                                </TextInput>
                             </Addon>
                             <Addon AddonType="AddonType.End">
                                 <SubmitButton Form="OrderSearchForm" Clicked="GetOrdersAsync">
@@ -73,14 +73,14 @@
                         <Field>
                             <FieldLabel>@L["State"]</FieldLabel>
                             <Select TValue="OrderState?"
-                                    SelectedValue="@Filter.State"
-                                    SelectedValueChanged="@OnStateChangedAsync">
+                                    Value="@Filter.State"
+                                    ValueChanged="@OnStateChangedAsync">
 
-                                <SelectItem></SelectItem>
+                                <SelectItem TValue="OrderState?" Value="@((OrderState?)null)"></SelectItem>
 
                                 @foreach (OrderState value in Enum.GetValues(typeof(OrderState)))
                                 {
-                                    <SelectItem Value="value">
+                                    <SelectItem TValue="OrderState?" Value="@value">
                                         @value
                                     </SelectItem>
                                 }
@@ -107,13 +107,13 @@
                     <Column ColumnSize="ColumnSize.Is3">
                         <Field>
                             <FieldLabel>@L["ShippingAddress"]</FieldLabel>
-                            <TextEdit Text="@Filter.ShippingAddress" TextChanged="@OnShippingAddressChangedAsync"/>
+                            <TextInput Value="@Filter.ShippingAddress" ValueChanged="@OnShippingAddressChangedAsync"/>
                         </Field>
                     </Column>
                     <Column ColumnSize="ColumnSize.Is3">
                         <Field>
                             <FieldLabel>@L["CargoNo"]</FieldLabel>
-                            <TextEdit Text="@Filter.CargoNo" TextChanged="@OnCargoNoChangedAsync"/>
+                            <TextInput Value="@Filter.CargoNo" ValueChanged="@OnCargoNoChangedAsync"/>
                         </Field>
                     </Column>
                 </Row>
@@ -161,17 +161,16 @@
                 @if (ShouldShowDetailRow())
                 {
                     <DataGridColumn TItem="OrderDto"
-                                    Field="Id"
-                                    Width="0.5rem">
+                                    Field="Id">
                         <DisplayTemplate>
-                            @if (context.Id == SelectedOrder?.Id)
+                            @if (context.Item.Id == SelectedOrder?.Id)
                             {
-                                <i class="fas fa-chevron-up" @onclick="() => ToggleDetails(context)"
+                                <i class="fas fa-chevron-up" @onclick="() => ToggleDetails(context.Item)"
                                    style="cursor: pointer;"/>
                             }
                             else
                             {
-                                <i class="fas fa-chevron-down" @onclick="() => ToggleDetails(context)"
+                                <i class="fas fa-chevron-down" @onclick="() => ToggleDetails(context.Item)"
                                    style="cursor: pointer;"/>
                             }
                         </DisplayTemplate>
@@ -181,14 +180,14 @@
                     <DisplayTemplate>
                         <EntityActions TItem="OrderDto" EntityActionsColumn="@EntityActionsColumn">
                             <EntityAction TItem="OrderDto"
-                                          Visible="@(CanSetShipment && context.State == OrderState.Processing)"
-                                          Clicked="async () => await OpenShipmentModalAsync(context)"
+                                          Visible="@(CanSetShipment && context.Item.State == OrderState.Processing)"
+                                          Clicked="async () => await OpenShipmentModalAsync(context.Item)"
                                           Text="@L["SetShipmentDetails"]">
                             </EntityAction>
                             <EntityAction TItem="OrderDto"
                                           Visible="@CanEditOrder"
-                                          Clicked="async () => await OpenEditOrderModalAsync(context)"
-                                          Text="@(context.State.IsPostShippingState() ? L["Details"] : L["Edit"])">
+                                          Clicked="async () => await OpenEditOrderModalAsync(context.Item)"
+                                          Text="@(context.Item.State.IsPostShippingState() ? L["Details"] : L["Edit"])">
                             </EntityAction>
                         </EntityActions>
                     </DisplayTemplate>
@@ -204,7 +203,7 @@
                                 Field="State"
                                 Caption="@L["State"]">
                     <DisplayTemplate>
-                        @L[$"Enum:OrderState.{(int)context.State}"]
+                        @L[$"Enum:OrderState.{(int)context.Item.State}"]
                     </DisplayTemplate>
                 </DataGridColumn>
 
@@ -236,12 +235,12 @@
                         <Content>
                             <TabPanel Name="orderline-tab" Class="mt-0">
                                 @{
-                                    var orderLines = (context as OrderDto).OrderLines;
+                                    var orderLines = context.Item.OrderLines;
 
-                                    <DataGrid @ref="@OrderLineDataGrids[context.Id]"
+                                    <DataGrid @ref="@OrderLineDataGrids[context.Item.Id]"
                                               TItem="OrderLineDto"
                                               Data="orderLines"
-                                              ReadData="@((args) => OnOrderLineDataGridReadAsync(args, context.Id))"
+                                              ReadData="@((args) => OnOrderLineDataGridReadAsync(args, context.Item.Id))"
                                               Sortable="false"
                                               ShowCaptions="true"
                                               ShowPager="true"
@@ -322,12 +321,12 @@
                         <Validation MessageLocalizer="@LH.Localize">
                             <Field>
                                 <FieldLabel>@L["ShippingAddress"] *</FieldLabel>
-                                <MemoEdit @bind-Text="@EditingOrder.ShippingAddress"
+                                <MemoInput @bind-Value="@EditingOrder.ShippingAddress"
                                           MaxLength="OrderConsts.ShippingAddressMaxLength">
                                     <Feedback>
                                         <ValidationError/>
                                     </Feedback>
-                                </MemoEdit>
+                                </MemoInput>
                             </Field>
                         </Validation>
                     }
@@ -380,11 +379,11 @@
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["CargoNo"]</FieldLabel>
-                            <TextEdit @bind-Text="@Shipment.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength">
+                            <TextInput @bind-Value="@Shipment.CargoNo" MaxLength="OrderConsts.CargoNoMaxLength">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
-                            </TextEdit>
+                            </TextInput>
                         </Field>
                     </Validation>
                 </Validations>
